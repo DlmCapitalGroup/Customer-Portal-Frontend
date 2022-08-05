@@ -5,7 +5,10 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      primary: "#09335E",
+      primary: {
+        DEFAULT: "#09335E",
+        light: "#DBE1E6",
+      },
       secondary: "#FCAF3B",
       gray: "#EAE3E3",
       white: {
@@ -15,6 +18,11 @@ module.exports = {
       },
       error: "#F04C4C",
       success: "#6ED73E",
+      black: "#000000",
+      blue: {
+        light: "#91B4F2",
+        lighter: "#95AAC3",
+      },
     },
     fontSize: {
       xs: "0.688rem",
