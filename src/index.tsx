@@ -6,6 +6,10 @@ import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AuthScreen from './screens/AuthScreen';
+import Login from './screens/AuthScreen/LoginScreen';
+import Register from './screens/AuthScreen/RegisterScreen';
+import ConfirmEmail from './screens/AuthScreen/ConfirmEmailScreen';
+import DashboardScreen from './screens/DashboardScreen';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +19,12 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route index element={< AuthScreen />} />
+          <Route path="auth" element={< AuthScreen />} >
+            <Route path="sign-in" element={<Login />} />
+            <Route path="sign-up" element={<Register />} />
+            <Route path="confirm-email" element={<ConfirmEmail />} />
+          </Route>
+          <Route path="dashboard" element={<DashboardScreen />} />
         </Route>
       </Routes>
     </BrowserRouter>
