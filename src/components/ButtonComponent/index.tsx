@@ -6,17 +6,20 @@ interface buttonProps {
     onClick?: any;
     hasIcon?: Boolean;
     icon?: string;
+    variant?: "light" | "dark";
 }
 
-const Button = ({ children, buttonType, hasIcon, icon, ...props }: buttonProps) => {
+const Button = (props: buttonProps) => {
+    const {children, buttonType, variant, hasIcon, icon} = props;
+
     return (
         <button {...props} className={`h-[56px] ${
             buttonType === "md" ? "w-[180px]"
             :hasIcon === true ? "w-[249px]"
-            :buttonType === "lg" ? "w[420px]"
+            :buttonType === "lg" ? "w-[420px]"
             :buttonType === "xl" ? "w-[568px]"
             :"w-[125px]"
-            } text-base rounded-[8px] bg-primary hover:bg-primary/80 text-white font-semibold`}>
+            } ${variant === "light" ? "border-primary border text-primary hover:bg-white-light" : "bg-primary hover:bg-primary/80 text-white"} text-base rounded-[8px] font-semibold`}>
             {hasIcon && <img alt="button icon" src={icon} />}
             {children || "Button"}
         </button>

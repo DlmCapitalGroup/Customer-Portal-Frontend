@@ -10,6 +10,7 @@ import Login from './screens/AuthScreen/LoginScreen';
 import Register from './screens/AuthScreen/RegisterScreen';
 import ConfirmEmail from './screens/AuthScreen/ConfirmEmailScreen';
 import DashboardScreen from './screens/DashboardScreen';
+import Transactions from './screens/TransactionsScreen';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -25,6 +26,7 @@ root.render(
             <Route path="confirm-email" element={<ConfirmEmail />} />
           </Route>
           <Route path="dashboard" element={<DashboardScreen />} />
+          <Route path="transactions" element={<Transactions />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -16,6 +16,8 @@ interface dashboardProps {
     children: React.ReactNode;
 }
 
+
+
 const DashboardLayout = (props: dashboardProps) => {
     const { children } = props;
     const [expand, setExpand] = useState(false)
@@ -57,8 +59,8 @@ const DashboardLayout = (props: dashboardProps) => {
         // }
     ]
     return (
-        <div className="w-full min-h-screen">
-            <div className="absolute left-0 top-0 w-[70px] transition ease-in-out delay-150 duration-300 hover:w-[210px] h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col" onMouseEnter={() => setExpand(true)} onMouseLeave={() => setExpand(false)}>
+        <div className="w-full min-h-screen bg-primary-light">
+            <div className="fixed left-0 top-0 w-[70px] transition ease-in-out delay-150 duration-300 hover:w-[210px] h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col" onMouseEnter={() => setExpand(true)} onMouseLeave={() => setExpand(false)}>
                 <div className={`${expand && "pl-[15px]"} mb-[76px]`}>
                     {
                         expand ? (
@@ -88,7 +90,7 @@ const DashboardLayout = (props: dashboardProps) => {
                     </div>
                 </div>
             </div>
-            <div className="ml-[250px]">
+            <div className="ml-[250px] pb-20">
                 {children}
             </div>
         </div>

@@ -10,8 +10,8 @@ interface AuthLayoutProps {
     loading?: boolean;
 }
 
-const AuthLayout = ({ children, loading, ...props }: AuthLayoutProps) => {
-
+const AuthLayout = (props: AuthLayoutProps) => {
+    const { children, loading } = props;
     const location = useLocation();
 
     return (
