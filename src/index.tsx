@@ -5,12 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import AuthScreen from './screens/AuthScreen';
-import Login from './screens/AuthScreen/LoginScreen';
-import Register from './screens/AuthScreen/RegisterScreen';
-import ConfirmEmail from './screens/AuthScreen/ConfirmEmailScreen';
+import Login from './screens/AuthScreens/LoginScreen';
+import Register from './screens/AuthScreens/RegisterScreen';
+import ConfirmEmail from './screens/AuthScreens/ConfirmEmailScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import Transactions from './screens/TransactionsScreen';
+import History from './screens/TransactionsScreen/HistoryComponent';
+import Overview from './screens/TransactionsScreen/OverviewScreen';
+import ForgotPassword from './screens/AuthScreens/ForgotPasswordScreen';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -20,13 +22,15 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route path="auth" element={< AuthScreen />} >
-            <Route path="sign-in" element={<Login />} />
-            <Route path="sign-up" element={<Register />} />
-            <Route path="confirm-email" element={<ConfirmEmail />} />
+          <Route path="sign-in" element={<Login />} />
+          <Route path="sign-up" element={<Register />} />
+          <Route path="confirm-email" element={<ConfirmEmail />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route index element={<DashboardScreen />} />
+          <Route path="transactions" element={<Transactions />}>
+            <Route path="history" element={<History />} />
+            <Route index element={<Overview />} />
           </Route>
-          <Route path="dashboard" element={<DashboardScreen />} />
-          <Route path="transactions" element={<Transactions />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

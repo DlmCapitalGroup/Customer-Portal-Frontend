@@ -1,8 +1,11 @@
 import React from 'react'
 import Button from '../../components/ButtonComponent';
+import AuthLayout from "../../layouts/AuthLayout";
+
 
 const ConfirmEmail = () => {
     return (
+        <AuthLayout>
         <div className="flex flex-col space-y-10">
             <div className="w-[354px] mx-auto text-center flex flex-col space-y-10">
                 <h2 className="text-primary text-lg font-semibold">Confirm your email address</h2>
@@ -29,6 +32,7 @@ const ConfirmEmail = () => {
 
             <p className="text-base text-center text-primary/60">Did not receive an OTP? <a href="/" className="text-primary/80 font-semibold">Resend OTP</a></p>
         </div>
+        </AuthLayout>
     )
 }
 

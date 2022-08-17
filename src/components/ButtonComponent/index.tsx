@@ -2,7 +2,7 @@ import React from "react";
 
 interface buttonProps {
     children: React.ReactNode;
-    buttonType?: "md" | "lg" | "xl";
+    buttonType?: "md" | "lg" | "xl" | "full";
     onClick?: any;
     hasIcon?: Boolean;
     icon?: string;
@@ -18,6 +18,7 @@ const Button = (props: buttonProps) => {
             :hasIcon === true ? "w-[249px]"
             :buttonType === "lg" ? "w-[420px]"
             :buttonType === "xl" ? "w-[568px]"
+            :buttonType === "full" ? "w-full"
             :"w-[125px]"
             } ${variant === "light" ? "border-primary border text-primary hover:bg-white-light" : "bg-primary hover:bg-primary/80 text-white"} text-base rounded-[8px] font-semibold`}>
             {hasIcon && <img alt="button icon" src={icon} />}
