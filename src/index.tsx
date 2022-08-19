@@ -13,6 +13,8 @@ import Transactions from './screens/TransactionsScreen';
 import History from './screens/TransactionsScreen/HistoryComponent';
 import Overview from './screens/TransactionsScreen/OverviewScreen';
 import ForgotPassword from './screens/AuthScreens/ForgotPasswordScreen';
+import Plan from './screens/PlanScreen';
+import Library from './screens/OurLibraryScreen';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -31,6 +33,8 @@ root.render(
             <Route path="history" element={<History />} />
             <Route index element={<Overview />} />
           </Route>
+          <Route path="plan" element={<Plan />} />
+          <Route path="library" element={<Library />} />
         </Route>
       </Routes>
     </BrowserRouter>

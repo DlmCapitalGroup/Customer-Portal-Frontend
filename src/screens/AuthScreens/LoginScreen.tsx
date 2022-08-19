@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/ButtonComponent';
 import AuthLayout from "../../layouts/AuthLayout";
 
@@ -13,6 +13,13 @@ const Eye = () => {
 }
 
 function Login() {
+  const navigate = useNavigate();
+
+  const login = (e:any) => {
+    e.preventDefault();
+    navigate("/")
+  }
+
   return (
     <AuthLayout>
       <div className="max-w-[334px] w-full mx-auto">
@@ -32,7 +39,7 @@ function Login() {
             <a href="/" className="text-base font-normal text-primary/60">Forgot Password</a>
           </div>
           <div className="text-center mb-10">
-            <Button buttonType="md">
+            <Button buttonType="md" onClick={login}>
               Login
             </Button>
           </div>
