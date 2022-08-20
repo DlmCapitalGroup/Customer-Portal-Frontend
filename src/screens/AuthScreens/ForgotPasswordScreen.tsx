@@ -1,7 +1,6 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import Button from '../../components/ButtonComponent';
 import AuthLayout from '../../layouts/AuthLayout';
-import { Link } from 'react-router-dom';
 
 const Eye = () => {
     return (
@@ -24,13 +23,13 @@ const ForgotPassword = () => {
                 <form>
                     <div className="mb-10">
                         <label className="text-base font-semibold text-primary">New Password</label>
-                        <input type="text" placeholder="Client ID" className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-md border-none rounded-lg" />
+                        <input type="text" placeholder="Client ID" className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg" />
                     </div>
                     <div className='mb-10'>
                         <label className="text-base font-semibold text-primary">Confirm Password</label>
                         <div className="relative flex items-center">
                             <Eye />
-                            <input type="password" placeholder="Password" className="h-[56px] w-full text-base mt-2 placeholder-primary/40 pl-4 pr-12 bg-white-lighter focus:ring-primary shadow-md border-none rounded-lg" />
+                            <input type="password" placeholder="Password" className="h-[56px] w-full text-base mt-2 placeholder-primary/40 pl-4 pr-12 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg" />
                         </div>
                     </div>
                     <div className="text-center mb-10">

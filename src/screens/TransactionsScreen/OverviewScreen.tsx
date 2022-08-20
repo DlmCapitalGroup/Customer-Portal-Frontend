@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "../../components/ButtonComponent";
 // import DashboardLayout from '../../layouts/DashboardLayout';
 import trash from "../../assets/images/trash.svg";
 import building from "../../assets/images/building.svg";
 import closeIcon from "../../assets/images/close-icon.svg";
 import Modal from "../../components/ModalComponent";
-// import {Slider} from "../../custom-plugins/draggableSlider";
+import { useNavigate } from "react-router-dom";
 
 interface walletcardProps {
     type?: "light" | "dark";
     children: React.ReactNode;
+    onClick?: () => void;
 }
 
 export const WalletCard = (props: walletcardProps) => {
@@ -21,6 +22,7 @@ export const WalletCard = (props: walletcardProps) => {
                     ? "bg-primary/80 text-white-lighter"
                     : "bg-white-light text-primary"
             } rounded-[20px] p-5 flex-none flex flex-col space-y-6`}
+            {...props}
         >
             {children}
         </div>
@@ -86,6 +88,7 @@ const AddCardModal = (props: addcardProps) => {
 };
 
 const Overview = () => {
+    const navigate = useNavigate();
     const [addCard, setAddCard] = useState(false);
     const [modal, setModal] = useState(false);
     const [modalText, setModalText] = useState("");
@@ -123,9 +126,7 @@ const Overview = () => {
             setModal(false);
             setModalText("");
             setAddCard(false);
-            if (modalSize) {
-                setModalSize("");
-            }
+            modalSize && setModalSize("");
         }, 3000);
     };
 
@@ -137,7 +138,10 @@ const Overview = () => {
         <>
             <h3 className="text-xl font-semibold mb-[70px]">Transactions</h3>
             <div className="flex space-x-[34px] overflow-x-scroll scroll scrollbar-hide whitespace-nowrap scroll-smooth mb-[100px] slider pr-10">
-                <WalletCard type="dark">
+                <WalletCard
+                    type="dark"
+                    onClick={() => navigate("/transactions/history")}
+                >
                     <div className="flex flex-col space-y-2">
                         <h3 className="text-sm">Wallet Balance </h3>
                         <h2 className="text-lg font-semibold">

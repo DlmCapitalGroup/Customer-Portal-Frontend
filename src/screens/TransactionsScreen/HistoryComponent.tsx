@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Table from "../../components/TableComponent";
-import Modal from "../../components/ModalComponent";
+import { useState } from "react";
 import chevronRight from "../../assets/images/chevron-right.svg";
 import closeIcon from "../../assets/images/close-icon.svg";
 import Button from "../../components/ButtonComponent";
+import Modal from "../../components/ModalComponent";
+import Table from "../../components/TableComponent";
 
 const History = () => {
     const [modal, setModal] = useState(true);
@@ -68,7 +68,7 @@ const History = () => {
                                     </div>
 
                                     {dropDown && (
-                                        <div className="w-full absolute flex flex-col bg-white-lighter border border-primary/5 border-t-0 mt-[56px] rounded-b-[20px] divide-y rounded-t-lg divide-primary/20 px-2">
+                                        <div className="w-full absolute flex flex-col bg-white-lighter border border-primary/5 border-t-0 mt-[58px] rounded-b-[20px] divide-y shadow-sm divide-primary/20 px-2">
                                             {["Credit", "Debit"].map((item) => (
                                                 <div className="h-56px py-4 px-2 cursor-pointer">
                                                     {item}

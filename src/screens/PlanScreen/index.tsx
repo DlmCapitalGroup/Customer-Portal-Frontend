@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import building from "../../assets/images/building.svg";
+import chevronRight from "../../assets/images/chevron-right.svg";
+import closeIcon from "../../assets/images/close-icon.svg";
+import Button from "../../components/ButtonComponent";
+import Modal from "../../components/ModalComponent";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import { WalletCard } from "../TransactionsScreen/OverviewScreen";
-import trash from "../../assets/images/trash.svg";
-import building from "../../assets/images/building.svg";
-import closeIcon from "../../assets/images/close-icon.svg";
-import Modal from "../../components/ModalComponent";
-import Button from "../../components/ButtonComponent";
-import chevronRight from "../../assets/images/chevron-right.svg";
 
 interface addcardProps {
     closeAction: () => void;
@@ -71,7 +70,6 @@ const Plan = () => {
     const [modal, setModal] = useState(false);
     const [modalText, setModalText] = useState("");
     const [modalType, setModalType] = useState("");
-    const [confirmModal, setConfirmModal] = useState(false);
     const [modalSize, setModalSize] = useState("");
 
     const saveAction = () => {
@@ -80,19 +78,6 @@ const Plan = () => {
         setModalType("pending");
         setTimeout(() => {
             setModalText("Card Added Successfully");
-            setModalType("success");
-        }, 2000);
-        revertModal();
-    };
-
-    const deleteAction = () => {
-        setConfirmModal(false);
-        setModalSize("lg");
-        setModalText("Deleting Card Details");
-        setModal(true);
-        setModalType("pending");
-        setTimeout(() => {
-            setModalText("Card Deleted Successfully");
             setModalType("success");
         }, 2000);
         revertModal();
@@ -160,7 +145,7 @@ const Plan = () => {
                     <input
                         type="text"
                         placeholder="Amount"
-                        className="h-[56px] w-full text-base placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-md border-none rounded-lg"
+                        className="h-[56px] w-full text-base placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border-none rounded-lg"
                     />
                 </div>
 
@@ -206,7 +191,7 @@ const Plan = () => {
                         </div>
 
                         <div className="bg-white-lighter flex w-[420px] h-[56px] items-center text-base justify-between shadow-sm p-4 border border-primary/5 rounded-lg cursor-pointer">
-                            <span>End Date</span>
+                            <span>Transaction Frequency</span>
                             <img
                                 alt=""
                                 src={chevronRight}
@@ -235,35 +220,6 @@ const Plan = () => {
                         type={modalType}
                         size={modalSize}
                     >
-                        {confirmModal && (
-                            <div className="flex h-full">
-                                <div className="flex flex-col justify-between py-8">
-                                    <h2 className="text-xl font-semibold text-center">
-                                        Are you sure you want to delete this
-                                        card?
-                                    </h2>
-                                    <div className="flex justify-center space-x-10">
-                                        <Button
-                                            buttonType="md"
-                                            variant="light"
-                                            onClick={() => {
-                                                setConfirmModal(false);
-                                                setModal(false);
-                                                setModalText("");
-                                            }}
-                                        >
-                                            Cancel
-                                        </Button>
-                                        <Button
-                                            buttonType="md"
-                                            onClick={deleteAction}
-                                        >
-                                            Confirm
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
                     </Modal>
                 )}
             </div>

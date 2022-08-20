@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/ButtonComponent';
 import AuthLayout from "../../layouts/AuthLayout";
@@ -26,17 +25,17 @@ function Login() {
         <form>
           <div className="mb-10">
             <label className="text-base font-semibold text-primary">Client ID</label>
-            <input type="text" placeholder="Client ID" className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-md border-none rounded-lg" />
+            <input type="text" placeholder="Client ID" className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg" />
           </div>
           <div>
             <label className="text-base font-semibold text-primary">Password</label>
             <div className="relative flex items-center">
               <Eye />
-              <input type="password" placeholder="Password" className="h-[56px] w-full text-base mt-2 placeholder-primary/40 pl-4 pr-12 bg-white-lighter focus:ring-primary shadow-md border-none rounded-lg" />
+              <input type="password" placeholder="Password" className="h-[56px] w-full text-base mt-2 placeholder-primary/40 pl-4 pr-12 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg" />
             </div>
           </div>
           <div className="text-right mt-3 mb-10">
-            <a href="/" className="text-base font-normal text-primary/60">Forgot Password</a>
+            <Link to="/forgot-password" className="text-base font-normal text-primary/60">Forgot Password</Link>
           </div>
           <div className="text-center mb-10">
             <Button buttonType="md" onClick={login}>

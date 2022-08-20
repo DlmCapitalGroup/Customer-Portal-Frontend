@@ -15,6 +15,9 @@ import Overview from './screens/TransactionsScreen/OverviewScreen';
 import ForgotPassword from './screens/AuthScreens/ForgotPasswordScreen';
 import Plan from './screens/PlanScreen';
 import Library from './screens/OurLibraryScreen';
+import Support from './screens/SupportScreen';
+import Products from './screens/OurLibraryScreen/ProductsScreen';
+import Product from './screens/OurLibraryScreen/ProductScreen';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -34,7 +37,11 @@ root.render(
             <Route index element={<Overview />} />
           </Route>
           <Route path="plan" element={<Plan />} />
-          <Route path="library" element={<Library />} />
+          <Route path="library" element={<Library />} >
+            <Route index element={<Products />} />
+            <Route path=":id" element={<Product />} />
+          </Route>
+          <Route path="support" element={<Support />} />
         </Route>
       </Routes>
     </BrowserRouter>

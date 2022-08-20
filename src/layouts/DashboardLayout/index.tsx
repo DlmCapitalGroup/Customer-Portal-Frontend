@@ -67,7 +67,7 @@ const DashboardLayout = (props: dashboardProps) => {
         {
             name: "Logout",
             icon: logoutIcon,
-            path: "/logout"
+            path: "/sign-in"
         },
         // {
         //     name: ""
