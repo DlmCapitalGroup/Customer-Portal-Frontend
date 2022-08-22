@@ -18,6 +18,7 @@ import Library from './screens/OurLibraryScreen';
 import Support from './screens/SupportScreen';
 import Products from './screens/OurLibraryScreen/ProductsScreen';
 import Product from './screens/OurLibraryScreen/ProductScreen';
+import NewsPostScreen from './screens/OurLibraryScreen/NewsPostScreen';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -39,7 +40,8 @@ root.render(
           <Route path="plan" element={<Plan />} />
           <Route path="library" element={<Library />} >
             <Route index element={<Products />} />
-            <Route path=":id" element={<Product />} />
+            <Route path="products/:id" element={<Product />} />
+            <Route path="news/:id" element ={<NewsPostScreen />} />
           </Route>
           <Route path="support" element={<Support />} />
         </Route>

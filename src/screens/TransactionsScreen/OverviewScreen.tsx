@@ -183,8 +183,8 @@ const Overview = () => {
             </div>
 
             <div>
-                {/* <h2 className="text-xl font-semibold">Sorry! You do not have any card in your wallet</h2> */}
-                <h2 className="mb-10 text-lg font-semibold">
+                <h2 className="text-xl text-center font-semibold">Sorry! You do not have any card in your wallet</h2>
+                {/* <h2 className="mb-10 text-lg font-semibold">
                     Fund Wallet From
                 </h2>
                 <div className="flex flex-col space-y-4 mr-10">
@@ -218,8 +218,8 @@ const Overview = () => {
                             </div>
                         </div>
                     ))}
-                </div>
-                <div className="mt-20">
+                </div> */}
+                <div className="mt-20 text-center">
                     <Button buttonType="lg" onClick={() => setAddCard(true)}>
                         Add Card
                     </Button>

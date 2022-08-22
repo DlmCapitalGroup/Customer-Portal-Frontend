@@ -19,7 +19,6 @@ interface dashboardProps {
 
 const DashboardLayout = (props: dashboardProps) => {
     const { children } = props;
-    const [expand, setExpand] = useState(false);
     const location = useLocation();
     console.log(location.pathname);
 
@@ -27,7 +26,7 @@ const DashboardLayout = (props: dashboardProps) => {
         {
             name: "dashboard",
             icon: dashboardIcon,
-            path: "/"
+            path: "/",
         },
         {
             name: "transactions",
@@ -37,80 +36,89 @@ const DashboardLayout = (props: dashboardProps) => {
         {
             name: "plan",
             icon: planIcon,
-            path: "/plan"
+            path: "/plan",
         },
         {
             name: "our library",
             icon: notebookIcon,
-            path: "/library"
+            path: "/library",
         },
         {
             name: "support",
             icon: supportIcon,
-            path: "/support"
+            path: "/support",
         },
         {
             name: "notifications",
             icon: notificationIcon,
-            path: "/notifications"
+            path: "/notifications",
         },
         {
             name: "settings",
             icon: settingsIcon,
-            path: "/settings"
+            path: "/settings",
         },
         {
             name: "Adesewa Ademeso",
             icon: userIcon,
-            path: "/profile"
+            path: "/profile",
         },
         {
             name: "Logout",
             icon: logoutIcon,
-            path: "/sign-in"
+            path: "/sign-in",
         },
         // {
         //     name: ""
         // }
-    ]
+    ];
 
     return (
         <div className="w-full min-h-screen bg-primary-light">
-            <div className="fixed left-0 top-0 w-[70px] transition ease-in-out delay-150 duration-300 hover:w-[210px] h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col" onMouseEnter={() => setExpand(true)} onMouseLeave={() => setExpand(false)}>
-                <div className={`${expand && "pl-[15px]"} mb-[76px]`}>
-                    {
-                        expand ? (
-                            <img alt="" src={logoLg} />
-                        ) : (
-                            <img alt="" src={logoSm} className="mx-auto" />
-                        )
-                    }
+            <div className="fixed left-0 top-0 w-[210px] transition ease-in-out delay-150 duration-300 h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col">
+                <div className="pl-[15px] mb-[76px]">
+                    <img alt="" src={logoLg} />
                 </div>
                 <div className="flex flex-col justify-between grow">
                     <div className="flex flex-col space-y-10">
-                        {
-                            dashboardLinks.slice(0, 6).map((link, index) => (
-                                <Link to={link.path} className={`flex ${expand ? "pl-[15px]" : "mx-auto"} items-center`}>
-                                    {location.pathname === link.path && <img alt="" src={activeIcon} className="absolute left-0" />}
-                                    <img alt="" src={link?.icon} /> {expand && <span className="text-base text-white ml-[25px] capitalize">{link.name}</span>}</Link>
-                            ))
-                        }
+                        {dashboardLinks.slice(0, 6).map((link, index) => (
+                            <Link
+                                to={link.path}
+                                className="flex pl-[15px] items-center"
+                            >
+                                {location.pathname === link.path && (
+                                    <img
+                                        alt=""
+                                        src={activeIcon}
+                                        className="absolute left-0"
+                                    />
+                                )}
+                                <img alt="" src={link?.icon} />{" "}
+                                <span className="text-base text-white ml-[25px] capitalize">
+                                    {link.name}
+                                </span>
+                            </Link>
+                        ))}
                     </div>
 
                     <div className="flex flex-col space-y-10">
-                        {
-                            dashboardLinks.slice(6).map((link) => (
-                                <Link to={link.path} className={`flex ${expand ? "pl-[15px]" : "mx-auto"} items-center`}><img alt="" src={link?.icon} /> {expand && <span className="text-base text-white ml-[25px] capitalize">{link.name}</span>}</Link>
-                            ))
-                        }
+                        {dashboardLinks.slice(6).map((link) => (
+                            <Link
+                                to={link.path}
+                                className="flex pl-[15px] items-center"
+                            >
+                                <img alt="" src={link?.icon} />{" "}
+                                <span className="text-base text-white ml-[25px] capitalize">
+                                    {link.name}
+                                </span>
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </div>
-            <div className="ml-[250px] pb-20">
-                {children}
-            </div>
+            <div className="ml-[250px] pb-20">{children}</div>
         </div>
-    )
-}
+    );
+};
 
 export default DashboardLayout;

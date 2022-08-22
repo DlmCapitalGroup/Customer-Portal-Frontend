@@ -3,7 +3,11 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 const Support = () => {
     return (
         <DashboardLayout>
-           <div>Support</div>
+            <div className="flex pt-14">
+                <div>
+                    <h3 className="text-xl font-semibold">Do you have a question?</h3>
+                </div>
+            </div>
         </DashboardLayout>
     );
 };

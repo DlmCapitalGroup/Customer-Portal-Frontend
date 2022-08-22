@@ -1,4 +1,4 @@
-const calculateRange = (data, rowsPerPage) => {
+const calculateRange = (data:Array<any>, rowsPerPage:number) => {
     const range = [];
     const num = Math.ceil(data.length / rowsPerPage);
     for (let i = 1; i <= num; i++) {
@@ -6,3 +6,5 @@ const calculateRange = (data, rowsPerPage) => {
     }
     return range;
 }
+
+export default calculateRange;
