@@ -6,7 +6,7 @@ const Library = () => {
     return (
         <DashboardLayout>
             <div className="pr-5">
-            <Outlet />
+                <Outlet />
             </div>
         </DashboardLayout>
     );

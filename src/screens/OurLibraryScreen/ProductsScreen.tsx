@@ -52,7 +52,7 @@ const Products = () => {
     return (
         <div className="pt-[50px] text-primary max-w-[1100px] text-base pb-20">
             <h3 className="text-xl font-semibold mb-[15px]">
-                Our Product Library
+                Products Library
             </h3>
             <p className="mb-[73px] text-base">
                 See and learn more about our products and what they have to

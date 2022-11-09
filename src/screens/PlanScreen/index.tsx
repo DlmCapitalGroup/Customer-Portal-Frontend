@@ -5,7 +5,7 @@ import closeIcon from "../../assets/images/close-icon.svg";
 import Button from "../../components/ButtonComponent";
 import Modal from "../../components/ModalComponent";
 import DashboardLayout from "../../layouts/DashboardLayout";
-import { WalletCard } from "../TransactionsScreen/OverviewScreen";
+import { WalletCard } from "../FundWallet";
 
 interface addcardProps {
     closeAction: () => void;

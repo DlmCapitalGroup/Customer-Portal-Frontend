@@ -40,7 +40,7 @@ const Modal = (props: modalProps) => {
                                     }
                                 />
                             </div>
-                            <h3 className="text-lg text-primary font-semibold text-center">
+                            <h3 className={`text-lg ${type === "success" ? "text-success" : type === "pending" ? "text-primary" : "text-error"} font-semibold text-center`}>
                                 {type === "success" ? (
                                     `${modalText || "Card Added Successfully!"}`
                                 ) : type === "pending" ? (

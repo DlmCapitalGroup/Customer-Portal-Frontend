@@ -12,6 +12,7 @@ import logoutIcon from "../../assets/images/logout-icon.svg";
 import userIcon from "../../assets/images/user-icon.svg";
 import activeIcon from "../../assets/images/active-icon.svg";
 import notebookIcon from "../../assets/images/notebook.svg";
+import dashboardBg from "../../assets/images/bg-dashboard.svg";
 
 interface dashboardProps {
     children: React.ReactNode;
@@ -39,7 +40,7 @@ const DashboardLayout = (props: dashboardProps) => {
             path: "/plan",
         },
         {
-            name: "our library",
+            name: "Library",
             icon: notebookIcon,
             path: "/library",
         },
@@ -51,7 +52,7 @@ const DashboardLayout = (props: dashboardProps) => {
         {
             name: "notifications",
             icon: notificationIcon,
-            path: "/notifications",
+            path: "#",
         },
         {
             name: "settings",
@@ -61,27 +62,25 @@ const DashboardLayout = (props: dashboardProps) => {
         {
             name: "Adesewa Ademeso",
             icon: userIcon,
-            path: "/profile",
+            path: "#",
         },
         {
             name: "Logout",
             icon: logoutIcon,
             path: "/sign-in",
         },
-        // {
-        //     name: ""
-        // }
     ];
 
     return (
         <div className="w-full min-h-screen bg-primary-light">
             <div className="fixed left-0 top-0 w-[210px] transition ease-in-out delay-150 duration-300 h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col">
+                <img alt="" src={dashboardBg} className="fixed bottom-[100px] ml-6 -z-10" />
                 <div className="pl-[15px] mb-[76px]">
                     <img alt="" src={logoLg} />
                 </div>
                 <div className="flex flex-col justify-between grow">
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(0, 6).map((link, index) => (
+                        {dashboardLinks.slice(0, 7).map((link, index) => (
                             <Link
                                 to={link.path}
                                 className="flex pl-[15px] items-center"
@@ -102,7 +101,7 @@ const DashboardLayout = (props: dashboardProps) => {
                     </div>
 
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(6).map((link) => (
+                        {dashboardLinks.slice(7).map((link) => (
                             <Link
                                 to={link.path}
                                 className="flex pl-[15px] items-center"
