@@ -1,7 +1,9 @@
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/ButtonComponent";
 import AuthLayout from "../../layouts/AuthLayout";
 import axios from "axios";
+import { Input } from "../../components/FormElements";
 
 const Eye = () => {
     return (
@@ -32,36 +34,52 @@ const Eye = () => {
 };
 
 function Login() {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
+    const [clientId, setClientId] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [user, setUser] = React.useState("");
 
     const login = (e: any) => {
         e.preventDefault();
+        setClientId(e.target.value);
+        setPassword(e.target.value);
         // axios
         //     .post(
-        //         "http://102.133.161.128/DLMAssetMgtCustomerPortal/swagger/index.html",
+        //         "http://102.133.161.128/DLMAssetMgtCustomerPortal/api/v1/Authentication/LoginUser",
         //         {
-        //             clientId: "ifytest",
-        //             password: "Dlmtest123#",
+        //             username: "hamzah",
+        //             password: "Ade@125",
         //         }
         //     )
-        //     .then((user) => console.log(user))
+        //     .then((res: any) => {
+        //         setUser(res?.data);
+        //     })
+        //     .then(() => {})
         //     .catch((err) => console.log(err));
 
-        navigate("/");
+        // navigate("/");
     };
 
     return (
         <AuthLayout>
             <div className="max-w-[334px] w-full mx-auto">
-                <form>
+                <form onSubmit={login}>
                     <div className="mb-10">
-                        <label className="text-base font-semibold text-primary">
+                        {/* <label className="text-base font-semibold text-primary">
                             Client ID
                         </label>
                         <input
                             type="text"
                             placeholder="Client ID"
-                            className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
+                            name="clientId"
+                            value={clientId}
+                            className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg"
+                        /> */}
+                        <Input
+                            placeholder="Client ID"
+                            name="clientId"
+                            value={clientId}
+                            label="Client ID"
                         />
                     </div>
                     <div>
@@ -72,6 +90,8 @@ function Login() {
                             <Eye />
                             <input
                                 type="password"
+                                name="password"
+                                value={password}
                                 placeholder="Password"
                                 className="h-[56px] w-full text-base mt-2 placeholder-primary/40 pl-4 pr-12 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
                             />

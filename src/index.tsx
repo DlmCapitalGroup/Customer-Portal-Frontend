@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./screens/AuthScreens/LoginScreen";
@@ -26,44 +28,52 @@ import Account from "./screens/SettingsScreen/AccountScreen";
 import Withdraw from "./screens/WithdrawScreen";
 
 const root = ReactDOM.createRoot(
-    document.getElementById("root") as HTMLElement,
+    document.getElementById("root") as HTMLElement
 );
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<App />}>
-                    <Route path="sign-in" element={<Login />} />
-                    <Route path="sign-up" element={<Register />} />
-                    <Route path="confirm-email" element={<ConfirmEmail />} />
-                    <Route
-                        path="forgot-password"
-                        element={<ForgotPassword />}
-                    />
-                    <Route index element={<DashboardScreen />} />
-                    <Route path="transactions" element={<Transactions />} />
-                    <Route path="fund-wallet" element={<FundWallet />} />
-                    <Route path="plan" element={<Plan />} />
-                    <Route path="library" element={<Library />}>
-                        <Route index element={<Products />} />
-                        <Route path="products/:id" element={<Product />} />
-                        <Route path="news/:id" element={<NewsPostScreen />} />
-                    </Route>
-                    <Route path="support" element={<Support />} />
-                    <Route path="settings" element={<Settings />}>
-                        <Route path="profile" element={<Profile />} />
-                        <Route path="password" element={<Password />} />
-                        <Route path="account" element={<Account />} />
+        <Provider store={store}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<App />}>
+                        <Route path="sign-in" element={<Login />} />
+                        <Route path="sign-up" element={<Register />} />
                         <Route
-                            path="notifications"
-                            element={<Notifications />}
+                            path="confirm-email"
+                            element={<ConfirmEmail />}
                         />
+                        <Route
+                            path="forgot-password"
+                            element={<ForgotPassword />}
+                        />
+                        <Route index element={<DashboardScreen />} />
+                        <Route path="transactions" element={<Transactions />} />
+                        <Route path="fund-wallet" element={<FundWallet />} />
+                        <Route path="plan" element={<Plan />} />
+                        <Route path="library" element={<Library />}>
+                            <Route index element={<Products />} />
+                            <Route path="products/:id" element={<Product />} />
+                            <Route
+                                path="news/:id"
+                                element={<NewsPostScreen />}
+                            />
+                        </Route>
+                        <Route path="support" element={<Support />} />
+                        <Route path="settings" element={<Settings />}>
+                            <Route path="profile" element={<Profile />} />
+                            <Route path="password" element={<Password />} />
+                            <Route path="account" element={<Account />} />
+                            <Route
+                                path="notifications"
+                                element={<Notifications />}
+                            />
+                        </Route>
+                        <Route path="withdraw" element={<Withdraw />} />
                     </Route>
-                    <Route path="withdraw" element={<Withdraw />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    </React.StrictMode>,
+                </Routes>
+            </BrowserRouter>
+        </Provider>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
