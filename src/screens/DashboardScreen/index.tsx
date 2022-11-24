@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import searchIcon from "../../assets/images/search-icon.svg";
 // import userIcon from "../../assets/images/user-icon-lg.svg";
@@ -9,6 +9,8 @@ import searchIcon from "../../assets/images/search-icon.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import Button from "../../components/ButtonComponent";
+import { devInstance } from "../../store/devInstance";
+import { useAppSelector } from "../../store/hooks";
 
 const DashboardScreen = () => {
     const data = [
@@ -24,7 +26,24 @@ const DashboardScreen = () => {
         { name: "9", uv: 500, pv: 500, amt: 500 },
     ];
 
+    const { customer }: any = useAppSelector((state) => state.auth);
+
+    const [overviewData, setOverViewData] = React.useState({});
+
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (customer) {
+            devInstance
+                .get("/Dashboard/GetTransactionDetails", {
+                    params: { CustomerId: customer?.customerId },
+                })
+                .then((res: any) => {
+                    console.log(res);
+                })
+                .catch((err) => console.log(err));
+        }
+    }, [customer]);
 
     return (
         <DashboardLayout>
@@ -219,10 +238,15 @@ const DashboardScreen = () => {
                                                             )}
                                                         </div>
                                                     </div>
-                                                ),
+                                                )
                                             )}
                                         </div>
-                                        <p className="font-semibold text-sm text-right mr-5 cursor-pointer" onClick={() => navigate("/transactions")}>
+                                        <p
+                                            className="font-semibold text-sm text-right mr-5 cursor-pointer"
+                                            onClick={() =>
+                                                navigate("/transactions")
+                                            }
+                                        >
                                             View more
                                         </p>
                                     </div>

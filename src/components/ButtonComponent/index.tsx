@@ -7,24 +7,38 @@ interface buttonProps {
     hasIcon?: Boolean;
     icon?: string;
     variant?: "light" | "dark";
+    loading?: Boolean;
 }
 
 const Button = (props: buttonProps) => {
-    const {children, buttonType, variant, hasIcon, icon} = props;
+    const { children, buttonType, variant, hasIcon, icon, loading } = props;
 
     return (
-        <button {...props} className={`h-[56px] ${
-            buttonType === "md" ? "w-[180px]"
-            :hasIcon === true ? "w-[249px]"
-            :buttonType === "lg" ? "w-[420px]"
-            :buttonType === "xl" ? "w-[568px]"
-            :buttonType === "full" ? "w-full"
-            :"w-[125px]"
-            } ${variant === "light" ? "border-primary border text-primary hover:bg-white-light" : "bg-primary hover:bg-primary/80 text-white"} text-base rounded-[8px] font-semibold`}>
+        <button
+            {...props}
+            className={`h-[56px] ${
+                buttonType === "md"
+                    ? "w-[180px]"
+                    : hasIcon === true
+                    ? "w-[249px]"
+                    : buttonType === "lg"
+                    ? "w-[420px]"
+                    : buttonType === "xl"
+                    ? "w-[568px]"
+                    : buttonType === "full"
+                    ? "w-full"
+                    : "w-[125px]"
+            } ${
+                variant === "light"
+                    ? "border-primary border text-primary hover:bg-white-light"
+                    : "bg-primary hover:bg-primary/80 text-white"
+            } text-base rounded-[8px] font-semibold`}
+            disabled={loading ? true : false}
+        >
             {hasIcon && <img alt="button icon" src={icon} />}
             {children || "Button"}
         </button>
     );
-}
+};
 
 export default Button;

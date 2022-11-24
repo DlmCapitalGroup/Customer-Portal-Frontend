@@ -6,6 +6,10 @@ import Button from "../../components/ButtonComponent";
 import Modal from "../../components/ModalComponent";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import { WalletCard } from "../FundWallet";
+import { useAppSelector } from "../../store/hooks";
+import { useNavigate } from "react-router-dom";
+
+// import circleLight from "../"
 
 interface addcardProps {
     closeAction: () => void;
@@ -71,6 +75,8 @@ const Plan = () => {
     const [modalText, setModalText] = useState("");
     const [modalType, setModalType] = useState("");
     const [modalSize, setModalSize] = useState("");
+    const navigate = useNavigate();
+    const { customer }: any = useAppSelector((state) => state.auth);
 
     const saveAction = () => {
         setModalText("Saving Card Details");
@@ -114,13 +120,15 @@ const Plan = () => {
                         <div className="flex flex-col space-y-2">
                             <h3 className="text-sm">Wallet Balance </h3>
                             <h2 className="text-lg font-semibold">
-                                ₦ 1,000,543.03
+                                ₦ {customer?.cashAccountBalance.slice(3)}
                             </h2>
                         </div>
 
                         <div className="flex flex-col space-y-2">
                             <h3 className="text-sm">Customer ID</h3>
-                            <h2 className="text-lg font-semibold">123948</h2>
+                            <h2 className="text-lg font-semibold">
+                                {customer.customerId}
+                            </h2>
                         </div>
                     </WalletCard>
                     <WalletCard>
@@ -133,7 +141,9 @@ const Plan = () => {
 
                         <div className="flex flex-col space-y-2">
                             <h3 className="text-sm">Customer ID</h3>
-                            <h2 className="text-lg font-semibold">123948</h2>
+                            <h2 className="text-lg font-semibold">
+                                {customer.customerId}
+                            </h2>
                         </div>
                     </WalletCard>
                 </div>
@@ -219,8 +229,7 @@ const Plan = () => {
                         modalText={modalText}
                         type={modalType}
                         size={modalSize}
-                    >
-                    </Modal>
+                    ></Modal>
                 )}
             </div>
         </DashboardLayout>

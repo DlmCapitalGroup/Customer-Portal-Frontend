@@ -6,7 +6,7 @@ type InputProps = {
     name?: string;
     value?: string;
     placeholder?: string;
-    onChange?: () => {};
+    onChange?: any;
 };
 
 const Input = (props: InputProps) => {

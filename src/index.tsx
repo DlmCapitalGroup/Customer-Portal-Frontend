@@ -26,6 +26,7 @@ import Password from "./screens/SettingsScreen/PasswordScreen";
 import Notifications from "./screens/SettingsScreen/NotificationsScreen";
 import Account from "./screens/SettingsScreen/AccountScreen";
 import Withdraw from "./screens/WithdrawScreen";
+import NotFound from "./screens/NotFound";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -69,6 +70,7 @@ root.render(
                             />
                         </Route>
                         <Route path="withdraw" element={<Withdraw />} />
+                        <Route path="*" element={<NotFound />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

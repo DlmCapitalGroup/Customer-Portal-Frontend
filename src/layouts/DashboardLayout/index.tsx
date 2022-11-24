@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logoSm from "../../assets/images/logo-sm.svg";
 import logoLg from "../../assets/images/logo-lg.svg";
 import { Link, useLocation } from "react-router-dom";
@@ -13,15 +13,20 @@ import userIcon from "../../assets/images/user-icon.svg";
 import activeIcon from "../../assets/images/active-icon.svg";
 import notebookIcon from "../../assets/images/notebook.svg";
 import dashboardBg from "../../assets/images/bg-dashboard.svg";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { logout } from "../../store/auth-slice";
 
 interface dashboardProps {
     children: React.ReactNode;
+    onClick?: any;
 }
 
 const DashboardLayout = (props: dashboardProps) => {
-    const { children } = props;
+    const { customer }: any = useAppSelector((state) => state.auth);
+    const { children, onClick } = props;
     const location = useLocation();
     console.log(location.pathname);
+    const dispatch = useAppDispatch;
 
     const dashboardLinks = [
         {
@@ -60,21 +65,31 @@ const DashboardLayout = (props: dashboardProps) => {
             path: "/settings",
         },
         {
-            name: "Adesewa Ademeso",
+            name: `${
+                customer?.firstName.charAt(0).toUpperCase() +
+                customer?.firstName.slice(1).toLowerCase() +
+                " " +
+                customer?.lastName.charAt(0).toUpperCase() +
+                customer?.lastName.slice(1).toLowerCase()
+            }`,
             icon: userIcon,
-            path: "#",
+            path: "/profile",
         },
         {
             name: "Logout",
             icon: logoutIcon,
-            path: "/sign-in",
+            path: "#",
         },
     ];
 
     return (
         <div className="w-full min-h-screen bg-primary-light">
             <div className="fixed left-0 top-0 w-[210px] transition ease-in-out delay-150 duration-300 h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col">
-                <img alt="" src={dashboardBg} className="fixed bottom-[100px] ml-6 -z-10" />
+                <img
+                    alt=""
+                    src={dashboardBg}
+                    className="fixed bottom-[100px] ml-6 -z-10"
+                />
                 <div className="pl-[15px] mb-[76px]">
                     <img alt="" src={logoLg} />
                 </div>
@@ -101,14 +116,15 @@ const DashboardLayout = (props: dashboardProps) => {
                     </div>
 
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(7).map((link) => (
+                        {dashboardLinks.slice(7).map((link, index) => (
                             <Link
-                                to={link.path}
+                                to={index === 0 ? link.path : ""}
                                 className="flex pl-[15px] items-center"
+                                onClick={() => index === 2 && alert("Working")}
                             >
-                                <img alt="" src={link?.icon} />{" "}
+                                <img alt="" src={link.icon} />{" "}
                                 <span className="text-base text-white ml-[25px] capitalize">
-                                    {link.name}
+                                    {link?.name && link?.name}
                                 </span>
                             </Link>
                         ))}
