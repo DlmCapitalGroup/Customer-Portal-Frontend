@@ -1,16 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import searchIcon from "../../assets/images/search-icon.svg";
 // import userIcon from "../../assets/images/user-icon-lg.svg";
 // import settingsIcon from "../../assets/images/settings-icon-dark.svg";
 // import notificationIcon from "../../assets/images/notification-icon-dark.svg";
 // import naira from "../../assets/images/naira.svg";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
 
 import { Link, useNavigate } from "react-router-dom";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import Button from "../../components/ButtonComponent";
 import { devInstance } from "../../store/devInstance";
 import { useAppSelector } from "../../store/hooks";
+import CustomChart from "../../components/pieChart";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DashboardScreen = () => {
     const data = [
@@ -26,24 +31,39 @@ const DashboardScreen = () => {
         { name: "9", uv: 500, pv: 500, amt: 500 },
     ];
 
+    const [transactions, setTransactions] = React.useState([]);
+
     const { customer }: any = useAppSelector((state) => state.auth);
 
-    const [overviewData, setOverViewData] = React.useState({});
+    const [overviewData, setOverViewData] = React.useState<any>({});
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (customer) {
+    const fetchData = useCallback(() => {
+        if (customer?.customerId) {
             devInstance
                 .get("/Dashboard/GetTransactionDetails", {
                     params: { CustomerId: customer?.customerId },
                 })
                 .then((res: any) => {
-                    console.log(res);
+                    setOverViewData(res.data);
+                })
+                .catch((err) => console.log(err));
+
+            devInstance
+                .get("/Dashboard/GetTransactions", {
+                    params: { CustomerId: customer?.customerId },
+                })
+                .then((res: any) => {
+                    setTransactions(res?.data?.result);
                 })
                 .catch((err) => console.log(err));
         }
-    }, [customer]);
+    }, [customer?.customerId]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     return (
         <DashboardLayout>
@@ -117,7 +137,11 @@ const DashboardScreen = () => {
                                         <div>
                                             <p>Net Asset (₦)</p>
                                             <p className="font-semibold">
-                                                ₦ 100,000.03
+                                                ₦{" "}
+                                                {overviewData?.netAssetValue &&
+                                                    overviewData.netAssetValue.toFixed(
+                                                        2
+                                                    )}
                                             </p>
                                         </div>
                                     </div>
@@ -125,7 +149,10 @@ const DashboardScreen = () => {
                                         <div>
                                             <p>Wallet</p>
                                             <p className="font-semibold">
-                                                $100,000.03
+                                                ₦{" "}
+                                                {customer?.cashAccountBalance.slice(
+                                                    3
+                                                )}
                                             </p>
                                         </div>
                                     </div>
@@ -166,11 +193,11 @@ const DashboardScreen = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-[624px] h-full bg-white-light shadow-sm rounded-[20px] pl-5">
+                        <div className="w-[363px] h-full bg-white-light shadow-sm rounded-[20px]">
                             <h3 className="font-semibold text-base mb-[60px] mt-[18px] ml-5">
                                 Investment Analysis
                             </h3>
-                            <LineChart width={550} height={200} data={data}>
+                            <LineChart width={350} height={200} data={data}>
                                 <XAxis dataKey="name" />
                                 <YAxis />
                                 <CartesianGrid stroke="#ccc" />
@@ -186,14 +213,48 @@ const DashboardScreen = () => {
                                 />
                             </LineChart>
                         </div>
+
+                        <div className="w-[253px] h-full bg-white-light shadow-sm rounded-[20px] flex flex-col">
+                            <h3 className="font-semibold text-base mt-[18px] ml-5">
+                                Portfolio Analysis
+                            </h3>
+
+                            <div>
+                                <div className="-mt-24">
+                                    <CustomChart />
+                                </div>
+                                <div className="py-2 flex justify-between -mt-[120px] px-4">
+                                    <div className="flex flex-col gap-y-2">
+                                        <div className="flex items-center gap-x-3">
+                                            <div className="w-3 h-3 rounded-full bg-[#6ED73E]"></div>
+                                            <p className="text-sm">Bonds</p>
+                                        </div>
+                                        <div className="flex items-center gap-x-3">
+                                            <div className="w-3 h-3 rounded-full bg-[#F178B6]"></div>
+                                            <p className="text-sm">Cash</p>
+                                        </div>
+                                        <div className="flex items-center gap-x-3">
+                                            <div className="w-3 h-3 rounded-full bg-[#A5A6F6]"></div>
+                                            <p className="text-sm">Asset</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center gap-x-3">
+                                            <div className="w-3 h-3 rounded-full bg-[#094D46]"></div>
+                                            <p className="text-sm">Others</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className="mt-[40px]">
                         <h2 className="text-xl font-semibold mb-5">
                             Transactions
                         </h2>
                         <div className="flex justify-between h-[365px]">
-                            <div className="w-[679px] rounded-[20px] bg-white-lighter">
-                                <div className="text-sm w-full rounded-[20px] bg-white-light">
+                            <div className="w-[679px] rounded-[20px] bg-white-lighter h-full">
+                                <div className="text-sm w-full rounded-[20px] bg-white-light h-full">
                                     <div className="flex bg-primary rounded-[20px] h-[45.2px] text-white items-center text-base">
                                         <div className="basis-1/4 pl-[20px]">
                                             <h3>Type</h3>
@@ -208,37 +269,69 @@ const DashboardScreen = () => {
                                             <h3>Status</h3>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div className="flex flex-col space-y-4 py-4">
-                                            {[1, 2, 3, 4, 5, 6, 7].map(
-                                                (item, index) => (
-                                                    <div className="flex items-center">
-                                                        <div className="basis-1/4 pl-[20px]">
-                                                            <h3>
-                                                                Car Investment
-                                                            </h3>
-                                                        </div>
-                                                        <div className="basis-1/4 text-center">
-                                                            <h3>500,000.67</h3>
-                                                        </div>
-                                                        <div className="basis-1/4 text-center">
-                                                            <h3>
-                                                                13 June, 2022
-                                                            </h3>
-                                                        </div>
-                                                        <div className="basis-1/4 text-right pr-[20px]">
-                                                            {index % 3 === 0 ? (
-                                                                <h3 className="text-error">
-                                                                    Failed
+                                    <div className="flex flex-col grow">
+                                        <div className="flex flex-col space-y-4 py-4 grow">
+                                            {transactions ? (
+                                                transactions.map(
+                                                    (item: any, index) => (
+                                                        <div className="flex items-center">
+                                                            <div className="basis-1/4 pl-[20px]">
+                                                                <h3>
+                                                                    {
+                                                                        item?.transactionType
+                                                                    }
                                                                 </h3>
-                                                            ) : (
-                                                                <h3 className="text-success">
-                                                                    Successful
+                                                            </div>
+                                                            <div className="basis-1/4 text-center">
+                                                                <h3>
+                                                                    {
+                                                                        item?.transactionAmount
+                                                                    }
                                                                 </h3>
-                                                            )}
+                                                            </div>
+                                                            <div className="basis-1/4 text-center">
+                                                                <h3>
+                                                                    {new Date(
+                                                                        item?.transactionDate
+                                                                    ).toLocaleDateString()}
+                                                                </h3>
+                                                            </div>
+                                                            <div className="basis-1/4 text-right pr-[20px]">
+                                                                {index % 3 ===
+                                                                0 ? (
+                                                                    <h3 className="text-error">
+                                                                        {
+                                                                            item?.transactionStatus
+                                                                        }
+                                                                    </h3>
+                                                                ) : (
+                                                                    <h3 className="text-success">
+                                                                        Successful
+                                                                    </h3>
+                                                                )}
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    )
                                                 )
+                                            ) : (
+                                                <div className="flex justify-center">
+                                                    <svg
+                                                        role="status"
+                                                        className="inline w-6 h-6 text-primary animate-spin"
+                                                        viewBox="0 0 100 101"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                        <path
+                                                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                            fill="#09335E"
+                                                        />
+                                                        <path
+                                                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                            fill="currentColor"
+                                                        />
+                                                    </svg>
+                                                </div>
                                             )}
                                         </div>
                                         <p

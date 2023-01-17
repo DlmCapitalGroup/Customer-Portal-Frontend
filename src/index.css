@@ -3,22 +3,23 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  @apply bg-primary
+    width: 10px;
+    @apply bg-primary;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px gray;
-  @apply rounded-xl;
-  @apply bg-primary-light;
+    box-shadow: inset 0 0 5px gray;
+    @apply rounded-xl;
+    @apply bg-primary-light;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary rounded-xl;
+    @apply bg-primary rounded-xl;
 }

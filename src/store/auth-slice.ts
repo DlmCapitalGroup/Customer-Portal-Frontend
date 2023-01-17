@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authService from "./api/authService";
 import { devInstance } from "./devInstance";
 interface AuthState {
@@ -6,9 +6,10 @@ interface AuthState {
     customer: object | null;
     token: string;
     loading: boolean;
-    error: string;
+    error: any;
     success: boolean;
-    loggedIn: boolean;
+    authenticated: boolean;
+    registered: boolean;
 }
 
 const initialState: AuthState = {
@@ -16,9 +17,10 @@ const initialState: AuthState = {
     customer: null,
     token: "",
     loading: false,
-    error: "",
+    error: null,
     success: false,
-    loggedIn: false,
+    authenticated: false,
+    registered: false,
 };
 
 export const loginUser = createAsyncThunk(
@@ -43,18 +45,49 @@ export const loginCustomer = createAsyncThunk(
     }
 );
 
+export const registerCustomer = createAsyncThunk(
+    "Authentication/CustomerSignUp",
+    async (customer: object, thunkAPI) => {
+        try {
+            return await authService.registerCustomer(customer);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
+export const confirmCustomer = createAsyncThunk(
+    "Authentication/CustomerSignUp",
+    async (otp: string, thunkAPI) => {
+        // try {
+        //     return await authService.confirmCustomer(otp, token, email);
+        // } catch (error) {
+        //     return thunkAPI.rejectWithValue(error);
+        // }
+    }
+);
+
+export const forgotPassword = createAsyncThunk(
+    "Authentication/ForgotPassword",
+    async (customerEmail: string, thunkAPI) => {
+        try {
+            return await authService.forgotPassword;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        // setUser: (state, action) => {
-        //     const { user } = action.payload;
-        //     state.user = user;
-        // },
-        // setCustomer: (state, action) => {
-        //     const { customer } = action.payload;
-        //     state.customer = customer;
-        // },
+        setUser: (state, action) => {
+            state.user = action.payload;
+        },
+        setCustomer: (state, action) => {
+            state.customer = action.payload;
+        },
         setLoading: (state) => {
             if (state.loading === false) {
                 state.loading = true;
@@ -77,12 +110,10 @@ const authSlice = createSlice({
                 console.log("loading user");
             })
             .addCase(loginUser.fulfilled, (state, action) => {
-                // console.log(action.payload)
-                // const { user } = action.payload;
                 state.user = action.payload;
                 state.loading = false;
                 console.log("fulfilled user");
-                console.log(state.user)
+                console.log(state.user);
             })
             .addCase(loginUser.rejected, (state) => {
                 state.loading = false;
@@ -94,17 +125,35 @@ const authSlice = createSlice({
                 console.log("loading customer");
             })
             .addCase(loginCustomer.fulfilled, (state, action) => {
-                const { customer } = action.payload;
-                state.customer = customer;
+                state.customer = action.payload;
                 state.loading = false;
-                state.loggedIn = true;
+                state.authenticated = true;
                 console.log("fulfilled customer");
             })
-            .addCase(loginCustomer.rejected, (state) => {
+            .addCase(loginCustomer.rejected, (state, action) => {
                 state.loading = false;
-                console.log("error");
-                state.error = "error";
+                state.authenticated = false;
+                state.error = action.payload;
+                window.alert(state.error.message);
+            })
+            .addCase(registerCustomer.pending, (state) => {
+                state.loading = true;
+                console.log("registering customer");
+            })
+            .addCase(registerCustomer.fulfilled, (state, action) => {
+                console.log(action.payload)
+                // state.customer = action.payload;
+                // state.loading = false;
+                // state.registered = true;
+                // console.log("registered customer");
+            })
+            .addCase(registerCustomer.rejected, (state, action) => {
+                state.loading = false;
+                state.authenticated = false;
+                state.error = action.payload;
+                window.alert(state.error.message);
             });
+            
     },
 });
 
@@ -116,7 +165,7 @@ export const setAuthToken = (token: string | null) => {
     }
 };
 
-export const { logout, setLoading } = authSlice.actions;
+export const { logout, setLoading, setCustomer, setUser } = authSlice.actions;
 
 export default authSlice.reducer;
 

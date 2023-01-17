@@ -7,9 +7,7 @@ import Modal from "../../components/ModalComponent";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import { WalletCard } from "../FundWallet";
 import { useAppSelector } from "../../store/hooks";
-import { useNavigate } from "react-router-dom";
-
-// import circleLight from "../"
+// import { useNavigate } from "react-router-dom";
 
 interface addcardProps {
     closeAction: () => void;
@@ -75,7 +73,7 @@ const Plan = () => {
     const [modalText, setModalText] = useState("");
     const [modalType, setModalType] = useState("");
     const [modalSize, setModalSize] = useState("");
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { customer }: any = useAppSelector((state) => state.auth);
 
     const saveAction = () => {

@@ -142,10 +142,7 @@ const FundWallet = () => {
             <div className="pt-[56px] text-primary">
                 <h3 className="text-xl font-semibold mb-[70px]">Fund Wallet</h3>
                 <div className="flex space-x-[34px] overflow-x-scroll scroll scrollbar-hide whitespace-nowrap scroll-smooth mb-[100px] slider pr-10">
-                    <WalletCard
-                        type="dark"
-                        onClick={() => navigate("/transactions/history")}
-                    >
+                    <WalletCard type="dark">
                         <div className="flex flex-col space-y-2">
                             <h3 className="text-sm">Wallet Balance </h3>
                             <h2 className="text-lg font-semibold">

@@ -26,7 +26,7 @@ const DashboardLayout = (props: dashboardProps) => {
     const { children, onClick } = props;
     const location = useLocation();
     console.log(location.pathname);
-    const dispatch = useAppDispatch;
+    const dispatch = useAppDispatch();
 
     const dashboardLinks = [
         {
@@ -120,7 +120,9 @@ const DashboardLayout = (props: dashboardProps) => {
                             <Link
                                 to={index === 0 ? link.path : ""}
                                 className="flex pl-[15px] items-center"
-                                onClick={() => index === 2 && alert("Working")}
+                                onClick={() =>
+                                    index === 1 && dispatch(logout())
+                                }
                             >
                                 <img alt="" src={link.icon} />{" "}
                                 <span className="text-base text-white ml-[25px] capitalize">

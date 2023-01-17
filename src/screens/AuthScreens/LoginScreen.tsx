@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/ButtonComponent";
 import AuthLayout from "../../layouts/AuthLayout";
 import { Input } from "../../components/FormElements";
 import { loginCustomer, loginUser, setLoading } from "../../store/auth-slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-const Eye = () => {
+const Eye = ({ onClick }: any) => {
     return (
         <svg
             width="24"
@@ -15,6 +15,7 @@ const Eye = () => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className="absolute right-4 mt-2 cursor-pointer"
+            onClick={onClick}
         >
             <circle
                 cx="12"
@@ -35,8 +36,9 @@ const Eye = () => {
 };
 
 function Login() {
+    const [eye, setEye] = React.useState(false);
     const [formData, setFormData] = React.useState({
-        clientId: "",
+        ClientId: "",
         password: "",
     });
 
@@ -45,12 +47,6 @@ function Login() {
     const { user, loading, customer }: any = useAppSelector(
         (state) => state.auth
     );
-
-    useEffect(() => {
-        // if (user && customer.customerId) {
-        //     navigate("/");
-        // }
-    }, [customer, navigate, user]);
 
     const formChange = (e: any) => {
         setFormData((prevState) => ({
@@ -69,12 +65,12 @@ function Login() {
             })
         );
         await dispatch(
-            loginCustomer({
-                ClientId: "ifytest",
-                password: "Dlmtest123#",
-            })
+            loginCustomer(
+                // formData
+                { username: "ifytest", password: "Dlmtest123#" }
+            )
         );
-        // console.log(user);
+        await navigate("/");
     };
 
     return (
@@ -84,8 +80,8 @@ function Login() {
                     <div className="mb-10">
                         <Input
                             placeholder="Client ID"
-                            name="clientId"
-                            value={formData.clientId}
+                            name="ClientId"
+                            value={formData.ClientId}
                             label="Client ID"
                             onChange={formChange}
                         />
@@ -95,9 +91,9 @@ function Login() {
                             Password
                         </label>
                         <div className="relative flex items-center">
-                            <Eye />
+                            <Eye onClick={() => setEye(!eye)} />
                             <input
-                                type="password"
+                                type={eye ? "password" : "text"}
                                 name="password"
                                 value={formData.password}
                                 onChange={formChange}
@@ -108,18 +104,14 @@ function Login() {
                     </div>
                     <div className="text-right mt-3 mb-10">
                         <Link
-                            to="/forgot-password"
+                            to="/auth/forgot-password"
                             className="text-base font-normal text-primary/60"
                         >
                             Forgot Password
                         </Link>
                     </div>
                     <div className="text-center mb-10">
-                        <Button
-                            buttonType="md"
-                            onClick={loginCustomer}
-                            loading={loading}
-                        >
+                        <Button buttonType="md" loading={loading}>
                             {loading ? (
                                 <svg
                                     role="status"
@@ -146,7 +138,7 @@ function Login() {
                     <p className="text-base text-primary/50 text-center">
                         Don’t have an account?{" "}
                         <Link
-                            to="/sign-up"
+                            to="/auth/sign-up"
                             className="text-primary/80 font-semibold"
                         >
                             Sign Up
