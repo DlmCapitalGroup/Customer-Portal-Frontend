@@ -61,7 +61,7 @@ function Login() {
         await dispatch(
             loginUser({
                 username: "hamzah",
-                password: "Ade@125",
+                password: "Ade@122",
             })
         );
         await dispatch(
@@ -91,14 +91,12 @@ function Login() {
                             Password
                         </label>
                         <div className="relative flex items-center">
-                            <Eye onClick={() => setEye(!eye)} />
-                            <input
-                                type={eye ? "password" : "text"}
-                                name="password"
+                            <Input
+                                isPassword
                                 value={formData.password}
-                                onChange={formChange}
                                 placeholder="Password"
-                                className="h-[56px] w-full text-base mt-2 placeholder-primary/40 pl-4 pr-12 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
+                                name="password"
+                                onChange={formChange}
                             />
                         </div>
                     </div>

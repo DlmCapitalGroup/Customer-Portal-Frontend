@@ -55,7 +55,7 @@ const DashboardScreen = () => {
                     params: { CustomerId: customer?.customerId },
                 })
                 .then((res: any) => {
-                    setTransactions(res?.data?.result);
+                    setTransactions(res?.data?.data?.pageItems)
                 })
                 .catch((err) => console.log(err));
         }
@@ -269,7 +269,7 @@ const DashboardScreen = () => {
                                             <h3>Status</h3>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col grow">
+                                    <div className="flex flex-col grow h-full">
                                         <div className="flex flex-col space-y-4 py-4 grow">
                                             {transactions ? (
                                                 transactions.map(

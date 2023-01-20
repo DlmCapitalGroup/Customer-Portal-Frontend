@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import authService from "./api/authService";
 import { devInstance } from "./devInstance";
+import { setMessageType } from "./toastSlice";
 interface AuthState {
     user: object | null;
     customer: object | null;
@@ -29,6 +31,7 @@ export const loginUser = createAsyncThunk(
         try {
             return await authService.loginUser(user);
         } catch (error) {
+            setMessageType("error")
             return thunkAPI.rejectWithValue(error);
         }
     }
@@ -111,14 +114,13 @@ const authSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.user = action.payload;
+                toast("Logged in successfully!");
                 state.loading = false;
-                console.log("fulfilled user");
-                console.log(state.user);
             })
-            .addCase(loginUser.rejected, (state) => {
+            .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
-                console.log("error");
-                state.error = "error";
+                state.error = action.payload;
+                toast(`${state.error.message}`)
             })
             .addCase(loginCustomer.pending, (state) => {
                 state.loading = true;
@@ -134,14 +136,14 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.authenticated = false;
                 state.error = action.payload;
-                window.alert(state.error.message);
+                toast(`${state.error.message}`)
             })
             .addCase(registerCustomer.pending, (state) => {
                 state.loading = true;
                 console.log("registering customer");
             })
             .addCase(registerCustomer.fulfilled, (state, action) => {
-                console.log(action.payload)
+                console.log(action.payload);
                 // state.customer = action.payload;
                 // state.loading = false;
                 // state.registered = true;
@@ -151,11 +153,11 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.authenticated = false;
                 state.error = action.payload;
-                window.alert(state.error.message);
+                console.log(state.error.message);
             });
-            
     },
 });
+
 
 export const setAuthToken = (token: string | null) => {
     if (token) {

@@ -3,16 +3,18 @@ import eyeHide from "../../assets/images/eye-hide.svg";
 import eyeShow from "../../assets/images/eye.svg";
 
 interface InputProps {
-    type?: "text" | "email" | "password" | "number";
+    type?: "text" | "email" | "password" | "number" | "date";
     label?: string;
     name?: string;
     value?: string;
     placeholder?: string;
     onChange?: any;
+    isPassword?: boolean;
+    required?: boolean;
 }
 
 const Input = (props: InputProps) => {
-    const { type, label, name, value, placeholder, onChange } = props;
+    const { type, label, isPassword } = props;
     const [show, setShow] = React.useState(false);
     return (
         <div>
@@ -21,27 +23,29 @@ const Input = (props: InputProps) => {
                     {label}
                 </label>
             )}
-            <div className="flex items-center relative">
-                <input
-                    type={
-                        type === "password" && !show
-                            ? "password"
-                            : type !== "password"
-                            ? type
-                            : "text"
-                    }
-                    className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg"
-                    {...props}
-                />
-                {type === "password" && (
+            {isPassword ? (
+                <div className="flex items-center relative">
+                    <input
+                        type={show ? "text" : "password"}
+                        className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg"
+                        {...props}
+                    />
                     <img
                         alt=""
                         src={show ? eyeShow : eyeHide}
                         className="absolute right-4 mt-1"
                         onClick={() => setShow(!show)}
                     />
-                )}
-            </div>
+                </div>
+            ) : (
+                <div className="flex items-center relative">
+                    <input
+                        type={type ? type : "text"}
+                        className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg"
+                        {...props}
+                    />
+                </div>
+            )}
         </div>
     );
 };

@@ -1,35 +1,23 @@
-import React, { useEffect, useLayoutEffect } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { setCustomer, setUser } from "./store/auth-slice";
+import React from "react";
+import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useAppSelector } from "./store/hooks";
 
 function App() {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { user, customer }: any = useAppSelector((state) => state.auth);
-    const localUser: any = localStorage.getItem("user");
-    const localCustomer: any = localStorage.getItem("customer");
-    const customerRef = JSON.parse(localCustomer);
-    const userRef = JSON.parse(localUser);
-    // useLayoutEffect(() => {
-    //     if (customerRef && userRef) {
-    //         setUser(userRef);
-    //         setCustomer(customerRef);
-    //     }
-    // }, [customerRef, userRef]);
-    // useEffect(() => {
-    //     if((location.pathname === "/auth/sign-in") && (user && customer) ) {
-    //         navigate("/", {replace: true})
-    //     }
-    //     else {
-    //         if (user === null && customer === null && location.pathname !== "/auth/*") {
-    //             navigate("/auth/sign-in", {replace: true})
-    //         }
-    //     }
-    // }, [user, customer, navigate, location.pathname]);
+    const { messageType }: any = useAppSelector((state) => state.toast);
     return (
         <div className="App">
             <Outlet />
+            <ToastContainer
+                progressStyle={{
+                    backgroundColor: `${
+                        messageType === "error" ? "#F04C4C" : "#6ED73E"
+                    }`,
+                    backgroundImage: "none",
+                }}
+                style={{ color: "#09335E" }}
+            />
         </div>
     );
 }
