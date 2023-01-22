@@ -3,41 +3,20 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 import { Outlet } from "react-router-dom";
 import Modal from "../../components/ModalComponent";
 import Button from "../../components/ButtonComponent";
-
-type selectProps = {
-    options?: Array<any>;
-    title?: string;
-    setOption?: () => void;
-    toggleSelect?: () => void;
-};
-
-const Select = (props: selectProps) => {
-    const { options, title, setOption, toggleSelect } = props;
-    return (
-        <div>
-            <div
-                className="h-14 border border-primary/10 rounded-lg flex items-center px-4"
-                onClick={toggleSelect}
-            >
-                {title || "Select"}
-            </div>
-            <div className="flex flex-col gap-y-4">
-                {options &&
-                    options.map((option, index) => (
-                        <div key={index} onClick={setOption}>
-                            {option}
-                        </div>
-                    ))}
-            </div>
-        </div>
-    );
-};
+import Select from "../../components/SelectComponent";
 
 const Library = () => {
     const [serviceModal, setServiceModal] = React.useState(true);
+    const [investment, setInvestment] = React.useState("");
+
     const showServiceModal = () => {
         setServiceModal(!serviceModal);
     };
+
+    function setOption(value: any) {
+        setInvestment(value);
+    }
+
     return (
         <DashboardLayout>
             <div className="pr-5">
@@ -56,7 +35,15 @@ const Library = () => {
                             </p>
                         </div>
                         <div className="mb-32">
-                            <Select />
+                            <Select
+                                title="Select a product"
+                                options={[
+                                    "Fixed Income Fund Investment",
+                                    "Fixed Asset Income",
+                                    "Fixed Deposit Fund Investment",
+                                ]}
+                                setOption={setOption}
+                            />
                         </div>
 
                         <Button buttonType="full">Proceed</Button>

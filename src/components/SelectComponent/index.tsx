@@ -1,23 +1,61 @@
 import React from "react";
+import radioChecked from "../../assets/images/radio-checked.svg";
+import radioUnchecked from "../../assets/images/radio-unchecked.svg";
+import chevronDown from "../../assets/images/chevron-down.svg";
 
-type _props = {
-    checked?: Boolean;
+type selectProps = {
     options?: Array<any>;
-    label?: string;
+    title?: string;
+    setOption?: any;
+    toggleSelect?: () => void;
+    selected?: string;
+    required?: boolean;
 };
 
-const SelectComponent = (props: _props) => {
-    const { checked, label, options } = props;
+const Select = (props: selectProps) => {
+    const [select, setSelect] = React.useState(false);
+    const { options, title, setOption, selected } = props;
+    function toggleSelect() {
+        setSelect(!select);
+    }
     return (
-        <div>
-            <p>{label || "select"}</p>
-            {/* <div className="w-8 h-8 border border-[#E0E0FF] rounded-full grid place-items-center">
-                {checked && (
-                    <div className="w-3 h-3 rounded-full bg-primary"></div>
-                )}
-            </div> */}
+        <div className="relative">
+            <div
+                className="h-14 border bg-white-lighter border-primary/10 rounded-lg flex items-center px-4 cursor-pointer justify-between"
+                onClick={toggleSelect}
+            >
+                {title || "Select"}
+                <img alt="" src={chevronDown} />
+            </div>
+            {select && (
+                <div className="absolute w-full z-50 flex flex-col gap-y-4 pt-4 pb-14 border border-primary/10 rounded-br-[20px] rounded-bl-[20px] bg-white-lighter">
+                    {options ? (
+                        options.map((option, index) => (
+                            <div
+                                key={index}
+                                onClick={() => setOption(option)}
+                                className="px-4 flex items-center gap-x-4 cursor-pointer text-sm"
+                            >
+                                <img
+                                    alt=""
+                                    src={
+                                        option === selected
+                                            ? radioChecked
+                                            : radioUnchecked
+                                    }
+                                />{" "}
+                                {option}
+                            </div>
+                        ))
+                    ) : (
+                        <div className="p-4 flex items-center gap-x-4 cursor-pointer">
+                            Demo Option
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
 
-export default SelectComponent;
+export default Select;

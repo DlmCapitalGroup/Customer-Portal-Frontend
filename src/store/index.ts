@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth-slice";
-import toastReducer from "./toastSlice";
 
 export const store = configureStore({
-    reducer: { auth: authReducer, toast: toastReducer },
+    reducer: { auth: authReducer },
 });
 
 export type AppDispatch = typeof store.dispatch;

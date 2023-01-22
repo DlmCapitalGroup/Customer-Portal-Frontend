@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import chevronRight from "../../assets/images/chevron-right.svg";
 import closeIcon from "../../assets/images/close-icon.svg";
 import Button from "../../components/ButtonComponent";
@@ -7,6 +7,9 @@ import Table from "../../components/TableComponent";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import searchIcon from "../../assets/images/search-icon.svg";
 import filter from "../../assets/images/Filter.svg";
+import { devInstance } from "../../store/devInstance";
+import { useAppSelector } from "../../store/hooks";
+import { toast } from "react-toastify";
 
 const Transactions = () => {
     const data = useMemo(
@@ -24,7 +27,7 @@ const Transactions = () => {
                 col2: "you want",
             },
         ],
-        [],
+        []
     );
 
     const columns = useMemo(
@@ -38,12 +41,45 @@ const Transactions = () => {
                 accessor: "col2",
             },
         ],
-        [],
+        []
     );
     const [modal, setModal] = useState(false);
     const [modalText, setModalText] = useState("");
     const [modalType, setModalType] = useState("");
     const [dropDown, setDropDown] = useState(false);
+    const [transactions, setTransactions] = useState([]);
+    const [searchField, setSearchField] = useState("");
+    const { customer }: any = useAppSelector((state) => state.auth);
+
+    const fetchTransactions = useCallback(() => {
+        if (customer?.customerId) {
+            devInstance
+                .get("/Dashboard/GetTransactions", {
+                    params: { CustomerId: customer?.customerId },
+                })
+                .then((res: any) => {
+                    setTransactions(res?.data?.data?.pageItems);
+                    console.log(res, "rrrrr");
+                })
+                .catch((err) => toast.error(`${err?.message}`));
+        }
+    }, [customer?.customerId]);
+
+    const filteredSearch = transactions?.filter((transaction: any) => {
+        return transaction?.transactionType
+            ?.toLowerCase()
+            .includes(searchField?.toLowerCase());
+    });
+    const onSearchChange = (e: any) => {
+        e.preventDefault();
+        setSearchField(e.target.value);
+    };
+
+    useEffect(() => {
+        fetchTransactions();
+    }, [fetchTransactions]);
+    // console.log(filteredSearch)
+
     return (
         <DashboardLayout>
             <div className="pt-[56px] text-primary">
@@ -57,6 +93,7 @@ const Transactions = () => {
                                 type="search"
                                 className="w-[309px] h-[56px] px-4 bg-white-lighter border-none rounded-lg focus:ring-primary"
                                 placeholder="Search"
+                                onChange={onSearchChange}
                             />
                             <img
                                 alt="search"
@@ -65,12 +102,17 @@ const Transactions = () => {
                             />
                         </div>
 
-                        <div className="w-[100px] h-14 flex justify-center items-center bg-white-lighter rounded-lg cursor-pointer" onClick={() => setModal(true)}>
+                        <div
+                            className="w-[100px] h-14 flex justify-center items-center bg-white-lighter rounded-lg cursor-pointer"
+                            onClick={() => setModal(true)}
+                        >
                             <img alt="" src={filter} />
                         </div>
                     </div>
                 </div>
-                <Table />
+                <div className="min-h-[500px] flex flex-col">
+                    <Table transactions={filteredSearch} />
+                </div>
                 {modal && (
                     <Modal modalText={modalText} type={modalType}>
                         {!modalType && (
@@ -79,7 +121,12 @@ const Transactions = () => {
                                     <h3 className="text-xl font-semibold">
                                         Filter Transactions
                                     </h3>
-                                    <img alt="" src={closeIcon} className="cursor-pointer" onClick={() => setModal(false)} />
+                                    <img
+                                        alt=""
+                                        src={closeIcon}
+                                        className="cursor-pointer"
+                                        onClick={() => setModal(false)}
+                                    />
                                 </div>
 
                                 <div className="flex justify-between mb-10 items-center">
@@ -135,7 +182,7 @@ const Transactions = () => {
                                                         <div className="h-56px py-4 px-2 cursor-pointer">
                                                             {item}
                                                         </div>
-                                                    ),
+                                                    )
                                                 )}
                                             </div>
                                         )}

@@ -2,8 +2,6 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/ButtonComponent";
 import AuthLayout from "../../layouts/AuthLayout";
-import eyeHide from "../../assets/images/eye-hide.svg";
-import eye from "../../assets/images/eye.svg";
 import {
     registerCustomer,
     loginUser,
@@ -11,34 +9,6 @@ import {
 } from "../../store/auth-slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Input } from "../../components/FormElements";
-
-const Eye = () => {
-    return (
-        <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="absolute right-4 mt-2 cursor-pointer"
-        >
-            <circle
-                cx="12"
-                cy="12"
-                r="3"
-                stroke="#09335E"
-                stroke-opacity="0.25"
-                stroke-width="2"
-            />
-            <path
-                d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
-                stroke="#09335E"
-                stroke-opacity="0.25"
-                stroke-width="2"
-            />
-        </svg>
-    );
-};
 
 const Register = () => {
     const [formData, setFormData] = React.useState({
@@ -54,9 +24,7 @@ const Register = () => {
     const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
-    const { user, loading, customer, registered }: any = useAppSelector(
-        (state) => state.auth
-    );
+    const { loading }: any = useAppSelector((state) => state.auth);
 
     const formChange = (e: any) => {
         setFormData((prevState) => ({
@@ -68,15 +36,30 @@ const Register = () => {
     const register = async (e: any) => {
         e.preventDefault();
         dispatch(setLoading());
-        console.log(formData);
-        await dispatch(
+        let res: any = await dispatch(
             loginUser({
                 username: "hamzah",
                 password: "Ade@125",
             })
         );
-        await dispatch(registerCustomer(formData));
-        (await registered) && navigate("/auth/confirm-email");
+        let errors =
+            res.meta.rejectedWithValue === true ||
+            res.meta.requestStatus === "rejected";
+
+        if (!errors) {
+            let signupRes: any = await dispatch(registerCustomer(formData));
+            // console.log(signupRes, 'signupRes')
+            let resCheck = signupRes.meta.requestStatus === "fulfilled";
+            localStorage.setItem("customerRegData", JSON.stringify(formData))
+            localStorage.setItem("customerRegRes", JSON.stringify(signupRes.payload));
+            if(resCheck) {
+                navigate('/auth/confirm-email', {
+                    state: {
+                        data: signupRes.payload,
+                    }
+                });
+            }
+        }
     };
 
     return (
@@ -115,9 +98,9 @@ const Register = () => {
                     </div>
                     <div>
                         <Input
-                            label="Client ID"
+                            label="Username"
                             type="text"
-                            placeholder="Client ID"
+                            placeholder="Username"
                             name="username"
                             onChange={formChange}
                         />
@@ -144,7 +127,7 @@ const Register = () => {
                         <Input
                             label="Confirm Password"
                             placeholder="Confirm Password"
-                            name="confirm-password"
+                            name="confirmPassword"
                             isPassword
                             onChange={formChange}
                         />

@@ -22,36 +22,49 @@ const loginUser = async (userData: object) => {
     return res.data.data;
 };
 
-const forgotPassword = async (customerEmail: string) => {
-    const res = await devInstance.post(
-        "/Authentication/ForgotPassword",
-        customerEmail
-    );
-    console.log(res);
+const forgottenPassword = async (customerEmail: string) => {
+    await devInstance.post("/Authentication/ForgotPassword", {
+        email: customerEmail,
+    });
 };
 
-const confirmCustomer = async (otp: string, token: string, email: string) => {
-    const res = await devInstance.post("/Authentication/ConfirmEmail", {
-        otp: otp,
-        token: token,
-        email: email,
-    });
-    console.log(res);
+const confirmCustomer = async (state: any) => {
+    const res = await devInstance.post("/Authentication/ConfirmEmail", state);
+    return res;
 };
+
 const registerCustomer = async (customer: object) => {
     const res = await devInstance.post(
         "/Authentication/CustomerSignUp",
         customer
     );
-    await console.log(res);
+
+    return res.data.data || res.data.result;
+};
+
+const resendOtp = async (customerEmail: string) => {
+    const res = await devInstance.post(
+        `/Authentication/resendOtp/${customerEmail}`
+    );
+    return res;
+};
+
+const updatePassword = async (customerDetails: object) => {
+    const res = await devInstance.patch(
+        "/Authentication/UpdatePassword",
+        customerDetails
+    );
+    return res.data;
 };
 
 const authService = {
     loginCustomer,
     loginUser,
-    forgotPassword,
+    forgottenPassword,
     registerCustomer,
     confirmCustomer,
+    resendOtp,
+    updatePassword,
 };
 
 export default authService;

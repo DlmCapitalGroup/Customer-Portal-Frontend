@@ -39,26 +39,26 @@ const DashboardLayout = (props: dashboardProps) => {
             icon: transactionsIcon,
             path: "/transactions",
         },
-        {
-            name: "plan",
-            icon: planIcon,
-            path: "/plan",
-        },
-        {
-            name: "Library",
-            icon: notebookIcon,
-            path: "/library",
-        },
-        {
-            name: "support",
-            icon: supportIcon,
-            path: "/support",
-        },
-        {
-            name: "notifications",
-            icon: notificationIcon,
-            path: "#",
-        },
+        // {
+        //     name: "plan",
+        //     icon: planIcon,
+        //     path: "#",
+        // },
+        // {
+        //     name: "Library",
+        //     icon: notebookIcon,
+        //     path: "/library",
+        // },
+        // {
+        //     name: "support",
+        //     icon: supportIcon,
+        //     path: "/support",
+        // },
+        // {
+        //     name: "notifications",
+        //     icon: notificationIcon,
+        //     path: "#",
+        // },
         {
             name: "settings",
             icon: settingsIcon,
@@ -73,7 +73,7 @@ const DashboardLayout = (props: dashboardProps) => {
                 customer?.lastName.slice(1).toLowerCase()
             }`,
             icon: userIcon,
-            path: "/profile",
+            path: "/settings",
         },
         {
             name: "Logout",
@@ -95,7 +95,7 @@ const DashboardLayout = (props: dashboardProps) => {
                 </div>
                 <div className="flex flex-col justify-between grow">
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(0, 7).map((link, index) => (
+                        {dashboardLinks.slice(0, 3).map((link, index) => (
                             <Link
                                 to={link.path}
                                 className="flex pl-[15px] items-center"
@@ -116,7 +116,7 @@ const DashboardLayout = (props: dashboardProps) => {
                     </div>
 
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(7).map((link, index) => (
+                        {dashboardLinks.slice(3).map((link, index) => (
                             <Link
                                 to={index === 0 ? link.path : ""}
                                 className="flex pl-[15px] items-center"

@@ -41,7 +41,7 @@ const NewsCard = (props: cardProps) => {
                 <img alt="" src={newsImage} className="w-full object-cover object-center h-full rounded-[10px]" />
             </div>
             <div className="grow">
-                <p className="text-base">Latesest product news about the recent...</p>
+                <p className="text-base">Latest product news about the recent...</p>
             </div>
         </div>
     );

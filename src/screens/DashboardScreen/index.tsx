@@ -6,8 +6,6 @@ import searchIcon from "../../assets/images/search-icon.svg";
 // import notificationIcon from "../../assets/images/notification-icon-dark.svg";
 // import naira from "../../assets/images/naira.svg";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
-
 import { Link, useNavigate } from "react-router-dom";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import Button from "../../components/ButtonComponent";
@@ -47,6 +45,7 @@ const DashboardScreen = () => {
                 })
                 .then((res: any) => {
                     setOverViewData(res.data);
+                    console.log(res.data.details, "details");
                 })
                 .catch((err) => console.log(err));
 
@@ -55,7 +54,7 @@ const DashboardScreen = () => {
                     params: { CustomerId: customer?.customerId },
                 })
                 .then((res: any) => {
-                    setTransactions(res?.data?.data?.pageItems)
+                    setTransactions(res?.data?.data?.pageItems);
                 })
                 .catch((err) => console.log(err));
         }
@@ -64,6 +63,49 @@ const DashboardScreen = () => {
     useEffect(() => {
         fetchData();
     }, [fetchData]);
+
+    const TransactionList = () => {
+        if (transactions.length > 0) {
+            return (
+                <>
+                    {transactions.map((item: any, index: number) => (
+                        <div className="flex items-center">
+                            <div className="basis-1/4 pl-[20px]">
+                                <h3>{item?.transactionType}</h3>
+                            </div>
+                            <div className="basis-1/4 text-center">
+                                <h3>{item?.transactionAmount}</h3>
+                            </div>
+                            <div className="basis-1/4 text-center">
+                                <h3>
+                                    {new Date(
+                                        item?.transactionDate
+                                    ).toLocaleDateString()}
+                                </h3>
+                            </div>
+                            <div className="basis-1/4 text-right pr-[20px]">
+                                <h3
+                                    className={`${
+                                        item.transactionStatus === "EXECUTED"
+                                            ? "text-success"
+                                            : "text-error"
+                                    }`}
+                                >
+                                    {item.transactionStatus}
+                                </h3>
+                            </div>
+                        </div>
+                    ))}
+                </>
+            );
+        } else {
+            return (
+                <div className="pl-[20px] text-center text-error">
+                    <h3>No Transactions Found</h3>
+                </div>
+            );
+        }
+    };
 
     return (
         <DashboardLayout>
@@ -138,10 +180,11 @@ const DashboardScreen = () => {
                                             <p>Net Asset (₦)</p>
                                             <p className="font-semibold">
                                                 ₦{" "}
-                                                {overviewData?.netAssetValue &&
+                                                {(overviewData?.netAssetValue &&
                                                     overviewData.netAssetValue.toFixed(
                                                         2
-                                                    )}
+                                                    )) ||
+                                                    0}
                                             </p>
                                         </div>
                                     </div>
@@ -150,9 +193,11 @@ const DashboardScreen = () => {
                                             <p>Wallet</p>
                                             <p className="font-semibold">
                                                 ₦{" "}
-                                                {customer?.cashAccountBalance.slice(
-                                                    3
-                                                )}
+                                                {(customer.cashAccountBalance &&
+                                                    customer?.cashAccountBalance.slice(
+                                                        3
+                                                    )) ||
+                                                    0}
                                             </p>
                                         </div>
                                     </div>
@@ -271,68 +316,7 @@ const DashboardScreen = () => {
                                     </div>
                                     <div className="flex flex-col grow h-full">
                                         <div className="flex flex-col space-y-4 py-4 grow">
-                                            {transactions ? (
-                                                transactions.map(
-                                                    (item: any, index) => (
-                                                        <div className="flex items-center">
-                                                            <div className="basis-1/4 pl-[20px]">
-                                                                <h3>
-                                                                    {
-                                                                        item?.transactionType
-                                                                    }
-                                                                </h3>
-                                                            </div>
-                                                            <div className="basis-1/4 text-center">
-                                                                <h3>
-                                                                    {
-                                                                        item?.transactionAmount
-                                                                    }
-                                                                </h3>
-                                                            </div>
-                                                            <div className="basis-1/4 text-center">
-                                                                <h3>
-                                                                    {new Date(
-                                                                        item?.transactionDate
-                                                                    ).toLocaleDateString()}
-                                                                </h3>
-                                                            </div>
-                                                            <div className="basis-1/4 text-right pr-[20px]">
-                                                                {index % 3 ===
-                                                                0 ? (
-                                                                    <h3 className="text-error">
-                                                                        {
-                                                                            item?.transactionStatus
-                                                                        }
-                                                                    </h3>
-                                                                ) : (
-                                                                    <h3 className="text-success">
-                                                                        Successful
-                                                                    </h3>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                )
-                                            ) : (
-                                                <div className="flex justify-center">
-                                                    <svg
-                                                        role="status"
-                                                        className="inline w-6 h-6 text-primary animate-spin"
-                                                        viewBox="0 0 100 101"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        <path
-                                                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                                            fill="#09335E"
-                                                        />
-                                                        <path
-                                                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                                            fill="currentColor"
-                                                        />
-                                                    </svg>
-                                                </div>
-                                            )}
+                                            <TransactionList />
                                         </div>
                                         <p
                                             className="font-semibold text-sm text-right mr-5 cursor-pointer"

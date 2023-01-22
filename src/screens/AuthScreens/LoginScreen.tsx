@@ -6,47 +6,15 @@ import { Input } from "../../components/FormElements";
 import { loginCustomer, loginUser, setLoading } from "../../store/auth-slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-const Eye = ({ onClick }: any) => {
-    return (
-        <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="absolute right-4 mt-2 cursor-pointer"
-            onClick={onClick}
-        >
-            <circle
-                cx="12"
-                cy="12"
-                r="3"
-                stroke="#09335E"
-                stroke-opacity="0.25"
-                stroke-width="2"
-            />
-            <path
-                d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
-                stroke="#09335E"
-                stroke-opacity="0.25"
-                stroke-width="2"
-            />
-        </svg>
-    );
-};
-
 function Login() {
-    const [eye, setEye] = React.useState(false);
     const [formData, setFormData] = React.useState({
-        ClientId: "",
+        username: "",
         password: "",
     });
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { user, loading, customer }: any = useAppSelector(
-        (state) => state.auth
-    );
+    const { loading }: any = useAppSelector((state) => state.auth);
 
     const formChange = (e: any) => {
         setFormData((prevState) => ({
@@ -58,19 +26,27 @@ function Login() {
     const login = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(setLoading());
-        await dispatch(
+        let res: any = await dispatch(
             loginUser({
                 username: "hamzah",
-                password: "Ade@122",
+                password: "Ade@125",
             })
         );
-        await dispatch(
-            loginCustomer(
-                // formData
-                { username: "ifytest", password: "Dlmtest123#" }
-            )
-        );
-        await navigate("/");
+
+        let errors =
+            res.meta.rejectedWithValue === true ||
+            res.meta.requestStatus === "rejected";
+
+        if (!errors) {
+            await dispatch(
+                loginCustomer(
+                    formData
+                    // { username: "ifytest", password: "Dlmtest123#" }
+                )
+            );
+        }
+
+        navigate("/");
     };
 
     return (
@@ -79,10 +55,10 @@ function Login() {
                 <form onSubmit={login}>
                     <div className="mb-10">
                         <Input
-                            placeholder="Client ID"
-                            name="ClientId"
-                            value={formData.ClientId}
-                            label="Client ID"
+                            placeholder="Username"
+                            name="username"
+                            value={formData.username}
+                            label="Username"
                             onChange={formChange}
                         />
                     </div>

@@ -30,6 +30,7 @@ import NotFound from "./screens/NotFound";
 import Auth from "./screens/AuthScreens/auth";
 import PrivateRoute from "./components/PrivateRoute";
 import PrivateRoutes from "./components/PrivateRoute";
+import ResetPassword from "./screens/AuthScreens/ResetPassword";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -51,6 +52,7 @@ root.render(
                                 path="forgot-password"
                                 element={<ForgotPassword />}
                             />
+                            <Route path="reset-password" element={<ResetPassword />} />
                         </Route>
                         <Route element={<PrivateRoutes />}>
                             <Route index element={<DashboardScreen />} />

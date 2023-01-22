@@ -1,8 +1,10 @@
 import React from "react";
 import avatar from "../../assets/images/avatar.svg";
 import Button from "../../components/ButtonComponent";
+import { useAppSelector } from "../../store/hooks";
 
 const Profile = () => {
+    const { customer }: any = useAppSelector((state) => state.auth);
     return (
         <div className="max-w-[570px]">
             <img alt="" src={avatar} className="rounded-full mb-[52px]" />
@@ -15,17 +17,21 @@ const Profile = () => {
                     <input
                         type="text"
                         placeholder="Adesewa Adesewa"
-                        className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
+                        value={customer.firstName + " " + customer.lastName}
+                        className="h-[56px] w-full text-base capitalize mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
+                        disabled
                     />
                 </div>
                 <div>
                     <label className="text-base font-semibold text-primary">
-                        User ID
+                        Username
                     </label>
                     <input
                         type="text"
-                        placeholder="UserID"
+                        placeholder="Username"
+                        value={customer.portalUsername || customer.customerId}
                         className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
+                        disabled
                     />
                 </div>
                 <div>
@@ -35,11 +41,13 @@ const Profile = () => {
                     <input
                         type="text"
                         placeholder="adesewa@emailaddress.com"
+                        value={customer.emailAddress}
                         className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
+                        disabled
                     />
                 </div>
             </div>
-            <Button buttonType="full">Update Information</Button>
+            <Button buttonType="full" disabled>Update Information</Button>
         </div>
     );
 };

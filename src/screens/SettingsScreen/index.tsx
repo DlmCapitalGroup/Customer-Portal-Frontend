@@ -9,8 +9,8 @@ const Settings = () => {
     const tabs = [
         { name: "My Profile", path: "/settings/profile" },
         { name: "Password", path: "/settings/password" },
-        { name: "Notifications", path: "/settings/notifications" },
-        { name: "My Account", path: "/settings/account" },
+        // { name: "Notifications", path: "/settings/notifications" },
+        // { name: "My Account", path: "/settings/account" },
     ];
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const Settings = () => {
                         Settings
                     </h2>
 
-                    <div className="flex justify-between">
+                    <div className="flex space-x-10">
                         {tabs.map((item, index) => (
                             <span
                                 className={`cursor-pointer text-base ${

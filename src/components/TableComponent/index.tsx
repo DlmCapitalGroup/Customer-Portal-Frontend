@@ -1,7 +1,11 @@
 import React from "react";
-import { useTable } from "react-table";
+// import { useTable } from "react-table";
 import chevronRight from "../../assets/images/chevron-right.svg";
 import chevronLeft from "../../assets/images/chevron-left.svg";
+
+type tableProps = {
+    transactions?: Array<any>;
+};
 
 // const Table = (props: any) => {
 //   const {columns, data} = props;
@@ -61,10 +65,55 @@ import chevronLeft from "../../assets/images/chevron-left.svg";
 //     );
 // };
 
-const Table = () => {
+const Table = (props: tableProps) => {
+    const { transactions }: any = props;
+
+    const TransactionList = () => {
+        if (transactions.length > 0) {
+            return (
+                <>
+                    {transactions?.map((item:any, index:any) => (
+                        <div className="flex items-center" key={index}>
+                            <div className="basis-1/4 pl-[54px]">
+                                <h3>{item.transactionType}</h3>
+                            </div>
+                            <div className="basis-1/4 text-center">
+                                <h3>{item.transactionAmount}</h3>
+                            </div>
+                            <div className="basis-1/4 text-center">
+                                <h3>
+                                    {new Date(
+                                        item?.transactionDate
+                                    ).toLocaleDateString()}
+                                </h3>
+                            </div>
+                            <div className="basis-1/4 text-right pr-[54px]">
+                                <h3
+                                    className={`${
+                                        item.transactionStatus === "EXECUTED"
+                                            ? "text-success"
+                                            : "text-error"
+                                    }`}
+                                >
+                                    {item.transactionStatus}
+                                </h3>
+                            </div>
+                        </div>
+                    ))}
+                </>
+            );
+        } else {
+            return (
+                <div className="pl-[20px] text-center text-error">
+                    <h3>No Transactions Found</h3>
+                </div>
+            );
+        }
+    };
+
     return (
-        <div className="text-sm max-w-[1119px]">
-            <div className="rounded-[20px] bg-white-light">
+        <div className="text-sm max-w-[1119px] h-full grow flex flex-col">
+            <div className="rounded-[20px] bg-white-light flex flex-col grow">
                 <div className="flex bg-primary rounded-[20px] h-[65.2px] text-white items-center text-base">
                     <div className="basis-1/4 pl-[54px]">
                         <h3>Type</h3>
@@ -79,29 +128,8 @@ const Table = () => {
                         <h3>Status</h3>
                     </div>
                 </div>
-                <div className="flex flex-col space-y-10 py-10">
-                    {[
-                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                    ].map((item, index) => (
-                        <div className="flex items-center">
-                            <div className="basis-1/4 pl-[54px]">
-                                <h3>Car Investment</h3>
-                            </div>
-                            <div className="basis-1/4 text-center">
-                                <h3>500,000.67</h3>
-                            </div>
-                            <div className="basis-1/4 text-center">
-                                <h3>13 June, 2022</h3>
-                            </div>
-                            <div className="basis-1/4 text-right pr-[54px]">
-                                {index % 3 === 0 ? (
-                                    <h3 className="text-error">Failed</h3>
-                                ) : (
-                                    <h3 className="text-success">Successful</h3>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+                <div className="flex flex-col space-y-10 py-10 grow">
+                    <TransactionList />
                 </div>
             </div>
             <div className="flex justify-between mt-6 items-center">

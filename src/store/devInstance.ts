@@ -1,7 +1,7 @@
 import axios from "axios";
 // import { API_URL } from '../../config/app.config';
 
-const API_URL = "http://102.133.161.128/DLMAssetMgtCustomerPortal/api/v1";
+const API_URL = "https://102.133.161.128/DLMAssetMgtCustomerPortal/api/v1";
 
 export const devInstance = axios.create({
     baseURL: API_URL,
