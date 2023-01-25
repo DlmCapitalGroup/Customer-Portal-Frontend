@@ -17,7 +17,7 @@ const Input = (props: InputProps) => {
     const { type, label, isPassword } = props;
     const [show, setShow] = React.useState(false);
     return (
-        <div>
+        <div className="w-full">
             {label && (
                 <label className="text-base font-semibold text-primary">
                     {label}

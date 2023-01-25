@@ -17,7 +17,7 @@ const Profile = () => {
                     <input
                         type="text"
                         placeholder="Adesewa Adesewa"
-                        value={customer.firstName + " " + customer.lastName}
+                        value={customer && (customer?.firstName + " " + customer?.lastName)}
                         className="h-[56px] w-full text-base capitalize mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
                         disabled
                     />
@@ -29,7 +29,7 @@ const Profile = () => {
                     <input
                         type="text"
                         placeholder="Username"
-                        value={customer.portalUsername || customer.customerId}
+                        value={customer?.portalUsername || customer?.customerId}
                         className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
                         disabled
                     />
@@ -41,7 +41,7 @@ const Profile = () => {
                     <input
                         type="text"
                         placeholder="adesewa@emailaddress.com"
-                        value={customer.emailAddress}
+                        value={customer?.emailAddress}
                         className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
                         disabled
                     />

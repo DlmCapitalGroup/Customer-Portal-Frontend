@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Button from "../../components/ButtonComponent";
 import { Input } from "../../components/FormElements";
+import Loader from "../../components/LoaderComponent";
 import AuthLayout from "../../layouts/AuthLayout";
+import { loginUser, resetPassword, setLoading } from "../../store/auth-slice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
     const [formData, setFormData] = React.useState({
         password: "",
         confirmPassword: "",
-        email: searchParams.get('email'),
-        token: searchParams.get('token')
-
+        email: searchParams.get("email"),
+        token: searchParams.get("token"),
     });
 
-    const reset = () => {};
+    const dispatch = useAppDispatch();
+    const { loading }: any = useAppSelector((state) => state.auth);
 
     const formChange = (e: any) => {
         setFormData((prevState) => ({
@@ -22,7 +25,26 @@ const ResetPassword = () => {
             [e.target.name]: e.target.value,
         }));
     };
-    
+
+    const reset = async (e: any) => {
+        e.preventDefault();
+        dispatch(setLoading(true));
+        let res: any = await dispatch(
+            loginUser({
+                username: "hamzah",
+                password: "Ade@125",
+            })
+        );
+
+        let errors =
+            res.meta.rejectedWithValue === true ||
+            res.meta.requestStatus === "rejected";
+
+        if (!errors) {
+            await dispatch(resetPassword(formData));
+        }
+    };
+
     return (
         <AuthLayout>
             <div className="text-primary w-[334px] mx-auto">
@@ -35,15 +57,14 @@ const ResetPassword = () => {
 
                 <form onSubmit={reset}>
                     <div className="mb-10">
-                        <label className="text-base font-semibold text-primary">
-                            New Password
-                        </label>
                         <Input
+                            label="New Password"
+                            name="password"
                             isPassword
                             value={formData.password}
                             placeholder="Password"
-                            name="password"
                             onChange={formChange}
+                            required
                         />
                     </div>
                     <div className="mb-10">
@@ -56,22 +77,24 @@ const ResetPassword = () => {
                             placeholder="Confirm Password"
                             name="confirmPassword"
                             onChange={formChange}
+                            required
                         />
                     </div>
                     <div className="text-center mb-10">
-                        <Button buttonType="md">Save</Button>
+                        <Button buttonType="md">Reset password</Button>
                     </div>
 
                     <p className="text-base text-primary/50 text-center">
                         Go back to{" "}
                         <Link
-                            to="/sign-in"
+                            to="/auth/sign-in"
                             className="text-primary/80 font-semibold"
                         >
                             Sign In
                         </Link>
                     </p>
                 </form>
+                {loading && <Loader />}
             </div>
         </AuthLayout>
     );

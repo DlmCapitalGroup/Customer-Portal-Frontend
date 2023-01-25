@@ -12,6 +12,8 @@ import Button from "../../components/ButtonComponent";
 import { devInstance } from "../../store/devInstance";
 import { useAppSelector } from "../../store/hooks";
 import CustomChart from "../../components/pieChart";
+import Loader from "../../components/LoaderComponent";
+import { toast } from "react-toastify";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -30,15 +32,18 @@ const DashboardScreen = () => {
     ];
 
     const [transactions, setTransactions] = React.useState([]);
+    const [news, setNews] = React.useState([]);
 
     const { customer }: any = useAppSelector((state) => state.auth);
 
     const [overviewData, setOverViewData] = React.useState<any>({});
+    const [loading, setLoading] = React.useState(false);
 
     const navigate = useNavigate();
 
     const fetchData = useCallback(() => {
         if (customer?.customerId) {
+            setLoading(true);
             devInstance
                 .get("/Dashboard/GetTransactionDetails", {
                     params: { CustomerId: customer?.customerId },
@@ -47,7 +52,8 @@ const DashboardScreen = () => {
                     setOverViewData(res.data);
                     console.log(res.data.details, "details");
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => toast(`${err}`))
+                .finally(() => setLoading(false));
 
             devInstance
                 .get("/Dashboard/GetTransactions", {
@@ -56,7 +62,16 @@ const DashboardScreen = () => {
                 .then((res: any) => {
                     setTransactions(res?.data?.data?.pageItems);
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => toast(`${err}`))
+                .finally(() => setLoading(false));
+
+            devInstance
+                .get("/Dashboard/News-Updates")
+                .then((res: any) => {
+                    setNews(res?.data?.data?.pageItems);
+                })
+                .catch((err) => toast(`${err}`))
+                .finally(() => setLoading(false));
         }
     }, [customer?.customerId]);
 
@@ -65,10 +80,10 @@ const DashboardScreen = () => {
     }, [fetchData]);
 
     const TransactionList = () => {
-        if (transactions.length > 0) {
+        if (transactions?.length > 0) {
             return (
                 <>
-                    {transactions.map((item: any, index: number) => (
+                    {transactions?.map((item: any, index: number) => (
                         <div className="flex items-center">
                             <div className="basis-1/4 pl-[20px]">
                                 <h3>{item?.transactionType}</h3>
@@ -193,7 +208,7 @@ const DashboardScreen = () => {
                                             <p>Wallet</p>
                                             <p className="font-semibold">
                                                 ₦{" "}
-                                                {(customer.cashAccountBalance &&
+                                                {(customer?.cashAccountBalance &&
                                                     customer?.cashAccountBalance.slice(
                                                         3
                                                     )) ||
@@ -329,52 +344,33 @@ const DashboardScreen = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-[420px] rounded-[20px] bg-white-light py-[18px] px-8">
+                            <div className="w-[420px] rounded-[20px] bg-white-light py-[18px] px-8 overflow-y-auto">
                                 <h3 className="text-base font-semibold mb-5">
                                     News & Updates
                                 </h3>
                                 <div className="text-sm flex flex-col space-y-4">
-                                    <div className="flex items-start space-x-3">
-                                        <span className="w-3 h-3 rounded-full bg-primary/60 mt-1.5"></span>
-                                        <span>
-                                            Dollar to Naira exchange rate is now
-                                            at 680 naira to a dollar
-                                        </span>
-                                    </div>
-                                    <div className="flex items-start space-x-3">
-                                        <span className="w-3 h-3 rounded-full bg-primary/60 mt-1.5"></span>
-                                        <span>
-                                            Dollar to Naira exchange rate is now
-                                            at 680 naira to a dollar
-                                        </span>
-                                    </div>
-                                    <div className="flex items-start space-x-3">
-                                        <span className="w-3 h-3 rounded-full bg-primary/60 mt-1.5"></span>
-                                        <span>
-                                            Dollar to Naira exchange rate is now
-                                            at 680 naira to a dollar
-                                        </span>
-                                    </div>
-                                    <div className="flex items-start space-x-3">
-                                        <span className="w-3 h-3 rounded-full bg-primary/60 mt-1.5"></span>
-                                        <span>
-                                            Dollar to Naira exchange rate is now
-                                            at 680 naira to a dollar
-                                        </span>
-                                    </div>
-                                    <div className="flex items-start space-x-3">
-                                        <span className="w-3 h-3 rounded-full bg-primary/60 mt-1.5"></span>
-                                        <span>
-                                            Dollar to Naira exchange rate is now
-                                            at 680 naira to a dollar
-                                        </span>
-                                    </div>
+                                    {news.length ? (
+                                        news?.map((item, index) => (
+                                            <div
+                                                className="flex items-start space-x-3"
+                                                key={index}
+                                            >
+                                                <span className="w-3 h-3 rounded-full bg-primary/60 mt-1.5"></span>
+                                                <span>{item}</span>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <h3 className="text-error">
+                                            No News Found
+                                        </h3>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {loading && <Loader />}
         </DashboardLayout>
     );
 };

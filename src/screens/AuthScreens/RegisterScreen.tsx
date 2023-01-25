@@ -9,6 +9,7 @@ import {
 } from "../../store/auth-slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Input } from "../../components/FormElements";
+import Loader from "../../components/LoaderComponent";
 
 const Register = () => {
     const [formData, setFormData] = React.useState({
@@ -35,7 +36,7 @@ const Register = () => {
 
     const register = async (e: any) => {
         e.preventDefault();
-        dispatch(setLoading());
+        dispatch(setLoading(true));
         let res: any = await dispatch(
             loginUser({
                 username: "hamzah",
@@ -73,6 +74,7 @@ const Register = () => {
                             placeholder="First Name"
                             name="firstName"
                             onChange={formChange}
+                            required
                         />
                     </div>
                     <div>
@@ -82,6 +84,7 @@ const Register = () => {
                             placeholder="Last Name"
                             name="lastName"
                             onChange={formChange}
+                            required
                         />
                     </div>
                     <div>
@@ -94,6 +97,7 @@ const Register = () => {
                             className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
                             name="email"
                             onChange={formChange}
+                            required
                         />
                     </div>
                     <div>
@@ -103,6 +107,7 @@ const Register = () => {
                             placeholder="Username"
                             name="username"
                             onChange={formChange}
+                            required
                         />
                     </div>
                     <div>
@@ -112,6 +117,7 @@ const Register = () => {
                             placeholder=" Phone Number"
                             name="phoneNumber"
                             onChange={formChange}
+                            required
                         />
                     </div>
                     <div>
@@ -121,6 +127,7 @@ const Register = () => {
                             name="password"
                             isPassword
                             onChange={formChange}
+                            required
                         />
                     </div>
                     <div>
@@ -130,6 +137,7 @@ const Register = () => {
                             name="confirmPassword"
                             isPassword
                             onChange={formChange}
+                            required
                         />
                     </div>
 
@@ -183,6 +191,7 @@ const Register = () => {
                     </div>
                 </form>
             </div>
+            {loading && <Loader />}
         </AuthLayout>
     );
 };

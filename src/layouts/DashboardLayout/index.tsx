@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import logoSm from "../../assets/images/logo-sm.svg";
+// import logoSm from "../../assets/images/logo-sm.svg";
 import logoLg from "../../assets/images/logo-lg.svg";
 import { Link, useLocation } from "react-router-dom";
 import dashboardIcon from "../../assets/images/dashboard-icon.svg";
 import transactionsIcon from "../../assets/images/transactions-icon.svg";
-import planIcon from "../../assets/images/plan-icon.svg";
-import supportIcon from "../../assets/images/support-icon.svg";
-import notificationIcon from "../../assets/images/notification-icon.svg";
+// import planIcon from "../../assets/images/plan-icon.svg";
+// import supportIcon from "../../assets/images/support-icon.svg";
+// import notificationIcon from "../../assets/images/notification-icon.svg";
 import settingsIcon from "../../assets/images/settings-icon.svg";
 import logoutIcon from "../../assets/images/logout-icon.svg";
-import userIcon from "../../assets/images/user-icon.svg";
+import userIcon from "../../assets/images/avatar.svg";
 import activeIcon from "../../assets/images/active-icon.svg";
-import notebookIcon from "../../assets/images/notebook.svg";
+// import notebookIcon from "../../assets/images/notebook.svg";
 import dashboardBg from "../../assets/images/bg-dashboard.svg";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { logout } from "../../store/auth-slice";
@@ -124,7 +124,7 @@ const DashboardLayout = (props: dashboardProps) => {
                                     index === 1 && dispatch(logout())
                                 }
                             >
-                                <img alt="" src={link.icon} />{" "}
+                                <img alt="" src={link.icon} className={index === 0 ? "w-6 h-6": ""} />{" "}
                                 <span className="text-base text-white ml-[25px] capitalize">
                                     {link?.name && link?.name}
                                 </span>

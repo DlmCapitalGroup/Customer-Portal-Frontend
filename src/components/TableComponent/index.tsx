@@ -72,7 +72,7 @@ const Table = (props: tableProps) => {
         if (transactions.length > 0) {
             return (
                 <>
-                    {transactions?.map((item:any, index:any) => (
+                    {transactions?.map((item: any, index: any) => (
                         <div className="flex items-center" key={index}>
                             <div className="basis-1/4 pl-[54px]">
                                 <h3>{item.transactionType}</h3>

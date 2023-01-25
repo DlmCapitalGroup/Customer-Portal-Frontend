@@ -5,6 +5,7 @@ import AuthLayout from "../../layouts/AuthLayout";
 import { Input } from "../../components/FormElements";
 import { loginCustomer, loginUser, setLoading } from "../../store/auth-slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import Loader from "../../components/LoaderComponent";
 
 function Login() {
     const [formData, setFormData] = React.useState({
@@ -25,7 +26,7 @@ function Login() {
 
     const login = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(setLoading());
+        dispatch(setLoading(true));
         let res: any = await dispatch(
             loginUser({
                 username: "hamzah",
@@ -60,6 +61,7 @@ function Login() {
                             value={formData.username}
                             label="Username"
                             onChange={formChange}
+                            required
                         />
                     </div>
                     <div>
@@ -73,6 +75,7 @@ function Login() {
                                 placeholder="Password"
                                 name="password"
                                 onChange={formChange}
+                                required
                             />
                         </div>
                     </div>
@@ -120,6 +123,7 @@ function Login() {
                     </p>
                 </form>
             </div>
+            {loading && <Loader />}
         </AuthLayout>
     );
 }

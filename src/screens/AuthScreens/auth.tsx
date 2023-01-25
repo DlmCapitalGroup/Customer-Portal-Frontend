@@ -11,18 +11,18 @@ const Auth = () => {
     let localCustomer:any = localStorage.getItem("customer");
     let customer = JSON.parse(localCustomer);
     const dispatch = useAppDispatch();
-    useEffect(() => {
-        if (user) {
-            setAuthToken(user.token)
-            if(customer) {
-                dispatch(setCustomer(customer))
-                navigate("/")
-            }
-        }
-        if (location.pathname === "/auth") {
-            navigate("/auth/sign-in");
-        }
-    }, [customer, dispatch, location.pathname, navigate, user])
+    // useEffect(() => {
+    //     if (user) {
+    //         setAuthToken(user.token)
+    //         if(customer) {
+    //             dispatch(setCustomer(customer))
+    //             navigate("/")
+    //         }
+    //     }
+    //     if (location.pathname === "/auth") {
+    //         navigate("/auth/sign-in");
+    //     }
+    // }, [customer, dispatch, location.pathname, navigate, user])
     return <Outlet />;
 };
 

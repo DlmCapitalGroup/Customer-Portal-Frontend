@@ -7,10 +7,8 @@ interface AuthState {
     customer: object | null;
     token: string;
     loading: boolean;
-    error: any;
-    success: boolean;
-    authenticated: boolean;
-    registered: boolean;
+    customerRegData: object | null;
+    customerRegRes: object | null;
 }
 
 const initialState: AuthState = {
@@ -18,10 +16,9 @@ const initialState: AuthState = {
     customer: null,
     token: "",
     loading: false,
-    error: null,
-    success: false,
-    authenticated: false,
-    registered: false,
+    customerRegData: null,
+    customerRegRes: null,
+
 };
 
 export const loginUser = createAsyncThunk(
@@ -130,6 +127,21 @@ export const updatePassword = createAsyncThunk(
     }
 );
 
+export const resetPassword = createAsyncThunk(
+    "Authentication/UpdatePassword",
+    async (customerDetails: object, thunkAPI) => {
+        try {
+            return await authService.resetPassword(customerDetails);
+        } catch (error: any) {
+            const message =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -140,12 +152,8 @@ const authSlice = createSlice({
         setCustomer: (state, action) => {
             state.customer = action.payload;
         },
-        setLoading: (state) => {
-            if (state.loading === false) {
-                state.loading = true;
-            } else {
-                state.loading = false;
-            }
+        setLoading: (state, action) => {
+            state.loading = action.payload;
         },
         logout: (state) => {
             state.user = null;
@@ -168,8 +176,6 @@ const authSlice = createSlice({
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
-                console.log("error");
-                state.error = action.payload;
                 toast.error(`${action.payload}`);
             })
             .addCase(loginCustomer.pending, (state) => {
@@ -178,15 +184,11 @@ const authSlice = createSlice({
             .addCase(loginCustomer.fulfilled, (state, action) => {
                 state.customer = action.payload;
                 state.loading = false;
-                state.authenticated = true;
                 toast.success("Login Successful");
             })
             .addCase(loginCustomer.rejected, (state, action) => {
                 state.loading = false;
-                state.authenticated = false;
-                state.error = action.payload;
                 toast.error(`${action.payload}`);
-                console.log(action.payload);
             })
             .addCase(registerCustomer.pending, (state) => {
                 state.loading = true;
@@ -194,14 +196,10 @@ const authSlice = createSlice({
             .addCase(registerCustomer.fulfilled, (state, action) => {
                 state.customer = action.payload;
                 state.loading = false;
-                state.registered = true;
-                // toast.success("Your account has been created!");
                 toast.success("Check your email inbox or spam for OTP");
             })
             .addCase(registerCustomer.rejected, (state, action) => {
                 state.loading = false;
-                state.authenticated = false;
-                state.error = action.payload;
                 toast.error(`${action.payload}`);
             })
             .addCase(forgottenPassword.pending, (state) => {
@@ -226,15 +224,14 @@ const authSlice = createSlice({
                 state.loading = false;
                 toast.error(`${action.payload}`);
             })
-            .addCase(updatePassword.pending, (state) => {
+            .addCase(resetPassword.pending, (state) => {
                 state.loading = true;
-                console.log("pending")
             })
-            .addCase(updatePassword.fulfilled, (state) => {
+            .addCase(resetPassword.fulfilled, (state) => {
                 state.loading = false;
                 toast.success("Password has been changed successfully");
             })
-            .addCase(updatePassword.rejected, (state, action) => {
+            .addCase(resetPassword.rejected, (state, action) => {
                 state.loading = false;
                 toast.error(`${action.payload}`);
             });

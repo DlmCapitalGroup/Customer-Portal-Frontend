@@ -2,6 +2,7 @@ import React from "react";
 import lock from "../../assets/images/lock.svg";
 import Button from "../../components/ButtonComponent";
 import { Input } from "../../components/FormElements";
+import Loader from "../../components/LoaderComponent";
 import { setLoading, updatePassword } from "../../store/auth-slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
@@ -25,10 +26,10 @@ const Password = () => {
 
     const changePassword = async (e: any) => {
         e.preventDefault();
-        dispatch(setLoading());
+        dispatch(setLoading(true));
         await dispatch(
             updatePassword({
-                email: customer.emailAddress,
+                email: customer?.emailAddress,
                 currentPassword: formData.currentPassword,
                 newPassword: formData.newPassword,
                 confirmPassword: formData.confirmPassword,
@@ -69,7 +70,7 @@ const Password = () => {
                         <Input
                             isPassword
                             placeholder="Confirm Password"
-                            label="Cpnfirm Password"
+                            label="Confirm Password"
                             name="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={formChange}
@@ -100,6 +101,7 @@ const Password = () => {
                     )}
                 </Button>
             </form>
+            {loading && <Loader />}
         </div>
     );
 };

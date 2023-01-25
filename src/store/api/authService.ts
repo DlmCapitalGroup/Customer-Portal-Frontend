@@ -57,6 +57,14 @@ const updatePassword = async (customerDetails: object) => {
     return res.data;
 };
 
+const resetPassword = async (customerDetails: object) => {
+    const res = await devInstance.patch(
+        "/Authentication/ResetPassword",
+        customerDetails
+    );
+    return res.data;
+};
+
 const authService = {
     loginCustomer,
     loginUser,
@@ -65,6 +73,7 @@ const authService = {
     confirmCustomer,
     resendOtp,
     updatePassword,
+    resetPassword
 };
 
 export default authService;

@@ -15,21 +15,22 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { devInstance } from "../../store/devInstance";
 import { store } from "../../store";
+import Loader from "../../components/LoaderComponent";
 
 const ConfirmEmail = () => {
     const dispatch = useAppDispatch();
     const location: any = useLocation();
     const navigate = useNavigate();
-    
+
     let stateParams = location?.state?.data;
     let localStateParams: any = localStorage.getItem("customerRegRes");
-    let parsedLocalStateParams = JSON.parse(localStateParams)
+    let parsedLocalStateParams = JSON.parse(localStateParams);
 
     let localCustomer: any = localStorage.getItem("customerRegData");
-    let customer = JSON.parse(localCustomer)
+    let customer = JSON.parse(localCustomer);
 
     let localUser: any = localStorage.getItem("user");
-    let user = JSON.parse(localUser)
+    let user = JSON.parse(localUser);
 
     console.log(stateParams, "stateParams");
 
@@ -39,68 +40,30 @@ const ConfirmEmail = () => {
         otp: "",
     });
 
-
-
     const onChange = (value: string) => setState({ ...state, otp: value });
-    // let customer: any = (localStorage.getItem("customerRegData"));
-    // let parseUser = JSON.parse(customer)
-    // console.log(parseUser, 'gdgdg')
-    // const loginOtpUser = async (data: any) => {
-    //     try {
-    //         const res: any = await devInstance.post(
-    //             "/Authentication/CustomerLogin",
-    //             data
-    //         );
-
-    //         if (res?.data) {
-    //             localStorage.setItem(
-    //                 "customer",
-    //                 JSON.stringify(res?.data?.details)
-    //             );
-    //             console.log(res?.data?.details);
-    //         }
-    //         await store.dispatch(updateCustomer(res.data.details));
-    //         await navigate("/auth/sign-in");
-    //         toast.success("Welcome to Asset Management!");
-    //     } catch (error: any) {
-    //         const message =
-    //             (error.response && error.response.data) ||
-    //             error.message ||
-    //             error.toString();
-    //         toast.error(`${message}`);
-    //     }
-    // };
 
     const confirmOtp = async () => {
         let res: any = await dispatch(confirmCustomer(state));
-        
-        // const data = {
-        //     username: customer.username,
-        //     password: customer.password,
-        // };
         if (res && customer) {
             await dispatch(
                 loginCustomer({
-            username: customer.username,
-            password: customer.password,
+                    username: customer.username,
+                    password: customer.password,
                 })
             );
-            // loginOtpUser(data);
         }
         console.log(customer);
-        if(customer) {
-            navigate("/");
-        }
+        navigate("/");
     };
 
     const { loading }: any = useAppSelector((state) => state.auth);
-    
+
     const resendOtp = async () => {
-        setAuthToken(user.token)
+        setAuthToken(user.token);
         if (customer) {
             await dispatch(resendOtpCode(customer.email));
         }
-    }
+    };
 
     return (
         <AuthLayout>
@@ -156,6 +119,7 @@ const ConfirmEmail = () => {
                     </span>
                 </p>
             </div>
+            {loading && <Loader />}
         </AuthLayout>
     );
 };

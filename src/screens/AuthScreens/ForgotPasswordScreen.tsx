@@ -1,10 +1,10 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../../components/ButtonComponent";
+import { Input } from "../../components/FormElements";
+import Loader from "../../components/LoaderComponent";
 import AuthLayout from "../../layouts/AuthLayout";
 import { forgottenPassword, loginUser, setLoading } from "../../store/auth-slice";
-import { devInstance } from "../../store/devInstance";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const ForgotPassword = () => {
@@ -16,7 +16,7 @@ const ForgotPassword = () => {
     }
     const forgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(setLoading());
+        dispatch(setLoading(true));
         let res: any = await dispatch(
             loginUser({
                 username: "hamzah",
@@ -34,11 +34,6 @@ const ForgotPassword = () => {
             );
         }
 
-
-
-        // await devInstance.post("/Authentication/ForgotPassword", {
-        //     email: email,
-        // });
     };
 
     return (
@@ -50,16 +45,7 @@ const ForgotPassword = () => {
 
                 <form onSubmit={forgotPassword}>
                     <div className="mb-10">
-                        <label className="text-base font-semibold text-primary">
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
-                            onChange={setDetail}
-                            value={email}
-                        />
+                        <Input label="Email" type="email" name="email" placeholder="Email" value={email} onChange={setDetail} required />
                     </div>
 
                     <div className="text-center mb-10">
@@ -98,6 +84,7 @@ const ForgotPassword = () => {
                     </p>
                 </form>
             </div>
+            {loading && <Loader />}
         </AuthLayout>
     );
 };
