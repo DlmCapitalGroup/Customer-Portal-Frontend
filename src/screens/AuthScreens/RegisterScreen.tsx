@@ -49,7 +49,7 @@ const Register = () => {
 
         if (!errors) {
             let signupRes: any = await dispatch(registerCustomer(formData));
-            // console.log(signupRes, 'signupRes')
+            console.log(signupRes, 'signupRes')
             let resCheck = signupRes.meta.requestStatus === "fulfilled";
             localStorage.setItem("customerRegData", JSON.stringify(formData))
             localStorage.setItem("customerRegRes", JSON.stringify(signupRes.payload));

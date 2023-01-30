@@ -23,3 +23,7 @@ body {
 ::-webkit-scrollbar-thumb {
     @apply bg-primary rounded-xl;
 }
+
+*:disabled {
+    @apply cursor-not-allowed;
+}

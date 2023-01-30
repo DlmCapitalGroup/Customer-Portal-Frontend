@@ -11,7 +11,7 @@ function App() {
 
     useEffect(() => {
         if (user) {
-            setAuthToken(user.token);
+            setAuthToken(user?.token);
             if (customer) {
                 dispatch(setCustomer(customer));
             }

@@ -7,8 +7,6 @@ interface AuthState {
     customer: object | null;
     token: string;
     loading: boolean;
-    customerRegData: object | null;
-    customerRegRes: object | null;
 }
 
 const initialState: AuthState = {
@@ -16,9 +14,6 @@ const initialState: AuthState = {
     customer: null,
     token: "",
     loading: false,
-    customerRegData: null,
-    customerRegRes: null,
-
 };
 
 export const loginUser = createAsyncThunk(
@@ -158,9 +153,11 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.customer = null;
-            localStorage.removeItem("user");
-            localStorage.removeItem("customer");
+            // localStorage.removeItem("user");
+            // localStorage.removeItem("customer");
             setAuthToken(null);
+            state.loading = false;
+            toast.success("Logged out successfully!");
         },
         updateCustomer: (state, action) => {
             state.customer = action.payload;
@@ -176,7 +173,7 @@ const authSlice = createSlice({
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
-                toast.error(`${action.payload}`);
+                toast.error("Contact Your Service Provider");
             })
             .addCase(loginCustomer.pending, (state) => {
                 state.loading = true;

@@ -52,7 +52,13 @@ const DashboardScreen = () => {
                     setOverViewData(res.data);
                     console.log(res.data.details, "details");
                 })
-                .catch((err) => toast(`${err}`))
+                .catch((error: any) => {
+                    const message =
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString();
+                    console.log(message);
+                })
                 .finally(() => setLoading(false));
 
             devInstance
@@ -62,7 +68,13 @@ const DashboardScreen = () => {
                 .then((res: any) => {
                     setTransactions(res?.data?.data?.pageItems);
                 })
-                .catch((err) => toast(`${err}`))
+                .catch((error: any) => {
+                    const message =
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString();
+                    console.log(message);
+                })
                 .finally(() => setLoading(false));
 
             devInstance
@@ -70,7 +82,13 @@ const DashboardScreen = () => {
                 .then((res: any) => {
                     setNews(res?.data?.data?.pageItems);
                 })
-                .catch((err) => toast(`${err}`))
+                .catch((error: any) => {
+                    const message =
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString();
+                    console.log(message);
+                })
                 .finally(() => setLoading(false));
         }
     }, [customer?.customerId]);

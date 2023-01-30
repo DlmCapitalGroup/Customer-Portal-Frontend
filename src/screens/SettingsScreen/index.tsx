@@ -14,10 +14,10 @@ const Settings = () => {
     ];
 
     useEffect(() => {
-        if(location.pathname === "/settings") {
-            navigate("/settings/profile")
+        if (location.pathname === "/settings") {
+            navigate("/settings/profile");
         }
-    }, [location, navigate])
+    }, [location, navigate]);
 
     return (
         <DashboardLayout>
@@ -35,7 +35,10 @@ const Settings = () => {
                                     "border-b-[2.5px] border-primary"
                                 }`}
                                 key={index}
-                                onClick={() => {navigate(item.path); setActiveTab(index)}}
+                                onClick={() => {
+                                    navigate(item.path);
+                                    setActiveTab(index);
+                                }}
                             >
                                 {item.name}
                             </span>

@@ -1,9 +1,11 @@
 import React from "react";
 import avatar from "../../assets/images/avatar.svg";
 import Button from "../../components/ButtonComponent";
+import Loader from "../../components/LoaderComponent";
 import { useAppSelector } from "../../store/hooks";
 
 const Profile = () => {
+    // const [loading, setLoadiing] = React.useState(false);
     const { customer }: any = useAppSelector((state) => state.auth);
     return (
         <div className="max-w-[570px]">
@@ -17,7 +19,10 @@ const Profile = () => {
                     <input
                         type="text"
                         placeholder="Adesewa Adesewa"
-                        value={customer && (customer?.firstName + " " + customer?.lastName)}
+                        value={
+                            customer &&
+                            customer?.firstName + " " + customer?.lastName
+                        }
                         className="h-[56px] w-full text-base capitalize mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
                         disabled
                     />
@@ -47,7 +52,10 @@ const Profile = () => {
                     />
                 </div>
             </div>
-            <Button buttonType="full" disabled>Update Information</Button>
+            <Button buttonType="full" disabled>
+                Update Information
+            </Button>
+            {/* {loading && <Loader />} */}
         </div>
     );
 };

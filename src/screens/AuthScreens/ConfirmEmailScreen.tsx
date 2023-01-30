@@ -8,6 +8,7 @@ import {
     loginCustomer,
     resendOtpCode,
     setAuthToken,
+    setLoading,
     updateCustomer,
 } from "../../store/auth-slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -21,6 +22,7 @@ const ConfirmEmail = () => {
     const dispatch = useAppDispatch();
     const location: any = useLocation();
     const navigate = useNavigate();
+    const { loading }: any = useAppSelector((state) => state.auth);
 
     let stateParams = location?.state?.data;
     let localStateParams: any = localStorage.getItem("customerRegRes");
@@ -43,6 +45,7 @@ const ConfirmEmail = () => {
     const onChange = (value: string) => setState({ ...state, otp: value });
 
     const confirmOtp = async () => {
+        dispatch(setLoading(true))
         let res: any = await dispatch(confirmCustomer(state));
         if (res && customer) {
             await dispatch(
@@ -51,14 +54,12 @@ const ConfirmEmail = () => {
                     password: customer.password,
                 })
             );
+            navigate("/");
         }
-        console.log(customer);
-        navigate("/");
     };
 
-    const { loading }: any = useAppSelector((state) => state.auth);
-
     const resendOtp = async () => {
+        dispatch(setLoading(true))
         setAuthToken(user.token);
         if (customer) {
             await dispatch(resendOtpCode(customer.email));

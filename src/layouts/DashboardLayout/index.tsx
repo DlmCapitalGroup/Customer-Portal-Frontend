@@ -14,7 +14,8 @@ import activeIcon from "../../assets/images/active-icon.svg";
 // import notebookIcon from "../../assets/images/notebook.svg";
 import dashboardBg from "../../assets/images/bg-dashboard.svg";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { logout } from "../../store/auth-slice";
+import { logout, setLoading } from "../../store/auth-slice";
+import Loader from "../../components/LoaderComponent";
 
 interface dashboardProps {
     children: React.ReactNode;
@@ -22,7 +23,7 @@ interface dashboardProps {
 }
 
 const DashboardLayout = (props: dashboardProps) => {
-    const { customer }: any = useAppSelector((state) => state.auth);
+    const { customer, loading }: any = useAppSelector((state) => state.auth);
     const { children, onClick } = props;
     const location = useLocation();
     console.log(location.pathname);
@@ -120,11 +121,19 @@ const DashboardLayout = (props: dashboardProps) => {
                             <Link
                                 to={index === 0 ? link.path : ""}
                                 className="flex pl-[15px] items-center"
-                                onClick={() =>
-                                    index === 1 && dispatch(logout())
-                                }
+                                onClick={() => {
+                                    dispatch(setLoading(true));
+                                    index === 1 &&
+                                        setTimeout(() => {
+                                            dispatch(logout());
+                                        }, 1500);
+                                }}
                             >
-                                <img alt="" src={link.icon} className={index === 0 ? "w-6 h-6": ""} />{" "}
+                                <img
+                                    alt=""
+                                    src={link.icon}
+                                    className={index === 0 ? "w-6 h-6" : ""}
+                                />{" "}
                                 <span className="text-base text-white ml-[25px] capitalize">
                                     {link?.name && link?.name}
                                 </span>
@@ -134,6 +143,7 @@ const DashboardLayout = (props: dashboardProps) => {
                 </div>
             </div>
             <div className="ml-[250px] pb-20">{children}</div>
+            {loading && <Loader />}
         </div>
     );
 };
