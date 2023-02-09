@@ -4,7 +4,11 @@ import Button from "../../components/ButtonComponent";
 import { Input } from "../../components/FormElements";
 import Loader from "../../components/LoaderComponent";
 import AuthLayout from "../../layouts/AuthLayout";
-import { forgottenPassword, loginUser, setLoading } from "../../store/auth-slice";
+import {
+    forgottenPassword,
+    loginUser,
+    setLoading,
+} from "../../store/auth-slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const ForgotPassword = () => {
@@ -29,11 +33,9 @@ const ForgotPassword = () => {
             res.meta.requestStatus === "rejected";
 
         if (!errors) {
-            await dispatch(
-                forgottenPassword(email)
-            );
+            await dispatch(forgottenPassword(email));
+            setEmail("");
         }
-
     };
 
     return (
@@ -45,7 +47,15 @@ const ForgotPassword = () => {
 
                 <form onSubmit={forgotPassword}>
                     <div className="mb-10">
-                        <Input label="Email" type="email" name="email" placeholder="Email" value={email} onChange={setDetail} required />
+                        <Input
+                            label="Email"
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={setDetail}
+                            required
+                        />
                     </div>
 
                     <div className="text-center mb-10">

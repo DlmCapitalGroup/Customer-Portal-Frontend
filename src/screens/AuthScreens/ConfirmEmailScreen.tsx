@@ -22,7 +22,7 @@ const ConfirmEmail = () => {
     const dispatch = useAppDispatch();
     const location: any = useLocation();
     const navigate = useNavigate();
-    const { loading }: any = useAppSelector((state) => state.auth);
+    const { loading, user }: any = useAppSelector((state) => state.auth);
 
     let stateParams = location?.state?.data;
     let localStateParams: any = localStorage.getItem("customerRegRes");
@@ -30,9 +30,6 @@ const ConfirmEmail = () => {
 
     let localCustomer: any = localStorage.getItem("customerRegData");
     let customer = JSON.parse(localCustomer);
-
-    let localUser: any = localStorage.getItem("user");
-    let user = JSON.parse(localUser);
 
     console.log(stateParams, "stateParams");
 
@@ -45,21 +42,30 @@ const ConfirmEmail = () => {
     const onChange = (value: string) => setState({ ...state, otp: value });
 
     const confirmOtp = async () => {
-        dispatch(setLoading(true))
+        dispatch(setLoading(true));
         let res: any = await dispatch(confirmCustomer(state));
         if (res && customer) {
-            await dispatch(
+            const resp:any = await dispatch(
                 loginCustomer({
                     username: customer.username,
                     password: customer.password,
                 })
             );
-            navigate("/");
+
+            let errors =
+                resp.meta.rejectedWithValue === true ||
+                resp.meta.requestStatus === "rejected";
+
+            if (!errors) {
+                localStorage.removeItem("customerRegRes");
+                localStorage.removeItem("customerRegData");
+                navigate("/");
+            }
         }
     };
 
     const resendOtp = async () => {
-        dispatch(setLoading(true))
+        dispatch(setLoading(true));
         setAuthToken(user.token);
         if (customer) {
             await dispatch(resendOtpCode(customer.email));

@@ -11,7 +11,7 @@ import settingsIcon from "../../assets/images/settings-icon.svg";
 import logoutIcon from "../../assets/images/logout-icon.svg";
 import userIcon from "../../assets/images/avatar.svg";
 import activeIcon from "../../assets/images/active-icon.svg";
-// import notebookIcon from "../../assets/images/notebook.svg";
+import notebookIcon from "../../assets/images/notebook.svg";
 import dashboardBg from "../../assets/images/bg-dashboard.svg";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { logout, setLoading } from "../../store/auth-slice";
@@ -23,7 +23,7 @@ interface dashboardProps {
 }
 
 const DashboardLayout = (props: dashboardProps) => {
-    const { customer, loading }: any = useAppSelector((state) => state.auth);
+    const { loading, customer }: any = useAppSelector((state) => state.auth);
     const { children, onClick } = props;
     const location = useLocation();
     console.log(location.pathname);
@@ -63,7 +63,7 @@ const DashboardLayout = (props: dashboardProps) => {
         {
             name: "settings",
             icon: settingsIcon,
-            path: "/settings",
+            path: "/settings/profile",
         },
         {
             name: `${
@@ -74,7 +74,7 @@ const DashboardLayout = (props: dashboardProps) => {
                 customer?.lastName.slice(1).toLowerCase()
             }`,
             icon: userIcon,
-            path: "/settings",
+            path: "/settings/profile",
         },
         {
             name: "Logout",

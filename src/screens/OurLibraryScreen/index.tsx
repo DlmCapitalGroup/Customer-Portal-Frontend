@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardLayout from "../../layouts/DashboardLayout";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Modal from "../../components/ModalComponent";
 import Button from "../../components/ButtonComponent";
 import Select from "../../components/SelectComponent";
 
 const Library = () => {
-    const [serviceModal, setServiceModal] = React.useState(true);
+    const [serviceModal, setServiceModal] = React.useState(false);
     const [investment, setInvestment] = React.useState("");
+    const navigate = useNavigate();
 
     const showServiceModal = () => {
         setServiceModal(!serviceModal);
@@ -16,6 +17,19 @@ const Library = () => {
     function setOption(value: any) {
         setInvestment(value);
     }
+
+    function openInvestment() {
+        if (investment) {
+            navigate(
+                `products/${investment.toLowerCase().replace(/\s+/g, "-")}`
+            );
+            setServiceModal(false);
+        }
+    }
+
+    // useEffect(() => {
+    //     console.log(investment);
+    // });
 
     return (
         <DashboardLayout>
@@ -36,17 +50,23 @@ const Library = () => {
                         </div>
                         <div className="mb-32">
                             <Select
-                                title="Select a product"
+                                title={`${investment || "Select a product"}`}
                                 options={[
                                     "Fixed Income Fund Investment",
                                     "Fixed Asset Income",
                                     "Fixed Deposit Fund Investment",
+                                    "Child Education Plan",
+                                    "High Interest Investment Plan",
+                                    "Target Date Plan",
                                 ]}
                                 setOption={setOption}
+                                selected={investment}
                             />
                         </div>
 
-                        <Button buttonType="full">Proceed</Button>
+                        <Button buttonType="full" onClick={openInvestment}>
+                            Proceed
+                        </Button>
                     </div>
                 </Modal>
             )}

@@ -73,7 +73,7 @@ root.render(
                                 <Route path="library" element={<Library />}>
                                     <Route index element={<Products />} />
                                     <Route
-                                        path="products/:id"
+                                        path="products/:slug"
                                         element={<Product />}
                                     />
                                     <Route

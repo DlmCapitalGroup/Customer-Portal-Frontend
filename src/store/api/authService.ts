@@ -7,7 +7,7 @@ const loginCustomer = async (customerData: object) => {
         customerData
     );
     if (res?.data) {
-        localStorage.setItem("customer", JSON.stringify(res?.data?.details));
+        // localStorage.setItem("customer", JSON.stringify(res?.data?.details));
         console.log(res?.data?.details);
     }
     return res.data.details;
@@ -18,7 +18,7 @@ const loginUser = async (userData: object) => {
     if (res?.data) {
         console.log(res?.data)
         setAuthToken(res?.data?.data?.token);
-        localStorage.setItem("user", JSON.stringify(res?.data?.data));
+        // localStorage.setItem("user", JSON.stringify(res?.data?.data));
     }
     return res.data.data;
 };
@@ -47,7 +47,7 @@ const resendOtp = async (customerEmail: string) => {
     const res = await devInstance.post(
         `/Authentication/resendOtp/${customerEmail}`
     );
-    return res;
+    return res.data;
 };
 
 const updatePassword = async (customerDetails: object) => {
@@ -59,7 +59,7 @@ const updatePassword = async (customerDetails: object) => {
 };
 
 const resetPassword = async (customerDetails: object) => {
-    const res = await devInstance.patch(
+    const res = await devInstance.post(
         "/Authentication/ResetPassword",
         customerDetails
     );

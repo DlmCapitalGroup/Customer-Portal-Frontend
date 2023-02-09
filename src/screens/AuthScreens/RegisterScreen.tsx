@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/ButtonComponent";
 import AuthLayout from "../../layouts/AuthLayout";
@@ -21,6 +21,7 @@ const Register = () => {
         password: "",
         confirmPassword: "",
     });
+    const [error, setError] = React.useState("");
 
     const navigate = useNavigate();
 
@@ -28,37 +29,67 @@ const Register = () => {
     const { loading }: any = useAppSelector((state) => state.auth);
 
     const formChange = (e: any) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }));
+        if (e.target.type === "number" && e.target.value.length <= 11) {
+            setFormData((prevState) => ({
+                ...prevState,
+                [e.target.name]: e.target.value,
+            }));
+            console.log("working")
+        } else if (e.target.type !== "number") {
+            console.log("not working");
+            setFormData((prevState) => ({
+                ...prevState,
+                [e.target.name]: e.target.value,
+            }));
+        }
     };
+
+    useEffect(() => {
+        if (
+            formData.password.length > 0 &&
+            formData.confirmPassword.length > 0
+        ) {
+            if (formData.password !== formData.confirmPassword) {
+                setError("Passwords do not match");
+            } else {
+                setError("");
+            }
+        }
+    }, [formData.confirmPassword, formData.password]);
 
     const register = async (e: any) => {
         e.preventDefault();
-        dispatch(setLoading(true));
-        let res: any = await dispatch(
-            loginUser({
-                username: "hamzah",
-                password: "Ade@125",
-            })
-        );
-        let errors =
-            res.meta.rejectedWithValue === true ||
-            res.meta.requestStatus === "rejected";
+        if (!error) {
+            dispatch(setLoading(true));
+            let res: any = await dispatch(
+                loginUser({
+                    username: "hamzah",
+                    password: "Ade@125",
+                })
+            );
+            let errors =
+                res.meta.rejectedWithValue === true ||
+                res.meta.requestStatus === "rejected";
 
-        if (!errors) {
-            let signupRes: any = await dispatch(registerCustomer(formData));
-            console.log(signupRes, 'signupRes')
-            let resCheck = signupRes.meta.requestStatus === "fulfilled";
-            localStorage.setItem("customerRegData", JSON.stringify(formData))
-            localStorage.setItem("customerRegRes", JSON.stringify(signupRes.payload));
-            if(resCheck) {
-                navigate('/auth/confirm-email', {
-                    state: {
-                        data: signupRes.payload,
-                    }
-                });
+            if (!errors) {
+                let signupRes: any = await dispatch(registerCustomer(formData));
+                console.log(signupRes, "signupRes");
+                let resCheck = signupRes.meta.requestStatus === "fulfilled";
+                localStorage.setItem(
+                    "customerRegData",
+                    JSON.stringify(formData)
+                );
+                localStorage.setItem(
+                    "customerRegRes",
+                    JSON.stringify(signupRes.payload)
+                );
+                if (resCheck) {
+                    navigate("/auth/confirm-email", {
+                        state: {
+                            data: signupRes.payload,
+                        },
+                    });
+                }
             }
         }
     };
@@ -75,6 +106,7 @@ const Register = () => {
                             name="firstName"
                             onChange={formChange}
                             required
+                            value={formData.firstName}
                         />
                     </div>
                     <div>
@@ -85,19 +117,18 @@ const Register = () => {
                             name="lastName"
                             onChange={formChange}
                             required
+                            value={formData.lastName}
                         />
                     </div>
                     <div>
-                        <label className="text-base font-semibold text-primary">
-                            Email Address
-                        </label>
-                        <input
-                            type="text"
+                        <Input
+                            label="Email Address"
+                            type="email"
                             placeholder="Email Address"
-                            className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary shadow-sm border border-primary/5 rounded-lg"
                             name="email"
                             onChange={formChange}
                             required
+                            value={formData.email}
                         />
                     </div>
                     <div>
@@ -108,16 +139,19 @@ const Register = () => {
                             name="username"
                             onChange={formChange}
                             required
+                            value={formData.username}
                         />
                     </div>
                     <div>
                         <Input
                             label="Phone Number"
-                            type="text"
-                            placeholder=" Phone Number"
+                            type="number"
+                            max="99999999999"
+                            placeholder="Phone Number"
                             name="phoneNumber"
                             onChange={formChange}
                             required
+                            value={formData.phoneNumber}
                         />
                     </div>
                     <div>
@@ -128,6 +162,7 @@ const Register = () => {
                             isPassword
                             onChange={formChange}
                             required
+                            value={formData.password}
                         />
                     </div>
                     <div>
@@ -138,13 +173,21 @@ const Register = () => {
                             isPassword
                             onChange={formChange}
                             required
+                            value={formData.confirmPassword}
                         />
                     </div>
+
+                    {error && (
+                        <p className="text-center text-error">
+                            Password does not match
+                        </p>
+                    )}
 
                     <p className="flex space-x-3 items-center text-base text-black w-[350px]">
                         <input
                             type="checkbox"
                             className="rounded-[5px] bg-white-lighter"
+                            required
                         />
                         <p className="-tracking-[.02em]">
                             I agree with the{" "}

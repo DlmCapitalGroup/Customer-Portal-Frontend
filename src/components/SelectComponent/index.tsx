@@ -18,13 +18,21 @@ const Select = (props: selectProps) => {
     function toggleSelect() {
         setSelect(!select);
     }
+
+    function setValue(option: any) {
+        setTimeout(() => {
+            toggleSelect();
+        }, 400);
+        setOption(option);
+    }
+
     return (
         <div className="relative">
             <div
                 className="h-14 border bg-white-lighter border-primary/10 rounded-lg flex items-center px-4 cursor-pointer justify-between"
                 onClick={toggleSelect}
             >
-                {title || "Select"}
+                {selected || title || "Select"}
                 <img alt="" src={chevronDown} />
             </div>
             {select && (
@@ -33,7 +41,7 @@ const Select = (props: selectProps) => {
                         options.map((option, index) => (
                             <div
                                 key={index}
-                                onClick={() => setOption(option)}
+                                onClick={() => setValue(option)}
                                 className="px-4 flex items-center gap-x-4 cursor-pointer text-sm"
                             >
                                 <img

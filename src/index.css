@@ -27,3 +27,15 @@ body {
 *:disabled {
     @apply cursor-not-allowed;
 }
+
+input:not([type="file"]):not([type="checkbox"]):not([type="date"]):not([type="text"]):not(:placeholder-shown):invalid {
+    @apply border border-error ring-error;
+}
+
+/* input[type="email"]:not(:placeholder-shown) {
+    @apply border border-error ring-error;
+} */
+
+input[type="number"]::-webkit-inner-spin-button {
+    display: none;
+}

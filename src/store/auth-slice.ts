@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import authService from "./api/authService";
 import { devInstance } from "./devInstance";
+import { clearStepper } from "./stepperSlice";
 interface AuthState {
     user: object | null;
     customer: object | null;
@@ -108,7 +109,7 @@ export const resendOtpCode = createAsyncThunk(
 );
 
 export const updatePassword = createAsyncThunk(
-    "Authentication/UpdatePassword",
+    "Authentication/updatePassword",
     async (customerDetails: object, thunkAPI) => {
         try {
             return await authService.updatePassword(customerDetails);
@@ -153,11 +154,11 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.customer = null;
-            // localStorage.removeItem("user");
-            // localStorage.removeItem("customer");
-            setAuthToken(null);
             state.loading = false;
+            localStorage.removeItem("persist:root");
+            setAuthToken(null);
             toast.success("Logged out successfully!");
+            clearStepper();
         },
         updateCustomer: (state, action) => {
             state.customer = action.payload;
@@ -169,11 +170,12 @@ const authSlice = createSlice({
                 state.loading = true;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
+                state.loading = false;
                 state.user = action.payload;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
-                toast.error("Contact Your Service Provider");
+                toast.error(`${action.payload}`);
             })
             .addCase(loginCustomer.pending, (state) => {
                 state.loading = true;
@@ -195,7 +197,7 @@ const authSlice = createSlice({
                 state.loading = false;
                 toast.success("Check your email inbox or spam for OTP");
             })
-            .addCase(registerCustomer.rejected, (state, action) => {
+            .addCase(registerCustomer.rejected, (state, action: any) => {
                 state.loading = false;
                 toast.error(`${action.payload}`);
             })
@@ -228,7 +230,24 @@ const authSlice = createSlice({
                 state.loading = false;
                 toast.success("Password has been changed successfully");
             })
-            .addCase(resetPassword.rejected, (state, action) => {
+            .addCase(resetPassword.rejected, (state, action: any) => {
+                state.loading = false;
+                toast.error(
+                    `${action.payload.errors.ConfirmPassword.map(
+                        (err: any) => err
+                    )}`
+                );
+                console.log(action.payload);
+                console.log(action.payload.errors);
+            })
+            .addCase(updatePassword.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(updatePassword.fulfilled, (state) => {
+                state.loading = false;
+                toast.success("Password has been updated successfully");
+            })
+            .addCase(updatePassword.rejected, (state, action: any) => {
                 state.loading = false;
                 toast.error(`${action.payload}`);
             });

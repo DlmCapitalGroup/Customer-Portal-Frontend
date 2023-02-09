@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import lock from "../../assets/images/lock.svg";
 import Button from "../../components/ButtonComponent";
 import { Input } from "../../components/FormElements";
@@ -17,6 +17,8 @@ const Password = () => {
 
     const dispatch = useAppDispatch();
 
+    const [error, setError] = React.useState("");
+
     const formChange = (e: any) => {
         setFormData({
             ...formData,
@@ -24,17 +26,44 @@ const Password = () => {
         });
     };
 
+    useEffect(() => {
+        if (
+            formData.newPassword.length > 0 &&
+            formData.confirmPassword.length > 0
+        ) {
+            if (formData.newPassword !== formData.confirmPassword) {
+                setError("Passwords do not match");
+            } else {
+                setError("");
+            }
+        }
+    }, [formData.confirmPassword, formData.newPassword]);
+
     const changePassword = async (e: any) => {
         e.preventDefault();
-        dispatch(setLoading(true));
-        await dispatch(
-            updatePassword({
-                email: customer?.emailAddress,
-                currentPassword: formData.currentPassword,
-                newPassword: formData.newPassword,
-                confirmPassword: formData.confirmPassword,
-            })
-        );
+        if (customer.customerId || customer.portalUsername) {
+            dispatch(setLoading(true));
+            const res: any = await dispatch(
+                updatePassword({
+                    email: customer?.emailAddress,
+                    currentPassword: formData.currentPassword,
+                    newPassword: formData.newPassword,
+                    confirmPassword: formData.confirmPassword,
+                })
+            );
+
+            let errors =
+                res.meta.rejectedWithValue === true ||
+                res.meta.requestStatus === "rejected";
+
+            if (!errors) {
+                setFormData({
+                    currentPassword: "",
+                    newPassword: "",
+                    confirmPassword: "",
+                });
+            }
+        }
     };
 
     return (
@@ -77,6 +106,12 @@ const Password = () => {
                         />
                     </div>
                 </div>
+
+                {error && (
+                    <p className="text-center text-error">
+                        Password does not match
+                    </p>
+                )}
 
                 <Button buttonType="full" loading={loading}>
                     {loading ? (

@@ -38,10 +38,16 @@ const NewsCard = (props: cardProps) => {
             {...props}
         >
             <div className="w-[200px] h-[66px]">
-                <img alt="" src={newsImage} className="w-full object-cover object-center h-full rounded-[10px]" />
+                <img
+                    alt=""
+                    src={newsImage}
+                    className="w-full object-cover object-center h-full rounded-[10px]"
+                />
             </div>
             <div className="grow">
-                <p className="text-base">Latest product news about the recent...</p>
+                <p className="text-base">
+                    Latest product news about the recent...
+                </p>
             </div>
         </div>
     );
@@ -49,6 +55,14 @@ const NewsCard = (props: cardProps) => {
 
 const Products = () => {
     const navigate = useNavigate();
+    const products = [
+        "Fixed Income Fund Investment",
+        "Fixed Asset Income",
+        "Fixed Deposit Fund Investment",
+        "Child Education Plan",
+        "High Interest Investment Plan",
+        "Target Date Plan",
+    ];
     return (
         <div className="pt-[50px] text-primary max-w-[1100px] text-base pb-20">
             <h3 className="text-xl font-semibold mb-[15px]">
@@ -60,12 +74,18 @@ const Products = () => {
             </p>
 
             <div className="grid grid-cols-3 gap-x-5 gap-y-6 mb-20">
-                {[1, 2, 3, 4, 5, 6].map((item, index) => {
-                    index = index + 1;
+                {products.map((i, index) => {
+                    const item = i.toLowerCase().replace(/\s+/g, "-");
                     return (
                         <ProductCard
                             key={index}
-                            onClick={() => navigate(`products/${index}`)}
+                            onClick={() =>
+                                navigate(`products/${item}`, {
+                                    state: {
+                                        selectedProduct: item,
+                                    },
+                                })
+                            }
                         />
                     );
                 })}

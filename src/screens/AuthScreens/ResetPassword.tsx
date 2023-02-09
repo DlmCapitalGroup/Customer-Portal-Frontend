@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../../components/ButtonComponent";
 import { Input } from "../../components/FormElements";
 import Loader from "../../components/LoaderComponent";
@@ -9,12 +9,18 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const [formData, setFormData] = React.useState({
-        password: "",
+        newPassword: "",
         confirmPassword: "",
         email: searchParams.get("email"),
         token: searchParams.get("token"),
     });
+    const [error, setError] = React.useState("");
+
+    // useEffect(() => {
+    //      console.log(searchParams.get("email"), "ello")
+    // })
 
     const dispatch = useAppDispatch();
     const { loading }: any = useAppSelector((state) => state.auth);
@@ -25,6 +31,19 @@ const ResetPassword = () => {
             [e.target.name]: e.target.value,
         }));
     };
+
+    useEffect(() => {
+        if (
+            formData.newPassword.length > 0 &&
+            formData.confirmPassword.length > 0
+        ) {
+            if (formData.newPassword !== formData.confirmPassword) {
+                setError("Passwords do not match");
+            } else {
+                setError("");
+            }
+        }
+    }, [formData.confirmPassword, formData.newPassword]);
 
     const reset = async (e: any) => {
         e.preventDefault();
@@ -41,7 +60,13 @@ const ResetPassword = () => {
             res.meta.requestStatus === "rejected";
 
         if (!errors) {
-            await dispatch(resetPassword(formData));
+            let res: any = await dispatch(resetPassword(formData));
+            let errors =
+                res.meta.rejectedWithValue === true ||
+                res.meta.requestStatus === "rejected";
+            if (!errors) {
+                navigate("/auth/sign-in");
+            }
         }
     };
 
@@ -56,43 +81,50 @@ const ResetPassword = () => {
                 </p> */}
 
                 <form onSubmit={reset}>
-                    <div className="mb-10">
-                        <Input
-                            label="New Password"
-                            name="password"
-                            isPassword
-                            value={formData.password}
-                            placeholder="Password"
-                            onChange={formChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-10">
-                        <label className="text-base font-semibold text-primary">
-                            Confirm Password
-                        </label>
-                        <Input
-                            isPassword
-                            value={formData.confirmPassword}
-                            placeholder="Confirm Password"
-                            name="confirmPassword"
-                            onChange={formChange}
-                            required
-                        />
-                    </div>
-                    <div className="text-center mb-10">
-                        <Button buttonType="md">Reset password</Button>
-                    </div>
+                    <div className="flex flex-col gap-y-10">
+                        <div>
+                            <Input
+                                label="New Password"
+                                name="newPassword"
+                                isPassword
+                                value={formData.newPassword}
+                                placeholder="Password"
+                                onChange={formChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                label="Confirm Password"
+                                isPassword
+                                value={formData.confirmPassword}
+                                placeholder="Confirm Password"
+                                name="confirmPassword"
+                                onChange={formChange}
+                                required
+                            />
+                        </div>
 
-                    <p className="text-base text-primary/50 text-center">
-                        Go back to{" "}
-                        <Link
-                            to="/auth/sign-in"
-                            className="text-primary/80 font-semibold"
-                        >
-                            Sign In
-                        </Link>
-                    </p>
+                        {error && (
+                            <p className="text-center text-error">
+                                Password does not match
+                            </p>
+                        )}
+
+                        <div className="text-center">
+                            <Button buttonType="md">Reset password</Button>
+                        </div>
+
+                        <p className="text-base text-primary/50 text-center">
+                            Go back to{" "}
+                            <Link
+                                to="/auth/sign-in"
+                                className="text-primary/80 font-semibold"
+                            >
+                                Sign In
+                            </Link>
+                        </p>
+                    </div>
                 </form>
                 {loading && <Loader />}
             </div>
