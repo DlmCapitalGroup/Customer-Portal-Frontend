@@ -29,32 +29,37 @@ const Select = (props: selectProps) => {
     return (
         <div className="relative">
             <div
-                className="h-14 border bg-white-lighter border-primary/10 rounded-lg flex items-center px-4 cursor-pointer justify-between"
+                className={`h-14 border bg-white-lighter border-primary/10 rounded-lg flex items-center px-4 cursor-pointer justify-between ${
+                    !selected && "text-primary/30"
+                }`}
                 onClick={toggleSelect}
             >
                 {selected || title || "Select"}
                 <img alt="" src={chevronDown} />
             </div>
             {select && (
-                <div className="absolute w-full z-50 flex flex-col gap-y-4 pt-4 pb-14 border border-primary/10 rounded-br-[20px] rounded-bl-[20px] bg-white-lighter">
+                <div className="absolute w-full z-50 flex flex-col gap-y-4 pt-4 pb-14 border border-primary/10 rounded-br-[20px] rounded-bl-[20px] bg-white-lighter h-fit max-h-64 overflow-y-auto">
                     {options ? (
-                        options.map((option, index) => (
-                            <div
-                                key={index}
-                                onClick={() => setValue(option)}
-                                className="px-4 flex items-center gap-x-4 cursor-pointer text-sm"
-                            >
-                                <img
-                                    alt=""
-                                    src={
-                                        option === selected
-                                            ? radioChecked
-                                            : radioUnchecked
-                                    }
-                                />{" "}
-                                {option}
-                            </div>
-                        ))
+                        options.map((option, index) => {
+                            let item = option.title || option;
+                            return (
+                                <div
+                                    key={index}
+                                    onClick={() => setValue(item)}
+                                    className="px-4 flex items-center gap-x-4 cursor-pointer text-sm"
+                                >
+                                    <img
+                                        alt=""
+                                        src={
+                                            item === selected
+                                                ? radioChecked
+                                                : radioUnchecked
+                                        }
+                                    />{" "}
+                                    {item}
+                                </div>
+                            );
+                        })
                     ) : (
                         <div className="p-4 flex items-center gap-x-4 cursor-pointer">
                             Demo Option

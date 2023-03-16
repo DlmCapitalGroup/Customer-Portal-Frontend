@@ -4,10 +4,12 @@ import authService from "./api/authService";
 import { devInstance } from "./devInstance";
 import { clearStepper } from "./stepperSlice";
 interface AuthState {
-    user: object | null;
-    customer: object | null;
-    token: string;
+    user: {} | null;
+    customer: {} | null;
+    token: {};
     loading: boolean;
+    customerOnboardingData: {} | null;
+    updatedOnboardingData: {} | null;
 }
 
 const initialState: AuthState = {
@@ -15,6 +17,8 @@ const initialState: AuthState = {
     customer: null,
     token: "",
     loading: false,
+    customerOnboardingData: null,
+    updatedOnboardingData: null,
 };
 
 export const loginUser = createAsyncThunk(
@@ -163,6 +167,12 @@ const authSlice = createSlice({
         updateCustomer: (state, action) => {
             state.customer = action.payload;
         },
+        setCustomerOnboardingData: (state, action) => {
+            state.customerOnboardingData = action.payload;
+        },
+        setUpdatedOnboardingData: (state, action) => {
+            state.updatedOnboardingData = action.payload;
+        },
     },
     extraReducers(builder) {
         builder
@@ -183,7 +193,7 @@ const authSlice = createSlice({
             .addCase(loginCustomer.fulfilled, (state, action) => {
                 state.customer = action.payload;
                 state.loading = false;
-                toast.success("Login Successful");
+                // toast.success("Login Successful");
             })
             .addCase(loginCustomer.rejected, (state, action) => {
                 state.loading = false;
@@ -262,9 +272,18 @@ export const setAuthToken = (token: string | null) => {
     }
 };
 
-export const { logout, setLoading, setCustomer, setUser, updateCustomer } =
-    authSlice.actions;
+export const {
+    logout,
+    setLoading,
+    setCustomer,
+    setUser,
+    updateCustomer,
+    setCustomerOnboardingData,
+    setUpdatedOnboardingData,
+} = authSlice.actions;
 
 export default authSlice.reducer;
 
 export const selectCurrentCustomer = (state: any) => state.auth.customer;
+export const selectUpdatedOnboardingData = (state: any) =>
+    state.auth.updatedOnboardingData;

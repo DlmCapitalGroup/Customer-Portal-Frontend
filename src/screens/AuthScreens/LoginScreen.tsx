@@ -9,9 +9,10 @@ import Loader from "../../components/LoaderComponent";
 
 function Login() {
     const [formData, setFormData] = React.useState({
-        username: "",
-        password: "",
+        username: "hammy98",
+        password: "DAajay5218?",
     });
+    const localModal = localStorage.getItem("serviceModal");
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -47,7 +48,11 @@ function Login() {
             );
         }
 
+        // if(localModal !== "false") {
         navigate("/");
+        // } else {
+        //     navigate("/");
+        // }
     };
 
     return (

@@ -132,7 +132,7 @@ const Table = (props: tableProps) => {
                     <TransactionList />
                 </div>
             </div>
-            <div className="flex justify-between mt-6 items-center">
+            {/* <div className="flex justify-between mt-6 items-center">
                 <p className="font-semibold text-base cursor-pointer">
                     Generate Statement
                 </p>
@@ -143,7 +143,7 @@ const Table = (props: tableProps) => {
                         <img alt="" src={chevronRight} />
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

@@ -2,19 +2,47 @@ import React from "react";
 import loaderIcon from "../../assets/images/loader-icon.svg";
 import errorIcon from "../../assets/images/error-icon.svg";
 import successIcon from "../../assets/images/success-icon.svg";
+import cancelBtn from "../../assets/images/close-modal.svg";
 
 interface modalProps {
     children?: React.ReactNode;
     type?: "success" | "pending" | "error" | string;
     modalText?: string;
-    size?: "sm" | "lg" | "md" | string
+    size?: "sm" | "lg" | "md" | string;
+    cancel?: any;
+    isCancel?: boolean;
+    title?: string;
 }
 
 const Modal = (props: modalProps) => {
-    const { children, type, modalText, size } = props;
+    const { children, type, modalText, size, title, cancel, isCancel } = props;
     return (
-        <div className="fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-primary/20">
-            <div className={`${size === "sm" ? "w-[500px] min-h-[300px]" : size === "md" ? "w-[691px] min-h-[636px]" : "w-[1042px] min-h-[424px]"} bg-white-light shadow-sm rounded-[20px]`}>
+        <div
+            className="fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-primary/20"
+            {...props}
+        >
+            <div
+                className={`${
+                    size === "sm"
+                        ? "w-[500px] min-h-[300px]"
+                        : size === "md"
+                        ? "w-[691px] min-h-[636px]"
+                        : "w-[1042px] min-h-[424px]"
+                } bg-white-light shadow-sm rounded-[20px] relative`}
+            >
+                <div className="w-full absolute p-6 pl-16 flex justify-between items-center">
+                    <h3 className="text-base text-primary font-semibold">
+                        Welcome {title}!
+                    </h3>
+                    {isCancel && (
+                        <img
+                            alt=""
+                            src={cancelBtn}
+                            onClick={cancel}
+                            className="cursor-pointer"
+                        />
+                    )}
+                </div>
                 {children || (
                     // <div className='w-full h-full text-center pt-32 text-primary'>
                     //     <h1 className='text-3xl'>Modal</h1>
@@ -40,7 +68,15 @@ const Modal = (props: modalProps) => {
                                     }
                                 />
                             </div>
-                            <h3 className={`text-lg ${type === "success" ? "text-success" : type === "pending" ? "text-primary" : "text-error"} font-semibold text-center`}>
+                            <h3
+                                className={`text-lg ${
+                                    type === "success"
+                                        ? "text-success"
+                                        : type === "pending"
+                                        ? "text-primary"
+                                        : "text-error"
+                                } font-semibold text-center`}
+                            >
                                 {type === "success" ? (
                                     `${modalText || "Card Added Successfully!"}`
                                 ) : type === "pending" ? (

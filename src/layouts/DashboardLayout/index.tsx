@@ -16,6 +16,7 @@ import dashboardBg from "../../assets/images/bg-dashboard.svg";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { logout, setLoading } from "../../store/auth-slice";
 import Loader from "../../components/LoaderComponent";
+import Marquee from "react-fast-marquee";
 
 interface dashboardProps {
     children: React.ReactNode;
@@ -45,11 +46,11 @@ const DashboardLayout = (props: dashboardProps) => {
         //     icon: planIcon,
         //     path: "#",
         // },
-        // {
-        //     name: "Library",
-        //     icon: notebookIcon,
-        //     path: "/library",
-        // },
+        {
+            name: "Our Products",
+            icon: notebookIcon,
+            path: "/products",
+        },
         // {
         //     name: "support",
         //     icon: supportIcon,
@@ -85,6 +86,15 @@ const DashboardLayout = (props: dashboardProps) => {
 
     return (
         <div className="w-full min-h-screen bg-primary-light">
+            <div className="sticky top-0 w-full">
+                <Marquee
+                    gradient={false}
+                    className="bg-primary text-white py-3"
+                >
+                    I can be a React component, multiple React components, or
+                    just some text.
+                </Marquee>
+            </div>
             <div className="fixed left-0 top-0 w-[210px] transition ease-in-out delay-150 duration-300 h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col">
                 <img
                     alt=""
@@ -96,10 +106,10 @@ const DashboardLayout = (props: dashboardProps) => {
                 </div>
                 <div className="flex flex-col justify-between grow">
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(0, 3).map((link, index) => (
+                        {dashboardLinks.slice(0, 4).map((link, index) => (
                             <Link
                                 to={link.path}
-                                className="flex pl-[15px] items-center"
+                                className="flex pl-[15px] items-center text-sm xl:text-base"
                             >
                                 {location.pathname === link.path && (
                                     <img
@@ -117,12 +127,12 @@ const DashboardLayout = (props: dashboardProps) => {
                     </div>
 
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(3).map((link, index) => (
+                        {dashboardLinks.slice(4).map((link, index) => (
                             <Link
                                 to={index === 0 ? link.path : ""}
                                 className="flex pl-[15px] items-center"
                                 onClick={() => {
-                                    dispatch(setLoading(true));
+                                    index === 1 && dispatch(setLoading(true));
                                     index === 1 &&
                                         setTimeout(() => {
                                             dispatch(logout());

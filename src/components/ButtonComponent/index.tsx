@@ -9,10 +9,12 @@ interface buttonProps {
     variant?: "light" | "dark";
     loading?: Boolean;
     disabled?: any;
+    type?: "button" | "submit";
 }
 
 const Button = (props: buttonProps) => {
-    const { children, buttonType, variant, hasIcon, icon, loading, disabled } = props;
+    const { children, buttonType, variant, hasIcon, icon, loading, disabled } =
+        props;
 
     return (
         <button
@@ -31,9 +33,9 @@ const Button = (props: buttonProps) => {
                     : "w-[125px]"
             } ${
                 variant === "light"
-                    ? "border-primary border text-primary hover:bg-white-light"
-                    :disabled ?
-                    "bg-primary/60 hover:bg-primary/60 text-white"
+                    ? "border-primary border text-primary bg-white-lighter hover:bg-white-light"
+                    : disabled
+                    ? "bg-primary/60 hover:bg-primary/60 text-white"
                     : "bg-primary hover:bg-primary/80 text-white"
             } text-base rounded-[8px] font-semibold`}
             disabled={(loading ? true : false) || disabled}

@@ -1,20 +1,27 @@
-import React from "react";
+import React, { MutableRefObject, useRef } from "react";
 import eyeHide from "../../assets/images/eye-hide.svg";
 import eyeShow from "../../assets/images/eye.svg";
+import attachment from "../../assets/images/attachment-icon.svg";
 
 interface InputProps {
     type?: "text" | "email" | "password" | "number" | "date" | "file" | "image";
     label?: string;
     name?: string;
+    title?: string;
     value?: string;
     placeholder?: string;
     onChange?: any;
     isPassword?: boolean;
     required?: boolean;
+    values?: string;
+    uploaded?: boolean;
     disabled?: boolean;
     isNumber?: boolean;
     max?: string;
     min?: string;
+    ref?: any;
+    pattern?: string;
+    onInvalid?: any;
 }
 
 interface SelectProps {
@@ -28,6 +35,7 @@ interface SelectProps {
     options?: Array<any>;
     title?: string;
     pattern?: string;
+    ref?: any;
 }
 
 const Select = (props: SelectProps) => {
@@ -46,17 +54,33 @@ const Select = (props: SelectProps) => {
                 <option selected disabled>
                     {title || "Select"}
                 </option>
-                {options?.map((option) => (
-                    <option value={option}>{option}</option>
-                ))}
+                {options?.map((option) => {
+                    let item = option.title || option;
+                    return (
+                        <option
+                            value={
+                                item === "Yes"
+                                    ? "true"
+                                    : item === "No"
+                                    ? "false"
+                                    : item
+                            }
+                        >
+                            {item}
+                        </option>
+                    );
+                })}
             </select>
         </div>
     );
 };
 
 const Input = (props: InputProps) => {
-    const { type, label, isPassword } = props;
+    const { type, label, isPassword, placeholder, value, uploaded } =
+        props;
     const [show, setShow] = React.useState(false);
+    const inputFile = useRef() as MutableRefObject<HTMLInputElement>;
+    const inputFile1: any = useRef() as MutableRefObject<HTMLInputElement>;
     return (
         <div className="w-full">
             {label && (
@@ -78,6 +102,42 @@ const Input = (props: InputProps) => {
                         src={show ? eyeShow : eyeHide}
                         className="absolute right-4 mt-1 cursor-pointer"
                         onClick={() => setShow(!show)}
+                    />
+                </div>
+            ) : type === "file" ? (
+                <div
+                    className={`h-[56px] w-full flex items-center text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg relative hover:cursor-pointer`}
+                    onClick={() => inputFile.current.click()}
+                >
+                    <p className="text-primary">
+                        {placeholder}{" "}
+                        {uploaded && (
+                            <span className="text-success font-bold text-xs">
+                                File Added
+                            </span>
+                        )}
+                    </p>
+                    <img alt="" src={attachment} className="absolute right-4" />
+                    <input
+                        type="file"
+                        className="hidden"
+                        ref={inputFile}
+                        {...props}
+                    />
+                </div>
+            ) : type === "date" ? (
+                <div
+                    className="h-[56px] flex items-center w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg relative"
+                    onClick={() => inputFile1.current.showPicker()}
+                >
+                    <p className="text-primary absolute w-full">
+                        {value || placeholder}
+                    </p>
+                    <input
+                        type="date"
+                        className="opacity-0"
+                        ref={inputFile1}
+                        {...props}
                     />
                 </div>
             ) : (

@@ -25,7 +25,7 @@ function App() {
         }
     }, [customer, dispatch, user]);
     return (
-        <div className="App">
+        <div className="App" id="top">
             <Outlet />
             <ToastContainer />
         </div>

@@ -70,10 +70,10 @@ root.render(
                                     element={<FundWallet />}
                                 />
                                 <Route path="plan" element={<Plan />} />
-                                <Route path="library" element={<Library />}>
+                                <Route path="products" element={<Library />}>
                                     <Route index element={<Products />} />
                                     <Route
-                                        path="products/:slug"
+                                        path=":slug"
                                         element={<Product />}
                                     />
                                     <Route

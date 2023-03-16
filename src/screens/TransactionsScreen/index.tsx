@@ -54,7 +54,7 @@ const Transactions = () => {
     const fetchTransactions = useCallback(() => {
         if (customer?.customerId) {
             devInstance
-                .get("/Dashboard/GetTransactions", {
+                .get(`/Dashboard/GetTransactions/${customer?.customerId}`, {
                     params: { CustomerId: customer?.customerId },
                 })
                 .then((res: any) => {
@@ -82,7 +82,7 @@ const Transactions = () => {
 
     return (
         <DashboardLayout>
-            <div className="pt-[56px] text-primary">
+            <div className="pt-[56px] text-primary pr-10">
                 <div className="flex justify-between max-w-[1119px] items-center mb-[32px]">
                     <h3 className="text-xl font-semibold">
                         Transaction History
@@ -102,12 +102,12 @@ const Transactions = () => {
                             />
                         </div>
 
-                        <div
+                        {/* <div
                             className="w-[100px] h-14 flex justify-center items-center bg-white-lighter rounded-lg cursor-pointer"
                             onClick={() => setModal(true)}
                         >
                             <img alt="" src={filter} />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="min-h-[500px] flex flex-col">
