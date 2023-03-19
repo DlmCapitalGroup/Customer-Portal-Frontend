@@ -43,11 +43,11 @@ const StepperModal = (props: stepperProps) => {
 
     return (
         <div
-            className="fixed top-0 left-0 w-screen h-screen flex justify-center overflow-y-auto py-10 bg-primary/30 text-primary"
+            className="fixed top-0 left-0 w-screen h-screen flex flex-col items-center overflow-y-auto py-10 bg-primary/30 text-primary"
             {...props}
         >
             <form
-                className="w-[691px] relative h-full min-h-[1028px] bg-white-light rounded-[20px] flex flex-col my-10 py-5"
+                className="w-[691px] bg-white-light rounded-[20px] flex flex-col my-10 py-5"
                 onSubmit={nextFunction}
             >
                 <div className="w-full h-[72px] border-b-primary/10 border-b flex justify-center items-center text-sm">
@@ -96,7 +96,7 @@ const StepperModal = (props: stepperProps) => {
                     })}
                 </div>
 
-                <div className="w-[570px] mx-auto py-6 grow flex flex-col justify-between">
+                <div className="w-[570px] mx-auto py-6 grow flex flex-col gap-y-10 justify-between">
                     <div>{children}</div>
 
                     <div className="mt-14 flex justify-between">

@@ -320,7 +320,7 @@ const RetirementPlanSubscription = (props: _props) => {
                                     title="Investment Frquency *"
                                     name="InvestmentFreq"
                                     onChange={formChange}
-                                    value={formData.InvestmentFreq || ""}
+                                    value={formData.InvestmentFreq || null}
                                 />
                             </div>
                         </div>
