@@ -98,13 +98,13 @@ const Products = () => {
             title: "Target Date Plan",
             thumb: r7,
             desc: "The DLM Asset Management Target Date Plan is tailored to meet the needs of investors who have a specific financial goal in mind and the discipline to reach it. The plan involves a disciplined investment process and is locked in for the selected length of time chosen by the subscriber at the time of subscription. This plan is designed for individuals, families, and organizations that have a set financial goal to achieve and offers flexibility with a flexible plan date and the option for subscribers to choose either monthly, quarterly, or annual contribution. The account can be run in either dollars or naira, with a minimum investment of N20,000.00 in Naira and $10,000.00 in Dollars. The plan guarantees a return of 10% per annum (as of today) and subscribers have access to a free financial planning session with a wealth advisor.",
-            isValid: false,
+            isValid: true,
         },
         {
             title: "Retirement plan subscription",
             thumb: r8,
             desc: "The DLM Asset Management Retirement Planning is a solution tailored for employers and employees who are planning for their post-retirement life. It provides the opportunity to plan for retirement with experienced professionals and own a diverse range of assets, while also having access to best-in-class wealth advisory services. The plan is designed to help clients design their future and manage the various risks associated with retirement, including longevity risks and investment risks, while also helping to organize and manage their assets.",
-            isValid: false,
+            isValid: true,
         },
     ];
 
@@ -183,6 +183,7 @@ const Products = () => {
                         return (
                             <ProductCard
                                 title={i.title}
+                                isValid={i.isValid}
                                 key={index}
                                 image={i.thumb}
                                 onClick={() => {

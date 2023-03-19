@@ -12,18 +12,24 @@ interface stepperProps {
     closeModal?: any;
     submitEvent?: any;
     stepperTitles?: Array<any>;
+    iCorp?: boolean;
+    rPlan?: boolean;
 }
 
 const StepperModal = (props: stepperProps) => {
-    const { children, closeModal, submitEvent, stepperTitles } = props;
-    // const [completedStep, setCompletedStep] = useState(0);
+    const { children, closeModal, submitEvent, stepperTitles, iCorp, rPlan } =
+        props;
 
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
     const dispatch = useAppDispatch();
 
     function nextFunction(e: any) {
         e.preventDefault();
-        currentStepper > 3 ? submitEvent() : dispatch(nextStepper());
+        (iCorp && currentStepper > 2) ||
+        (rPlan && currentStepper > 1) ||
+        currentStepper > 3
+            ? submitEvent()
+            : dispatch(nextStepper());
     }
 
     function prevFunction() {
@@ -35,19 +41,13 @@ const StepperModal = (props: stepperProps) => {
         }
     }
 
-    // useEffect(() => {
-    //     // console.log(currentStepper);
-
-    //     return () => dispatch(clearStepper());
-    // }, [currentStepper, dispatch]);
-
     return (
         <div
-            className="fixed top-0 left-0 w-screen h-screen grid place-items-center overflow-y-auto py-10 bg-primary/30 text-primary"
+            className="fixed top-0 left-0 w-screen h-screen flex justify-center overflow-y-auto py-10 bg-primary/30 text-primary"
             {...props}
         >
             <form
-                className="w-[691px] min-h-[1028px] bg-white-light rounded-[20px] flex flex-col my-10"
+                className="w-[691px] relative h-full min-h-[1028px] bg-white-light rounded-[20px] flex flex-col my-10 py-5"
                 onSubmit={nextFunction}
             >
                 <div className="w-full h-[72px] border-b-primary/10 border-b flex justify-center items-center text-sm">
@@ -81,7 +81,9 @@ const StepperModal = (props: stepperProps) => {
                                         <span>{item}</span>
                                     </div>
 
-                                    {index < 3 && (
+                                    {(index < 3 ||
+                                        (iCorp && index < 2) ||
+                                        (rPlan && index < 2)) && (
                                         <hr
                                             className={`w-[50px] border-primary mx-3 ${
                                                 stepperTitles && "w-[20px]"
@@ -109,9 +111,12 @@ const StepperModal = (props: stepperProps) => {
                         <button
                             type="submit"
                             className="w-[180px] border-primary border rounded-[8px] hover:bg-primary/5 font-semibold"
-                            // onClick={nextFunction}
                         >
-                            {currentStepper === 4 ? "Submit" : "Next"}
+                            {currentStepper === 4 ||
+                            (iCorp && currentStepper > 2) ||
+                            (rPlan && currentStepper > 1)
+                                ? "Submit"
+                                : "Next"}
                         </button>
                     </div>
                 </div>

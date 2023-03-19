@@ -5,7 +5,7 @@ import Loader from "../../components/LoaderComponent";
 import StepperModal from "../../components/StepperComponent";
 import { devInstance } from "../../store/devInstance";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { clearStepper, clearForm } from "../../store/stepperSlice";
+import { clearStepper } from "../../store/stepperSlice";
 
 type _props = {
     closeModal?: any;
@@ -17,7 +17,7 @@ type _props = {
 
 // ​/api​/v1​/Transaction​/HIIPIndividualInvestment
 const HiipIndividualForm = (props: _props) => {
-    const { closeModal, states, setOpenStepper } = props;
+    const { closeModal, states, formType } = props;
     const dispatch = useAppDispatch();
     const [loading, setLoading] = React.useState(false);
     const [formData, setFormData]: any = React.useState({
@@ -57,6 +57,44 @@ const HiipIndividualForm = (props: _props) => {
     });
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
 
+    function clearForm() {
+        setFormData({
+            InvestmentAmount: "",
+            InvestmentFrequency: "",
+            FirstName: "",
+            Surname: "",
+            MiddleName: "",
+            MotherMaidenName: "",
+            Gender: "",
+            BirthDate: "",
+            BirthPlace: "",
+            Occupation: "",
+            Nationality: "",
+            NextOfKinName: "",
+            RelationshipWithNOK: "",
+            PhoneNumberNOK: "",
+            ContactAddressNOK: "",
+            ResidentialAddress: "",
+            PostalAddress: "",
+            PhoneNumber: "",
+            EmailAddress: "",
+            PassportPhoto: "",
+            UnitHolderSignature: "",
+            EmploymentStatus: "",
+            Employer: "",
+            EmployerPhoneNumber: "",
+            EmployerAddress: "",
+            FundSource: "",
+            GrossAnnualIncome: "",
+            BankName: "",
+            AccountName: "",
+            AccountNumber: "",
+            Branch: "",
+            BVN: "",
+            ProductName: "",
+        });
+    }
+
     const formChange = async (e: any) => {
         e.preventDefault();
         if (e.target.type === "radio") {
@@ -94,7 +132,7 @@ const HiipIndividualForm = (props: _props) => {
                 })
                 .catch((err) => {
                     setLoading(false);
-                    toast(`${err}`);
+                    toast.error(`${err}`);
                 })
                 .finally(() => setLoading(false));
         } else {
@@ -113,7 +151,7 @@ const HiipIndividualForm = (props: _props) => {
         },
         {
             title: "Form of Identity",
-            value: formData.FormOfIdentity,
+            value: formData.UnitHolderSignature,
         },
     ];
 
@@ -127,81 +165,51 @@ const HiipIndividualForm = (props: _props) => {
 
         if (fileErrors[0].value && fileErrors[1].value) {
             setLoading(true);
-            // setTimeout(() => {
-            //     setLoading(false);
-            //     toast.success("Account Opened Successfully!");
-            //     setOpenStepper(false);
-            //     dispatch(clearStepper());
-            //     navigate("/");
-            // }, 3000);
             var data = new FormData();
-            data.append("AccountName", formData.AccountName || "NA");
-            data.append(
-                "AccountNumber",
-                formData.AccountNumber || "1234567890"
-            );
-            data.append("Age", formData.Age || "18");
-            data.append("BirthDate", formData.BirthDate || "2022-01-01");
-            data.append("BankName", formData.BankName || "NA");
+            data.append("AccountName", formData.AccountName);
+            data.append("AccountNumber", formData.AccountNumber);
+            data.append("BankName", formData.BankName);
+            data.append("BirthDate", formData.BirthDate);
+            data.append("BirthPlace", formData.BirthPlace);
+            data.append("Branch", formData.Branch);
             data.append("BVN", formData.BVN);
-            data.append("CityNOK", formData.CityNOK || "NA");
-            data.append("Country", formData.Country || "NA");
+            data.append("ContactAddressNOK", formData.ContactAddressNOK);
             data.append("EmailAddress", formData.EmailAddress);
-            data.append("EmailAddressNOK", formData.EmailAddressNOK);
-            data.append("ExpiryDate", formData.ExpiryDate || "2022-01-01");
-            data.append("FormOfIdentity", formData.FormOfIdentity);
-            data.append("IdIssueDate", formData.IdIssueDate || "2022-01-01");
-            data.append("IdNumber", formData.IdNumber);
-            data.append("IdType", formData.IdType || "NA");
+            data.append("Employer", formData.Employer);
+            data.append("EmployerAddress", formData.EmployerAddress);
+            data.append("EmployerPhoneNumber", formData.EmployerPhoneNumber);
+            data.append("EmploymentStatus", formData.EmploymentStatus);
+            data.append("FundSource", formData.FundSource);
+            data.append("Gender", formData.Gender);
+            data.append("GrossAnnualIncome", formData.GrossAnnualIncome);
+            data.append("InvestmentAmount", formData.InvestmentAmount);
+            data.append("InvestmentFrequency", formData.InvestmentFrequency);
+            data.append("MiddleName", formData.MiddleName);
+            data.append("MotherMaidenName", formData.MotherMaidenName);
+            data.append("Nationality", formData.Nationality);
+            data.append("NextOfKinName", formData.NextOfKinName);
+            data.append("Occupation", formData.Occupation);
+            data.append("PassportPhoto", formData.PassportPhoto);
+            data.append("PhoneNumberNOK", formData.PhoneNumberNOK);
+            data.append("PostalAddress", formData.PostalAddress);
             data.append(
-                "InterestReinvestment",
-                formData.InterestReinvestment || "true"
+                "ProductName",
+                "Individual High Interest Investment Plan"
             );
-            data.append("InvestmentAmount", formData.InvestmentAmount || "200");
-            data.append(
-                "IsAJointApplicant",
-                formData.IsAJointApplicant || "true"
-            );
-            data.append("IsANewClient", formData.IsANewClient || "true");
-            data.append(
-                "JointApplicantsName",
-                formData.JointApplicantsName || "NA"
-            );
-            data.append("NameNOK", formData.NameNOK || "NA");
-            data.append("Nationality", formData.Nationality || "NA");
-            data.append("Occupation", formData.Occupation || "NA");
-            data.append("PassportPhoto", formData.PassportPhoto || "NA");
-            data.append("PhoneNumber", formData.PhoneNumber || "NA");
-            data.append(
-                "PrefCommunicationMode",
-                formData.PrefCommunicationMode
-            );
-            data.append("ProductName", "HIIP Individual");
-            data.append(
-                "RelationshipWithNOK",
-                formData.RelationshipWithNOK || "NA"
-            );
+            data.append("RelationshipWithNOK", formData.RelationshipWithNOK);
             data.append("ResidentialAddress", formData.ResidentialAddress);
-            data.append(
-                "ResidentialAddressNOK",
-                formData.ResidentialAddressNOK
-            );
-            data.append("State", formData.State || "NA");
             data.append("UnitHolderSignature", formData.UnitHolderSignature);
-            data.append("UtilityBill", formData.UtilityBill);
-            data.append("HearAboutUs", formData.HearAboutUs);
             data.append("FirstName", formData.FirstName);
             data.append("Surname", formData.Surname);
-            data.append(
-                "ResidenceJurisdiction",
-                formData.ResidenceJurisdiction
-            );
-            data.append("UsTin", formData.UsTin);
+            data.append("PhoneNumber", formData.PhoneNumber);
 
             var config = {
                 method: "post",
                 maxBodyLength: Infinity,
-                url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/FixedIncomeFundInvestment",
+                url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/HIIPIndividualInvestment",
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
                 data: data,
             };
 
@@ -212,17 +220,15 @@ const HiipIndividualForm = (props: _props) => {
                         `${response.message || response.data.message}`
                     );
                     dispatch(clearStepper());
-                    dispatch(clearForm());
-                    setOpenStepper();
+                    clearForm();
+                    closeModal()
                 })
                 .catch(function (error: any) {
                     console.log(error);
-                    toast.error("error");
+                    toast.error("Error, Try Again");
                     setLoading(false);
                 })
-                .finally(() => {
-                    setLoading(false);
-                });
+                .finally(() => setLoading(false));
         }
     };
 
@@ -252,7 +258,7 @@ const HiipIndividualForm = (props: _props) => {
                                 <div className="flex items-center gap-x-3">
                                     <input
                                         className="border-primary checked:bg-primary focus:bg-primary focus:ring-primary checked:ring-primary"
-                                        name="IsANewClient"
+                                        name="formType"
                                         type="radio"
                                         value="individual"
                                         checked
@@ -263,10 +269,10 @@ const HiipIndividualForm = (props: _props) => {
                                 <div className="flex items-center gap-x-3">
                                     <input
                                         className="border-primary checked:bg-primary"
-                                        name="IsANewClient"
+                                        name="formType"
                                         type="radio"
                                         value="corporate"
-                                        // onClick={() => setClient("false")}
+                                        onClick={() => formType("corporate")}
                                     />
                                     Corporate
                                 </div>
@@ -286,9 +292,9 @@ const HiipIndividualForm = (props: _props) => {
                                     options={["Weekly", "Monthly", "Yearly"]}
                                     required
                                     title="Investment Frquency *"
-                                    name="InvestmentFrequency "
+                                    name="InvestmentFrequency"
                                     onChange={formChange}
-                                    value={formData.HearAboutUs || null}
+                                    value={formData.InvestmentFrequency || null}
                                 />
                             </div>
                         </div>
@@ -383,14 +389,14 @@ const HiipIndividualForm = (props: _props) => {
                                     value={formData.Occupation}
                                 />
                             </div>
-
-                            <Select
-                                options={["Nigeria", "Ghana", "Togo"]}
-                                title="Nationality *"
+                            <Input
+                                placeholder="Nationality *"
                                 name="Nationality"
                                 onChange={formChange}
+                                pattern="^[A-Za-z]+[A-Za-z ]*$"
+                                title="Only Alphabets are allowed"
                                 required
-                                value={formData.Nationality || null}
+                                value={formData.Nationality}
                             />
 
                             <div className="grid grid-cols-2 gap-x-7">

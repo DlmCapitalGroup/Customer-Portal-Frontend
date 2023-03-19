@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import elipse from "../../assets/images/elipse.svg";
 import StepperModal from "../../components/StepperComponent";
 import { Input, Select } from "../../components/FormElements";
-import { clearStepper, setData } from "../../store/stepperSlice";
+import { clearStepper } from "../../store/stepperSlice";
 import axios from "axios";
 import chevronDown from "../../assets/images/chevron-down.svg";
 import cancelBtn from "../../assets/images/close-modal.svg";

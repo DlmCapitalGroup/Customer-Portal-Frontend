@@ -5,7 +5,7 @@ import Loader from "../../components/LoaderComponent";
 import StepperModal from "../../components/StepperComponent";
 import { devInstance } from "../../store/devInstance";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { clearStepper, clearForm } from "../../store/stepperSlice";
+import { clearStepper } from "../../store/stepperSlice";
 
 type _props = {
     closeModal?: any;
@@ -15,9 +15,8 @@ type _props = {
     setOpenStepper?: any;
 };
 
-// ​/api​/v1​/Transaction​/HIIPIndividualInvestment
 const HiipCorporateForm = (props: _props) => {
-    const { closeModal, states, setOpenStepper } = props;
+    const { closeModal, states, formType } = props;
     const dispatch = useAppDispatch();
     const [loading, setLoading] = React.useState(false);
     const [formData, setFormData]: any = React.useState({
@@ -54,6 +53,42 @@ const HiipCorporateForm = (props: _props) => {
         ProductName: "",
     });
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
+
+    function clearForm() {
+        setFormData({
+            InvestmentAmount: "",
+            InvestmentFrequency: "",
+            CompanyName: "",
+            RegistrationDate: "",
+            RCNumber: "",
+            EmailAddress: "",
+            ContactPersonFirstName: "",
+            ContactPersonMiddleName: "",
+            ContactPersonLastName: "",
+            CorporatePhoneNumber: "",
+            PassportPicture: "",
+            BusinessNature: "",
+            Industry: "",
+            EmployerSize: "",
+            AnnualRevenue: "",
+            CompanyAddress: "",
+            State: "",
+            City: "",
+            Country: "",
+            Postalcode: "",
+            Bank: "",
+            AccountName: "",
+            AccountNumber: "",
+            Branch: "",
+            BVN: "",
+            ChiefContactSign: "",
+            AccountOfficer: "",
+            AccountOfficerSign: "",
+            ComplianceOfficer: "",
+            ComplianceOfficerSign: "",
+            ProductName: "",
+        });
+    }
 
     const formChange = async (e: any) => {
         e.preventDefault();
@@ -107,11 +142,19 @@ const HiipCorporateForm = (props: _props) => {
     const fileErrors = [
         {
             title: "Passport Photo",
-            value: formData.PassportPhoto,
+            value: formData.PassportPicture,
         },
         {
-            title: "Form of Identity",
-            value: formData.FormOfIdentity,
+            title: "Chief Contact Signature",
+            value: formData.ChiefContactSign,
+        },
+        {
+            title: "Compliance Contact Signature",
+            value: formData.ComplianceOfficerSign,
+        },
+        {
+            title: "Account Officer Signature",
+            value: formData.AccountOfficerSign,
         },
     ];
 
@@ -122,8 +165,19 @@ const HiipCorporateForm = (props: _props) => {
         if (fileErrors[1].value === "") {
             toast.error(`${fileErrors[1].title} is required`);
         }
+        if (fileErrors[2].value === "") {
+            toast.error(`${fileErrors[2].title} is required`);
+        }
+        if (fileErrors[3].value === "") {
+            toast.error(`${fileErrors[3].title} is required`);
+        }
 
-        if (fileErrors[0].value && fileErrors[1].value) {
+        if (
+            fileErrors[0].value &&
+            fileErrors[1].value &&
+            fileErrors[2].value &&
+            fileErrors[3].value
+        ) {
             setLoading(true);
             // setTimeout(() => {
             //     setLoading(false);
@@ -133,73 +187,57 @@ const HiipCorporateForm = (props: _props) => {
             //     navigate("/");
             // }, 3000);
             var data = new FormData();
-            data.append("AccountName", formData.AccountName || "NA");
-            data.append(
-                "AccountNumber",
-                formData.AccountNumber || "1234567890"
-            );
-            data.append("Age", formData.Age || "18");
-            data.append("BirthDate", formData.BirthDate || "2022-01-01");
-            data.append("BankName", formData.BankName || "NA");
+            data.append("AccountName", formData.AccountName);
+            data.append("AccountNumber", formData.AccountNumber);
+            data.append("AccountOfficer", formData.AccountOfficer);
+            data.append("AccountOfficerSign", formData.AccountOfficerSign);
+            data.append("AnnualRevenue", formData.AnnualRevenue);
+            data.append("Bank", formData.Bank);
+            data.append("Branch", formData.Branch);
+            data.append("BusinessNature", formData.BusinessNature);
             data.append("BVN", formData.BVN);
-            data.append("CityNOK", formData.CityNOK || "NA");
-            data.append("Country", formData.Country || "NA");
+            data.append("ChiefContactSign", formData.ChiefContactSign);
+            data.append("City", formData.City);
+            data.append("CompanyAddress", formData.CompanyAddress);
+            data.append("CompanyName", formData.CompanyName);
+            data.append("ComplianceOfficer", formData.ComplianceOfficer);
+            data.append("ComplianceOfficerSign", formData.ComplianceOfficer);
+            data.append(
+                "ContactPersonFirstName",
+                formData.ContactPersonFirstName
+            );
+            data.append(
+                "ContactPersonLastName",
+                formData.ContactPersonLastName
+            );
+            data.append(
+                "ContactPersonMiddleName",
+                formData.ContactPersonMiddleName
+            );
+            data.append("CorporatePhoneNumber", formData.CorporatePhoneNumber);
+            data.append("Country", formData.Country);
             data.append("EmailAddress", formData.EmailAddress);
-            data.append("EmailAddressNOK", formData.EmailAddressNOK);
-            data.append("ExpiryDate", formData.ExpiryDate || "2022-01-01");
-            data.append("FormOfIdentity", formData.FormOfIdentity);
-            data.append("IdIssueDate", formData.IdIssueDate || "2022-01-01");
-            data.append("IdNumber", formData.IdNumber);
-            data.append("IdType", formData.IdType || "NA");
+            data.append("EmployerSize", formData.EmployerSize);
+            data.append("Industry", formData.Industry);
+            data.append("InvestmentAmount", formData.InvestmentAmount);
+            data.append("InvestmentFrequency", formData.InvestmentFrequency);
+            data.append("PassportPicture", formData.PassportPicture);
+            data.append("Postalcode", formData.Postalcode);
             data.append(
-                "InterestReinvestment",
-                formData.InterestReinvestment || "true"
+                "ProductName",
+                "Corporate High Interest Investment Plan"
             );
-            data.append("InvestmentAmount", formData.InvestmentAmount || "200");
-            data.append(
-                "IsAJointApplicant",
-                formData.IsAJointApplicant || "true"
-            );
-            data.append("IsANewClient", formData.IsANewClient || "true");
-            data.append(
-                "JointApplicantsName",
-                formData.JointApplicantsName || "NA"
-            );
-            data.append("NameNOK", formData.NameNOK || "NA");
-            data.append("Nationality", formData.Nationality || "NA");
-            data.append("Occupation", formData.Occupation || "NA");
-            data.append("PassportPhoto", formData.PassportPhoto || "NA");
-            data.append("PhoneNumber", formData.PhoneNumber || "NA");
-            data.append(
-                "PrefCommunicationMode",
-                formData.PrefCommunicationMode
-            );
-            data.append("ProductName", "HIIP Individual");
-            data.append(
-                "RelationshipWithNOK",
-                formData.RelationshipWithNOK || "NA"
-            );
-            data.append("ResidentialAddress", formData.ResidentialAddress);
-            data.append(
-                "ResidentialAddressNOK",
-                formData.ResidentialAddressNOK
-            );
-            data.append("State", formData.State || "NA");
-            data.append("UnitHolderSignature", formData.UnitHolderSignature);
-            data.append("UtilityBill", formData.UtilityBill);
-            data.append("HearAboutUs", formData.HearAboutUs);
-            data.append("FirstName", formData.FirstName);
-            data.append("Surname", formData.Surname);
-            data.append(
-                "ResidenceJurisdiction",
-                formData.ResidenceJurisdiction
-            );
-            data.append("UsTin", formData.UsTin);
+            data.append("RCNumber", formData.RCNumber);
+            data.append("RegistrationDate", formData.RegistrationDate);
+            data.append("State", formData.State);
 
             var config = {
                 method: "post",
                 maxBodyLength: Infinity,
-                url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/FixedIncomeFundInvestment",
+                url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/HIIPCorporateInvestment",
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
                 data: data,
             };
 
@@ -210,8 +248,8 @@ const HiipCorporateForm = (props: _props) => {
                         `${response.message || response.data.message}`
                     );
                     dispatch(clearStepper());
-                    dispatch(clearForm());
-                    setOpenStepper();
+                    clearForm();
+                    closeModal();
                 })
                 .catch(function (error: any) {
                     console.log(error);
@@ -230,10 +268,11 @@ const HiipCorporateForm = (props: _props) => {
             submitEvent={openAccount}
             stepperTitles={[
                 "",
-                "Customer Information",
+                "Customer Info",
                 "Contact Details",
-                "Employment & Bank Info",
+                "Bank Info",
             ]}
+            iCorp
         >
             <div className="text-primary">
                 {currentStepper === 0 && (
@@ -250,19 +289,19 @@ const HiipCorporateForm = (props: _props) => {
                                 <div className="flex items-center gap-x-3">
                                     <input
                                         className="border-primary checked:bg-primary focus:bg-primary focus:ring-primary checked:ring-primary"
-                                        name="IsANewClient"
+                                        name="formType"
                                         type="radio"
                                         value="individual"
-                                        checked
-                                        // onClick={() => setFormType("true")}
+                                        onClick={() => formType("individual")}
                                     />
                                     Individual
                                 </div>
                                 <div className="flex items-center gap-x-3">
                                     <input
                                         className="border-primary checked:bg-primary"
-                                        name="IsANewClient"
+                                        name="formType"
                                         type="radio"
+                                        checked
                                         value="corporate"
                                         // onClick={() => setClient("false")}
                                     />
@@ -284,9 +323,9 @@ const HiipCorporateForm = (props: _props) => {
                                     options={["Weekly", "Monthly", "Yearly"]}
                                     required
                                     title="Investment Frquency *"
-                                    name="InvestmentFrequency "
+                                    name="InvestmentFrequency"
                                     onChange={formChange}
-                                    value={formData.HearAboutUs || null}
+                                    value={formData.InvestmentFrequency || null}
                                 />
                             </div>
                         </div>
@@ -304,7 +343,6 @@ const HiipCorporateForm = (props: _props) => {
                                 onChange={formChange}
                                 required
                                 value={formData.CompanyName}
-                                title="Only Alphabets are allowed"
                             />
                             <div className="grid grid-cols-2 gap-x-7">
                                 <Input
@@ -328,6 +366,13 @@ const HiipCorporateForm = (props: _props) => {
                                     // disabled
                                 />
                             </div>
+                            <Input
+                                placeholder="Email Address *"
+                                name="EmailAddress"
+                                onChange={formChange}
+                                required
+                                value={formData.EmailAddress}
+                            />
                             <Input
                                 placeholder="Contact Person’s First Name *"
                                 name="ContactPersonFirstName"
@@ -370,11 +415,13 @@ const HiipCorporateForm = (props: _props) => {
                             />
 
                             <Input
-                                placeholder="Passport Picture *"
-                                name="PassportPhoto"
+                                placeholder="Upload Passport Picture *"
+                                name="PassportPicture"
                                 onChange={formChange}
                                 type="file"
-                                uploaded={formData.PassportPhoto ? true : false}
+                                uploaded={
+                                    formData.PassportPicture ? true : false
+                                }
                             />
                         </div>
                     </div>
@@ -382,42 +429,83 @@ const HiipCorporateForm = (props: _props) => {
                 {currentStepper === 2 && (
                     <div>
                         <h3 className="text-xl font-semibold mb-[29px] text-center">
-                            Contact Details
+                            Company Contact Details
                         </h3>
                         <div className="flex flex-col gap-y-4">
                             <Input
-                                placeholder="Residential Address *"
-                                name="ResidentialAddress"
+                                placeholder="Nature of Business *"
+                                name="BusinessNature"
                                 onChange={formChange}
                                 required
-                                value={formData.ResidentialAddress}
+                                value={formData.BusinessNature}
                             />
                             <Input
-                                placeholder="Postal Address *"
-                                name="PostalAddress"
+                                placeholder="Industry *"
+                                name="Industry"
                                 onChange={formChange}
                                 required
-                                value={formData.PostalAddress}
+                                value={formData.Industry}
+                            />
+                            <Input
+                                placeholder="Employer Size *"
+                                name="EmployerSize"
+                                type="number"
+                                onChange={formChange}
+                                required
+                                value={formData.EmployerSize}
+                            />
+                            <Input
+                                placeholder="Annual Revenue *"
+                                name="AnnualRevenue"
+                                type="number"
+                                onChange={formChange}
+                                required
+                                value={formData.AnnualRevenue}
+                            />
+                            <Input
+                                placeholder="Company Address *"
+                                name="CompanyAddress"
+                                onChange={formChange}
+                                required
+                                value={formData.CompanyAddress}
                             />
                             <div className="grid grid-cols-2 gap-x-7">
-                                <Input
-                                    placeholder="Phone Number *"
-                                    name="PhoneNumber"
-                                    type="number"
+                                <Select
+                                    options={states}
+                                    title="State *"
+                                    name="State"
+                                    placeholder="state"
                                     onChange={formChange}
                                     required
-                                    value={formData.PhoneNumber}
+                                    value={formData.State || null}
                                 />
                                 <Input
-                                    placeholder="Email Address *"
-                                    name="EmailAddress"
+                                    placeholder="City *"
+                                    name="City"
                                     onChange={formChange}
                                     required
-                                    type="email"
-                                    value={formData.EmailAddress}
+                                    value={formData.City}
                                 />
                             </div>
-                            <Input
+                            <div className="grid grid-cols-2 gap-x-7">
+                                <Select
+                                    options={["Nigeria", "Ghana", "Togo"]}
+                                    title="Country *"
+                                    name="Country"
+                                    onChange={formChange}
+                                    required
+                                    value={formData.Country || null}
+                                />
+                                <Input
+                                    placeholder="Postal Code *"
+                                    name="Postalcode"
+                                    onChange={formChange}
+                                    type="number"
+                                    required
+                                    value={formData.Postalcode}
+                                />
+                            </div>
+                            {/* <Input
                                 placeholder="Passport Picture *"
                                 name="PassportPhoto"
                                 onChange={formChange}
@@ -432,73 +520,14 @@ const HiipCorporateForm = (props: _props) => {
                                 uploaded={
                                     formData.UnitHolderSignature ? true : false
                                 }
-                            />
+                            /> */}
                         </div>
                     </div>
                 )}
                 {currentStepper === 3 && (
                     <div>
                         <h3 className="text-xl font-semibold mb-[29px] text-center">
-                            Employment Details
-                        </h3>
-                        <div className="flex flex-col gap-y-4">
-                            <Select
-                                options={[
-                                    "Unemployed",
-                                    "Employed",
-                                    "Self Employed",
-                                ]}
-                                title="Employment Status *"
-                                required
-                                name="EmploymentStatus"
-                                onChange={formChange}
-                                value={formData.EmploymentStatus || null}
-                            />
-                            <Input
-                                placeholder="Employer *"
-                                name="Employer"
-                                onChange={formChange}
-                                required
-                                value={formData.Employer}
-                            />
-                            <Input
-                                placeholder="Employer’s Telephone Number *"
-                                name="EmployerPhoneNumber"
-                                type="number"
-                                onChange={formChange}
-                                required
-                                value={formData.EmployerPhoneNumber}
-                            />
-                            <Input
-                                placeholder="Employer/Employment Address *"
-                                name="EmployerAddress"
-                                onChange={formChange}
-                                required
-                                value={formData.EmployerAddress}
-                            />
-                            <Input
-                                placeholder="Source of Funds *"
-                                name="FundSource"
-                                onChange={formChange}
-                                required
-                                value={formData.FundSource}
-                            />
-                            <Input
-                                placeholder="Gross Annual Income Details *"
-                                name="GrossAnnualIncome"
-                                type="number"
-                                onChange={formChange}
-                                required
-                                value={formData.GrossAnnualIncome}
-                            />
-                        </div>
-                    </div>
-                )}
-
-                {currentStepper === 4 && (
-                    <div>
-                        <h3 className="text-xl font-semibold mb-[29px] text-center">
-                            Banking Details
+                            Company Banking Details
                         </h3>
                         <div className="flex flex-col gap-y-4">
                             <Select
@@ -510,9 +539,9 @@ const HiipCorporateForm = (props: _props) => {
                                 ]}
                                 title="Bank Name *"
                                 required
-                                name="BankName"
+                                name="Bank"
                                 onChange={formChange}
-                                value={formData.BankName || null}
+                                value={formData.Bank || null}
                             />
                             <Input
                                 placeholder="Account Name *"
@@ -532,6 +561,15 @@ const HiipCorporateForm = (props: _props) => {
                                 value={formData.AccountNumber}
                             />
                             <Input
+                                placeholder="Branch *"
+                                name="Branch"
+                                onChange={formChange}
+                                required
+                                value={formData.Branch}
+                                pattern="^[A-Za-z]+[A-Za-z ]*$"
+                                title="Only Alphabets are allowed"
+                            />
+                            <Input
                                 placeholder="BVN *"
                                 name="BVN"
                                 onChange={formChange}
@@ -540,13 +578,51 @@ const HiipCorporateForm = (props: _props) => {
                                 value={formData.BVN}
                             />
                             <Input
-                                placeholder="Branch *"
-                                name="Branch"
+                                placeholder="Chief Contact Signature *"
+                                name="ChiefContactSign"
+                                onChange={formChange}
+                                type="file"
+                                uploaded={
+                                    formData.ChiefContactSign ? true : false
+                                }
+                            />
+                            <Input
+                                placeholder="Account Officer *"
+                                name="AccountOfficer"
                                 onChange={formChange}
                                 required
-                                value={formData.Branch}
+                                value={formData.AccountOfficer}
                                 pattern="^[A-Za-z]+[A-Za-z ]*$"
                                 title="Only Alphabets are allowed"
+                            />
+                            <Input
+                                placeholder="Account Officer Signature *"
+                                name="AccountOfficerSign"
+                                onChange={formChange}
+                                type="file"
+                                uploaded={
+                                    formData.AccountOfficerSign ? true : false
+                                }
+                            />
+                            <Input
+                                placeholder="Compliance Officer *"
+                                name="ComplianceOfficer"
+                                onChange={formChange}
+                                required
+                                value={formData.ComplianceOfficer}
+                                pattern="^[A-Za-z]+[A-Za-z ]*$"
+                                title="Only Alphabets are allowed"
+                            />
+                            <Input
+                                placeholder="Compliance Officer Signature *"
+                                name="ComplianceOfficerSign"
+                                onChange={formChange}
+                                type="file"
+                                uploaded={
+                                    formData.ComplianceOfficerSign
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>

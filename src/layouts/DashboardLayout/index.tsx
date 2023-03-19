@@ -86,7 +86,7 @@ const DashboardLayout = (props: dashboardProps) => {
 
     return (
         <div className="w-full min-h-screen bg-primary-light">
-            <div className="sticky top-0 w-full">
+            <div className="sticky top-0 w-full z-10">
                 <Marquee
                     gradient={false}
                     className="bg-primary text-white py-3"
@@ -95,7 +95,7 @@ const DashboardLayout = (props: dashboardProps) => {
                     just some text.
                 </Marquee>
             </div>
-            <div className="fixed left-0 top-0 w-[210px] transition ease-in-out delay-150 duration-300 h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col">
+            <div className="fixed left-0 top-0 w-[210px] z-20 transition ease-in-out delay-150 duration-300 h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col">
                 <img
                     alt=""
                     src={dashboardBg}
