@@ -6,6 +6,9 @@ import {
     prevStepper,
 } from "../../store/stepperSlice";
 import Button from "../ButtonComponent";
+import { usePaystackPayment } from 'react-paystack';
+import { devInstance } from "../../store/devInstance";
+import { toast } from "react-toastify";
 
 interface stepperProps {
     children?: React.ReactNode;
@@ -15,6 +18,7 @@ interface stepperProps {
     iCorp?: boolean;
     rPlan?: boolean;
     cep?: boolean;
+    email?: string;
 }
 
 const StepperModal = (props: stepperProps) => {
@@ -26,7 +30,65 @@ const StepperModal = (props: stepperProps) => {
         iCorp,
         rPlan,
         cep,
+        email,
     } = props;
+
+    const { customer }: any = useAppSelector(
+        (state) => state.auth
+    );    
+
+    const config: any = {
+        reference: (new Date()).getTime().toString(),
+        email: email || "user@example.com",
+        amount: 10 * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+        publicKey: process.env.REACT_APP_APIKEY_PAYSTACK,
+    };
+
+    const initializePayment = usePaystackPayment(config);
+
+    const submitPaystackData = async (data: any) => {
+        console.log(data, 'pp! data')
+        await devInstance
+                .post("/Transaction/PayDetails", data)
+                .then((res: any) => {
+                    if (res.status === 200) {
+                        submitEvent?.();
+                    }
+                    console.log(res.data, "details");
+                })
+                .catch((error: any) => {
+                    const message =
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString();
+                    console.log(message);
+                    toast.error("We were unable to adde your card");
+                })
+                .finally(() => console.log('Done'));
+    }
+    
+    const onSuccess: any = (referenceRes: any) => {
+      let data = {
+        reference: referenceRes?.reference,
+        customerId: customer?.customerId,
+        trans: referenceRes?.trans,
+        transaction: referenceRes?.transaction,
+        trxref: referenceRes?.trxref,
+        redirecturl: referenceRes?.redirecturl
+      }
+
+      if (referenceRes) {
+        submitPaystackData?.(data);
+      }
+    };
+  
+    const onClose = () => {
+      console.log('closed')
+    }
+
+    const paystackHookExample = () => {
+        initializePayment(onSuccess, onClose)
+    };
 
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
     const dispatch = useAppDispatch();
@@ -37,7 +99,7 @@ const StepperModal = (props: stepperProps) => {
         (rPlan && currentStepper > 1) ||
         (cep && currentStepper > 1) ||
         currentStepper > 3
-            ? submitEvent()
+            ? paystackHookExample()
             : dispatch(nextStepper());
     }
 
