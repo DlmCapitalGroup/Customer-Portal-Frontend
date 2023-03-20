@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Input, Select } from "../../components/FormElements";
+import Loader from "../../components/LoaderComponent";
 import StepperModal from "../../components/StepperComponent";
 import { setLoading } from "../../store/auth-slice";
 import { devInstance } from "../../store/devInstance";
@@ -14,8 +15,10 @@ interface _props {
 
 const FixedIncomeFund = (props: _props) => {
     const { closeModal, states } = props;
+    const [loading, setLoading] = React.useState(false);
     const dispatch = useAppDispatch();
     const { currentStepper } = useAppSelector((state) => state.stepper);
+    const { customer }: any = useAppSelector((state) => state.auth);
     const [formData, setFormData]: any = useState({
         IsANewClient: "true",
         InvestmentAmount: "",
@@ -55,6 +58,42 @@ const FixedIncomeFund = (props: _props) => {
         UtilityBill: "",
         UnitHolderSignature: "",
     });
+
+    React.useEffect(() => {
+        devInstance
+            .get(
+                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+            )
+            .then((res) => {
+                console.log(res, "response");
+                setFormData({
+                    ...formData,
+                    Surname: res.data.surname,
+                    FirstName: res.data.firstName,
+                    Age: res.data.age,
+                    BirthDate: res.data.birthDate.slice(0, 10),
+                    EmailAddress: res.data.emailAddress,
+                    PhoneNumber: res.data.phoneNumber,
+                    ResidentialAddress: res.data.residentialAddress,
+                    State: res.data.state,
+                    Country: res.data.country,
+                    Occupation: res.data.occupation,
+                    IdType: res.data.idType,
+                    IdNumber: res.data.idNumber,
+                    BankName: res.data.bankName,
+                    AccountName: res.data.accountName,
+                    AccountNumber: res.data.accountNumber,
+                    BVN: res.data.bvn,
+                    NameNOK: res.data.nextOfKinName,
+                    ResidentialAddressNOK: res.data.addressNOK,
+                    RelationshipWithNOK: res.data.relationshipWithNOK,
+                    PassportPhoto: res.data.passportPhoto,
+                    FormOfIdentity: res.data.formOfIdentity,
+                    UtilityBill: res.data.utilityBill,
+                    UnitHolderSignature: res.data.unitHolderSignature,
+                });
+            });
+    }, []);
 
     function clearForm() {
         setFormData({
@@ -202,58 +241,43 @@ const FixedIncomeFund = (props: _props) => {
             //     navigate("/");
             // }, 3000);
             var data = new FormData();
-            data.append("AccountName", formData.AccountName || "NA");
-            data.append(
-                "AccountNumber",
-                formData.AccountNumber || "1234567890"
-            );
-            data.append("Age", formData.Age || "18");
-            data.append("BirthDate", formData.BirthDate || "2022-01-01");
-            data.append("BankName", formData.BankName || "NA");
+            data.append("AccountName", formData.AccountName);
+            data.append("AccountNumber", formData.AccountNumber);
+            data.append("Age", formData.Age);
+            data.append("BirthDate", formData.BirthDate);
+            data.append("BankName", formData.BankName);
             data.append("BVN", formData.BVN);
-            data.append("CityNOK", formData.CityNOK || "NA");
-            data.append("Country", formData.Country || "NA");
+            data.append("CityNOK", formData.CityNOK);
+            data.append("Country", formData.Country);
             data.append("EmailAddress", formData.EmailAddress);
             data.append("EmailAddressNOK", formData.EmailAddressNOK);
-            data.append("ExpiryDate", formData.ExpiryDate || "2022-01-01");
+            data.append("ExpiryDate", formData.ExpiryDate);
             data.append("FormOfIdentity", formData.FormOfIdentity);
-            data.append("IdIssueDate", formData.IdIssueDate || "2022-01-01");
+            data.append("IdIssueDate", formData.IdIssueDate);
             data.append("IdNumber", formData.IdNumber);
-            data.append("IdType", formData.IdType || "NA");
-            data.append(
-                "InterestReinvestment",
-                formData.InterestReinvestment || "true"
-            );
-            data.append("InvestmentAmount", formData.InvestmentAmount || "200");
-            data.append(
-                "IsAJointApplicant",
-                formData.IsAJointApplicant || "true"
-            );
-            data.append("IsANewClient", formData.IsANewClient || "true");
-            data.append(
-                "JointApplicantsName",
-                formData.JointApplicantsName || "NA"
-            );
-            data.append("NameNOK", formData.NameNOK || "NA");
-            data.append("Nationality", formData.Nationality || "NA");
-            data.append("Occupation", formData.Occupation || "NA");
-            data.append("PassportPhoto", formData.PassportPhoto || "NA");
-            data.append("PhoneNumber", formData.PhoneNumber || "NA");
+            data.append("IdType", formData.IdType);
+            data.append("InterestReinvestment", formData.InterestReinvestment);
+            data.append("InvestmentAmount", formData.InvestmentAmount);
+            data.append("IsAJointApplicant", formData.IsAJointApplicant);
+            data.append("IsANewClient", formData.IsANewClient);
+            data.append("JointApplicantsName", formData.JointApplicantsName);
+            data.append("NameNOK", formData.NameNOK);
+            data.append("Nationality", formData.Nationality);
+            data.append("Occupation", formData.Occupation);
+            data.append("PassportPhoto", formData.PassportPhoto);
+            data.append("PhoneNumber", formData.PhoneNumber);
             data.append(
                 "PrefCommunicationMode",
                 formData.PrefCommunicationMode
             );
             data.append("ProductName", "Fixed Income Fund");
-            data.append(
-                "RelationshipWithNOK",
-                formData.RelationshipWithNOK || "NA"
-            );
+            data.append("RelationshipWithNOK", formData.RelationshipWithNOK);
             data.append("ResidentialAddress", formData.ResidentialAddress);
             data.append(
                 "ResidentialAddressNOK",
                 formData.ResidentialAddressNOK
             );
-            data.append("State", formData.State || "NA");
+            data.append("State", formData.State);
             data.append("UnitHolderSignature", formData.UnitHolderSignature);
             data.append("UtilityBill", formData.UtilityBill);
             data.append("HearAboutUs", formData.HearAboutUs);
@@ -284,7 +308,7 @@ const FixedIncomeFund = (props: _props) => {
                 })
                 .catch(function (error: any) {
                     console.log(error);
-                    toast.error("Error, Try Again");
+                    toast.error(error.message);
                     setLoading(false);
                 })
                 .finally(() => {
@@ -642,13 +666,12 @@ const FixedIncomeFund = (props: _props) => {
                                     made to the bank details above
                                 </small>
                             </div>
-                            <Select
-                                options={["Nigeria", "Ghana", "Togo"]}
-                                title="Nationality *"
+                            <Input
+                                placeholder="Nationality *"
                                 name="Nationality"
                                 required
                                 onChange={formChange}
-                                value={formData.Nationality || null}
+                                value={formData.Nationality}
                             />
                             <textarea
                                 name="ResidenceJurisdiction"
@@ -731,6 +754,7 @@ const FixedIncomeFund = (props: _props) => {
                     </div>
                 )}
             </div>
+            {loading && <Loader />}
         </StepperModal>
     );
 };

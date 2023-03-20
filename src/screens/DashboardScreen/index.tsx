@@ -41,8 +41,9 @@ const DashboardScreen = () => {
         { name: "8", uv: 400, pv: 200, amt: 100 },
         { name: "9", uv: 500, pv: 500, amt: 500 },
     ];
-    const { customer, customerOnboardingData }: any =
-        useAppSelector((state) => state.auth);
+    const { customer, customerOnboardingData }: any = useAppSelector(
+        (state) => state.auth
+    );
     const [transactions, setTransactions] = React.useState([]);
     const [news, setNews] = React.useState([]);
     const [overviewData, setOverViewData] = React.useState<any>({});
@@ -147,7 +148,6 @@ const DashboardScreen = () => {
     const navigate = useNavigate();
 
     const dobRef = useRef<any>(null);
-
 
     const fetchData = useCallback(async () => {
         console.log(dobRef?.current, "it is working");
@@ -259,34 +259,37 @@ const DashboardScreen = () => {
         if (transactions?.length > 0) {
             return (
                 <>
-                    {transactions?.map((item: any, index: number) => (
-                        <div className="flex items-center">
-                            <div className="basis-1/4 pl-[20px]">
-                                <h3>{item?.transactionType}</h3>
+                    {transactions
+                        ?.slice(0, 4)
+                        .map((item: any, index: number) => (
+                            <div className="flex items-center">
+                                <div className="basis-1/4 pl-[20px]">
+                                    <h3>{item?.transactionType}</h3>
+                                </div>
+                                <div className="basis-1/4 text-center">
+                                    <h3>{item?.transactionAmount}</h3>
+                                </div>
+                                <div className="basis-1/4 text-center">
+                                    <h3>
+                                        {new Date(
+                                            item?.transactionDate
+                                        ).toLocaleDateString()}
+                                    </h3>
+                                </div>
+                                <div className="basis-1/4 text-right pr-[20px]">
+                                    <h3
+                                        className={`${
+                                            item?.transactionStatus ===
+                                            "EXECUTED"
+                                                ? "text-success"
+                                                : "text-error"
+                                        }`}
+                                    >
+                                        {item?.transactionStatus}
+                                    </h3>
+                                </div>
                             </div>
-                            <div className="basis-1/4 text-center">
-                                <h3>{item?.transactionAmount}</h3>
-                            </div>
-                            <div className="basis-1/4 text-center">
-                                <h3>
-                                    {new Date(
-                                        item?.transactionDate
-                                    ).toLocaleDateString()}
-                                </h3>
-                            </div>
-                            <div className="basis-1/4 text-right pr-[20px]">
-                                <h3
-                                    className={`${
-                                        item?.transactionStatus === "EXECUTED"
-                                            ? "text-success"
-                                            : "text-error"
-                                    }`}
-                                >
-                                    {item?.transactionStatus}
-                                </h3>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
                 </>
             );
         } else {
@@ -560,7 +563,7 @@ const DashboardScreen = () => {
                                     </div>
                                     <div className="basis-1/3 flex items-center justify-center">
                                         <div>
-                                            <p>Net Asset ($)</p>
+                                            <p>Investments</p>
                                             <p className="font-semibold">$ 0</p>
                                         </div>
                                     </div>
@@ -658,7 +661,7 @@ const DashboardScreen = () => {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div className="w-[420px] rounded-[20px] bg-white-light py-[18px] px-8 overflow-y-auto">
+                            <div className="w-[420px] rounded-[20px] bg-white-light py-[18px] px-8 overflow-y-auto">
                                 <h3 className="text-base font-semibold mb-5">
                                     News & Updates
                                 </h3>
@@ -685,7 +688,7 @@ const DashboardScreen = () => {
                                         </h3>
                                     )}
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>
