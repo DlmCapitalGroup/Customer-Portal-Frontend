@@ -86,9 +86,9 @@ const RetirementPlanSubscription = (props: _props) => {
                     AccountName: res.data.accountName,
                     AccountNumber: res.data.accountNumber,
                     BVN: res.data.bvn,
-                    // NameNOK: res.data.nextOfKinName,
-                    // ResidentialAddressNOK: res.data.addressNOK,
-                    // RelationshipWithNOK: res.data.relationshipWithNOK,
+                    NameNOK: res.data.nextOfKinName,
+                    ResidentialAddressNOK: res.data.addressNOK,
+                    RelationshipWithNOK: res.data.relationshipWithNOK,
                     PassportPhoto: res.data.passportPhoto,
                     MeansOfId: res.data.formOfIdentity,
                     UtilityBill: res.data.utilityBill,
@@ -692,18 +692,21 @@ const RetirementPlanSubscription = (props: _props) => {
                                 required
                             />
                             <p className="-tracking-[.02em] text-xs">
-                                I hereby declare that the details furnished
+                                Your will be automatically charged a N10
+                                non-refundable amount to add your card. Every
+                                investment made will have its amount
+                                automatically debited from your added card.
+                                <br />I hereby declare that the details provided
                                 above are true and correct to the best of my
-                                knowledge, information and belief and i
+                                knowledge information and belief, and i
                                 undertake to inform DLM Asset Management Limited
                                 of any changes therein, immediately in the event
                                 that any of the above information is found to be
                                 false or untrue or misleading or misrepresented,
                                 I am aware that I may be held liable for it. I
-                                hereby cosnsent to DLM Asset Management Limited
+                                hereby consent to DLM Asset Management Limited
                                 sharing any of the information furnished in this
-                                form as it deems appropriate and as may be
-                                required by regulatory authorities.
+                                form as it deems appropriate and as may be.
                             </p>
                         </p>
                     </div>

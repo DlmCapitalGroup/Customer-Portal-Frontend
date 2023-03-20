@@ -100,7 +100,6 @@ const ChildEducationPlan = (props: _props) => {
             });
     }, []);
 
-
     function clearForm() {
         setFormData({
             InvestmentAmount: "",
@@ -676,6 +675,32 @@ const ChildEducationPlan = (props: _props) => {
                                     formData.IsFreeEduAdvisoryService || null
                                 }
                             />
+                            <p className="flex space-x-5 items-start text-base text-black mt-12">
+                                <input
+                                    type="checkbox"
+                                    className="rounded-[5px] bg-white-lighter mt-1"
+                                    required
+                                />
+                                <p className="-tracking-[.02em] text-xs">
+                                    Your will be automatically charged a N10
+                                    non-refundable amount to add your card.
+                                    Every investment made will have its amount
+                                    automatically debited from your added card.
+                                    <br />I hereby declare that the details
+                                    provided above are true and correct to the
+                                    best of my knowledge information and belief,
+                                    and i undertake to inform DLM Asset
+                                    Management Limited of any changes therein,
+                                    immediately in the event that any of the
+                                    above information is found to be false or
+                                    untrue or misleading or misrepresented, I am
+                                    aware that I may be held liable for it. I
+                                    hereby consent to DLM Asset Management
+                                    Limited sharing any of the information
+                                    furnished in this form as it deems
+                                    appropriate and as may be.
+                                </p>
+                            </p>
                         </div>
                     </div>
                 )}

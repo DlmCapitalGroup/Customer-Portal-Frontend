@@ -64,29 +64,29 @@ const HiipCorporateForm = (props: _props) => {
                 console.log(res, "response");
                 setFormData({
                     ...formData,
-                    // Surname: res.data.surname,
-                    // FirstName: res.data.firstName,
-                    // Age: res.data.age,
-                    // BirthDate: res.data.birthDate.slice(0, 10),
-                    // EmailAddress: res.data.emailAddress,
+                    Surname: res.data.surname,
+                    FirstName: res.data.firstName,
+                    Age: res.data.age,
+                    BirthDate: res.data.birthDate.slice(0, 10),
+                    EmailAddress: res.data.emailAddress,
                     PhoneNumber: res.data.phoneNumber,
-                    // ResidentialAddress: res.data.residentialAddress,
+                    ResidentialAddress: res.data.residentialAddress,
                     State: res.data.state,
                     Country: res.data.country,
-                    // Occupation: res.data.occupation,
+                    Occupation: res.data.occupation,
                     IdType: res.data.idType,
                     IdNumber: res.data.idNumber,
                     Bank: res.data.Bank,
                     AccountName: res.data.accountName,
                     AccountNumber: res.data.accountNumber,
                     BVN: res.data.bvn,
-                    // NameNOK: res.data.NextOfKinName,
-                    // ResidentialAddressNOK: res.data.ContactAddressNOK,
-                    // RelationshipWithNOK: res.data.relationshipWithNOK,
+                    NameNOK: res.data.NextOfKinName,
+                    ResidentialAddressNOK: res.data.ContactAddressNOK,
+                    RelationshipWithNOK: res.data.relationshipWithNOK,
                     PassportPicture: res.data.passportPhoto,
-                    // FormOfIdentity: res.data.formOfIdentity,
-                    // UtilityBill: res.data.utilityBill,
-                    // UnitHolderSignature: res.data.unitHolderSignature,
+                    FormOfIdentity: res.data.formOfIdentity,
+                    UtilityBill: res.data.utilityBill,
+                    UnitHolderSignature: res.data.unitHolderSignature,
                 });
             });
     }, []);
@@ -661,6 +661,33 @@ const HiipCorporateForm = (props: _props) => {
                                         : false
                                 }
                             />
+
+                            <p className="flex space-x-5 items-start text-base text-black mt-12">
+                                <input
+                                    type="checkbox"
+                                    className="rounded-[5px] bg-white-lighter mt-1"
+                                    required
+                                />
+                                <p className="-tracking-[.02em] text-xs">
+                                    Your will be automatically charged a N10
+                                    non-refundable amount to add your card.
+                                    Every investment made will have its amount
+                                    automatically debited from your added card.
+                                    <br />I hereby declare that the details
+                                    provided above are true and correct to the
+                                    best of my knowledge information and belief,
+                                    and i undertake to inform DLM Asset
+                                    Management Limited of any changes therein,
+                                    immediately in the event that any of the
+                                    above information is found to be false or
+                                    untrue or misleading or misrepresented, I am
+                                    aware that I may be held liable for it. I
+                                    hereby consent to DLM Asset Management
+                                    Limited sharing any of the information
+                                    furnished in this form as it deems
+                                    appropriate and as may be.
+                                </p>
+                            </p>
                         </div>
                     </div>
                 )}
