@@ -686,6 +686,7 @@ const ChildEducationPlan = (props: _props) => {
                                     non-refundable amount to add your card.
                                     Every investment made will have its amount
                                     automatically debited from your added card.
+                                    <br />
                                     <br />I hereby declare that the details
                                     provided above are true and correct to the
                                     best of my knowledge information and belief,

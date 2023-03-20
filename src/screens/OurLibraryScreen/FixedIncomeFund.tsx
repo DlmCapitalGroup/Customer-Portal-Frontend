@@ -249,7 +249,10 @@ const FixedIncomeFund = (props: _props) => {
             data.append("IdIssueDate", formData.IdIssueDate || "2023-01-01");
             data.append("IdNumber", formData.IdNumber);
             data.append("IdType", formData.IdType);
-            data.append("InterestReinvestment", formData.InterestReinvestment);
+            data.append(
+                "InterestReinvestment",
+                formData.InterestReinvestment || "NA"
+            );
             data.append("InvestmentAmount", formData.InvestmentAmount);
             data.append("IsAJointApplicant", formData.IsAJointApplicant);
             data.append("IsANewClient", formData.IsANewClient);
@@ -737,6 +740,7 @@ const FixedIncomeFund = (props: _props) => {
                                 non-refundable amount to add your card. Every
                                 investment made will have its amount
                                 automatically debited from your added card.
+                                <br />
                                 <br />I hereby declare that the details provided
                                 above are true and correct to the best of my
                                 knowledge information and belief, and i
