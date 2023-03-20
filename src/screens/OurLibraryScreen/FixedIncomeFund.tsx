@@ -358,6 +358,7 @@ const FixedIncomeFund = (props: _props) => {
                                     onChange={formChange}
                                     required
                                     type="number"
+                                    min="10000"
                                     value={formData.InvestmentAmount || null}
                                 />
                             </div>
