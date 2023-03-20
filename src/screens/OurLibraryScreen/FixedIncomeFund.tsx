@@ -251,7 +251,7 @@ const FixedIncomeFund = (props: _props) => {
             data.append("IdType", formData.IdType);
             data.append(
                 "InterestReinvestment",
-                formData.InterestReinvestment || "NA"
+                formData.InterestReinvestment || "false"
             );
             data.append("InvestmentAmount", formData.InvestmentAmount);
             data.append("IsAJointApplicant", formData.IsAJointApplicant);
