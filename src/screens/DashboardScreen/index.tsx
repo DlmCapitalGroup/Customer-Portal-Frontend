@@ -260,7 +260,7 @@ const DashboardScreen = () => {
             return (
                 <>
                     {transactions
-                        ?.slice(0, 4)
+                        ?.slice(0, 9)
                         .map((item: any, index: number) => (
                             <div className="flex items-center">
                                 <div className="basis-1/4 pl-[20px]">
@@ -631,7 +631,7 @@ const DashboardScreen = () => {
                         </h2>
                         <div className="flex justify-between h-[365px] space-x-3">
                             <div className="w-[679px] rounded-[20px] bg-white-lighter h-full">
-                                <div className="text-sm w-full rounded-[20px] bg-white-light h-full">
+                                <div className="text-sm w-full rounded-[20px] bg-white-light h-[365px]">
                                     <div className="flex bg-primary rounded-[20px] h-[45.2px] text-white items-center text-sm xl:text-base">
                                         <div className="basis-1/4 pl-[20px]">
                                             <h3>Type</h3>
@@ -646,12 +646,14 @@ const DashboardScreen = () => {
                                             <h3>Status</h3>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col grow h-full">
-                                        <div className="flex flex-col space-y-4 py-4 grow">
-                                            <TransactionList />
+                                    <div>
+                                        <div className="flex flex-col h-[310px] overflow-hidden">
+                                            <div className="flex flex-col space-y-4 py-4 grow overflow-y-auto">
+                                                <TransactionList />
+                                            </div>
                                         </div>
                                         <p
-                                            className="font-semibold text-sm text-right mr-5 cursor-pointer"
+                                            className="font-semibold text-sm text-right mr-5 cursor-pointer mt-5"
                                             onClick={() =>
                                                 navigate("/transactions")
                                             }

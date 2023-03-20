@@ -233,13 +233,6 @@ const FixedIncomeFund = (props: _props) => {
             fileErrors[3].value
         ) {
             setLoading(true);
-            // setTimeout(() => {
-            //     setLoading(false);
-            //     toast.success("Account Opened Successfully!");
-            //     setOpenStepper(false);
-            //     dispatch(clearStepper());
-            //     navigate("/");
-            // }, 3000);
             var data = new FormData();
             data.append("AccountName", formData.AccountName);
             data.append("AccountNumber", formData.AccountNumber);
@@ -251,16 +244,19 @@ const FixedIncomeFund = (props: _props) => {
             data.append("Country", formData.Country);
             data.append("EmailAddress", formData.EmailAddress);
             data.append("EmailAddressNOK", formData.EmailAddressNOK);
-            data.append("ExpiryDate", formData.ExpiryDate);
+            data.append("ExpiryDate", formData.ExpiryDate || "2023-01-01");
             data.append("FormOfIdentity", formData.FormOfIdentity);
-            data.append("IdIssueDate", formData.IdIssueDate);
+            data.append("IdIssueDate", formData.IdIssueDate || "2023-01-01");
             data.append("IdNumber", formData.IdNumber);
             data.append("IdType", formData.IdType);
             data.append("InterestReinvestment", formData.InterestReinvestment);
             data.append("InvestmentAmount", formData.InvestmentAmount);
             data.append("IsAJointApplicant", formData.IsAJointApplicant);
             data.append("IsANewClient", formData.IsANewClient);
-            data.append("JointApplicantsName", formData.JointApplicantsName);
+            data.append(
+                "JointApplicantsName",
+                formData.JointApplicantsName || "NA"
+            );
             data.append("NameNOK", formData.NameNOK);
             data.append("Nationality", formData.Nationality);
             data.append("Occupation", formData.Occupation);
@@ -268,7 +264,7 @@ const FixedIncomeFund = (props: _props) => {
             data.append("PhoneNumber", formData.PhoneNumber);
             data.append(
                 "PrefCommunicationMode",
-                formData.PrefCommunicationMode
+                formData.PrefCommunicationMode || "NA"
             );
             data.append("ProductName", "Fixed Income Fund");
             data.append("RelationshipWithNOK", formData.RelationshipWithNOK);
@@ -737,18 +733,21 @@ const FixedIncomeFund = (props: _props) => {
                                 required
                             />
                             <p className="-tracking-[.02em] text-xs">
-                                I hereby declare that the details furnished
+                                Your will be automatically charged a N10
+                                non-refundable amount to add your card. Every
+                                investment made will have its amount
+                                automatically debited from your added card.
+                                <br />I hereby declare that the details provided
                                 above are true and correct to the best of my
-                                knowledge, information and belief and i
+                                knowledge information and belief, and i
                                 undertake to inform DLM Asset Management Limited
                                 of any changes therein, immediately in the event
                                 that any of the above information is found to be
                                 false or untrue or misleading or misrepresented,
                                 I am aware that I may be held liable for it. I
-                                hereby cosnsent to DLM Asset Management Limited
+                                hereby consent to DLM Asset Management Limited
                                 sharing any of the information furnished in this
-                                form as it deems appropriate and as may be
-                                required by regulatory authorities.
+                                form as it deems appropriate and as may be.
                             </p>
                         </p>
                     </div>
