@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { Input, Select } from "../../components/FormElements";
 import Loader from "../../components/LoaderComponent";
 import StepperModal from "../../components/StepperComponent";
+import { formatter } from "../../helper";
 import { devInstance } from "../../store/devInstance";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { clearStepper } from "../../store/stepperSlice";
@@ -345,7 +346,7 @@ const RetirementPlanSubscription = (props: _props) => {
                                     placeholder="How much do you want to invest (Min of 10,000) *"
                                     name="InvestmentAmount"
                                     onChange={formChange}
-                                    min="10000"
+                                    min={formatter(Number('10000'))}
                                     required
                                     type="number"
                                     value={formData.InvestmentAmount}
@@ -693,23 +694,14 @@ const RetirementPlanSubscription = (props: _props) => {
                                 required
                             />
                             <p className="-tracking-[.02em] text-xs">
-                                Your will be automatically charged a N10
-                                non-refundable amount to add your card. Every
-                                investment made will have its amount
-                                automatically debited from your added card.
-                                <br />
-                                <br />I hereby declare that the details provided
-                                above are true and correct to the best of my
-                                knowledge information and belief, and i
-                                undertake to inform DLM Asset Management Limited
-                                of any changes therein, immediately in the event
-                                that any of the above information is found to be
-                                false or untrue or misleading or misrepresented,
-                                I am aware that I may be held liable for it. I
-                                hereby consent to DLM Asset Management Limited
-                                sharing any of the information furnished in this
-                                form as it deems appropriate and as may be.
-                            </p>
+                                    I confirm/hereby declare that the information provided above is complete and accurate to the best of my knowledge, belief, and understanding. I pledge to inform DLM Asset Management Limited immediately if there are any changes to this information. If any of the information provided is found to be false, untrue, misleading, or misrepresented, I understand that I may be held liable for it. 
+                                    <br />
+                                    <br />
+                                    I hereby give DLM Asset Management Limited permission to share any of the information provided in this form at its discretion. 
+                                    <br />
+                                    <br />
+                                    I acknowledge that a non-refundable charge of 10 naira (the naira should be in symbol) will be automatically debited from the linked bank account to add my card.
+                                </p>
                         </p>
                     </div>
                 )}
