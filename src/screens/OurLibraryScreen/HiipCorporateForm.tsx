@@ -350,6 +350,7 @@ const HiipCorporateForm = (props: _props) => {
                                     placeholder="How much do you want to invest (Min of 10,000) *"
                                     name="InvestmentAmount"
                                     onChange={formChange}
+                                    min="10000"
                                     required
                                     type="number"
                                     value={formData.InvestmentAmount || null}
