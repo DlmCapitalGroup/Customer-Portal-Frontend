@@ -14,11 +14,19 @@ interface stepperProps {
     stepperTitles?: Array<any>;
     iCorp?: boolean;
     rPlan?: boolean;
+    cep?: boolean;
 }
 
 const StepperModal = (props: stepperProps) => {
-    const { children, closeModal, submitEvent, stepperTitles, iCorp, rPlan } =
-        props;
+    const {
+        children,
+        closeModal,
+        submitEvent,
+        stepperTitles,
+        iCorp,
+        rPlan,
+        cep,
+    } = props;
 
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
     const dispatch = useAppDispatch();
@@ -27,13 +35,14 @@ const StepperModal = (props: stepperProps) => {
         e.preventDefault();
         (iCorp && currentStepper > 2) ||
         (rPlan && currentStepper > 1) ||
+        (cep && currentStepper > 1) ||
         currentStepper > 3
             ? submitEvent()
             : dispatch(nextStepper());
     }
 
     function prevFunction() {
-        if (currentStepper < 1) {
+        if ((cep && currentStepper === 1) || currentStepper === 0) {
             dispatch(clearStepper());
             closeModal();
         } else {
@@ -114,7 +123,8 @@ const StepperModal = (props: stepperProps) => {
                         >
                             {currentStepper === 4 ||
                             (iCorp && currentStepper > 2) ||
-                            (rPlan && currentStepper > 1)
+                            (rPlan && currentStepper > 1) ||
+                            (cep && currentStepper > 1)
                                 ? "Submit"
                                 : "Next"}
                         </button>

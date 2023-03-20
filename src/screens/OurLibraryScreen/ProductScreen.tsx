@@ -13,6 +13,9 @@ import HiipCorporateForm from "./HiipCorporateForm";
 import TargetDatePlan from "./TargetDatePlan";
 import RetirementPlanSubscription from "./RetirementPlanSubscription";
 import FixedIncomeFund from "./FixedIncomeFund";
+import ChildEducationPlan from "./ChildEducationPlan";
+import { clearStepper } from "../../store/stepperSlice";
+import Back from "../../components/BackButton";
 
 const Product = () => {
     const location: any = useLocation();
@@ -20,6 +23,7 @@ const Product = () => {
     const [openStepper, setOpenStepper] = React.useState(false);
     const [stepperType, setStepperType] = React.useState("");
     let stateParams = location?.state?.selectedProduct;
+    const dispatch = useAppDispatch();
 
     const states = [
         "Abia",
@@ -112,6 +116,7 @@ const Product = () => {
             products[stateParams]?.title.toLowerCase() === "fixed income fund"
         ) {
             setStepperType("fif");
+            dispatch(clearStepper());
         }
         if (
             investment?.title.toLowerCase() ===
@@ -120,12 +125,14 @@ const Product = () => {
                 "high interest investment plan"
         ) {
             setStepperType("hiip1");
+            dispatch(clearStepper());
         }
         if (
             investment?.title.toLowerCase() === "target date plan" ||
             products[stateParams]?.title.toLowerCase() === "target date plan"
         ) {
             setStepperType("tdp");
+            dispatch(clearStepper());
         }
         if (
             investment?.title.toLowerCase() ===
@@ -134,12 +141,22 @@ const Product = () => {
                 "retirement plan subscription"
         ) {
             setStepperType("rps");
+            dispatch(clearStepper());
+        }
+        if (
+            investment?.title.toLowerCase() === "child education plan" ||
+            products[stateParams]?.title.toLowerCase() ===
+                "child education plan"
+        ) {
+            setStepperType("cep");
+            dispatch(clearStepper());
         }
     }
 
     function closeModal() {
         setOpenStepper(false);
         setStepperType("");
+        dispatch(clearStepper());
     }
 
     function formType(val: string) {
@@ -153,10 +170,11 @@ const Product = () => {
         }
     }
 
-    console.log(stateParams, "state params");
+    console.log(stateParams);
 
     return (
         <div className="pt-[50px] text-primary max-w-[1120px] text-base pb-20">
+            <Back />
             <h3 className="text-xl font-semibold mb-[15px] capitalize">
                 {investment?.title || products[stateParams]?.title}
             </h3>
@@ -206,6 +224,9 @@ const Product = () => {
             )}
             {openStepper && stepperType === "rps" && (
                 <RetirementPlanSubscription closeModal={closeModal} />
+            )}
+            {openStepper && stepperType === "cep" && (
+                <ChildEducationPlan closeModal={closeModal} states={states} />
             )}
         </div>
     );

@@ -5,7 +5,7 @@ interface StepperState {
 }
 
 const initialState: StepperState = {
-    currentStepper: 1,
+    currentStepper: 0,
 };
 
 const stepperSlice = createSlice({
@@ -24,10 +24,7 @@ const stepperSlice = createSlice({
     },
 });
 
-export const {
-    nextStepper,
-    prevStepper,
-    clearStepper,
-} = stepperSlice.actions;
+export const { nextStepper, prevStepper, clearStepper } =
+    stepperSlice.actions;
 
 export default stepperSlice.reducer;

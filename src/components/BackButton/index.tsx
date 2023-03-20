@@ -10,7 +10,7 @@ const Back = () => {
             viewBox="0 0 24 24"
             strokeWidth={3}
             stroke="#09335E"
-            className="w-6 h-6 mb-10"
+            className="w-6 h-6 mb-10 cursor-pointer"
             onClick={() => navigate(-1)}
         >
             <path

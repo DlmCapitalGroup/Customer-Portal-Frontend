@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import searchIcon from "../../assets/images/search-icon.svg";
 import userIcon from "../../assets/images/user-icon-lg.svg";
@@ -144,13 +144,10 @@ const DashboardScreen = () => {
         );
     };
 
-    console.log(findMissingFormdata(), "dydhudhuj");
-
     const navigate = useNavigate();
 
     const dobRef = useRef<any>(null);
 
-    console.log(updatedOnboardingData, "kjbujkj");
 
     const fetchData = useCallback(async () => {
         console.log(dobRef?.current, "it is working");
@@ -213,7 +210,7 @@ const DashboardScreen = () => {
         fetchData();
     }, [fetchData]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         devInstance
             .get(
                 `/Transaction/GetCustomerSignUpDetails/${customer.emailAddress}`
@@ -230,7 +227,6 @@ const DashboardScreen = () => {
             )
             .then((res) => {
                 console.log(res, "response");
-                // setUpdatedOnboardingData(res.data)
                 setFormData({
                     ...formData,
                     Surname: res.data.surname,
@@ -256,9 +252,8 @@ const DashboardScreen = () => {
                     UtilityBill: res.data.utilityBill,
                     UnitHolderSignature: res.data.unitHolderSignature,
                 });
-                // setUpdatedOnboardingData(res.data);
             });
-    }, []);
+    }, [customer.emailAddress, formData]);
 
     const TransactionList = () => {
         if (transactions?.length > 0) {

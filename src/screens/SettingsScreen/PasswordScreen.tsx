@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { toast } from "react-toastify";
 import lock from "../../assets/images/lock.svg";
 import Button from "../../components/ButtonComponent";
 import { Input } from "../../components/FormElements";
@@ -12,8 +13,9 @@ const Password = () => {
         newPassword: "",
         confirmPassword: "",
     });
+    const [loading, setLoading] = React.useState(false);
 
-    const { loading, customer }: any = useAppSelector((state) => state.auth);
+    const { customer }: any = useAppSelector((state) => state.auth);
 
     const dispatch = useAppDispatch();
 
@@ -42,26 +44,32 @@ const Password = () => {
     const changePassword = async (e: any) => {
         e.preventDefault();
         if (customer.customerId || customer.portalUsername) {
-            dispatch(setLoading(true));
-            const res: any = await dispatch(
-                updatePassword({
-                    email: customer?.emailAddress,
-                    currentPassword: formData.currentPassword,
-                    newPassword: formData.newPassword,
-                    confirmPassword: formData.confirmPassword,
-                })
-            );
+            if (!error) {
+                setLoading(true);
+                const res: any = await dispatch(
+                    updatePassword({
+                        email: customer?.emailAddress,
+                        currentPassword: formData.currentPassword,
+                        newPassword: formData.newPassword,
+                        confirmPassword: formData.confirmPassword,
+                    })
+                );
 
-            let errors =
-                res.meta.rejectedWithValue === true ||
-                res.meta.requestStatus === "rejected";
+                let errors =
+                    res.meta.rejectedWithValue === true ||
+                    res.meta.requestStatus === "rejected";
 
-            if (!errors) {
-                setFormData({
-                    currentPassword: "",
-                    newPassword: "",
-                    confirmPassword: "",
-                });
+                if (!errors) {
+                    setFormData({
+                        currentPassword: "",
+                        newPassword: "",
+                        confirmPassword: "",
+                    });
+                    setLoading(false);
+                } else {
+                    setLoading(false);
+                    toast.error(`${res.message || res.data.message}`);
+                }
             }
         }
     };
@@ -73,7 +81,11 @@ const Password = () => {
             </div>
 
             <form className="max-w-[570px]" onSubmit={changePassword}>
-                <div className="flex flex-col space-y-[30px] mb-[91px]">
+                <div
+                    className={`flex flex-col space-y-[30px] ${
+                        !error && "mb-[91px]"
+                    }`}
+                >
                     <div>
                         <Input
                             isPassword
@@ -82,6 +94,7 @@ const Password = () => {
                             name="currentPassword"
                             value={formData.currentPassword}
                             onChange={formChange}
+                            required
                         />
                     </div>
 
@@ -93,6 +106,7 @@ const Password = () => {
                             name="newPassword"
                             value={formData.newPassword}
                             onChange={formChange}
+                            required
                         />
                     </div>
                     <div>
@@ -103,12 +117,13 @@ const Password = () => {
                             name="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={formChange}
+                            required
                         />
                     </div>
                 </div>
 
                 {error && (
-                    <p className="text-center text-error">
+                    <p className={`text-center text-error ${error && "my-10"}`}>
                         Password does not match
                     </p>
                 )}
