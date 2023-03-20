@@ -41,7 +41,7 @@ const DashboardScreen = () => {
         { name: "8", uv: 400, pv: 200, amt: 100 },
         { name: "9", uv: 500, pv: 500, amt: 500 },
     ];
-    const { customer, customerOnboardingData, updatedOnboardingData }: any =
+    const { customer, customerOnboardingData }: any =
         useAppSelector((state) => state.auth);
     const [transactions, setTransactions] = React.useState([]);
     const [news, setNews] = React.useState([]);
@@ -658,7 +658,7 @@ const DashboardScreen = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-[420px] rounded-[20px] bg-white-light py-[18px] px-8 overflow-y-auto">
+                            {/* <div className="w-[420px] rounded-[20px] bg-white-light py-[18px] px-8 overflow-y-auto">
                                 <h3 className="text-base font-semibold mb-5">
                                     News & Updates
                                 </h3>
@@ -685,7 +685,7 @@ const DashboardScreen = () => {
                                         </h3>
                                     )}
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

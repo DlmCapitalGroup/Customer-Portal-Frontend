@@ -9,7 +9,7 @@ import transactionsIcon from "../../assets/images/transactions-icon.svg";
 // import notificationIcon from "../../assets/images/notification-icon.svg";
 import settingsIcon from "../../assets/images/settings-icon.svg";
 import logoutIcon from "../../assets/images/logout-icon.svg";
-import userIcon from "../../assets/images/avatar.svg";
+import userIcon from "../../assets/images/icon.png";
 import activeIcon from "../../assets/images/active-icon.svg";
 import notebookIcon from "../../assets/images/notebook.svg";
 import dashboardBg from "../../assets/images/bg-dashboard.svg";
