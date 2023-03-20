@@ -87,10 +87,10 @@ const FixedIncomeFund = (props: _props) => {
                     NameNOK: res.data.nextOfKinName,
                     ResidentialAddressNOK: res.data.addressNOK,
                     RelationshipWithNOK: res.data.relationshipWithNOK,
-                    PassportPhoto: res.data.passportPhoto,
-                    FormOfIdentity: res.data.formOfIdentity,
-                    UtilityBill: res.data.utilityBill,
-                    UnitHolderSignature: res.data.unitHolderSignature,
+                    // PassportPhoto: res.data.passportPhoto,
+                    // FormOfIdentity: res.data.formOfIdentity,
+                    // UtilityBill: res.data.utilityBill,
+                    // UnitHolderSignature: res.data.unitHolderSignature,
                 });
             });
     }, []);
@@ -233,13 +233,6 @@ const FixedIncomeFund = (props: _props) => {
             fileErrors[3].value
         ) {
             setLoading(true);
-            // setTimeout(() => {
-            //     setLoading(false);
-            //     toast.success("Account Opened Successfully!");
-            //     setOpenStepper(false);
-            //     dispatch(clearStepper());
-            //     navigate("/");
-            // }, 3000);
             var data = new FormData();
             data.append("AccountName", formData.AccountName);
             data.append("AccountNumber", formData.AccountNumber);
@@ -251,16 +244,19 @@ const FixedIncomeFund = (props: _props) => {
             data.append("Country", formData.Country);
             data.append("EmailAddress", formData.EmailAddress);
             data.append("EmailAddressNOK", formData.EmailAddressNOK);
-            data.append("ExpiryDate", formData.ExpiryDate);
+            data.append("ExpiryDate", formData.ExpiryDate || "2023-01-01");
             data.append("FormOfIdentity", formData.FormOfIdentity);
-            data.append("IdIssueDate", formData.IdIssueDate);
+            data.append("IdIssueDate", formData.IdIssueDate || "2023-01-01");
             data.append("IdNumber", formData.IdNumber);
             data.append("IdType", formData.IdType);
             data.append("InterestReinvestment", formData.InterestReinvestment);
             data.append("InvestmentAmount", formData.InvestmentAmount);
             data.append("IsAJointApplicant", formData.IsAJointApplicant);
             data.append("IsANewClient", formData.IsANewClient);
-            data.append("JointApplicantsName", formData.JointApplicantsName);
+            data.append(
+                "JointApplicantsName",
+                formData.JointApplicantsName || "NA"
+            );
             data.append("NameNOK", formData.NameNOK);
             data.append("Nationality", formData.Nationality);
             data.append("Occupation", formData.Occupation);
@@ -268,7 +264,7 @@ const FixedIncomeFund = (props: _props) => {
             data.append("PhoneNumber", formData.PhoneNumber);
             data.append(
                 "PrefCommunicationMode",
-                formData.PrefCommunicationMode
+                formData.PrefCommunicationMode || "NA"
             );
             data.append("ProductName", "Fixed Income Fund");
             data.append("RelationshipWithNOK", formData.RelationshipWithNOK);

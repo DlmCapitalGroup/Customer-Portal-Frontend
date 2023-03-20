@@ -260,7 +260,7 @@ const DashboardScreen = () => {
             return (
                 <>
                     {transactions
-                        ?.slice(0, 4)
+                        ?.slice(0, 9)
                         .map((item: any, index: number) => (
                             <div className="flex items-center">
                                 <div className="basis-1/4 pl-[20px]">

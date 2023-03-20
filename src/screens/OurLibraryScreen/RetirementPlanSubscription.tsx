@@ -59,6 +59,43 @@ const RetirementPlanSubscription = (props: _props) => {
         ProductName: "",
     });
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
+    const { customer }: any = useAppSelector((state) => state.auth);
+
+    React.useEffect(() => {
+        devInstance
+            .get(
+                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+            )
+            .then((res) => {
+                console.log(res, "response");
+                setFormData({
+                    ...formData,
+                    LastName: res.data.surname,
+                    FirstName: res.data.firstName,
+                    Age: res.data.age,
+                    BirthDate: res.data.birthDate.slice(0, 10),
+                    Email: res.data.emailAddress,
+                    PhoneNumber: res.data.phoneNumber,
+                    Address: res.data.residentialAddress,
+                    State: res.data.state,
+                    Country: res.data.country,
+                    Occupation: res.data.occupation,
+                    IdType: res.data.idType,
+                    IdNumber: res.data.idNumber,
+                    BankName: res.data.bankName,
+                    AccountName: res.data.accountName,
+                    AccountNumber: res.data.accountNumber,
+                    BVN: res.data.bvn,
+                    // NameNOK: res.data.nextOfKinName,
+                    // ResidentialAddressNOK: res.data.addressNOK,
+                    // RelationshipWithNOK: res.data.relationshipWithNOK,
+                    PassportPhoto: res.data.passportPhoto,
+                    MeansOfId: res.data.formOfIdentity,
+                    UtilityBill: res.data.utilityBill,
+                    UnitHolderSignature: res.data.unitHolderSignature,
+                });
+            });
+    }, []);
 
     function clearForm() {
         setFormData({

@@ -53,6 +53,43 @@ const HiipCorporateForm = (props: _props) => {
         ProductName: "",
     });
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
+    const { customer }: any = useAppSelector((state) => state.auth);
+
+    React.useEffect(() => {
+        devInstance
+            .get(
+                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+            )
+            .then((res) => {
+                console.log(res, "response");
+                setFormData({
+                    ...formData,
+                    // Surname: res.data.surname,
+                    // FirstName: res.data.firstName,
+                    // Age: res.data.age,
+                    // BirthDate: res.data.birthDate.slice(0, 10),
+                    // EmailAddress: res.data.emailAddress,
+                    PhoneNumber: res.data.phoneNumber,
+                    // ResidentialAddress: res.data.residentialAddress,
+                    State: res.data.state,
+                    Country: res.data.country,
+                    // Occupation: res.data.occupation,
+                    IdType: res.data.idType,
+                    IdNumber: res.data.idNumber,
+                    Bank: res.data.Bank,
+                    AccountName: res.data.accountName,
+                    AccountNumber: res.data.accountNumber,
+                    BVN: res.data.bvn,
+                    // NameNOK: res.data.NextOfKinName,
+                    // ResidentialAddressNOK: res.data.ContactAddressNOK,
+                    // RelationshipWithNOK: res.data.relationshipWithNOK,
+                    PassportPicture: res.data.passportPhoto,
+                    // FormOfIdentity: res.data.formOfIdentity,
+                    // UtilityBill: res.data.utilityBill,
+                    // UnitHolderSignature: res.data.unitHolderSignature,
+                });
+            });
+    }, []);
 
     function clearForm() {
         setFormData({

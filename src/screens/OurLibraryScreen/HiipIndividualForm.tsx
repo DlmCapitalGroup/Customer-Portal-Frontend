@@ -55,7 +55,44 @@ const HiipIndividualForm = (props: _props) => {
         BVN: "",
         ProductName: "",
     });
+    const { customer }: any = useAppSelector((state) => state.auth);
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
+
+    React.useEffect(() => {
+        devInstance
+            .get(
+                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+            )
+            .then((res) => {
+                console.log(res, "response");
+                setFormData({
+                    ...formData,
+                    Surname: res.data.surname,
+                    FirstName: res.data.firstName,
+                    Age: res.data.age,
+                    BirthDate: res.data.birthDate.slice(0, 10),
+                    EmailAddress: res.data.emailAddress,
+                    PhoneNumber: res.data.phoneNumber,
+                    ResidentialAddress: res.data.residentialAddress,
+                    State: res.data.state,
+                    // Country: res.data.country,
+                    Occupation: res.data.occupation,
+                    IdType: res.data.idType,
+                    IdNumber: res.data.idNumber,
+                    BankName: res.data.bankName,
+                    AccountName: res.data.accountName,
+                    AccountNumber: res.data.accountNumber,
+                    BVN: res.data.bvn,
+                    NameNOK: res.data.nextOfKinName,
+                    ContactAddressNOK: res.data.addressNOK,
+                    RelationshipWithNOK: res.data.relationshipWithNOK,
+                    PassportPhoto: res.data.passportPhoto,
+                    // FormOfIdentity: res.data.formOfIdentity,
+                    // UtilityBill: res.data.utilityBill,
+                    UnitHolderSignature: res.data.unitHolderSignature,
+                });
+            });
+    }, []);
 
     function clearForm() {
         setFormData({
@@ -221,7 +258,7 @@ const HiipIndividualForm = (props: _props) => {
                     );
                     dispatch(clearStepper());
                     clearForm();
-                    closeModal()
+                    closeModal();
                 })
                 .catch(function (error: any) {
                     console.log(error);
