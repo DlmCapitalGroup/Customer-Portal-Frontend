@@ -253,7 +253,7 @@ const DashboardScreen = () => {
                     UnitHolderSignature: res.data.unitHolderSignature,
                 });
             });
-    }, [customer.emailAddress, formData]);
+    }, []);
 
     const TransactionList = () => {
         if (transactions?.length > 0) {
