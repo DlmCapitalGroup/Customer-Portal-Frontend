@@ -328,8 +328,12 @@ const TargetDatePlan = (props: _props) => {
     }
 
     return (
-        <StepperModal amount={formData.InvestmentAmount}
-        email={formData?.EmailAddress} closeModal={closeModal} submitEvent={openAccount}>
+        <StepperModal 
+            amount={formData.InvestmentAmount}
+            email={formData?.EmailAddress} 
+            closeModal={closeModal} 
+            submitEvent={openAccount}
+        >
             <div className="text-primary">
                 {currentStepper === 0 && (
                     <div>
