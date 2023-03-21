@@ -2,6 +2,7 @@ import React from "react";
 // import { useTable } from "react-table";
 import chevronRight from "../../assets/images/chevron-right.svg";
 import chevronLeft from "../../assets/images/chevron-left.svg";
+import { formatter } from "../../helper";
 
 type tableProps = {
     transactions?: Array<any>;
@@ -78,7 +79,7 @@ const Table = (props: tableProps) => {
                                 <h3>{item.transactionType}</h3>
                             </div>
                             <div className="basis-1/4 text-center">
-                                <h3>{item.transactionAmount}</h3>
+                                <h3>{formatter(item.transactionAmount)}</h3>
                             </div>
                             <div className="basis-1/4 text-center">
                                 <h3>

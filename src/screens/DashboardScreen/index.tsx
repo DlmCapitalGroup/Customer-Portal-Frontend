@@ -25,6 +25,7 @@ import {
     setCustomerOnboardingData,
     setUpdatedOnboardingData,
 } from "../../store/auth-slice";
+import { formatter } from "../../helper";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -254,7 +255,7 @@ const DashboardScreen = () => {
                 });
             });
     }, []);
-
+    
     const TransactionList = () => {
         if (transactions?.length > 0) {
             return (
@@ -267,7 +268,7 @@ const DashboardScreen = () => {
                                     <h3>{item?.transactionType}</h3>
                                 </div>
                                 <div className="basis-1/4 text-center">
-                                    <h3>{item?.transactionAmount}</h3>
+                                    <h3>{formatter(item?.transactionAmount)}</h3>
                                 </div>
                                 <div className="basis-1/4 text-center">
                                     <h3>
