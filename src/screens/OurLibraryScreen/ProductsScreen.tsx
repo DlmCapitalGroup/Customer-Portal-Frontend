@@ -186,7 +186,7 @@ const Products = () => {
                 </div>
             </div>
 
-            <h3 className="text-xl font-semibold mb-5">Latest Product News </h3>
+            {/* <h3 className="text-xl font-semibold mb-5">Latest Product News </h3>
             <div className="grid grid-cols-3 gap-x-[60px] gap-y-6 mb-5 text-[18]">
                 {[
                     {
@@ -212,7 +212,7 @@ const Products = () => {
                         />
                     );
                 })}
-            </div>
+            </div> */}
             {serviceModal && (
                 <Modal
                     size="md"
