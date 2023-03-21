@@ -292,6 +292,8 @@ const ChildEducationPlan = (props: _props) => {
             closeModal={closeModal}
             submitEvent={openAccount}
             cep
+            amount={formData.InvestmentAmount}
+            email={formData?.EmailAddress}
         >
             <div className="text-primary">
                 {currentStepper === 0 && (

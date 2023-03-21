@@ -311,6 +311,8 @@ const HiipCorporateForm = (props: _props) => {
                 "Bank Info",
             ]}
             iCorp
+            amount={formData.InvestmentAmount}
+            email={formData?.EmailAddress}
         >
             <div className="text-primary">
                 {currentStepper === 0 && (
