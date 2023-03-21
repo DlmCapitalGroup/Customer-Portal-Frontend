@@ -443,6 +443,8 @@ const DashboardScreen = () => {
         console.log(formData);
         // setformData({ ...formData, [e.target.name]: e.target.value });
     }
+    
+    const totalTranxAmount = transactions.reduce( ( sum, { transactionAmount } ) => sum + transactionAmount , 0)
 
     return (
         <DashboardLayout>

@@ -42,7 +42,7 @@ const StepperModal = (props: stepperProps) => {
     const config: any = {
         reference: (new Date()).getTime().toString(),
         email: email|| customer.emailAddress,
-        amount: 1 * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+        amount: amount * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.REACT_APP_APIKEY_PAYSTACK,
     };
 
@@ -86,7 +86,7 @@ const StepperModal = (props: stepperProps) => {
     };
   
     const onClose = () => {
-      console.log('closed')
+      console.log('closed');
     }
 
     const paystackHookExample = () => {
