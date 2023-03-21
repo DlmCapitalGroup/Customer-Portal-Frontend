@@ -177,7 +177,7 @@ const DashboardScreen = () => {
                     params: { CustomerId: customer?.customerId },
                 })
                 .then((res: any) => {
-                    setTransactions(res?.data?.data?.pageItems);
+                    setTransactions(res?.data?.data?.pageItems.reverse());
                 })
                 .catch((error: any) => {
                     const message =
@@ -255,7 +255,7 @@ const DashboardScreen = () => {
                 });
             });
     }, []);
-    
+
     const TransactionList = () => {
         if (transactions?.length > 0) {
             return (
@@ -268,7 +268,9 @@ const DashboardScreen = () => {
                                     <h3>{item?.transactionType}</h3>
                                 </div>
                                 <div className="basis-1/4 text-center">
-                                    <h3>{formatter(item?.transactionAmount)}</h3>
+                                    <h3>
+                                        {formatter(item?.transactionAmount)}
+                                    </h3>
                                 </div>
                                 <div className="basis-1/4 text-center">
                                     <h3>

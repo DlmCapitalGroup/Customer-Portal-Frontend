@@ -58,7 +58,7 @@ const Transactions = () => {
                     params: { CustomerId: customer?.customerId },
                 })
                 .then((res: any) => {
-                    setTransactions(res?.data?.data?.pageItems);
+                    setTransactions(res?.data?.data?.pageItems.reverse());
                     console.log(res, "rrrrr");
                 })
                 .catch((err) => toast.error(`${err?.message}`));
