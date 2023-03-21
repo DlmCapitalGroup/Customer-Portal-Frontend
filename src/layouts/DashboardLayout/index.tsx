@@ -89,6 +89,7 @@ const DashboardLayout = (props: dashboardProps) => {
             <div className="sticky top-0 w-full z-10">
                 <Marquee
                     gradient={false}
+                    speed={60}
                     className="bg-primary text-white py-3"
                 >
                     I can be a React component, multiple React components, or
