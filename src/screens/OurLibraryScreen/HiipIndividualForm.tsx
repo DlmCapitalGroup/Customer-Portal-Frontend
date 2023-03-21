@@ -278,6 +278,8 @@ const HiipIndividualForm = (props: _props) => {
                 "Contact Details",
                 "Employment & Bank Info",
             ]}
+            amount={formData.InvestmentAmount}
+            email={formData?.EmailAddress}
         >
             <div className="text-primary">
                 {currentStepper === 0 && (

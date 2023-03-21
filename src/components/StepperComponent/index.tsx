@@ -18,6 +18,7 @@ interface stepperProps {
     iCorp?: boolean;
     rPlan?: boolean;
     cep?: boolean;
+    amount?: any;
     email?: string;
 }
 
@@ -30,7 +31,8 @@ const StepperModal = (props: stepperProps) => {
         iCorp,
         rPlan,
         cep,
-        email,
+        amount,
+        email
     } = props;
 
     const { customer }: any = useAppSelector(
@@ -39,8 +41,8 @@ const StepperModal = (props: stepperProps) => {
 
     const config: any = {
         reference: (new Date()).getTime().toString(),
-        email: email || "user@example.com",
-        amount: 10 * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+        email: email|| customer.emailAddress,
+        amount: 1 * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.REACT_APP_APIKEY_PAYSTACK,
     };
 
@@ -54,7 +56,6 @@ const StepperModal = (props: stepperProps) => {
                     if (res.status === 200) {
                         submitEvent?.();
                     }
-                    console.log(res.data, "details");
                 })
                 .catch((error: any) => {
                     const message =
@@ -71,6 +72,8 @@ const StepperModal = (props: stepperProps) => {
       let data = {
         reference: referenceRes?.reference,
         customerId: customer?.customerId,
+        email: customer?.emailAddress,
+        amount: amount,
         trans: referenceRes?.trans,
         transaction: referenceRes?.transaction,
         trxref: referenceRes?.trxref,

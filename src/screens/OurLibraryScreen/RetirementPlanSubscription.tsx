@@ -327,6 +327,8 @@ const RetirementPlanSubscription = (props: _props) => {
             closeModal={closeModal}
             submitEvent={openAccount}
             rPlan
+            amount={formData.InvestmentAmount}
+            email={formData?.EmailAddress}
         >
             <div className="text-primary">
                 {currentStepper === 0 && (
