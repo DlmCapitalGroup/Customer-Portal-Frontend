@@ -54,7 +54,6 @@ const HiipIndividualForm = (props: _props) => {
         AccountNumber: "",
         Branch: "",
         BVN: "",
-        ProductName: "",
     });
     const { customer }: any = useAppSelector((state) => state.auth);
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
@@ -129,7 +128,6 @@ const HiipIndividualForm = (props: _props) => {
             AccountNumber: "",
             Branch: "",
             BVN: "",
-            ProductName: "",
         });
     }
 

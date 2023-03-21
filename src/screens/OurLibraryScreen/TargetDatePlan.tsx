@@ -59,7 +59,6 @@ const TargetDatePlan = (props: _props) => {
         MeansOfId: "",
         UtilityBill: "",
         UnitHolderSignature: "",
-        ProductName: "",
     });
 
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
@@ -142,7 +141,6 @@ const TargetDatePlan = (props: _props) => {
             MeansOfId: "",
             UtilityBill: "",
             UnitHolderSignature: "",
-            ProductName: "",
         });
     }
 

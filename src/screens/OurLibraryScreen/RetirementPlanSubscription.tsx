@@ -57,7 +57,6 @@ const RetirementPlanSubscription = (props: _props) => {
         UtilityBill: "",
         MeansOfId: "",
         UnitHolderSignature: "",
-        ProductName: "",
     });
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
     const { customer }: any = useAppSelector((state) => state.auth);
@@ -136,7 +135,6 @@ const RetirementPlanSubscription = (props: _props) => {
             UtilityBill: "",
             MeansOfId: "",
             UnitHolderSignature: "",
-            ProductName: "",
         });
     }
     const formChange = async (e: any) => {
