@@ -161,7 +161,6 @@ const authSlice = createSlice({
             state.loading = false;
             localStorage.removeItem("persist:root");
             setAuthToken(null);
-            toast.success("Logged out successfully!");
             clearStepper();
         },
         updateCustomer: (state, action) => {
