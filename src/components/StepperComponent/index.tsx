@@ -40,7 +40,7 @@ const StepperModal = (props: stepperProps) => {
     const config: any = {
         reference: (new Date()).getTime().toString(),
         email: email || "user@example.com",
-        amount: 10 * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+        amount: 1 * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.REACT_APP_APIKEY_PAYSTACK,
     };
 
@@ -54,7 +54,6 @@ const StepperModal = (props: stepperProps) => {
                     if (res.status === 200) {
                         submitEvent?.();
                     }
-                    console.log(res.data, "details");
                 })
                 .catch((error: any) => {
                     const message =
