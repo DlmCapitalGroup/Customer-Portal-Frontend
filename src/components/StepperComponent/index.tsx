@@ -63,7 +63,7 @@ const StepperModal = (props: stepperProps) => {
                         error.message ||
                         error.toString();
                     console.log(message);
-                    toast.error("We were unable to adde your card");
+                    toast.error(message);
                 })
                 .finally(() => console.log('Done'));
     }
@@ -72,8 +72,6 @@ const StepperModal = (props: stepperProps) => {
       let data = {
         reference: referenceRes?.reference,
         customerId: customer?.customerId,
-        email: customer?.emailAddress,
-        amount: amount,
         trans: referenceRes?.trans,
         transaction: referenceRes?.transaction,
         trxref: referenceRes?.trxref,
