@@ -143,23 +143,23 @@ const Table = (props: tableProps) => {
                     Generate Statement
                 </p> */}
                 <div className="flex space-x-[32px]">
-                    <p className="text-base font-semibold">
-                        {currentPage || 1} - {totalPages || 10} of{" "}
-                        {totalPages || 10}
-                    </p>
-                    <div className="flex space-x-[66px]">
-                        <img
-                            alt=""
-                            src={chevronLeft}
-                            className="cursor-pointer"
+                    <div className="flex space-x-[20px] justify-center items-center">
+                        <div
+                            className="border-primary border-2 p-2 cursor-pointer"
                             onClick={prevPage}
-                        />
-                        <img
-                            alt=""
-                            src={chevronRight}
-                            className="cursor-pointer"
+                        >
+                            <img alt="" src={chevronLeft} />
+                        </div>
+                        <p className="text-base font-semibold">
+                            {currentPage || 1} - {totalPages || 10} of{" "}
+                            {totalPages || 10}
+                        </p>
+                        <div
+                            className="border-primary border-2 p-2 cursor-pointer"
                             onClick={nextPage}
-                        />
+                        >
+                            <img alt="" src={chevronRight} />
+                        </div>
                     </div>
                 </div>
             </div>
