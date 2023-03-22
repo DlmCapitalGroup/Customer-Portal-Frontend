@@ -10,6 +10,7 @@ import filter from "../../assets/images/Filter.svg";
 import { devInstance } from "../../store/devInstance";
 import { useAppSelector } from "../../store/hooks";
 import { toast } from "react-toastify";
+import Loader from "../../components/LoaderComponent";
 
 const Transactions = () => {
     const data = useMemo(
@@ -48,22 +49,40 @@ const Transactions = () => {
     const [modalType, setModalType] = useState("");
     const [dropDown, setDropDown] = useState(false);
     const [transactions, setTransactions] = useState([]);
+    const [previousPage, setPreviousPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentpage] = useState(1);
     const [searchField, setSearchField] = useState("");
+    const [loading, setLoading] = useState(false);
     const { customer }: any = useAppSelector((state) => state.auth);
 
-    const fetchTransactions = useCallback(() => {
-        if (customer?.customerId) {
-            devInstance
-                .get(`/Dashboard/GetTransactions/${customer?.customerId}`, {
-                    params: { CustomerId: customer?.customerId },
-                })
-                .then((res: any) => {
-                    setTransactions(res?.data?.data?.pageItems.reverse());
-                    console.log(res, "rrrrr");
-                })
-                .catch((err) => toast.error(`${err?.message}`));
-        }
-    }, [customer?.customerId]);
+    const fetchTransactions = useCallback(
+        (pageNumber: number) => {
+            if (customer?.customerId) {
+                setLoading(true);
+                devInstance
+                    .get(`/Dashboard/GetTransactions/${customer?.customerId}`, {
+                        params: {
+                            CustomerId: customer?.customerId,
+                            pageNumber: pageNumber,
+                        },
+                    })
+                    .then((res: any) => {
+                        setTransactions(res?.data?.data?.pageItems);
+                        setCurrentpage(res?.data?.data.currentPage);
+                        setTotalPages(res?.data?.data?.totalNumberOfPages);
+                        setPreviousPage(res?.data?.data?.previousPage);
+                        console.log(res, "rrrrr");
+                    })
+                    .catch((err) => {
+                        toast.error(`${err?.message}`);
+                        setLoading(false);
+                    })
+                    .finally(() => setLoading(false));
+            }
+        },
+        [customer?.customerId]
+    );
 
     const filteredSearch = transactions?.filter((transaction: any) => {
         return transaction?.transactionType
@@ -75,10 +94,23 @@ const Transactions = () => {
         setSearchField(e.target.value);
     };
 
+    function prevPage() {
+        if (currentPage > 1) {
+            let current = currentPage - 1;
+            fetchTransactions(current);
+        }
+    }
+
+    function nextPage() {
+        if (currentPage < totalPages) {
+            let current = currentPage + 1;
+            fetchTransactions(current);
+        }
+    }
+
     useEffect(() => {
-        fetchTransactions();
+        fetchTransactions(1);
     }, [fetchTransactions]);
-    // console.log(filteredSearch)
 
     return (
         <DashboardLayout>
@@ -111,7 +143,13 @@ const Transactions = () => {
                     </div>
                 </div>
                 <div className="min-h-[500px] flex flex-col">
-                    <Table transactions={filteredSearch} />
+                    <Table
+                        transactions={filteredSearch}
+                        prevPage={prevPage}
+                        nextPage={nextPage}
+                        totalPages={totalPages}
+                        currentPage={currentPage}
+                    />
                 </div>
                 {modal && (
                     <Modal modalText={modalText} type={modalType}>
@@ -212,6 +250,7 @@ const Transactions = () => {
                     </Modal>
                 )}
             </div>
+            {loading && <Loader />}
         </DashboardLayout>
     );
 };

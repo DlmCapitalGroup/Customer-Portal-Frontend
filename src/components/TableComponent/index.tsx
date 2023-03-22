@@ -6,6 +6,10 @@ import { formatter } from "../../helper";
 
 type tableProps = {
     transactions?: Array<any>;
+    currentPage?: number;
+    totalPages?: number;
+    prevPage?: any;
+    nextPage?: any;
 };
 
 // const Table = (props: any) => {
@@ -67,7 +71,8 @@ type tableProps = {
 // };
 
 const Table = (props: tableProps) => {
-    const { transactions }: any = props;
+    const { transactions, currentPage, totalPages, prevPage, nextPage }: any =
+        props;
 
     const TransactionList = () => {
         if (transactions.length > 0) {
@@ -129,22 +134,35 @@ const Table = (props: tableProps) => {
                         <h3>Status</h3>
                     </div>
                 </div>
-                <div className="flex flex-col space-y-10 py-10 grow max-h-[500px] overflow-x-hidden">
+                <div className="flex flex-col gap-y-10 py-10 grow max-h-[500px] overflow-x-hidden">
                     <TransactionList />
                 </div>
             </div>
-            {/* <div className="flex justify-between mt-6 items-center">
-                <p className="font-semibold text-base cursor-pointer">
+            <div className="flex justify-end mt-6 items-center">
+                {/* <p className="font-semibold text-base cursor-pointer">
                     Generate Statement
-                </p>
+                </p> */}
                 <div className="flex space-x-[32px]">
-                    <p className="text-base font-semibold">1 - 10 of 10</p>
+                    <p className="text-base font-semibold">
+                        {currentPage || 1} - {totalPages || 10} of{" "}
+                        {totalPages || 10}
+                    </p>
                     <div className="flex space-x-[66px]">
-                        <img alt="" src={chevronLeft} />
-                        <img alt="" src={chevronRight} />
+                        <img
+                            alt=""
+                            src={chevronLeft}
+                            className="cursor-pointer"
+                            onClick={prevPage}
+                        />
+                        <img
+                            alt=""
+                            src={chevronRight}
+                            className="cursor-pointer"
+                            onClick={nextPage}
+                        />
                     </div>
                 </div>
-            </div> */}
+            </div>
         </div>
     );
 };

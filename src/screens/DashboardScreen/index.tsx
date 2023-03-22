@@ -177,7 +177,7 @@ const DashboardScreen = () => {
                     params: { CustomerId: customer?.customerId },
                 })
                 .then((res: any) => {
-                    setTransactions(res?.data?.data?.pageItems.reverse());
+                    setTransactions(res?.data?.data?.pageItems);
                 })
                 .catch((error: any) => {
                     const message =
@@ -443,8 +443,11 @@ const DashboardScreen = () => {
         console.log(formData);
         // setformData({ ...formData, [e.target.name]: e.target.value });
     }
-    
-    const totalTranxAmount = transactions.reduce( ( sum, { transactionAmount } ) => sum + transactionAmount , 0)
+
+    const totalTranxAmount = transactions.reduce(
+        (sum, { transactionAmount }) => sum + transactionAmount,
+        0
+    );
 
     return (
         <DashboardLayout>
