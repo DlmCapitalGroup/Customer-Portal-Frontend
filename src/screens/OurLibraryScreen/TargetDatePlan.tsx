@@ -244,7 +244,7 @@ const TargetDatePlan = (props: _props) => {
             data.append("CityNok", formData.CityNok);
             data.append("CountryNok", formData.CountryNok);
             data.append("Date", formData.Date);
-            data.append("Email", formData.EmailAddress);
+            data.append("Email", formData.Email);
             data.append("EmailNok", formData.EmailNok);
             data.append(
                 "EstimatedAmountForGoal",
