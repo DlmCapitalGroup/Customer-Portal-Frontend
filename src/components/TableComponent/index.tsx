@@ -134,7 +134,7 @@ const Table = (props: tableProps) => {
                         <h3>Status</h3>
                     </div>
                 </div>
-                <div className="flex flex-col gap-y-10 py-10 grow max-h-[500px] overflow-x-hidden">
+                <div className="flex flex-col gap-y-10 py-10 grow min-h-[500px] overflow-x-hidden">
                     <TransactionList />
                 </div>
             </div>
