@@ -6,6 +6,8 @@ import Loader from "../../components/LoaderComponent";
 import { useAppSelector } from "../../store/hooks";
 
 const Profile = () => {
+    const subject = 'Profile Update'
+    const groupEmail = 'asset@dlm.group'
     const { customer }: any = useAppSelector((state) => state.auth);
     return (
         <div className="max-w-[570px]">
@@ -42,7 +44,7 @@ const Profile = () => {
                     />
                 </div>
             </div>
-            <Button buttonType="full" disabled>
+            <Button buttonType="full" onClick={() => window.open(`mailto:${groupEmail}?subject=${subject}&body=`)}>
                 Update Information
             </Button>
         </div>

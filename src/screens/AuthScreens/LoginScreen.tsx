@@ -9,8 +9,8 @@ import Loader from "../../components/LoaderComponent";
 
 function Login() {
     const [formData, setFormData] = React.useState({
-        username: "hammy98",
-        password: "DAajay5218?",
+        username: "",
+        password: "",
     });
     const localModal = localStorage.getItem("serviceModal");
 
