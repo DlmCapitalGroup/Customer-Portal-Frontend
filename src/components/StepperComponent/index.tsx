@@ -6,7 +6,7 @@ import {
     prevStepper,
 } from "../../store/stepperSlice";
 import Button from "../ButtonComponent";
-import { usePaystackPayment } from 'react-paystack';
+import { usePaystackPayment } from "react-paystack";
 import { devInstance } from "../../store/devInstance";
 import { toast } from "react-toastify";
 
@@ -20,6 +20,9 @@ interface stepperProps {
     cep?: boolean;
     amount?: any;
     email?: string;
+    firstname: string;
+    lastname: string;
+    phone: string;
 }
 
 const StepperModal = (props: stepperProps) => {
@@ -32,63 +35,69 @@ const StepperModal = (props: stepperProps) => {
         rPlan,
         cep,
         amount,
-        email
+        email,
+        firstname,
+        lastname,
+        phone,
     } = props;
 
-    const { customer }: any = useAppSelector(
-        (state) => state.auth
-    );    
+    const { customer }: any = useAppSelector((state) => state.auth);
 
     const config: any = {
-        reference: (new Date()).getTime().toString(),
-        email: email|| customer.emailAddress,
+        reference: new Date().getTime().toString(),
+        email: email || customer.emailAddress,
         amount: amount * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.REACT_APP_APIKEY_PAYSTACK,
+        metadata: {
+            phone: phone,
+            first_name: firstname,
+            last_name: lastname,
+        },
     };
 
     const initializePayment = usePaystackPayment(config);
 
     const submitPaystackData = async (data: any) => {
-        console.log(data, 'pp! data')
+        console.log(data, "pp! data");
         await devInstance
-                .post("/Transaction/PayDetails", data)
-                .then((res: any) => {
-                    if (res.status === 200) {
-                        submitEvent?.();
-                    }
-                })
-                .catch((error: any) => {
-                    const message =
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString();
-                    console.log(message);
-                    toast.error(message);
-                })
-                .finally(() => console.log('Done'));
-    }
-    
-    const onSuccess: any = (referenceRes: any) => {
-      let data = {
-        reference: referenceRes?.reference,
-        customerId: customer?.customerId,
-        trans: referenceRes?.trans,
-        transaction: referenceRes?.transaction,
-        trxref: referenceRes?.trxref,
-        redirecturl: referenceRes?.redirecturl
-      }
-
-      if (referenceRes) {
-        submitPaystackData?.(data);
-      }
+            .post("/Transaction/PayDetails", data)
+            .then((res: any) => {
+                if (res.status === 200) {
+                    submitEvent?.();
+                }
+            })
+            .catch((error: any) => {
+                const message =
+                    (error.response && error.response.data) ||
+                    error.message ||
+                    error.toString();
+                console.log(message);
+                toast.error(message);
+            })
+            .finally(() => console.log("Done"));
     };
-  
+
+    const onSuccess: any = (referenceRes: any) => {
+        let data = {
+            reference: referenceRes?.reference,
+            customerId: customer?.customerId,
+            trans: referenceRes?.trans,
+            transaction: referenceRes?.transaction,
+            trxref: referenceRes?.trxref,
+            redirecturl: referenceRes?.redirecturl,
+        };
+
+        if (referenceRes) {
+            submitPaystackData?.(data);
+        }
+    };
+
     const onClose = () => {
-      console.log('closed');
-    }
+        console.log("closed");
+    };
 
     const paystackHookExample = () => {
-        initializePayment(onSuccess, onClose)
+        initializePayment(onSuccess, onClose);
     };
 
     const { currentStepper }: any = useAppSelector((state) => state.stepper);

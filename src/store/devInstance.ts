@@ -1,4 +1,6 @@
 import axios from "axios";
+import { store } from ".";
+import { logout } from "./auth-slice";
 // import { API_URL } from '../../config/app.config';
 
 const API_URL = "https://apps.dlm.group/ASSETMGTAPI/api/v1";
@@ -16,6 +18,9 @@ devInstance.interceptors.response.use(
         return config;
     },
     (error: any) => {
+        if (error.response.status === 401) {
+            store.dispatch(logout());
+        }
         return Promise.reject(error);
     }
 );

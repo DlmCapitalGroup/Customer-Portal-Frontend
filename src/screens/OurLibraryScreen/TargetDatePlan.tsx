@@ -332,6 +332,9 @@ const TargetDatePlan = (props: _props) => {
             email={formData?.EmailAddress} 
             closeModal={closeModal} 
             submitEvent={openAccount}
+            phone={formData.PhoneNumber}
+            firstname={formData.FirstName}
+            lastname={formData.LastName}
         >
             <div className="text-primary">
                 {currentStepper === 0 && (

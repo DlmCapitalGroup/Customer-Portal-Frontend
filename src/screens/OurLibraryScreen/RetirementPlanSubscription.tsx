@@ -329,6 +329,9 @@ const RetirementPlanSubscription = (props: _props) => {
             rPlan
             amount={formData.InvestmentAmount}
             email={formData?.EmailAddress}
+            phone={formData.PhoneNumber}
+            firstname={formData.FirstName}
+            lastname={formData.LastName}
         >
             <div className="text-primary">
                 {currentStepper === 0 && (
