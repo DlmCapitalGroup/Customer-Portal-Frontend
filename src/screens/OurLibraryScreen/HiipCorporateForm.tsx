@@ -261,7 +261,7 @@ const HiipCorporateForm = (props: _props) => {
             data.append("Postalcode", formData.Postalcode);
             data.append(
                 "ProductName",
-                "Corporate High Interest Investment Plan"
+                "High Interest Investment Plan (Corporate)"
             );
             data.append("RCNumber", formData.RCNumber);
             data.append("RegistrationDate", formData.RegistrationDate);

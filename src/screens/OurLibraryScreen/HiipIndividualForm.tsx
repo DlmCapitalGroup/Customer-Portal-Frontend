@@ -230,7 +230,7 @@ const HiipIndividualForm = (props: _props) => {
             data.append("PostalAddress", formData.PostalAddress);
             data.append(
                 "ProductName",
-                "Individual High Interest Investment Plan"
+                "High Interest Investment Plan (Individual)"
             );
             data.append("RelationshipWithNOK", formData.RelationshipWithNOK);
             data.append("ResidentialAddress", formData.ResidentialAddress);
@@ -320,7 +320,7 @@ const HiipIndividualForm = (props: _props) => {
                                     placeholder="How much do you want to invest (Min of 10,000) *"
                                     name="InvestmentAmount"
                                     onChange={formChange}
-                                    min={formatter(Number('10000'))}
+                                    min={formatter(Number("10000"))}
                                     required
                                     type="number"
                                     value={formData.InvestmentAmount || null}
@@ -652,13 +652,26 @@ const HiipIndividualForm = (props: _props) => {
                                     required
                                 />
                                 <p className="-tracking-[.02em] text-xs">
-                                    I confirm/hereby declare that the information provided above is complete and accurate to the best of my knowledge, belief, and understanding. I pledge to inform DLM Asset Management Limited immediately if there are any changes to this information. If any of the information provided is found to be false, untrue, misleading, or misrepresented, I understand that I may be held liable for it. 
+                                    I confirm/hereby declare that the
+                                    information provided above is complete and
+                                    accurate to the best of my knowledge,
+                                    belief, and understanding. I pledge to
+                                    inform DLM Asset Management Limited
+                                    immediately if there are any changes to this
+                                    information. If any of the information
+                                    provided is found to be false, untrue,
+                                    misleading, or misrepresented, I understand
+                                    that I may be held liable for it.
                                     <br />
                                     <br />
-                                    I hereby give DLM Asset Management Limited permission to share any of the information provided in this form at its discretion. 
+                                    I hereby give DLM Asset Management Limited
+                                    permission to share any of the information
+                                    provided in this form at its discretion.
                                     <br />
-                                    <br />
-                                    I acknowledge that a non-refundable charge of 10 naira (the naira should be in symbol) will be automatically debited from the linked bank account to add my card.
+                                    <br />I acknowledge that a non-refundable
+                                    charge of 10 naira (the naira should be in
+                                    symbol) will be automatically debited from
+                                    the linked bank account to add my card.
                                 </p>
                             </p>
                         </div>
