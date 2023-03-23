@@ -658,6 +658,7 @@ const FixedIncomeFund = (props: _props) => {
                                 required
                                 type="number"
                                 value={formData.BVN}
+                                disabled
                             />
                             <div className="flex flex-col space-y-1">
                                 <Select
@@ -712,6 +713,7 @@ const FixedIncomeFund = (props: _props) => {
                                 onChange={formChange}
                                 type="file"
                                 uploaded={formData.PassportPhoto ? true : false}
+                                disabled
                             />
                             <Input
                                 placeholder="Form of Identity (Govt ID) *"
@@ -721,6 +723,7 @@ const FixedIncomeFund = (props: _props) => {
                                 uploaded={
                                     formData.FormOfIdentity ? true : false
                                 }
+                                disabled
                             />
                             <Input
                                 placeholder="Utility Bill *"
@@ -728,6 +731,7 @@ const FixedIncomeFund = (props: _props) => {
                                 onChange={formChange}
                                 type="file"
                                 uploaded={formData.UtilityBill ? true : false}
+                                disabled
                             />
                             <Input
                                 placeholder="Unit holder signature *"
@@ -737,6 +741,7 @@ const FixedIncomeFund = (props: _props) => {
                                 uploaded={
                                     formData.UnitHolderSignature ? true : false
                                 }
+                                disabled
                             />
                         </div>
                         <p className="flex space-x-5 items-start text-base text-black mt-12">

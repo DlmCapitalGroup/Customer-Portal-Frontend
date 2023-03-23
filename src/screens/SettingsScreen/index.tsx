@@ -9,6 +9,7 @@ const Settings = () => {
     const tabs = [
         { name: "My Profile", path: "/settings/profile" },
         { name: "Password", path: "/settings/password" },
+        { name: "KYC Documents", path: "/settings/kyc" },
         // { name: "Notifications", path: "/settings/notifications" },
         // { name: "My Account", path: "/settings/account" },
     ];

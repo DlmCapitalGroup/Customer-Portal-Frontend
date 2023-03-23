@@ -638,6 +638,7 @@ const HiipIndividualForm = (props: _props) => {
                                 required
                                 type="number"
                                 value={formData.BVN}
+                                disabled
                             />
                             <Input
                                 placeholder="Branch *"

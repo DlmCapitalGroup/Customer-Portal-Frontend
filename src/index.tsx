@@ -32,6 +32,7 @@ import PrivateRoutes from "./components/PrivateRoute";
 import ResetPassword from "./screens/AuthScreens/ResetPassword";
 import { PersistGate } from "redux-persist/integration/react";
 import Loader from "./components/LoaderComponent";
+import Kyc from "./screens/SettingsScreen/KycScreen";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -72,10 +73,7 @@ root.render(
                                 <Route path="plan" element={<Plan />} />
                                 <Route path="products" element={<Library />}>
                                     <Route index element={<Products />} />
-                                    <Route
-                                        path=":slug"
-                                        element={<Product />}
-                                    />
+                                    <Route path=":slug" element={<Product />} />
                                     <Route
                                         path="news/:id"
                                         element={<NewsPostScreen />}
@@ -91,6 +89,7 @@ root.render(
                                         path="password"
                                         element={<Password />}
                                     />
+                                    <Route path="kyc" element={<Kyc />} />
                                     <Route
                                         path="account"
                                         element={<Account />}
