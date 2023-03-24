@@ -327,10 +327,10 @@ const TargetDatePlan = (props: _props) => {
     }
 
     return (
-        <StepperModal 
+        <StepperModal
             amount={formData.InvestmentAmount}
-            email={formData?.EmailAddress} 
-            closeModal={closeModal} 
+            email={formData?.EmailAddress}
+            closeModal={closeModal}
             submitEvent={openAccount}
             phone={formData.PhoneNumber}
             firstname={formData.FirstName}
@@ -725,6 +725,7 @@ const TargetDatePlan = (props: _props) => {
                                 required
                                 type="number"
                                 value={formData.BVN}
+                                disabled
                             />
                         </div>
                     </div>
@@ -742,6 +743,7 @@ const TargetDatePlan = (props: _props) => {
                                 onChange={formChange}
                                 type="file"
                                 uploaded={formData.PassportPhoto ? true : false}
+                                disabled
                             />
                             <Input
                                 placeholder="Means Of ID *"
@@ -749,6 +751,7 @@ const TargetDatePlan = (props: _props) => {
                                 onChange={formChange}
                                 type="file"
                                 uploaded={formData.MeansOfId ? true : false}
+                                disabled
                             />
                             <Input
                                 placeholder="Utility Bill *"
@@ -756,6 +759,7 @@ const TargetDatePlan = (props: _props) => {
                                 onChange={formChange}
                                 type="file"
                                 uploaded={formData.UtilityBill ? true : false}
+                                disabled
                             />
                             <Input
                                 placeholder="Unit holder signature *"
@@ -765,6 +769,7 @@ const TargetDatePlan = (props: _props) => {
                                 uploaded={
                                     formData.UnitHolderSignature ? true : false
                                 }
+                                disabled
                             />
                         </div>
                         <p className="flex space-x-5 items-start text-base text-black mt-12">

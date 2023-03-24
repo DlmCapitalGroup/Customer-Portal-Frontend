@@ -618,6 +618,7 @@ const HiipCorporateForm = (props: _props) => {
                                 required
                                 type="number"
                                 value={formData.BVN}
+                                disabled
                             />
                             <Input
                                 placeholder="Chief Contact Signature *"

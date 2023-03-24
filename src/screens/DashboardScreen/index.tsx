@@ -51,6 +51,7 @@ const DashboardScreen = () => {
     const [loading, setLoading] = React.useState(false);
     const dispatch = useAppDispatch();
     const [stepper, setStepper] = React.useState(false);
+    const [updateProfileForm, setUpdateProfileForm] = React.useState(false);
     const [currentStep, setCurrentStep] = React.useState(1);
     const [formData, setFormData] = React.useState<any>({
         FirstName: customerOnboardingData?.firstName || "",
@@ -77,7 +78,7 @@ const DashboardScreen = () => {
         UtilityBill: "",
         UnitHolderSignature: "",
     });
-
+    console.log(updateProfileForm, 'updateProfileForm')
     const states = [
         "Abia",
         "Adamawa",
@@ -227,7 +228,7 @@ const DashboardScreen = () => {
                 `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
             )
             .then((res) => {
-                console.log(res, "response");
+                console.log(res, "response 22");
                 setFormData({
                     ...formData,
                     Surname: res.data.surname,
@@ -253,6 +254,12 @@ const DashboardScreen = () => {
                     UtilityBill: res.data.utilityBill,
                     UnitHolderSignature: res.data.unitHolderSignature,
                 });
+                if (!findMissingFormdata) {
+                    setUpdateProfileForm(true);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
             });
     }, []);
 
@@ -482,7 +489,7 @@ const DashboardScreen = () => {
                         </Button>
                     </div>
                 </div> */}
-                {!findMissingFormdata() && (
+                {updateProfileForm && (
                     <div className="py-6 bg-primary text-white px-8 text-base font-bold flex justify-between items-center mb-10 rounded-xl">
                         <span>Please Complete your profile</span>
                         <Button

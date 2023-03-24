@@ -23,7 +23,8 @@ devInstance.interceptors.response.use(
             setUser(null);
             setAuthToken(null);
             localStorage.removeItem("persist:root");
-            clearStepper()
+            localStorage.clear();
+            clearStepper();
         }
         return Promise.reject(error);
     }

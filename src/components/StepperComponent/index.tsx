@@ -49,14 +49,14 @@ const StepperModal = (props: stepperProps) => {
         amount: amount * 100 || 50000, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.REACT_APP_APIKEY_PAYSTACK,
         metadata: {
-            custom_field:[
+            custom_field: [
                 {
                     phone: phone,
                     first_name: firstname,
                     last_name: lastname,
-                }
-            ]
-        }
+                },
+            ],
+        },
     };
 
     const initializePayment = usePaystackPayment(config);
