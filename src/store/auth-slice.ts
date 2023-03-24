@@ -265,7 +265,7 @@ const authSlice = createSlice({
 
 export const setAuthToken = (token: string | null) => {
     if (token) {
-        localStorage.setItem('jwtToken', token)
+        localStorage.setItem('token', token)
         devInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
     } else {
         delete devInstance.defaults.headers.common.Authorization;

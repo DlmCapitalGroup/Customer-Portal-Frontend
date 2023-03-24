@@ -19,12 +19,15 @@ devInstance.interceptors.response.use(
     },
     (error: any) => {
         if (error.response.status === 401) {
-            setCustomer(null);
-            setUser(null);
-            setAuthToken(null);
-            localStorage.removeItem("persist:root");
-            localStorage.clear();
-            clearStepper();
+            // clears user from all tabs 
+            window.addEventListener('storage', () => {
+                setCustomer(null);
+                setUser(null);
+                setAuthToken(null);
+                localStorage.removeItem("persist:root");
+                clearStepper();
+                localStorage.clear();
+            });
         }
         return Promise.reject(error);
     }

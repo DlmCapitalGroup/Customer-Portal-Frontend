@@ -19,21 +19,24 @@ function App() {
     //   });
 
     // check for token
-    if (localStorage.jwtToken) {
+    if (localStorage.token) {
 
         // Set auth token header auth
-        setAuthToken(localStorage.jwtToken);
+        setAuthToken(localStorage.token);
         // Decode token and get user info and exp
-        const decoded: any = jwt_decode(localStorage.jwtToken);
+        const decoded: any = jwt_decode(localStorage.token);
 
         const currentTime = Date.now() / 1000;
         if (decoded.exp < currentTime) {
-            setCustomer(null);
-            setUser(null);
-            setAuthToken(null);
-            localStorage.removeItem("persist:root");
-            clearStepper();
-            localStorage.clear();
+            // clears user from all tabs 
+            window.addEventListener('storage', () => {
+                setCustomer(null);
+                setUser(null);
+                setAuthToken(null);
+                localStorage.removeItem("persist:root");
+                clearStepper();
+                localStorage.clear();
+            });
         }
         
     }
