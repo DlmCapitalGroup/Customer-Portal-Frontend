@@ -156,10 +156,11 @@ const authSlice = createSlice({
             state.loading = action.payload;
         },
         logout: (state) => {
+            localStorage.removeItem("persist:root");
+            localStorage.removeItem('token');
             state.user = null;
             state.customer = null;
             state.loading = false;
-            localStorage.removeItem("persist:root");
             setAuthToken(null);
             clearStepper();
         },

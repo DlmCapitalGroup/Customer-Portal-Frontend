@@ -28,15 +28,12 @@ function App() {
 
         const currentTime = Date.now() / 1000;
         if (decoded.exp < currentTime) {
-            // clears user from all tabs 
-            window.addEventListener('storage', () => {
-                setCustomer(null);
-                setUser(null);
-                setAuthToken(null);
-                localStorage.removeItem("persist:root");
-                clearStepper();
-                localStorage.clear();
-            });
+            localStorage.removeItem("persist:root");
+            localStorage.removeItem('token');
+            setCustomer(null);
+            setUser(null);
+            setAuthToken(null);
+            clearStepper();
         }
         
     }
