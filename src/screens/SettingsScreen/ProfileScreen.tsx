@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 import avatar from "../../assets/images/icon.png";
 import Button from "../../components/ButtonComponent";
 import { Input } from "../../components/FormElements";
@@ -8,6 +9,8 @@ import { useAppSelector } from "../../store/hooks";
 
 const Profile = () => {
     const { customer }: any = useAppSelector((state) => state.auth);
+    const [loading, setLoading] = useState(false);
+    const [msg, setMsg] = React.useState("");
     const [formData, setFormData] = React.useState({
         BVN: "",
         Address: "",
@@ -18,7 +21,13 @@ const Profile = () => {
         PostalCode: "",
         PlaceOfBirth: "",
     });
+
+    function triggerError() {
+        toast("Please Update Your Profile");
+    }
+
     React.useEffect(() => {
+        setLoading(true);
         devInstance
             .get(
                 `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
@@ -35,7 +44,12 @@ const Profile = () => {
                     PostalCode: res.data.postalCode,
                     PlaceOfBirth: res.data.placeOfBirth,
                 });
-            });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
     }, []);
 
     const subject = "Profile Update";
@@ -134,16 +148,21 @@ const Profile = () => {
             {/* <Button buttonType="full">Update Information</Button>, */}
             <Button
                 buttonType="full"
-                onClick={() =>
-                    window.open(
-                        `mailto:${groupEmail}?subject=${encodeURIComponent(
-                            subject
-                        )}&body=`
-                    )
-                }
+                onClick={() => {
+                    if (!formData.BVN) {
+                        triggerError();
+                    } else {
+                        window.open(
+                            `mailto:${groupEmail}?subject=${encodeURIComponent(
+                                subject
+                            )}&body=`
+                        );
+                    }
+                }}
             >
                 Update Information
             </Button>
+            {loading && <Loader />}
         </div>
     );
 };

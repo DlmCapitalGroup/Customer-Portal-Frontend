@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logoDark from "../../assets/images/logo-dark.svg";
 import Button from "../../components/ButtonComponent";
 import heroImage from "../../assets/images/hero-image.svg";
@@ -16,11 +16,36 @@ import Marquee from "react-fast-marquee";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Link } from "react-scroll";
 import { useAppSelector } from "../../store/hooks";
+import chevronRight from "../../assets/images/chevron-right.svg";
+import chevronDown from "../../assets/images/chevron-down.svg";
 
 const LandingScreen = () => {
     const navigate = useNavigate();
     const { customer }: any = useAppSelector((state) => state.auth);
-    if (customer) {
+    const [activeFaq, setActiveFaq] = useState<any>(null);
+
+    const faqs = [
+        {
+            title: "What is the minimum amount for an investment?",
+        },
+        {
+            title: "How do I create an investment?",
+        },
+        {
+            title: "How much is the interest on fixed income fund?",
+        },
+        {
+            title: "What is the minimum amount for an investment?",
+        },
+        {
+            title: "Can I liquidate my investment at anytime?",
+        },
+        {
+            title: "Can I create an investment portfolio for my child?",
+        },
+    ];
+
+    if (customer?.customerId) {
         return <Navigate to="/dashboard" />;
     } else {
         return (
@@ -269,6 +294,57 @@ const LandingScreen = () => {
                     />
                 </div>
                 <div className="pt-[100px]">
+                    <div
+                        className="container max-w-[945px] lg:px-10 px-5 py-10 flex flex-col"
+                        id="contact"
+                    >
+                        <h1 className="text-[40px] font-semibold text-center my-10">
+                            Have any question for us?
+                        </h1>
+                        <p className="text-lg font-normal text-center mb-10">
+                            Check out our FAQ. An answer may already be
+                            available
+                        </p>
+                        <div className="grow min-h-[574px] py-10 rounded-lg">
+                            <div className="mx-auto max-w-[566px] flex flex-col gap-y-5">
+                                {faqs.map((el, index) => (
+                                    <div
+                                        className="cursor-pointer min-h-[72px] border-primary/10 bg-[#FAFAFF] rounded-md px-4 flex flex-col"
+                                        onClick={() => {
+                                            if (index === activeFaq) {
+                                                setActiveFaq(null);
+                                            } else {
+                                                setActiveFaq(index);
+                                            }
+                                        }}
+                                        key={index}
+                                    >
+                                        <div className="flex items-center h-[72px] justify-between">
+                                            <span>{el.title}</span>
+                                            {index === activeFaq ? (
+                                                <img alt="" src={chevronDown} />
+                                            ) : (
+                                                <img
+                                                    alt=""
+                                                    src={chevronRight}
+                                                />
+                                            )}
+                                        </div>
+                                        {activeFaq === index && (
+                                            <div className="pb-5 sm:pr-8 lg:pr-10">
+                                                Yes, you can. Simply create an
+                                                account for your child, select a
+                                                product of your choice and fund
+                                                the account accordingly
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="pt-10">
                     <div
                         className="container max-w-[945px] lg:px-10 px-5 py-10 flex flex-col"
                         id="contact"

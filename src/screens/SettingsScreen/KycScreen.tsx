@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 import lock from "../../assets/images/lock.svg";
 import Button from "../../components/ButtonComponent";
 import { Input } from "../../components/FormElements";
@@ -8,13 +9,19 @@ import { useAppSelector } from "../../store/hooks";
 
 const Kyc = () => {
     const { customer }: any = useAppSelector((state) => state.auth);
+    const [loading, setLoading] = React.useState(false);
     const [formData, setFormData] = React.useState({
         PassportPhoto: "",
         FormOfIdentity: "",
         UtilityBill: "",
         UnitHolderSignature: "",
     });
+
+    function triggerError() {
+        toast("Please Update Your Profile");
+    }
     React.useEffect(() => {
+        setLoading(true);
         devInstance
             .get(
                 `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
@@ -28,7 +35,12 @@ const Kyc = () => {
                     UtilityBill: res.data.utilityBill,
                     UnitHolderSignature: res.data.unitHolderSignature,
                 });
-            });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
     }, []);
 
     const subject = "KYC Update";
@@ -36,6 +48,7 @@ const Kyc = () => {
 
     return (
         <div>
+            {/* {msg && <p className="text-error mb-5">{msg}</p>} */}
             <div className="w-[131px] h-[131px] rounded-full grid place-items-center bg-primary mb-[81px]">
                 <img alt="" src={lock} />
             </div>
@@ -81,16 +94,21 @@ const Kyc = () => {
 
             <Button
                 buttonType="full"
-                onClick={() =>
-                    window.open(
-                        `mailto:${groupEmail}?subject=${encodeURIComponent(
-                            subject
-                        )}&body=`
-                    )
-                }
+                onClick={() => {
+                    if (!formData.PassportPhoto) {
+                        triggerError();
+                    } else {
+                        window.open(
+                            `mailto:${groupEmail}?subject=${encodeURIComponent(
+                                subject
+                            )}&body=`
+                        );
+                    }
+                }}
             >
                 Update Information
             </Button>
+            {loading && <Loader />}
         </div>
     );
 };

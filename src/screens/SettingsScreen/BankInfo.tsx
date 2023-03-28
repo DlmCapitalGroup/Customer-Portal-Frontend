@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 import avatar from "../../assets/images/icon.png";
 import Button from "../../components/ButtonComponent";
 import { Input } from "../../components/FormElements";
@@ -9,12 +10,17 @@ import { useAppSelector } from "../../store/hooks";
 const BankInfo = () => {
     const { customer }: any = useAppSelector((state) => state.auth);
     const [loading, setLoading] = React.useState(false);
+    const [msg, setMsg] = React.useState("");
     const [formData, setFormData] = React.useState({
         BankName: "",
         AccountNumber: "",
         AccountName: "",
         BVN: "",
     });
+
+    function triggerError() {
+        toast("Please Update Your Profile");
+    }
     React.useEffect(() => {
         setLoading(true);
         devInstance
@@ -48,7 +54,12 @@ const BankInfo = () => {
             </div>
             <div className="flex flex-col space-y-[30px] mb-[91px]">
                 <div>
-                    <Input label="Bank Name" placeholder="Bank Name" disabled value={formData.BankName} />
+                    <Input
+                        label="Bank Name"
+                        placeholder="Bank Name"
+                        disabled
+                        value={formData.BankName}
+                    />
                 </div>
                 <div>
                     <Input
@@ -80,16 +91,21 @@ const BankInfo = () => {
             {/* <Button buttonType="full">Update Information</Button>, */}
             <Button
                 buttonType="full"
-                onClick={() =>
-                    window.open(
-                        `mailto:${groupEmail}?subject=${encodeURIComponent(
-                            subject
-                        )}&body=`
-                    )
-                }
+                onClick={() => {
+                    if (!formData.BankName) {
+                        triggerError();
+                    } else {
+                        window.open(
+                            `mailto:${groupEmail}?subject=${encodeURIComponent(
+                                subject
+                            )}&body=`
+                        );
+                    }
+                }}
             >
                 Update Information
             </Button>
+            {loading && <Loader />}
         </div>
     );
 };
