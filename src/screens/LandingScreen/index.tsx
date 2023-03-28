@@ -87,7 +87,7 @@ const LandingScreen = () => {
                                     buttonType="md"
                                     onClick={() => navigate("/auth/sign-up")}
                                 >
-                                    Get Started
+                                    Sign Up
                                 </Button>
                             </div>
                         </div>
