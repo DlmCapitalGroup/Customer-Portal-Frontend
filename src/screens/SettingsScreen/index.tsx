@@ -5,10 +5,11 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 const Settings = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = React.useState(0);
+    const [activeTab, setActiveTab] = React.useState("/settings/profile");
     const tabs = [
         { name: "My Profile", path: "/settings/profile" },
         { name: "Password", path: "/settings/password" },
+        { name: "Bank Info", path: "/settings/bank-info" },
         { name: "KYC Documents", path: "/settings/kyc" },
         // { name: "Notifications", path: "/settings/notifications" },
         // { name: "My Account", path: "/settings/account" },
@@ -32,13 +33,13 @@ const Settings = () => {
                         {tabs.map((item, index) => (
                             <span
                                 className={`cursor-pointer text-base ${
-                                    activeTab === index &&
+                                    activeTab === item.path &&
                                     "border-b-[2.5px] border-primary"
                                 }`}
                                 key={index}
                                 onClick={() => {
                                     navigate(item.path);
-                                    setActiveTab(index);
+                                    setActiveTab(item.path);
                                 }}
                             >
                                 {item.name}

@@ -13,11 +13,14 @@ const Profile = () => {
         Address: "",
         PhoneNumber: "",
         UnitHolderSignature: "",
+        Country: "",
+        State: "",
+        PostalCode: "",
     });
     React.useEffect(() => {
         devInstance
             .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -26,6 +29,9 @@ const Profile = () => {
                     BVN: res.data.bvn,
                     Address: res.data.residentialAddress,
                     PhoneNumber: res.data.phoneNumber,
+                    Country: res.data.country,
+                    State: res.data.state,
+                    PostalCode: res.data.postalCode,
                 });
             });
     }, []);
@@ -35,8 +41,8 @@ const Profile = () => {
 
     return (
         <div className="max-w-[570px]">
-            <div className="rounded-full bg-primary w-40 h-40 flex items-center justify-center mb-[52px]">
-                <img alt="" src={avatar} className="w-28 h-20" />
+            <div className="rounded-full bg-primary w-[131px] h-[131px] flex items-center justify-center mb-[81px]">
+                <img alt="" src={avatar} className="w-24 h-16" />
             </div>
             <div className="flex flex-col space-y-[30px] mb-[91px]">
                 <div>
@@ -69,7 +75,7 @@ const Profile = () => {
                 <div>
                     <Input
                         label="Phone Number"
-                        placeholder="PhoneNumber"
+                        placeholder="Phone Number"
                         value={formData.PhoneNumber}
                         disabled
                     />
@@ -90,12 +96,40 @@ const Profile = () => {
                         disabled
                     />
                 </div>
+                <div>
+                    <Input
+                        label="Country"
+                        placeholder="Country"
+                        value={formData.Country}
+                        disabled
+                    />
+                </div>
+                <div>
+                    <Input
+                        label="State"
+                        placeholder="State"
+                        value={formData.State}
+                        disabled
+                    />
+                </div>
+                <div>
+                    <Input
+                        label="Postal Code"
+                        placeholder="Postal Code"
+                        value={formData.PostalCode}
+                        disabled
+                    />
+                </div>
             </div>
             {/* <Button buttonType="full">Update Information</Button>, */}
             <Button
                 buttonType="full"
                 onClick={() =>
-                    window.open(`mailto:${groupEmail}?subject=${encodeURIComponent(subject)}&body=`)
+                    window.open(
+                        `mailto:${groupEmail}?subject=${encodeURIComponent(
+                            subject
+                        )}&body=`
+                    )
                 }
             >
                 Update Information

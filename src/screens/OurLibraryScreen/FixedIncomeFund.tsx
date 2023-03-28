@@ -15,11 +15,12 @@ interface _props {
 }
 
 const FixedIncomeFund = (props: _props) => {
-    const { closeModal, states } = props;
     const [loading, setLoading] = React.useState(false);
+    const { closeModal, states } = props;
     const dispatch = useAppDispatch();
     const { currentStepper } = useAppSelector((state) => state.stepper);
     const { customer }: any = useAppSelector((state) => state.auth);
+    const [newClient, setNewClient] = React.useState(false);
     const [formData, setFormData]: any = useState({
         IsANewClient: "true",
         InvestmentAmount: "",
@@ -62,8 +63,16 @@ const FixedIncomeFund = (props: _props) => {
 
     React.useEffect(() => {
         devInstance
+            .get(`/Transaction/GetFIFDetails/${customer.customerId}`)
+            .then((res) => {
+                console.log(res, "fif");
+            });
+    }, []);
+
+    React.useEffect(() => {
+        devInstance
             .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -139,10 +148,21 @@ const FixedIncomeFund = (props: _props) => {
     }
 
     function setClient(value: any) {
-        setFormData({
-            ...formData,
-            IsANewClient: value,
-        });
+        if (value === "true") {
+            setFormData({
+                ...formData,
+                IsANewClient: "true",
+            });
+            setNewClient(true);
+        }
+        if (value === "false") {
+            setFormData({
+                ...formData,
+                IsANewClient: "false",
+            });
+            setNewClient(false);
+        }
+
         console.log(formData);
     }
     const formChange = async (e: any) => {
@@ -344,7 +364,7 @@ const FixedIncomeFund = (props: _props) => {
                                         className="border-primary checked:bg-primary focus:bg-primary focus:ring-primary checked:ring-primary"
                                         name="IsANewClient"
                                         type="radio"
-                                        checked
+                                        checked={newClient === true && true}
                                         onClick={() => setClient("true")}
                                     />
                                     I am a new client
@@ -355,6 +375,7 @@ const FixedIncomeFund = (props: _props) => {
                                         name="IsANewClient"
                                         type="radio"
                                         value="No"
+                                        checked={newClient === false && true}
                                         onClick={() => setClient("false")}
                                     />
                                     I am an existing client
@@ -658,7 +679,6 @@ const FixedIncomeFund = (props: _props) => {
                                 // required
                                 type="number"
                                 value={formData.BVN}
-                                disabled
                             />
                             <div className="flex flex-col space-y-1">
                                 <Select

@@ -17,7 +17,7 @@ const Kyc = () => {
     React.useEffect(() => {
         devInstance
             .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -35,8 +35,8 @@ const Kyc = () => {
     const groupEmail = "asset@dlm.group";
 
     return (
-        <div className="max-w-[570px]">
-            <div className="w-[131px] h-[131px] rounded-full grid place-items-center bg-primary mb-[83px]">
+        <div>
+            <div className="w-[131px] h-[131px] rounded-full grid place-items-center bg-primary mb-[81px]">
                 <img alt="" src={lock} />
             </div>
 
@@ -82,7 +82,11 @@ const Kyc = () => {
             <Button
                 buttonType="full"
                 onClick={() =>
-                    window.open(`mailto:${groupEmail}?subject=${encodeURIComponent(subject)}&body=`)
+                    window.open(
+                        `mailto:${groupEmail}?subject=${encodeURIComponent(
+                            subject
+                        )}&body=`
+                    )
                 }
             >
                 Update Information

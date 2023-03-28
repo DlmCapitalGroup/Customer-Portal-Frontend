@@ -33,6 +33,8 @@ import ResetPassword from "./screens/AuthScreens/ResetPassword";
 import { PersistGate } from "redux-persist/integration/react";
 import Loader from "./components/LoaderComponent";
 import Kyc from "./screens/SettingsScreen/KycScreen";
+import BankInfo from "./screens/SettingsScreen/BankInfo";
+import LandingScreen from "./screens/LandingScreen";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -44,6 +46,7 @@ root.render(
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<App />}>
+                            <Route index element={<LandingScreen />} />
                             <Route path="auth" element={<Auth />}>
                                 <Route path="sign-in" element={<Login />} />
                                 <Route path="sign-up" element={<Register />} />
@@ -61,7 +64,10 @@ root.render(
                                 />
                             </Route>
                             <Route element={<PrivateRoutes />}>
-                                <Route index element={<DashboardScreen />} />
+                                <Route
+                                    path="dashboard"
+                                    element={<DashboardScreen />}
+                                />
                                 <Route
                                     path="transactions"
                                     element={<Transactions />}
@@ -88,6 +94,10 @@ root.render(
                                     <Route
                                         path="password"
                                         element={<Password />}
+                                    />
+                                    <Route
+                                        path="bank-info"
+                                        element={<BankInfo />}
                                     />
                                     <Route path="kyc" element={<Kyc />} />
                                     <Route

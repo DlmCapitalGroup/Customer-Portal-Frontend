@@ -77,8 +77,10 @@ const DashboardScreen = () => {
         FormOfIdentity: "",
         UtilityBill: "",
         UnitHolderSignature: "",
+        PostalCode: "",
+        PlaceOfBirth: "",
     });
-    console.log(updateProfileForm, 'updateProfileForm')
+    console.log(updateProfileForm, "updateProfileForm");
     const states = [
         "Abia",
         "Adamawa",
@@ -143,7 +145,9 @@ const DashboardScreen = () => {
             formData.PassportPhoto &&
             formData.FormOfIdentity &&
             formData.UtilityBill &&
-            formData.UnitHolderSignature
+            formData.UnitHolderSignature &&
+            formData.PostalCode &&
+            formData.PlaceOfBirth
         );
     };
 
@@ -223,9 +227,10 @@ const DashboardScreen = () => {
     }, [customer.emailAddress, dispatch]);
 
     useEffect(() => {
+        setLoading(true);
         devInstance
             .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
             )
             .then((res) => {
                 console.log(res, "response 22");
@@ -254,13 +259,17 @@ const DashboardScreen = () => {
                     UtilityBill: res.data.utilityBill,
                     UnitHolderSignature: res.data.unitHolderSignature,
                 });
+                console.log(formData);
                 if (!findMissingFormdata) {
                     setUpdateProfileForm(true);
                 }
             })
             .catch((err) => {
                 console.log(err);
-            });
+                setUpdateProfileForm(true);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
     }, []);
 
     const TransactionList = () => {
@@ -384,6 +393,8 @@ const DashboardScreen = () => {
             data.append("Surname", formData.Surname);
             data.append("UnitHolderSignature", formData.UnitHolderSignature);
             data.append("UtilityBill", formData.UtilityBill);
+            data.append("PostalCode", formData.PostalCode);
+            data.append("PlaceOfBirth", formData.PlaceOfBirth);
 
             var config = {
                 method: "post",
@@ -713,7 +724,7 @@ const DashboardScreen = () => {
             {stepper && (
                 <div className="fixed top-0 left-0 w-screen h-screen grid place-items-center overflow-y-auto py-20 bg-primary/30 text-primary">
                     <form
-                        className="w-[691px] min-h-[1028px] bg-white-light rounded-[20px] flex flex-col my-20"
+                        className="w-[691px] min-h-[1028px] bg-white-light rounded-[20px] flex flex-col my-40"
                         onSubmit={nextFunction}
                     >
                         <div className="w-[570px] mx-auto py-6 grow flex flex-col justify-between">
@@ -814,6 +825,20 @@ const DashboardScreen = () => {
                                                 value={formData.state || null}
                                             />
                                         </div>
+                                        <Input
+                                            placeholder="Postal Code *"
+                                            name="PostalCode"
+                                            onChange={formChange}
+                                            required
+                                            value={formData.PostalCode}
+                                        />
+                                        <Input
+                                            placeholder="Place of Birth *"
+                                            name="PlaceOfBirth"
+                                            onChange={formChange}
+                                            required
+                                            value={formData.PlaceOfBirth}
+                                        />
                                         <Input
                                             placeholder="Occupation *"
                                             name="Occupation"

@@ -16,14 +16,18 @@ import FixedIncomeFund from "./FixedIncomeFund";
 import ChildEducationPlan from "./ChildEducationPlan";
 import { clearStepper } from "../../store/stepperSlice";
 import Back from "../../components/BackButton";
+import { devInstance } from "../../store/devInstance";
 
 const Product = () => {
     const location: any = useLocation();
     const [investment, setInvestment] = useState<any>("");
     const [openStepper, setOpenStepper] = React.useState(false);
     const [stepperType, setStepperType] = React.useState("");
+    const [loading, setLoading] = useState(false);
     let stateParams = location?.state?.selectedProduct;
     const dispatch = useAppDispatch();
+
+    const { customer }: any = useAppSelector((state) => state.auth);
 
     const states = [
         "Abia",
@@ -100,6 +104,22 @@ const Product = () => {
         ],
         []
     );
+
+    useEffect(() => {
+
+
+            // devInstance
+            //     .get(`/Transaction/GetFIFDetails/${customer.customerId}`)
+            //     .then((res) => {
+            //         console.log(res, "response fif");
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //         setLoading(false);
+            //     })
+            //     .finally(() => setLoading(false));
+
+    }, []);
 
     useEffect(() => {
         if (typeof stateParams === "string") {
@@ -200,6 +220,7 @@ const Product = () => {
                         Create account
                     </Button>
                 </div>
+                {loading && <Loader />}
             </div>
 
             {openStepper && stepperType === "fif" && (

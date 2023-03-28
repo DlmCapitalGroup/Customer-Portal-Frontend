@@ -128,7 +128,7 @@ const StepperModal = (props: stepperProps) => {
 
     return (
         <div
-            className="fixed top-0 left-0 w-screen h-screen flex flex-col items-center overflow-y-auto py-10 bg-primary/30 text-primary"
+            className="fixed top-0 left-0 w-screen h-screen flex flex-col items-center overflow-y-auto py-10 bg-primary/30 text-primary z-20"
             {...props}
         >
             <form
