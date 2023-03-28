@@ -4,7 +4,7 @@ import { useAppSelector } from "../../store/hooks";
 
 const PrivateRoutes = ({ children, to, ...rest }: any) => {
     const { customer }: any = useAppSelector((state) => state.auth);
-    return customer ? <Outlet /> : <Navigate to="/auth/sign-in" />;
+    return customer.customerId ? <Outlet /> : <Navigate to="/auth/sign-in" />;
     // return <Outlet />
 };
 
