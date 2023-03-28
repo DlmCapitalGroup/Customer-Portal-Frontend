@@ -34,6 +34,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-scroll": "^1.8.9",
     "react-table": "^7.8.0",
     "react-toastify": "^9.1.1",
     "recharts": "^2.1.13",
@@ -68,6 +69,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2",
+    "@types/react-scroll": "^1.8.6",
     "@types/react-table": "^7.7.12",
     "@types/redux-persist": "^4.3.1",
     "autoprefixer": "^10.4.8",

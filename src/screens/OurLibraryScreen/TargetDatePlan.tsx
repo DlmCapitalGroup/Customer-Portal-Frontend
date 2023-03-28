@@ -20,6 +20,7 @@ const TargetDatePlan = (props: _props) => {
     const { closeModal, states, setOpenStepper } = props;
     const dispatch = useAppDispatch();
     const [loading, setLoading] = React.useState(false);
+    const [newClient, setNewClient] = React.useState(true);
     const [formData, setFormData]: any = React.useState({
         IsNewClient: "true",
         InvestmentAmount: "",
@@ -33,7 +34,6 @@ const TargetDatePlan = (props: _props) => {
         LastName: "",
         Email: "",
         Address: "",
-        StreetAddress: "",
         City: "",
         Country: "",
         Date: "",
@@ -44,7 +44,6 @@ const TargetDatePlan = (props: _props) => {
         FirstNameNok: "",
         LastNameNok: "",
         AddressNok: "",
-        StreetAddressNok: "",
         CityNok: "",
         CountryNok: "",
         PhoneNumberNok: "",
@@ -65,41 +64,50 @@ const TargetDatePlan = (props: _props) => {
     const { customer }: any = useAppSelector((state) => state.auth);
 
     React.useEffect(() => {
-        devInstance
-            .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
-            )
-            .then((res) => {
-                console.log(res, "response");
-                setFormData({
-                    ...formData,
-                    LastName: res.data.surname,
-                    FirstName: res.data.firstName,
-                    Age: res.data.age,
-                    BirthDate: res.data.birthDate.slice(0, 10),
-                    Email: res.data.emailAddress,
-                    PhoneNumber: res.data.phoneNumber,
-                    Address: res.data.residentialAddress,
-                    State: res.data.state,
-                    Nationality: res.data.country,
-                    Country: res.data.country,
-                    Occupation: res.data.occupation,
-                    IdType: res.data.idType,
-                    IdNumber: res.data.idNumber,
-                    BankName: res.data.bankName,
-                    AccountName: res.data.accountName,
-                    AccountNumber: res.data.accountNumber,
-                    BVN: res.data.bvn,
-                    NameNOK: res.data.nextOfKinName,
-                    AddressNok: res.data.addressNOK,
-                    RelationshipWithNOK: res.data.relationshipWithNOK,
-                    PassportPhoto: res.data.passportPhoto,
-                    MeansOfId: res.data.formOfIdentity,
-                    UtilityBill: res.data.utilityBill,
-                    UnitHolderSignature: res.data.unitHolderSignature,
-                });
-            });
-    }, []);
+        if (newClient) {
+            setLoading(true);
+            devInstance
+                .get(
+                    `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
+                )
+                .then((res) => {
+                    console.log(res, "response");
+                    setFormData({
+                        ...formData,
+                        LastName: res.data.surname,
+                        FirstName: res.data.firstName,
+                        Age: res.data.age,
+                        BirthDate: res.data.birthDate.slice(0, 10),
+                        Email: res.data.emailAddress,
+                        PhoneNumber: res.data.phoneNumber,
+                        Address: res.data.residentialAddress,
+                        State: res.data.state,
+                        Nationality: res.data.country,
+                        Country: res.data.country,
+                        City: res.data.city,
+                        Occupation: res.data.occupation,
+                        IdType: res.data.idType,
+                        IdNumber: res.data.idNumber,
+                        BankName: res.data.bankName,
+                        AccountName: res.data.accountName,
+                        AccountNumber: res.data.accountNumber,
+                        BVN: res.data.bvn,
+                        NameNOK: res.data.nextOfKinName,
+                        AddressNok: res.data.addressNOK,
+                        RelationshipWithNOK: res.data.relationshipWithNOK,
+                        PassportPhoto: res.data.passportPhoto,
+                        MeansOfId: res.data.formOfIdentity,
+                        UtilityBill: res.data.utilityBill,
+                        UnitHolderSignature: res.data.unitHolderSignature,
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setLoading(false);
+                })
+                .finally(() => setLoading(false));
+        }
+    }, [newClient]);
 
     function clearForm() {
         setFormData({
@@ -115,7 +123,6 @@ const TargetDatePlan = (props: _props) => {
             LastName: "",
             Email: "",
             Address: "",
-            StreetAddress: "",
             City: "",
             Country: "",
             Date: "",
@@ -126,7 +133,6 @@ const TargetDatePlan = (props: _props) => {
             FirstNameNok: "",
             LastNameNok: "",
             AddressNok: "",
-            StreetAddressNok: "",
             CityNok: "",
             CountryNok: "",
             PhoneNumberNok: "",
@@ -193,6 +199,54 @@ const TargetDatePlan = (props: _props) => {
         console.log(formData);
     };
 
+    React.useEffect(() => {
+        if (!newClient) {
+            setLoading(true);
+            devInstance
+                .get(`/Transaction/GetTDPDetails/${customer.customerId}`)
+                .then((res) => {
+                    console.log(res, "tdp");
+                    setFormData({
+                        ...formData,
+                        FirstName: res.data.firstName,
+                        LastName: res.data.lastName,
+                        Email: res.data.email,
+                        Address: res.data.address,
+                        City: res.data.city,
+                        Country: res.data.country,
+                        Date: res.data.date,
+                        Nationality: res.data.nationality,
+                        Occupation: res.data.occupation,
+                        PhoneNumber: res.data.phoneNumber,
+                        IdType: res.data.idType,
+                        FirstNameNok: res.data.firstNameNok,
+                        LastNameNok: res.data.lastNameNok,
+                        AddressNok: res.data.addressNok,
+                        CityNok: res.data.cityNok,
+                        CountryNok: res.data.countryNok,
+                        PhoneNumberNok: res.data.phoneNumberNok,
+                        EmailNok: res.data.emailNok,
+                        RelationshipWithNok: res.data.relationshipWithNok,
+                        PreferredCommunicationMode:
+                            res.data.preferredCommunicationMode,
+                        AccountName: res.data.accountName,
+                        AccountNumber: res.data.accountNumber,
+                        BankName: res.data.bankName,
+                        BVN: res.data.bvn,
+                        PassportPhoto: res.data.passportPhoto,
+                        MeansOfId: res.data.meansOfId,
+                        UtilityBill: res.data.utilityBill,
+                        UnitHolderSignature: res.data.unitHolderSignature,
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setLoading(false);
+                })
+                .finally(() => setLoading(false));
+        }
+    }, [newClient]);
+
     const fileErrors = [
         {
             title: "Passport Photo",
@@ -213,115 +267,211 @@ const TargetDatePlan = (props: _props) => {
     ];
 
     const openAccount = async (e: any) => {
-        if (fileErrors[0].value === "") {
-            toast.error(`${fileErrors[0].title} is required`);
-        }
-        if (fileErrors[1].value === "") {
-            toast.error(`${fileErrors[1].title} is required`);
-        }
-        if (fileErrors[2].value === "") {
-            toast.error(`${fileErrors[2].title} is required`);
-        }
-        if (fileErrors[3].value === "") {
-            toast.error(`${fileErrors[3].title} is required`);
-        }
+        if (newClient) {
+            if (fileErrors[0].value === "") {
+                toast.error(`${fileErrors[0].title} is required`);
+            }
+            if (fileErrors[1].value === "") {
+                toast.error(`${fileErrors[1].title} is required`);
+            }
+            if (fileErrors[2].value === "") {
+                toast.error(`${fileErrors[2].title} is required`);
+            }
+            if (fileErrors[3].value === "") {
+                toast.error(`${fileErrors[3].title} is required`);
+            }
 
-        if (
-            fileErrors[0].value &&
-            fileErrors[1].value &&
-            fileErrors[2].value &&
-            fileErrors[3].value
-        ) {
-            setLoading(true);
-            var data = new FormData();
-            data.append("AccountName", formData.AccountName);
-            data.append("AccountNumber", formData.AccountNumber);
-            data.append("Address", formData.Address);
-            data.append("AddressNok", formData.AddressNok);
-            data.append("BankName", formData.BankName);
-            data.append("BVN", formData.BVN);
-            data.append("City", formData.City);
-            data.append("CityNok", formData.CityNok);
-            data.append("CountryNok", formData.CountryNok);
-            data.append("Date", formData.Date);
-            data.append("Email", formData.Email);
-            data.append("EmailNok", formData.EmailNok);
-            data.append(
-                "EstimatedAmountForGoal",
-                formData.EstimatedAmountForGoal
-            );
-            data.append(
-                "ExpectedDateForGoalAchievement",
-                formData.ExpectedDateForGoalAchievement
-            );
-            data.append("FirstName", formData.FirstName);
-            data.append("FirstNameNok", formData.FirstNameNok);
-            data.append("GoalToAchieve", formData.GoalToAchieve);
-            data.append("IdType", formData.IdType);
-            data.append("InvestmentAmount", formData.InvestmentAmount);
-            data.append(
-                "InvestmentAmountPerTime",
-                formData.InvestmentAmountPerTime
-            );
-            data.append("InvestmentFreq", formData.InvestmentFreq);
-            data.append("IsNewClient", formData.IsNewClient);
-            data.append("LastName", formData.LastName);
-            data.append("LastNameNok", formData.LastNameNok);
-            data.append("MeansOfId", formData.MeansOfId);
-            data.append("Nationality", formData.Nationality);
-            data.append("Occupation", formData.Occupation);
-            data.append("PassportPhoto", formData.PassportPhoto);
-            data.append("PhoneNumber", formData.PhoneNumber);
-            data.append("PhoneNumberNok", formData.PhoneNumberNok);
-            data.append(
-                "PreferredCommunicationMode",
-                formData.PreferredCommunicationMode
-            );
-            data.append("ProductName", "Target Date Plan");
-            data.append("RelationshipWithNok", formData.RelationshipWithNok);
-            data.append("StreetAddress", formData.StreetAddress);
-            data.append("StreetAddressNok", formData.StreetAddressNok);
-            data.append("UnitHolderSignature", formData.UnitHolderSignature);
-            data.append("UtilityBill", formData.UtilityBill);
-            data.append("HeardAboutUs", formData.HeardAboutUs);
-            data.append("Country", formData.Country);
+            if (
+                fileErrors[0].value &&
+                fileErrors[1].value &&
+                fileErrors[2].value &&
+                fileErrors[3].value
+            ) {
+                setLoading(true);
+                var data = new FormData();
+                data.append("AccountName", formData.AccountName);
+                data.append("AccountNumber", formData.AccountNumber);
+                data.append("Address", formData.Address);
+                data.append("AddressNok", formData.AddressNok);
+                data.append("BankName", formData.BankName);
+                data.append("BVN", formData.BVN);
+                data.append("City", formData.City);
+                data.append("CityNok", formData.CityNok);
+                data.append("CountryNok", formData.CountryNok);
+                data.append("Date", formData.Date);
+                data.append("Email", formData.Email);
+                data.append("EmailNok", formData.EmailNok);
+                data.append(
+                    "EstimatedAmountForGoal",
+                    formData.EstimatedAmountForGoal
+                );
+                data.append(
+                    "ExpectedDateForGoalAchievement",
+                    formData.ExpectedDateForGoalAchievement
+                );
+                data.append("FirstName", formData.FirstName);
+                data.append("FirstNameNok", formData.FirstNameNok);
+                data.append("GoalToAchieve", formData.GoalToAchieve);
+                data.append("IdType", formData.IdType);
+                data.append("InvestmentAmount", formData.InvestmentAmount);
+                data.append(
+                    "InvestmentAmountPerTime",
+                    formData.InvestmentAmountPerTime
+                );
+                data.append("InvestmentFreq", formData.InvestmentFreq);
+                data.append("IsNewClient", formData.IsNewClient);
+                data.append("LastName", formData.LastName);
+                data.append("LastNameNok", formData.LastNameNok);
+                data.append("MeansOfId", formData.MeansOfId);
+                data.append("Nationality", formData.Nationality);
+                data.append("Occupation", formData.Occupation);
+                data.append("PassportPhoto", formData.PassportPhoto);
+                data.append("PhoneNumber", formData.PhoneNumber);
+                data.append("PhoneNumberNok", formData.PhoneNumberNok);
+                data.append(
+                    "PreferredCommunicationMode",
+                    formData.PreferredCommunicationMode
+                );
+                data.append("ProductName", "Target Date Plan");
+                data.append(
+                    "RelationshipWithNok",
+                    formData.RelationshipWithNok
+                );
+                data.append(
+                    "UnitHolderSignature",
+                    formData.UnitHolderSignature
+                );
+                data.append("UtilityBill", formData.UtilityBill);
+                data.append("HeardAboutUs", formData.HeardAboutUs);
+                data.append("Country", formData.Country);
 
-            var config = {
-                method: "post",
-                maxBodyLength: Infinity,
-                url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/TargetDatePlanInvestment",
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                data: data,
-            };
+                var config = {
+                    method: "post",
+                    maxBodyLength: Infinity,
+                    url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/TargetDatePlanInvestment",
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                    data: data,
+                };
 
-            devInstance(config)
-                .then(function (response: any) {
-                    console.log(JSON.stringify(response.data));
-                    toast.success(
-                        `${response.message || response.data.message}`
-                    );
-                    dispatch(clearStepper());
-                    clearForm();
-                    closeModal();
-                })
-                .catch(function (error: any) {
-                    console.log(error);
-                    toast.error("error");
-                    setLoading(false);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
+                devInstance(config)
+                    .then(function (response: any) {
+                        console.log(JSON.stringify(response.data));
+                        toast.success(
+                            `${response.message || response.data.message}`
+                        );
+                        dispatch(clearStepper());
+                        clearForm();
+                        closeModal();
+                    })
+                    .catch(function (error: any) {
+                        console.log(error);
+                        toast.error("error");
+                        setLoading(false);
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                    });
+            }
+        } else {
+            existingUser();
         }
     };
 
+    function existingUser() {
+        setLoading(true);
+        var data = new FormData();
+        data.append("AccountName", formData.AccountName);
+        data.append("AccountNumber", formData.AccountNumber);
+        data.append("Address", formData.Address);
+        data.append("AddressNok", formData.AddressNok);
+        data.append("BankName", formData.BankName);
+        data.append("BVN", formData.BVN);
+        data.append("City", formData.City);
+        data.append("CityNok", formData.CityNok);
+        data.append("CountryNok", formData.CountryNok);
+        data.append("Date", formData.Date);
+        data.append("Email", formData.Email);
+        data.append("EmailNok", formData.EmailNok);
+        data.append("EstimatedAmountForGoal", formData.EstimatedAmountForGoal);
+        data.append(
+            "ExpectedDateForGoalAchievement",
+            formData.ExpectedDateForGoalAchievement
+        );
+        data.append("FirstName", formData.FirstName);
+        data.append("FirstNameNok", formData.FirstNameNok);
+        data.append("GoalToAchieve", formData.GoalToAchieve);
+        data.append("IdType", formData.IdType);
+        data.append("InvestmentAmount", formData.InvestmentAmount);
+        data.append(
+            "InvestmentAmountPerTime",
+            formData.InvestmentAmountPerTime
+        );
+        data.append("InvestmentFreq", formData.InvestmentFreq);
+        data.append("IsNewClient", formData.IsNewClient);
+        data.append("LastName", formData.LastName);
+        data.append("LastNameNok", formData.LastNameNok);
+        data.append("MeansOfId", formData.MeansOfId);
+        data.append("Nationality", formData.Nationality);
+        data.append("Occupation", formData.Occupation);
+        data.append("PassportPhoto", formData.PassportPhoto);
+        data.append("PhoneNumber", formData.PhoneNumber);
+        data.append("PhoneNumberNok", formData.PhoneNumberNok);
+        data.append(
+            "PreferredCommunicationMode",
+            formData.PreferredCommunicationMode
+        );
+        data.append("ProductName", "Target Date Plan");
+        data.append("RelationshipWithNok", formData.RelationshipWithNok);
+        data.append("UnitHolderSignature", formData.UnitHolderSignature);
+        data.append("UtilityBill", formData.UtilityBill);
+        data.append("HeardAboutUs", formData.HeardAboutUs);
+        data.append("Country", formData.Country);
+
+        var config = {
+            method: "post",
+            maxBodyLength: Infinity,
+            url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/TargetDatePlanInvestment",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            data: data,
+        };
+
+        devInstance(config)
+            .then(function (response: any) {
+                console.log(JSON.stringify(response.data));
+                toast.success(`${response.message || response.data.message}`);
+                dispatch(clearStepper());
+                clearForm();
+                closeModal();
+            })
+            .catch(function (error: any) {
+                console.log(error);
+                toast.error("error");
+                setLoading(false);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }
+
     function setClient(value: any) {
-        setFormData({
-            ...formData,
-            IsANewClient: value,
-        });
+        if (value === "true") {
+            setFormData({
+                ...formData,
+                IsNewClient: "true",
+            });
+            setNewClient(true);
+        }
+        if (value === "false") {
+            setFormData({
+                ...formData,
+                IsNewClient: "false",
+            });
+            setNewClient(false);
+        }
 
         console.log(formData);
     }
@@ -335,6 +485,7 @@ const TargetDatePlan = (props: _props) => {
             phone={formData.PhoneNumber}
             firstname={formData.FirstName}
             lastname={formData.LastName}
+            newClient={newClient}
         >
             <div className="text-primary">
                 {currentStepper === 0 && (
@@ -353,7 +504,7 @@ const TargetDatePlan = (props: _props) => {
                                         className="border-primary checked:bg-primary focus:bg-primary focus:ring-primary checked:ring-primary"
                                         name="IsNewClient"
                                         type="radio"
-                                        checked
+                                        checked={newClient === true && true}
                                         onClick={() => setClient("true")}
                                     />
                                     I am a new client
@@ -364,6 +515,7 @@ const TargetDatePlan = (props: _props) => {
                                         name="IsNewClient"
                                         type="radio"
                                         value="No"
+                                        checked={newClient === false && true}
                                         onClick={() => setClient("false")}
                                     />
                                     I am an existing client
@@ -417,7 +569,7 @@ const TargetDatePlan = (props: _props) => {
                                 <Select
                                     options={["Weekly", "Monthly", "Yearly"]}
                                     required
-                                    title="Investment Frquency *"
+                                    title="Investment Frequency *"
                                     name="InvestmentFreq"
                                     onChange={formChange}
                                     value={formData.InvestmentFreq || null}
@@ -435,23 +587,25 @@ const TargetDatePlan = (props: _props) => {
                                     }
                                 />
                             </div>
-                            <div>
-                                <Select
-                                    options={[
-                                        "Referral/ Word of Mouth",
-                                        "Google Search",
-                                        "Instagram",
-                                        "Twitter",
-                                        "Facebook",
-                                        "Others",
-                                    ]}
-                                    required
-                                    title="How did you hear about us? *"
-                                    name="HeardAboutUs"
-                                    onChange={formChange}
-                                    value={formData.HeardAboutUs || null}
-                                />
-                            </div>
+                            {newClient && (
+                                <div>
+                                    <Select
+                                        options={[
+                                            "Referral/ Word of Mouth",
+                                            "Google Search",
+                                            "Instagram",
+                                            "Twitter",
+                                            "Facebook",
+                                            "Others",
+                                        ]}
+                                        required
+                                        title="How did you hear about us? *"
+                                        name="HeardAboutUs"
+                                        onChange={formChange}
+                                        value={formData.HeardAboutUs || null}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
@@ -497,13 +651,6 @@ const TargetDatePlan = (props: _props) => {
                                 onChange={formChange}
                                 required
                                 value={formData.Address}
-                            />
-                            <Input
-                                placeholder="Street Address *"
-                                name="StreetAddress"
-                                onChange={formChange}
-                                required
-                                value={formData.StreetAddress}
                             />
                             {/* <Input
                                 placeholder="Phone Number *"
@@ -616,13 +763,6 @@ const TargetDatePlan = (props: _props) => {
                                 onChange={formChange}
                                 required
                                 value={formData.AddressNok}
-                            />
-                            <Input
-                                placeholder="Street Address *"
-                                name="StreetAddressNok"
-                                onChange={formChange}
-                                required
-                                value={formData.StreetAddressNok}
                             />
 
                             <div className="grid grid-cols-2 gap-x-7">
@@ -779,6 +919,52 @@ const TargetDatePlan = (props: _props) => {
                                 required
                             />
                             <p className="-tracking-[.02em] text-xs">
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply
+                            </p>
+                        </p>
+                        <p className="flex space-x-5 items-start text-base text-black mt-12">
+                            <input
+                                type="checkbox"
+                                className="rounded-[5px] bg-white-lighter mt-1"
+                                required
+                            />
+                            <p className="-tracking-[.02em] text-xs">
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement
+                            </p>
+                        </p>
+                        <p className="flex space-x-5 items-start text-base text-black mt-12">
+                            <input
+                                type="checkbox"
+                                className="rounded-[5px] bg-white-lighter mt-1"
+                                required
+                            />
+                            <p className="-tracking-[.02em] text-xs">
                                 I confirm/hereby declare that the information
                                 provided above is complete and accurate to the
                                 best of my knowledge, belief, and understanding.
@@ -787,17 +973,12 @@ const TargetDatePlan = (props: _props) => {
                                 information. If any of the information provided
                                 is found to be false, untrue, misleading, or
                                 misrepresented, I understand that I may be held
-                                liable for it.
-                                <br />
-                                <br />
-                                I hereby give DLM Asset Management Limited
-                                permission to share any of the information
-                                provided in this form at its discretion.
-                                <br />
-                                <br />I acknowledge that a non-refundable charge
-                                of 10 naira (the naira should be in symbol) will
-                                be automatically debited from the linked bank
-                                account to add my card.
+                                liable for it. I hereby give DLM Asset
+                                Management Limited permission to share any of
+                                the information provided in this form at its
+                                discretion. I acknowledge that a non-refundable
+                                charge of 10 naira will be automatically debited
+                                from the linked bank account to add my card.
                             </p>
                         </p>
                     </div>

@@ -16,6 +16,7 @@ const Profile = () => {
         Country: "",
         State: "",
         PostalCode: "",
+        PlaceOfBirth: "",
     });
     React.useEffect(() => {
         devInstance
@@ -32,6 +33,7 @@ const Profile = () => {
                     Country: res.data.country,
                     State: res.data.state,
                     PostalCode: res.data.postalCode,
+                    PlaceOfBirth: res.data.placeOfBirth,
                 });
             });
     }, []);
@@ -109,6 +111,14 @@ const Profile = () => {
                         label="State"
                         placeholder="State"
                         value={formData.State}
+                        disabled
+                    />
+                </div>
+                <div>
+                    <Input
+                        label="Place Of Birth"
+                        placeholder="Place Of Birth"
+                        value={formData.PlaceOfBirth}
                         disabled
                     />
                 </div>

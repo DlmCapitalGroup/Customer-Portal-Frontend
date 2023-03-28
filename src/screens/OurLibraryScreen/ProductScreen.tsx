@@ -106,19 +106,16 @@ const Product = () => {
     );
 
     useEffect(() => {
-
-
-            // devInstance
-            //     .get(`/Transaction/GetFIFDetails/${customer.customerId}`)
-            //     .then((res) => {
-            //         console.log(res, "response fif");
-            //     })
-            //     .catch((err) => {
-            //         console.log(err);
-            //         setLoading(false);
-            //     })
-            //     .finally(() => setLoading(false));
-
+        // devInstance
+        //     .get(`/Transaction/GetFIFDetails/${customer.customerId}`)
+        //     .then((res) => {
+        //         console.log(res, "response fif");
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //         setLoading(false);
+        //     })
+        //     .finally(() => setLoading(false));
     }, []);
 
     useEffect(() => {

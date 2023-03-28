@@ -23,6 +23,7 @@ interface stepperProps {
     firstname: string;
     lastname: string;
     phone: string;
+    newClient?: boolean;
 }
 
 const StepperModal = (props: stepperProps) => {
@@ -39,6 +40,7 @@ const StepperModal = (props: stepperProps) => {
         firstname,
         lastname,
         phone,
+        newClient,
     } = props;
 
     const { customer }: any = useAppSelector((state) => state.auth);
@@ -109,6 +111,7 @@ const StepperModal = (props: stepperProps) => {
 
     function nextFunction(e: any) {
         e.preventDefault();
+        !newClient ||
         (iCorp && currentStepper > 2) ||
         (rPlan && currentStepper > 1) ||
         (cep && currentStepper > 1) ||
@@ -198,6 +201,7 @@ const StepperModal = (props: stepperProps) => {
                             className="w-[180px] border-primary border rounded-[8px] hover:bg-primary/5 font-semibold"
                         >
                             {currentStepper === 4 ||
+                            !newClient ||
                             (iCorp && currentStepper > 2) ||
                             (rPlan && currentStepper > 1) ||
                             (cep && currentStepper > 1)

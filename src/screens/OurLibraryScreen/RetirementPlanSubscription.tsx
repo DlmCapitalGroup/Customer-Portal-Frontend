@@ -29,7 +29,6 @@ const RetirementPlanSubscription = (props: _props) => {
         Age: "",
         Occupation: "",
         Address: "",
-        StreetAddress: "",
         City: "",
         Country: "",
         PhoneNumber: "",
@@ -107,7 +106,6 @@ const RetirementPlanSubscription = (props: _props) => {
             Age: "",
             Occupation: "",
             Address: "",
-            StreetAddress: "",
             City: "",
             Country: "",
             PhoneNumber: "",
@@ -274,7 +272,6 @@ const RetirementPlanSubscription = (props: _props) => {
             data.append("ProductName", "Retirement Plan Subscription");
             data.append("RetirementTime", formData.RetirementTime);
             data.append("RsaBalance", formData.RsaBalance);
-            data.append("StreetAddress", formData.StreetAddress);
             data.append("SubscriptionCategory", formData.SubscriptionCategory);
             data.append("TotalNetWorth", formData.TotalNetWorth);
             data.append("UnitHolderSignature", formData.UnitHolderSignature);
@@ -359,7 +356,7 @@ const RetirementPlanSubscription = (props: _props) => {
                                 <Select
                                     options={["Weekly", "Monthly", "Yearly"]}
                                     required
-                                    title="Investment Frquency *"
+                                    title="Investment Frequency *"
                                     name="InvestmentFreq"
                                     onChange={formChange}
                                     value={formData.InvestmentFreq || null}
@@ -438,13 +435,6 @@ const RetirementPlanSubscription = (props: _props) => {
                                 onChange={formChange}
                                 required
                                 value={formData.Address}
-                            />
-                            <Input
-                                placeholder="Street Address *"
-                                name="StreetAddress"
-                                onChange={formChange}
-                                required
-                                value={formData.StreetAddress}
                             />
                             <div className="grid grid-cols-2 gap-x-7">
                                 <Input
@@ -701,6 +691,52 @@ const RetirementPlanSubscription = (props: _props) => {
                                 required
                             />
                             <p className="-tracking-[.02em] text-xs">
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply
+                            </p>
+                        </p>
+                        <p className="flex space-x-5 items-start text-base text-black mt-12">
+                            <input
+                                type="checkbox"
+                                className="rounded-[5px] bg-white-lighter mt-1"
+                                required
+                            />
+                            <p className="-tracking-[.02em] text-xs">
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement
+                            </p>
+                        </p>
+                        <p className="flex space-x-5 items-start text-base text-black mt-12">
+                            <input
+                                type="checkbox"
+                                className="rounded-[5px] bg-white-lighter mt-1"
+                                required
+                            />
+                            <p className="-tracking-[.02em] text-xs">
                                 I confirm/hereby declare that the information
                                 provided above is complete and accurate to the
                                 best of my knowledge, belief, and understanding.
@@ -709,17 +745,12 @@ const RetirementPlanSubscription = (props: _props) => {
                                 information. If any of the information provided
                                 is found to be false, untrue, misleading, or
                                 misrepresented, I understand that I may be held
-                                liable for it.
-                                <br />
-                                <br />
-                                I hereby give DLM Asset Management Limited
-                                permission to share any of the information
-                                provided in this form at its discretion.
-                                <br />
-                                <br />I acknowledge that a non-refundable charge
-                                of 10 naira (the naira should be in symbol) will
-                                be automatically debited from the linked bank
-                                account to add my card.
+                                liable for it. I hereby give DLM Asset
+                                Management Limited permission to share any of
+                                the information provided in this form at its
+                                discretion. I acknowledge that a non-refundable
+                                charge of 10 naira will be automatically debited
+                                from the linked bank account to add my card.
                             </p>
                         </p>
                     </div>

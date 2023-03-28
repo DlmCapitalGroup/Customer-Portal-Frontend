@@ -20,7 +20,7 @@ const FixedIncomeFund = (props: _props) => {
     const dispatch = useAppDispatch();
     const { currentStepper } = useAppSelector((state) => state.stepper);
     const { customer }: any = useAppSelector((state) => state.auth);
-    const [newClient, setNewClient] = React.useState(false);
+    const [newClient, setNewClient] = React.useState(true);
     const [formData, setFormData]: any = useState({
         IsANewClient: "true",
         InvestmentAmount: "",
@@ -62,48 +62,102 @@ const FixedIncomeFund = (props: _props) => {
     });
 
     React.useEffect(() => {
-        devInstance
-            .get(`/Transaction/GetFIFDetails/${customer.customerId}`)
-            .then((res) => {
-                console.log(res, "fif");
-            });
-    }, []);
+        if (!newClient) {
+            setLoading(true);
+            devInstance
+                .get(`/Transaction/GetFIFDetails/${customer.customerId}`)
+                .then((res) => {
+                    console.log(res, "fif");
+                    setFormData({
+                        ...formData,
+                        HearAboutUs: res.data.hearAboutUs,
+                        IsAJointApplicant: formData.IsAJointApplicant,
+                        JointApplicantsName: formData.JointApplicantsName,
+                        FirstName: res.data.firstName,
+                        Surname: res.data.surname,
+                        Age: res.data.age,
+                        BirthDate: res.data.birthDate,
+                        EmailAddress: res.data.emailAddress,
+                        PhoneNumber: res.data.phoneNumber,
+                        ResidentialAddress: res.data.residentialAddress,
+                        State: res.data.state,
+                        Country: res.data.country,
+                        Occupation: res.data.occupation,
+                        IdType: res.data.idType,
+                        IdNumber: res.data.idNumber,
+                        IdIssueDate: res.data.idIssueDate,
+                        ExpiryDate: res.data.expiryDate,
+                        NameNOK: res.data.nameNOK,
+                        ResidentialAddressNOK: res.data.residentialAddressNOK,
+                        CityNOK: res.data.cityNOK,
+                        EmailAddressNOK: res.data.emailAddressNOK,
+                        RelationshipWithNOK: res.data.relationshipWithNOK,
+                        PrefCommunicationMode: res.data.prefCommunicationMode,
+                        AccountName: res.data.accountName,
+                        AccountNumber: res.data.accountNumber,
+                        BankName: res.data.bankName,
+                        BVN: res.data.bvn,
+                        InterestReinvestment: res.data.interestReinvestment,
+                        Nationality: res.data.nationality,
+                        ResidenceJurisdiction: res.data.residenceJurisdiction,
+                        UsTin: res.data.usTin,
+                        PassportPhoto: res.data.passportPhoto,
+                        FormOfIdentity: res.data.formOfIdentity,
+                        UtilityBill: res.data.utilityBill,
+                        UnitHolderSignature: res.data.unitHolderSignature,
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setLoading(false);
+                })
+                .finally(() => setLoading(false));
+        }
+    }, [newClient]);
 
     React.useEffect(() => {
-        devInstance
-            .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
-            )
-            .then((res) => {
-                console.log(res, "response");
-                setFormData({
-                    ...formData,
-                    Surname: res.data.surname,
-                    FirstName: res.data.firstName,
-                    Age: res.data.age,
-                    BirthDate: res.data.birthDate.slice(0, 10),
-                    EmailAddress: res.data.emailAddress,
-                    PhoneNumber: res.data.phoneNumber,
-                    ResidentialAddress: res.data.residentialAddress,
-                    State: res.data.state,
-                    Country: res.data.country,
-                    Occupation: res.data.occupation,
-                    IdType: res.data.idType,
-                    IdNumber: res.data.idNumber,
-                    BankName: res.data.bankName,
-                    AccountName: res.data.accountName,
-                    AccountNumber: res.data.accountNumber,
-                    BVN: res.data.bvn,
-                    NameNOK: res.data.nextOfKinName,
-                    ResidentialAddressNOK: res.data.addressNOK,
-                    RelationshipWithNOK: res.data.relationshipWithNOK,
-                    PassportPhoto: res.data.passportPhoto,
-                    FormOfIdentity: res.data.formOfIdentity,
-                    UtilityBill: res.data.utilityBill,
-                    UnitHolderSignature: res.data.unitHolderSignature,
-                });
-            });
-    }, []);
+        if (newClient === true) {
+            setLoading(true);
+            devInstance
+                .get(
+                    `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
+                )
+                .then((res) => {
+                    console.log(res, "response");
+                    setFormData({
+                        ...formData,
+                        Surname: res.data.surname,
+                        FirstName: res.data.firstName,
+                        Age: res.data.age,
+                        BirthDate: res.data.birthDate.slice(0, 10),
+                        EmailAddress: res.data.emailAddress,
+                        PhoneNumber: res.data.phoneNumber,
+                        ResidentialAddress: res.data.residentialAddress,
+                        State: res.data.state,
+                        Country: res.data.country,
+                        Occupation: res.data.occupation,
+                        IdType: res.data.idType,
+                        IdNumber: res.data.idNumber,
+                        BankName: res.data.bankName,
+                        AccountName: res.data.accountName,
+                        AccountNumber: res.data.accountNumber,
+                        BVN: res.data.bvn,
+                        NameNOK: res.data.nextOfKinName,
+                        ResidentialAddressNOK: res.data.addressNOK,
+                        RelationshipWithNOK: res.data.relationshipWithNOK,
+                        PassportPhoto: res.data.passportPhoto,
+                        FormOfIdentity: res.data.formOfIdentity,
+                        UtilityBill: res.data.utilityBill,
+                        UnitHolderSignature: res.data.unitHolderSignature,
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setLoading(false);
+                })
+                .finally(() => setLoading(false));
+        }
+    }, [newClient]);
 
     function clearForm() {
         setFormData({
@@ -234,107 +288,196 @@ const FixedIncomeFund = (props: _props) => {
     ];
 
     const openAccount = async (e: any) => {
-        if (fileErrors[0].value === "") {
-            // toast.error(`${fileErrors[0].title} is required`);
-        }
-        if (fileErrors[1].value === "") {
-            // toast.error(`${fileErrors[1].title} is required`);
-        }
-        if (fileErrors[2].value === "") {
-            // toast.error(`${fileErrors[2].title} is required`);
-        }
-        if (fileErrors[3].value === "") {
-            // toast.error(`${fileErrors[3].title} is required`);
-        }
+        if (newClient) {
+            if (fileErrors[0].value === "") {
+                // toast.error(`${fileErrors[0].title} is required`);
+            }
+            if (fileErrors[1].value === "") {
+                // toast.error(`${fileErrors[1].title} is required`);
+            }
+            if (fileErrors[2].value === "") {
+                // toast.error(`${fileErrors[2].title} is required`);
+            }
+            if (fileErrors[3].value === "") {
+                // toast.error(`${fileErrors[3].title} is required`);
+            }
 
-        if (
-            fileErrors[0].value &&
-            fileErrors[1].value &&
-            fileErrors[2].value &&
-            fileErrors[3].value
-        ) {
-            setLoading(true);
-            var data = new FormData();
-            data.append("AccountName", formData.AccountName);
-            data.append("AccountNumber", formData.AccountNumber);
-            data.append("Age", formData.Age);
-            data.append("BirthDate", formData.BirthDate);
-            data.append("BankName", formData.BankName);
-            data.append("BVN", formData.BVN);
-            data.append("CityNOK", formData.CityNOK);
-            data.append("Country", formData.Country);
-            data.append("EmailAddress", formData.EmailAddress);
-            data.append("EmailAddressNOK", formData.EmailAddressNOK);
-            data.append("ExpiryDate", formData.ExpiryDate || "2023-01-01");
-            data.append("FormOfIdentity", formData.FormOfIdentity);
-            data.append("IdIssueDate", formData.IdIssueDate || "2023-01-01");
-            data.append("IdNumber", formData.IdNumber);
-            data.append("IdType", formData.IdType);
-            data.append(
-                "InterestReinvestment",
-                formData.InterestReinvestment || "false"
-            );
-            data.append("InvestmentAmount", formData.InvestmentAmount);
-            data.append("IsAJointApplicant", formData.IsAJointApplicant);
-            data.append("IsANewClient", formData.IsANewClient);
-            data.append(
-                "JointApplicantsName",
-                formData.JointApplicantsName || "NA"
-            );
-            data.append("NameNOK", formData.NameNOK);
-            data.append("Nationality", formData.Nationality);
-            data.append("Occupation", formData.Occupation);
-            data.append("PassportPhoto", formData.PassportPhoto);
-            data.append("PhoneNumber", formData.PhoneNumber);
-            data.append(
-                "PrefCommunicationMode",
-                formData.PrefCommunicationMode || "NA"
-            );
-            data.append("ProductName", "Fixed Income Fund");
-            data.append("RelationshipWithNOK", formData.RelationshipWithNOK);
-            data.append("ResidentialAddress", formData.ResidentialAddress);
-            data.append(
-                "ResidentialAddressNOK",
-                formData.ResidentialAddressNOK
-            );
-            data.append("State", formData.State);
-            data.append("UnitHolderSignature", formData.UnitHolderSignature);
-            data.append("UtilityBill", formData.UtilityBill);
-            data.append("HearAboutUs", formData.HearAboutUs);
-            data.append("FirstName", formData.FirstName);
-            data.append("Surname", formData.Surname);
-            data.append(
-                "ResidenceJurisdiction",
-                formData.ResidenceJurisdiction
-            );
-            data.append("UsTin", formData.UsTin);
+            if (
+                fileErrors[0].value &&
+                fileErrors[1].value &&
+                fileErrors[2].value &&
+                fileErrors[3].value
+            ) {
+                setLoading(true);
+                var data = new FormData();
+                data.append("AccountName", formData.AccountName);
+                data.append("AccountNumber", formData.AccountNumber);
+                data.append("Age", formData.Age);
+                data.append("BirthDate", formData.BirthDate);
+                data.append("BankName", formData.BankName);
+                data.append("BVN", formData.BVN);
+                data.append("CityNOK", formData.CityNOK);
+                data.append("Country", formData.Country);
+                data.append("EmailAddress", formData.EmailAddress);
+                data.append("EmailAddressNOK", formData.EmailAddressNOK);
+                data.append("ExpiryDate", formData.ExpiryDate || "2023-01-01");
+                data.append("FormOfIdentity", formData.FormOfIdentity);
+                data.append(
+                    "IdIssueDate",
+                    formData.IdIssueDate || "2023-01-01"
+                );
+                data.append("IdNumber", formData.IdNumber);
+                data.append("IdType", formData.IdType);
+                data.append(
+                    "InterestReinvestment",
+                    formData.InterestReinvestment || "false"
+                );
+                data.append("InvestmentAmount", formData.InvestmentAmount);
+                data.append("IsAJointApplicant", formData.IsAJointApplicant);
+                data.append("IsANewClient", formData.IsANewClient);
+                data.append(
+                    "JointApplicantsName",
+                    formData.JointApplicantsName || "NA"
+                );
+                data.append("NameNOK", formData.NameNOK);
+                data.append("Nationality", formData.Nationality);
+                data.append("Occupation", formData.Occupation);
+                data.append("PassportPhoto", formData.PassportPhoto);
+                data.append("PhoneNumber", formData.PhoneNumber);
+                data.append(
+                    "PrefCommunicationMode",
+                    formData.PrefCommunicationMode || "NA"
+                );
+                data.append("ProductName", "Fixed Income Fund");
+                data.append(
+                    "RelationshipWithNOK",
+                    formData.RelationshipWithNOK
+                );
+                data.append("ResidentialAddress", formData.ResidentialAddress);
+                data.append(
+                    "ResidentialAddressNOK",
+                    formData.ResidentialAddressNOK
+                );
+                data.append("State", formData.State);
+                data.append(
+                    "UnitHolderSignature",
+                    formData.UnitHolderSignature
+                );
+                data.append("UtilityBill", formData.UtilityBill);
+                data.append("HearAboutUs", formData.HearAboutUs);
+                data.append("FirstName", formData.FirstName);
+                data.append("Surname", formData.Surname);
+                data.append(
+                    "ResidenceJurisdiction",
+                    formData.ResidenceJurisdiction
+                );
+                data.append("UsTin", formData.UsTin);
 
-            var config = {
-                method: "post",
-                maxBodyLength: Infinity,
-                url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/FixedIncomeFundInvestment",
-                data: data,
-            };
+                var config = {
+                    method: "post",
+                    maxBodyLength: Infinity,
+                    url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/FixedIncomeFundInvestment",
+                    data: data,
+                };
 
-            devInstance(config)
-                .then(function (response: any) {
-                    console.log(JSON.stringify(response.data));
-                    toast.success(
-                        `${response.message || response.data.message}`
-                    );
-                    dispatch(clearStepper());
-                    clearForm();
-                    closeModal();
-                })
-                .catch(function (error: any) {
-                    console.log(error);
-                    toast.error(error.message);
-                    setLoading(false);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
+                devInstance(config)
+                    .then(function (response: any) {
+                        console.log(JSON.stringify(response.data));
+                        toast.success(
+                            `${response.message || response.data.message}`
+                        );
+                        dispatch(clearStepper());
+                        clearForm();
+                        closeModal();
+                    })
+                    .catch(function (error: any) {
+                        console.log(error);
+                        toast.error(error.message);
+                        setLoading(false);
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                    });
+            }
+        } else {
+            existingUser();
         }
+    };
+
+    const existingUser = () => {
+        setLoading(true);
+        var data = new FormData();
+        data.append("AccountName", formData.AccountName);
+        data.append("AccountNumber", formData.AccountNumber);
+        data.append("Age", formData.Age);
+        data.append("BirthDate", formData.BirthDate);
+        data.append("BankName", formData.BankName);
+        data.append("BVN", formData.BVN);
+        data.append("CityNOK", formData.CityNOK);
+        data.append("Country", formData.Country);
+        data.append("EmailAddress", formData.EmailAddress);
+        data.append("EmailAddressNOK", formData.EmailAddressNOK);
+        data.append("ExpiryDate", formData.ExpiryDate || "2023-01-01");
+        data.append("FormOfIdentity", formData.FormOfIdentity);
+        data.append("IdIssueDate", formData.IdIssueDate || "2023-01-01");
+        data.append("IdNumber", formData.IdNumber);
+        data.append("IdType", formData.IdType);
+        data.append(
+            "InterestReinvestment",
+            formData.InterestReinvestment || "false"
+        );
+        data.append("InvestmentAmount", formData.InvestmentAmount);
+        data.append("IsAJointApplicant", formData.IsAJointApplicant);
+        data.append("IsANewClient", formData.IsANewClient);
+        data.append(
+            "JointApplicantsName",
+            formData.JointApplicantsName || "NA"
+        );
+        data.append("NameNOK", formData.NameNOK);
+        data.append("Nationality", formData.Nationality);
+        data.append("Occupation", formData.Occupation);
+        data.append("PassportPhoto", formData.PassportPhoto);
+        data.append("PhoneNumber", formData.PhoneNumber);
+        data.append(
+            "PrefCommunicationMode",
+            formData.PrefCommunicationMode || "NA"
+        );
+        data.append("ProductName", "Fixed Income Fund");
+        data.append("RelationshipWithNOK", formData.RelationshipWithNOK);
+        data.append("ResidentialAddress", formData.ResidentialAddress);
+        data.append("ResidentialAddressNOK", formData.ResidentialAddressNOK);
+        data.append("State", formData.State);
+        data.append("UnitHolderSignature", formData.UnitHolderSignature);
+        data.append("UtilityBill", formData.UtilityBill);
+        data.append("HearAboutUs", formData.HearAboutUs);
+        data.append("FirstName", formData.FirstName);
+        data.append("Surname", formData.Surname);
+        data.append("ResidenceJurisdiction", formData.ResidenceJurisdiction);
+        data.append("UsTin", formData.UsTin);
+
+        var config = {
+            method: "post",
+            maxBodyLength: Infinity,
+            url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/FixedIncomeFundInvestment",
+            data: data,
+        };
+
+        devInstance(config)
+            .then(function (response: any) {
+                console.log(JSON.stringify(response.data));
+                toast.success(`${response.message || response.data.message}`);
+                dispatch(clearStepper());
+                clearForm();
+                closeModal();
+            })
+            .catch(function (error: any) {
+                console.log(error);
+                toast.error(error.message);
+                setLoading(false);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return (
@@ -346,6 +489,7 @@ const FixedIncomeFund = (props: _props) => {
             phone={formData.PhoneNumber}
             firstname={formData.FirstName}
             lastname={formData.Surname}
+            newClient={newClient}
         >
             <div className="text-primary">
                 {currentStepper === 0 && (
@@ -386,29 +530,31 @@ const FixedIncomeFund = (props: _props) => {
                                     placeholder="How much do you want to invest (Min of 10,000) *"
                                     name="InvestmentAmount"
                                     onChange={formChange}
-                                    // required
+                                    required
                                     type="number"
                                     min={formatter(Number("10000"))}
                                     value={formData.InvestmentAmount || null}
                                 />
                             </div>
-                            <div>
-                                <Select
-                                    options={[
-                                        "Referral/ Word of Mouth",
-                                        "Google Search",
-                                        "Instagram",
-                                        "Twitter",
-                                        "Facebook",
-                                        "Others",
-                                    ]}
-                                    // required
-                                    title="How did you hear about us? *"
-                                    name="HearAboutUs"
-                                    onChange={formChange}
-                                    value={formData.HearAboutUs || null}
-                                />
-                            </div>
+                            {newClient && (
+                                <div>
+                                    <Select
+                                        options={[
+                                            "Referral/ Word of Mouth",
+                                            "Google Search",
+                                            "Instagram",
+                                            "Twitter",
+                                            "Facebook",
+                                            "Others",
+                                        ]}
+                                        required
+                                        title="How did you hear about us? *"
+                                        name="HearAboutUs"
+                                        onChange={formChange}
+                                        value={formData.HearAboutUs || null}
+                                    />
+                                </div>
+                            )}
                             <div>
                                 <Select
                                     options={["Yes", "No"]}
@@ -768,7 +914,53 @@ const FixedIncomeFund = (props: _props) => {
                             <input
                                 type="checkbox"
                                 className="rounded-[5px] bg-white-lighter mt-1"
-                                // required
+                                required
+                            />
+                            <p className="-tracking-[.02em] text-xs">
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply Terms and Conditions
+                                apply Terms and Conditions apply Terms and
+                                Conditions apply Terms and Conditions apply
+                                Terms and Conditions apply
+                            </p>
+                        </p>
+                        <p className="flex space-x-5 items-start text-base text-black mt-12">
+                            <input
+                                type="checkbox"
+                                className="rounded-[5px] bg-white-lighter mt-1"
+                                required
+                            />
+                            <p className="-tracking-[.02em] text-xs">
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement Client service agreement
+                                Client service agreement Client service
+                                agreement Client service agreement Client
+                                service agreement
+                            </p>
+                        </p>
+                        <p className="flex space-x-5 items-start text-base text-black mt-12">
+                            <input
+                                type="checkbox"
+                                className="rounded-[5px] bg-white-lighter mt-1"
+                                required
                             />
                             <p className="-tracking-[.02em] text-xs">
                                 I confirm/hereby declare that the information
@@ -779,17 +971,12 @@ const FixedIncomeFund = (props: _props) => {
                                 information. If any of the information provided
                                 is found to be false, untrue, misleading, or
                                 misrepresented, I understand that I may be held
-                                liable for it.
-                                <br />
-                                <br />
-                                I hereby give DLM Asset Management Limited
-                                permission to share any of the information
-                                provided in this form at its discretion.
-                                <br />
-                                <br />I acknowledge that a non-refundable charge
-                                of 10 naira (the naira should be in symbol) will
-                                be automatically debited from the linked bank
-                                account to add my card.
+                                liable for it. I hereby give DLM Asset
+                                Management Limited permission to share any of
+                                the information provided in this form at its
+                                discretion. I acknowledge that a non-refundable
+                                charge of 10 naira will be automatically debited
+                                from the linked bank account to add my card.
                             </p>
                         </p>
                     </div>

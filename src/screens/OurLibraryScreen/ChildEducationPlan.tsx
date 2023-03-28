@@ -30,7 +30,6 @@ const ChildEducationPlan = (props: _props) => {
         Occupation: "",
         Nationality: "",
         Address: "",
-        StreetAddress: "",
         City: "",
         State: "",
         Country: "",
@@ -45,7 +44,6 @@ const ChildEducationPlan = (props: _props) => {
         ChildSchoolName: "",
         ChildAge: "",
         ChildAddress: "",
-        ChildStreetAddress: "",
         ChildCity: "",
         ChildState: "",
         ChildCountry: "",
@@ -105,44 +103,45 @@ const ChildEducationPlan = (props: _props) => {
             InvestmentAmount: "",
             FirstName: "",
             LastName: "",
+            EmailAddress: "",
             Gender: "",
-            Email: "",
-            Age: "",
+            BirthDate: "",
             Occupation: "",
+            Nationality: "",
             Address: "",
-            StreetAddress: "",
             City: "",
+            State: "",
             Country: "",
             PhoneNumber: "",
-            IsExistRetirementPlan: "",
+            IsChildEducationExisting: "",
             TotalNetWorth: "",
-            NoOfDependents: "",
-            YearsOfWork: "",
-            RetirementTime: "",
-            RsaBalance: "",
-            IsSalaryEarner: "",
-            IsEntrepreneur: "",
-            OtherIncomeSources: "",
-            IsExistFinancialPlan: "",
-            IsSecureCashFlow: "",
-            InvestmentNotInterestedIn: "",
-            EarningsExpectations: "",
-            InvestmentPlanDetailsInFiveYears: "",
-            Nationality: "",
-            IsInterestedInFinPlanAdvisoryServices: "",
-            KnowledgeLevelInInvestment: "",
-            SubscriptionCategory: "",
+            ChildrenNumberToEnrol: "",
+            ChildFirstName: "",
+            ChildLastName: "",
+            ChildGender: "",
+            ChildEmail: "",
+            ChildSchoolName: "",
+            ChildAge: "",
+            ChildAddress: "",
+            ChildCity: "",
+            ChildState: "",
+            ChildCountry: "",
+            ChildPhoneNumber: "",
+            ChildCurrentEduLevel: "",
+            ChildCurrentClass: "",
+            ChildCurrentTuition: "",
+            LevelOfEduForChild: "",
+            InvestmentPlan: "",
+            ChildStudyCountry: "",
             InvestmentFreq: "",
-            AfterRetirementPlan: "",
-            PassportPhoto: "",
-            UtilityBill: "",
-            MeansOfId: "",
-            UnitHolderSignature: "",
+            EstimatedChildEduTotalCost: "",
+            IsTuitionFromInvestment: "",
+            IsFreeEduAdvisoryService: "",
         });
     }
     const formChange = async (e: any) => {
         e.preventDefault();
-        
+
         if (e.target.type === "radio") {
             if (e.target.value === "Yes") {
                 setFormData({
@@ -186,7 +185,6 @@ const ChildEducationPlan = (props: _props) => {
                 ...formData,
                 [e.target.name]: e.target.value,
             });
-            
         }
         console.log(formData);
     };
@@ -210,7 +208,6 @@ const ChildEducationPlan = (props: _props) => {
         data.append("ChildrenNumberToEnrol", formData.ChildrenNumberToEnrol);
         data.append("ChildSchoolName", formData.ChildSchoolName);
         data.append("ChildState", formData.ChildState);
-        data.append("ChildStreetAddress", formData.ChildStreetAddress);
         data.append("ChildStudyCountry", formData.ChildStudyCountry);
         data.append("City", formData.City);
         data.append("Country", formData.Country);
@@ -243,7 +240,6 @@ const ChildEducationPlan = (props: _props) => {
         data.append("PhoneNumber", formData.PhoneNumber);
         data.append("ProductName", "Child Education Plan");
         data.append("State", formData.State);
-        data.append("StreetAddress", formData.StreetAddress);
         data.append("TotalNetWorth", formData.TotalNetWorth);
         data.append("BirthDate", formData.BirthDate);
 
@@ -314,7 +310,7 @@ const ChildEducationPlan = (props: _props) => {
                                     onChange={formChange}
                                     required
                                     type="number"
-                                    min={formatter(Number('10000'))}
+                                    min={formatter(Number("10000"))}
                                     value={formData.InvestmentAmount}
                                 />
                             </div>
@@ -322,7 +318,7 @@ const ChildEducationPlan = (props: _props) => {
                                 <Select
                                     options={["Weekly", "Monthly", "Yearly"]}
                                     required
-                                    title="Investment Frquency *"
+                                    title="Investment Frequency *"
                                     name="InvestmentFreq"
                                     onChange={formChange}
                                     value={formData.InvestmentFreq || null}
@@ -439,13 +435,6 @@ const ChildEducationPlan = (props: _props) => {
                                 required
                                 value={formData.Address}
                             />
-                            <Input
-                                placeholder="Street Address *"
-                                name="StreetAddress"
-                                onChange={formChange}
-                                required
-                                value={formData.StreetAddress}
-                            />
 
                             <Input
                                 placeholder="Phone Number  *"
@@ -550,13 +539,6 @@ const ChildEducationPlan = (props: _props) => {
                                 onChange={formChange}
                                 required
                                 value={formData.ChildAddress}
-                            />
-                            <Input
-                                placeholder="Street Address *"
-                                name="ChildStreetAddress"
-                                onChange={formChange}
-                                required
-                                value={formData.ChildStreetAddress}
                             />
                             <div className="grid grid-cols-2 gap-x-7">
                                 <Select
@@ -689,13 +671,98 @@ const ChildEducationPlan = (props: _props) => {
                                     required
                                 />
                                 <p className="-tracking-[.02em] text-xs">
-                                    I confirm/hereby declare that the information provided above is complete and accurate to the best of my knowledge, belief, and understanding. I pledge to inform DLM Asset Management Limited immediately if there are any changes to this information. If any of the information provided is found to be false, untrue, misleading, or misrepresented, I understand that I may be held liable for it. 
+                                    I confirm/hereby declare that the
+                                    information provided above is complete and
+                                    accurate to the best of my knowledge,
+                                    belief, and understanding. I pledge to
+                                    inform DLM Asset Management Limited
+                                    immediately if there are any changes to this
+                                    information. If any of the information
+                                    provided is found to be false, untrue,
+                                    misleading, or misrepresented, I understand
+                                    that I may be held liable for it.
                                     <br />
                                     <br />
-                                    I hereby give DLM Asset Management Limited permission to share any of the information provided in this form at its discretion. 
+                                    I hereby give DLM Asset Management Limited
+                                    permission to share any of the information
+                                    provided in this form at its discretion.
                                     <br />
-                                    <br />
-                                    I acknowledge that a non-refundable charge of 10 naira (the naira should be in symbol) will be automatically debited from the linked bank account to add my card.
+                                    <br />I acknowledge that a non-refundable
+                                    charge of 10 naira (the naira should be in
+                                    symbol) will be automatically debited from
+                                    the linked bank account to add my card.
+                                </p>
+                            </p>
+                            <p className="flex space-x-5 items-start text-base text-black mt-12">
+                                <input
+                                    type="checkbox"
+                                    className="rounded-[5px] bg-white-lighter mt-1"
+                                    required
+                                />
+                                <p className="-tracking-[.02em] text-xs">
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                </p>
+                            </p>
+                            <p className="flex space-x-5 items-start text-base text-black mt-12">
+                                <input
+                                    type="checkbox"
+                                    className="rounded-[5px] bg-white-lighter mt-1"
+                                    required
+                                />
+                                <p className="-tracking-[.02em] text-xs">
+                                    Client service agreement Client service
+                                    agreement Client service agreement Client
+                                    service agreement Client service agreement
+                                    Client service agreement Client service
+                                    agreement Client service agreement Client
+                                    service agreement Client service agreement
+                                    Client service agreement Client service
+                                    agreement Client service agreement Client
+                                    service agreement Client service agreement
+                                    Client service agreement Client service
+                                    agreement Client service agreement Client
+                                    service agreement Client service agreement
+                                    Client service agreement Client service
+                                    agreement Client service agreement Client
+                                    service agreement
+                                </p>
+                            </p>
+                            <p className="flex space-x-5 items-start text-base text-black mt-12">
+                                <input
+                                    type="checkbox"
+                                    className="rounded-[5px] bg-white-lighter mt-1"
+                                    required
+                                />
+                                <p className="-tracking-[.02em] text-xs">
+                                    I confirm/hereby declare that the
+                                    information provided above is complete and
+                                    accurate to the best of my knowledge,
+                                    belief, and understanding. I pledge to
+                                    inform DLM Asset Management Limited
+                                    immediately if there are any changes to this
+                                    information. If any of the information
+                                    provided is found to be false, untrue,
+                                    misleading, or misrepresented, I understand
+                                    that I may be held liable for it. I hereby
+                                    give DLM Asset Management Limited permission
+                                    to share any of the information provided in
+                                    this form at its discretion. I acknowledge
+                                    that a non-refundable charge of 10 naira
+                                    will be automatically debited from the
+                                    linked bank account to add my card.
                                 </p>
                             </p>
                         </div>
