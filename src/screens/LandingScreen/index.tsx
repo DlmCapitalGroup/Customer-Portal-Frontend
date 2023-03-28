@@ -52,7 +52,10 @@ const LandingScreen = () => {
                                 >
                                     Contact Us
                                 </Link>
-                                <a onClick={() => navigate("/auth/sign-in")}>
+                                <a
+                                    onClick={() => navigate("/auth/sign-in")}
+                                    className="cursor-pointer"
+                                >
                                     Sign In
                                 </a>
                                 <Button
