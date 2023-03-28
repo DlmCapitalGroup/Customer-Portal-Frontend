@@ -17,6 +17,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { Link } from "react-scroll";
 import { useAppSelector } from "../../store/hooks";
 import { toast } from "react-toastify";
+import { devInstance } from "../../store/devInstance";
 
 const LandingScreen = () => {
     const navigate = useNavigate();
@@ -32,69 +33,56 @@ const LandingScreen = () => {
     const [cLoading, setCLoading] = useState(false);
     const [nLoading, setNLoading] = useState(false);
 
-    const formChange = (e: any) => {
-        setContactForm((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }));
-    };
-
     const contactFormAction = async () => {
         setCLoading(true);
-        let body = {
-            FullName: contactForm.fullname,
-            EmailAddress: contactForm.email,
-            PhoneNumber: contactForm.phone,
-            Inquiry: contactForm.inquiry,
-        }
 
-        try {
-            const data = await fetch("https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/MakeInquiries", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
-            });
+        var data = new FormData();
+        data.append("FullName",  contactForm.fullname);
+        data.append("EmailAddress", contactForm.email);
+        data.append("PhoneNumber", contactForm.phone);
+        data.append("Inquiry", contactForm.inquiry);
 
-            let res = await data.json()
-            if (data.status === 200) {
-                toast.success("Thank you, we have received your question we will be in touch with you.");
-            } else {
+        var config = {
+            method: "post",
+            maxBodyLength: Infinity,
+            url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/MakeInquiries",
+            data: data,
+        };
+
+        devInstance(config)
+            .then(function (response: any) {
+                if (response ) {
+                    toast.success("Thank you, we have received your question we will be in touch with you.");
+                }
+            })
+            .catch(function (error: any) {
                 toast.error("Failed, Please try again later.");
-            }
-        } catch (error) {
-            toast.error("Failed, Please try again later.");
-        } finally {
-            setCLoading(false)
-        }
+            })
+            .finally(() => setCLoading(false));
     }
 
     const newsLetterFormAction = async () => {
         setNLoading(true);
-        let body = {
-            EmailAddress: newsLetter,
-        }
+        var data = new FormData();
+        data.append("EmailAddress", newsLetter);
 
-        try {
-            const data = await fetch("https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/AddEmailForNewsletter", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
-            });
-            let res = await data.json()
-            if (data.status === 2000)  {
-                toast.success("Thank you for subscribing to our news letter.");
-            } else {
+        var config = {
+            method: "post",
+            maxBodyLength: Infinity,
+            url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/AddEmailForNewsletter",
+            data: data,
+        };
+
+        devInstance(config)
+            .then(function (response: any) {
+                if (response ) {
+                    toast.success("Thank you for subscribing to our news letter.");
+                }
+            })
+            .catch(function (error: any) {
                 toast.error("Failed, Please try again later.");
-            }
-        } catch (error) {
-            toast.error("Failed, Please try again later.");
-        } finally {
-            setNLoading(false)
-        }
+            })
+            .finally(() => setCLoading(false));
     }
 
     if (customer) {
