@@ -3,5 +3,41 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    @apply bg-primary;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px gray;
+    @apply rounded-xl;
+    @apply bg-primary-light;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-xl;
+}
+
+*:disabled {
+    @apply cursor-not-allowed;
+}
+
+input:not([type="file"]):not([type="checkbox"]):not([type="date"]):not(
+        :placeholder-shown
+    ):invalid {
+    @apply border border-error ring-error;
+}
+
+/* input[type="email"]:not(:placeholder-shown) {
+    @apply border border-error ring-error;
+} */
+
+input[type="number"]::-webkit-inner-spin-button {
+    display: none;
 }
