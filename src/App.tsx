@@ -6,6 +6,7 @@ import { setAuthToken, setCustomer, setUser } from "./store/auth-slice";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { Cloudinary } from "@cloudinary/url-gen";
 import jwt_decode from "jwt-decode";
+import {Helmet} from "react-helmet";
 import { clearStepper } from "./store/stepperSlice";
 
 function App() {
@@ -49,7 +50,7 @@ function App() {
     return (
         <div className="App" id="top">
             <Outlet />
-            <ToastContainer />
+            <ToastContainer /> 
         </div>
     );
 }

@@ -22,6 +22,7 @@ interface InputProps {
     ref?: any;
     pattern?: string;
     onInvalid?: any;
+    transparent?: boolean;
 }
 
 interface SelectProps {
@@ -76,8 +77,15 @@ const Select = (props: SelectProps) => {
 };
 
 const Input = (props: InputProps) => {
-    const { type, label, isPassword, placeholder, value, uploaded } =
-        props;
+    const {
+        type,
+        label,
+        isPassword,
+        placeholder,
+        value,
+        uploaded,
+        transparent,
+    } = props;
     const [show, setShow] = React.useState(false);
     const inputFile = useRef() as MutableRefObject<HTMLInputElement>;
     const inputFile1: any = useRef() as MutableRefObject<HTMLInputElement>;
@@ -144,7 +152,11 @@ const Input = (props: InputProps) => {
                 <div>
                     <input
                         type={type ? type : "text"}
-                        className="h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg"
+                        className={`h-[56px] w-full text-base mt-2 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border rounded-lg ${
+                            transparent
+                                ? "bg-transparent border-primary placeholder-primary"
+                                : "border-primary/5 placeholder-primary/40"
+                        }`}
                         {...props}
                     />
                 </div>

@@ -23,7 +23,7 @@ const Profile = () => {
     });
 
     function triggerError() {
-        toast("Please Update Your Profile");
+        toast.error("Please Update Your Profile");
     }
 
     React.useEffect(() => {
@@ -146,6 +146,10 @@ const Profile = () => {
                 </div>
             </div>
             {/* <Button buttonType="full">Update Information</Button>, */}
+            <p className="mb-[21px] text-center text-primary font-semibold text-sm">
+                To change your account information please send an email <br />
+                <span className="font-bold">asset@dlm.group</span>
+            </p>
             <Button
                 buttonType="full"
                 onClick={() => {

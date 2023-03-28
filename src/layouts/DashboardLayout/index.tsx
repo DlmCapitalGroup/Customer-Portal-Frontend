@@ -451,7 +451,7 @@ const DashboardLayout = (props: dashboardProps) => {
             </div>
             <div className="ml-[250px] pb-20">
                 {updateProfileForm && (
-                    <div className="py-6 bg-primary text-white px-8 text-base font-bold flex justify-between items-center mb-10 rounded-xl">
+                    <div className="py-6 mt-10 bg-primary text-white px-8 text-base font-bold flex justify-between items-center mb-10 rounded-xl">
                         <span>Please Complete your profile</span>
                         <Button
                             variant="light"

@@ -18,7 +18,7 @@ const Kyc = () => {
     });
 
     function triggerError() {
-        toast("Please Update Your Profile");
+        toast.error("Please Update Your Profile");
     }
     React.useEffect(() => {
         setLoading(true);
