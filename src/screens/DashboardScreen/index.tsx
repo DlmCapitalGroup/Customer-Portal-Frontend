@@ -21,6 +21,7 @@ import { clearStepper } from "../../store/stepperSlice";
 import axios from "axios";
 import chevronDown from "../../assets/images/chevron-down.svg";
 import cancelBtn from "../../assets/images/close-modal.svg";
+import importantImg from "../../assets/images/important.svg";
 import {
     setCustomerOnboardingData,
     setUpdatedOnboardingData,
@@ -693,20 +694,29 @@ const DashboardScreen = () => {
                                 <h3 className="text-base font-semibold mb-5">
                                     News & Updates
                                 </h3>
-                                <div className="text-sm flex flex-col items-start space-y-4">
+                                <div className="text-sm flex flex-col items-start space-y-2">
                                     {news.length ? (
-                                        news?.map((item, index) => (
+                                        news?.map((item: string, index) => (
                                             <div
-                                                className="flex items-start gap-x-3 relative"
+                                                className="flex items-start gap-x-3 relative py-2 bg-[#DBE1E64D]/30 px-1 rounded-md"
                                                 key={index}
                                             >
-                                                <img
-                                                    alt=""
-                                                    src={elipse}
-                                                    className="w-3 h-3 rounded-full bg-primary/60 mt-1.5"
-                                                />
+                                                {index === 0 ? (
+                                                    <img
+                                                        alt=""
+                                                        src={importantImg}
+                                                        className="rounded-full bg-primary/60 mt-1.5"
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        alt=""
+                                                        src={elipse}
+                                                        className="w-3 h-3 rounded-full bg-primary/60 mt-1.5"
+                                                    />
+                                                )}
                                                 <div className="grow">
-                                                    {item}
+                                                    {item.slice(0, 100) + "..."}
+                                                    <span className="mt-2 flex justify-end text-xs">Read more</span>
                                                 </div>
                                             </div>
                                         ))

@@ -364,7 +364,7 @@ const HiipCorporateForm = (props: _props) => {
                                 <Select
                                     options={["Weekly", "Monthly", "Yearly"]}
                                     required
-                                    title="Investment Frquency *"
+                                    title="Investment Frequency *"
                                     name="InvestmentFrequency"
                                     onChange={formChange}
                                     value={formData.InvestmentFrequency || null}
@@ -675,6 +675,53 @@ const HiipCorporateForm = (props: _props) => {
                                     required
                                 />
                                 <p className="-tracking-[.02em] text-xs">
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                    Terms and Conditions apply Terms and
+                                    Conditions apply Terms and Conditions apply
+                                </p>
+                            </p>
+                            <p className="flex space-x-5 items-start text-base text-black mt-12">
+                                <input
+                                    type="checkbox"
+                                    className="rounded-[5px] bg-white-lighter mt-1"
+                                    required
+                                />
+                                <p className="-tracking-[.02em] text-xs">
+                                    Client service agreement Client service
+                                    agreement Client service agreement Client
+                                    service agreement Client service agreement
+                                    Client service agreement Client service
+                                    agreement Client service agreement Client
+                                    service agreement Client service agreement
+                                    Client service agreement Client service
+                                    agreement Client service agreement Client
+                                    service agreement Client service agreement
+                                    Client service agreement Client service
+                                    agreement Client service agreement Client
+                                    service agreement Client service agreement
+                                    Client service agreement Client service
+                                    agreement Client service agreement Client
+                                    service agreement
+                                </p>
+                            </p>
+                            <p className="flex space-x-5 items-start text-base text-black mt-12">
+                                <input
+                                    type="checkbox"
+                                    className="rounded-[5px] bg-white-lighter mt-1"
+                                    required
+                                />
+                                <p className="-tracking-[.02em] text-xs">
                                     I confirm/hereby declare that the
                                     information provided above is complete and
                                     accurate to the best of my knowledge,
@@ -684,17 +731,13 @@ const HiipCorporateForm = (props: _props) => {
                                     information. If any of the information
                                     provided is found to be false, untrue,
                                     misleading, or misrepresented, I understand
-                                    that I may be held liable for it.
-                                    <br />
-                                    <br />
-                                    I hereby give DLM Asset Management Limited
-                                    permission to share any of the information
-                                    provided in this form at its discretion.
-                                    <br />
-                                    <br />I acknowledge that a non-refundable
-                                    charge of 10 naira (the naira should be in
-                                    symbol) will be automatically debited from
-                                    the linked bank account to add my card.
+                                    that I may be held liable for it. I hereby
+                                    give DLM Asset Management Limited permission
+                                    to share any of the information provided in
+                                    this form at its discretion. I acknowledge
+                                    that a non-refundable charge of 10 naira
+                                    will be automatically debited from the
+                                    linked bank account to add my card.
                                 </p>
                             </p>
                         </div>
