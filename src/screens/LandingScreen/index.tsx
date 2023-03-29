@@ -80,6 +80,13 @@ const LandingScreen = () => {
                     toast.success(
                         "Thank you, we have received your question we will be in touch with you."
                     );
+                    setContactForm({
+                        ...contactForm,
+                        fullname: "",
+                        email: "",
+                        phone: "",
+                        inquiry: "",
+                    });
                 }
             })
             .catch(function (error: any) {
@@ -90,12 +97,12 @@ const LandingScreen = () => {
 
     const newsLetterFormAction = async () => {
         setNLoading(true);
-        var data = new FormData();
-        data.append("EmailAddress", newsLetter);
+        var data = {
+            EmailAddress: newsLetter,
+        };
 
         var config = {
             method: "post",
-            maxBodyLength: Infinity,
             url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/AddEmailForNewsletter",
             data: data,
         };
@@ -106,12 +113,13 @@ const LandingScreen = () => {
                     toast.success(
                         "Thank you for subscribing to our news letter."
                     );
+                    setNewsLetter("");
                 }
             })
             .catch(function (error: any) {
                 toast.error("Failed, Please try again later.");
             })
-            .finally(() => setCLoading(false));
+            .finally(() => setNLoading(false));
     };
 
     if (customer?.customerId) {
@@ -121,7 +129,7 @@ const LandingScreen = () => {
             <div className="text-primary min-h-screen bg-[#DBE1E6]">
                 <div className="min-h-screen flex flex-col">
                     <nav>
-                        <div className="container max-w-[1440px] flex items-center justify-between lg:px-10 px-5 py-10">
+                        <div className="container max-w-[1440px] flex items-center justify-between px-10 lg:px-20 py-10">
                             <img alt="" src={logoDark} />
 
                             <div className="flex items-center gap-x-10 text-[18px] font-semibold">
@@ -161,7 +169,7 @@ const LandingScreen = () => {
                             </div>
                         </div>
                     </nav>
-                    <div className="container max-w-[1440px] flex items-center justify-between lg:px-10 px-5 py-10 grow">
+                    <div className="container max-w-[1440px] flex items-center justify-between gap-x-10 px-10 lg:px-20 py-10 grow">
                         <div className="max-w-3xl flex flex-col gap-y-10">
                             <h1 className="text-3xl font-semibold relative">
                                 Grow your wealth in the best possible way
@@ -200,9 +208,9 @@ const LandingScreen = () => {
                         </h1>
                     </div>
                 </Marquee>
-                <div className=" border-b-4 border-dashed border-primary/60">
+                <div className="border-primary/60">
                     <div
-                        className="container max-w-[1440px] lg:px-10 px-5 py-20"
+                        className="container max-w-[1440px] px-10 lg:px-20 py-20"
                         id="products"
                     >
                         <h1 className="text-[40px] font-semibold text-center mb-10">
@@ -298,7 +306,7 @@ const LandingScreen = () => {
                 </div>
                 <div className="relative">
                     <div
-                        className="container max-w-[1440px] lg:px-10 px-5 py-10"
+                        className="container max-w-[1440px] px-10 lg:px-20 py-10"
                         id="about"
                     >
                         <h1 className="text-[40px] font-semibold text-center my-10">
@@ -359,7 +367,7 @@ const LandingScreen = () => {
                 </div>
                 <div className="pt-[100px]">
                     <div
-                        className="container max-w-[945px] lg:px-10 px-5 py-10 flex flex-col"
+                        className="container max-w-[945px] px-10 lg:px-20 py-10 flex flex-col"
                         id="contact"
                     >
                         <h1 className="text-[40px] font-semibold text-center my-10">
@@ -410,7 +418,7 @@ const LandingScreen = () => {
                 </div>
                 <div className="pt-10">
                     <div
-                        className="container max-w-[945px] lg:px-10 px-5 py-10 flex flex-col"
+                        className="container max-w-[945px] px-10 lg:px-20 py-10 flex flex-col"
                         id="contact"
                     >
                         <h1 className="text-[40px] font-semibold text-center my-10">
@@ -479,7 +487,7 @@ const LandingScreen = () => {
                     </div>
                 </div>
                 <div className="min-h-[600px] bg-[#09335E33] mt-20">
-                    <div className="max-w-[1440px] container px-10 py-10">
+                    <div className="max-w-[1440px] container px-10 lg:px-20 py-10">
                         <div className="flex justify-between items-center">
                             <h1 className="text-[40px] font-semibold text-center my-10">
                                 Have any question for us?
@@ -578,7 +586,7 @@ const LandingScreen = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="border-t border-t-primary py-10 text-center text-lg">
+                    <div className="border-t border-t-primary px-10 lg:px-20 py-10 text-center text-lg">
                         &copy; 2023 All Rights Reserved
                     </div>
                 </div>
