@@ -111,7 +111,7 @@ const StepperModal = (props: stepperProps) => {
 
     function nextFunction(e: any) {
         e.preventDefault();
-        !newClient ||
+        newClient === false ||
         (iCorp && currentStepper > 2) ||
         (rPlan && currentStepper > 1) ||
         (cep && currentStepper > 1) ||

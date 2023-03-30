@@ -381,7 +381,7 @@ const LandingScreen = () => {
                                         }}
                                         key={index}
                                     >
-                                        <div className="flex items-center h-[72px] justify-between">
+                                        <div className="flex items-center h-[72px] justify-between font-semibold">
                                             <span>{el.title}</span>
                                             {index === activeFaq ? (
                                                 <img alt="" src={chevronDown} />
