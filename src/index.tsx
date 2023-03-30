@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { persistor, store } from "./store";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Login from "./screens/AuthScreens/LoginScreen";
 import Register from "./screens/AuthScreens/RegisterScreen";
 import ConfirmEmail from "./screens/AuthScreens/ConfirmEmailScreen";
@@ -36,6 +36,14 @@ import Kyc from "./screens/SettingsScreen/KycScreen";
 import BankInfo from "./screens/SettingsScreen/BankInfo";
 import LandingScreen from "./screens/LandingScreen";
 
+const Wrapper = ({ children }: any) => {
+    const location = useLocation();
+    useLayoutEffect(() => {
+        document.documentElement.scrollTo(0, 0);
+    }, [location.pathname]);
+    return children;
+};
+
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
@@ -44,76 +52,96 @@ root.render(
         <Provider store={store}>
             <PersistGate loading={<Loader />} persistor={persistor}>
                 <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<App />}>
-                            <Route index element={<LandingScreen />} />
-                            <Route path="auth" element={<Auth />}>
-                                <Route path="sign-in" element={<Login />} />
-                                <Route path="sign-up" element={<Register />} />
-                                <Route
-                                    path="confirm-email"
-                                    element={<ConfirmEmail />}
-                                />
-                                <Route
-                                    path="forgot-password"
-                                    element={<ForgotPassword />}
-                                />
-                                <Route
-                                    path="reset-password"
-                                    element={<ResetPassword />}
-                                />
-                            </Route>
-                            <Route element={<PrivateRoutes />}>
-                                <Route
-                                    path="dashboard"
-                                    element={<DashboardScreen />}
-                                />
-                                <Route
-                                    path="transactions"
-                                    element={<Transactions />}
-                                />
-                                <Route
-                                    path="fund-wallet"
-                                    element={<FundWallet />}
-                                />
-                                <Route path="plan" element={<Plan />} />
-                                <Route path="products" element={<Library />}>
-                                    <Route index element={<Products />} />
-                                    <Route path=":slug" element={<Product />} />
+                    <Wrapper>
+                        <Routes>
+                            <Route path="/" element={<App />}>
+                                <Route index element={<LandingScreen />} />
+                                <Route path="auth" element={<Auth />}>
+                                    <Route path="sign-in" element={<Login />} />
                                     <Route
-                                        path="news/:id"
-                                        element={<NewsPostScreen />}
+                                        path="sign-up"
+                                        element={<Register />}
+                                    />
+                                    <Route
+                                        path="confirm-email"
+                                        element={<ConfirmEmail />}
+                                    />
+                                    <Route
+                                        path="forgot-password"
+                                        element={<ForgotPassword />}
+                                    />
+                                    <Route
+                                        path="reset-password"
+                                        element={<ResetPassword />}
                                     />
                                 </Route>
-                                <Route path="support" element={<Support />} />
-                                <Route path="settings" element={<Settings />}>
+                                <Route element={<PrivateRoutes />}>
                                     <Route
-                                        path="profile"
-                                        element={<Profile />}
+                                        path="dashboard"
+                                        element={<DashboardScreen />}
                                     />
                                     <Route
-                                        path="password"
-                                        element={<Password />}
+                                        path="transactions"
+                                        element={<Transactions />}
                                     />
                                     <Route
-                                        path="bank-info"
-                                        element={<BankInfo />}
+                                        path="fund-wallet"
+                                        element={<FundWallet />}
                                     />
-                                    <Route path="kyc" element={<Kyc />} />
+                                    <Route path="plan" element={<Plan />} />
                                     <Route
-                                        path="account"
-                                        element={<Account />}
+                                        path="products"
+                                        element={<Library />}
+                                    >
+                                        <Route index element={<Products />} />
+                                        <Route
+                                            path=":slug"
+                                            element={<Product />}
+                                        />
+                                        <Route
+                                            path="news/:id"
+                                            element={<NewsPostScreen />}
+                                        />
+                                    </Route>
+                                    <Route
+                                        path="support"
+                                        element={<Support />}
                                     />
                                     <Route
-                                        path="notifications"
-                                        element={<Notifications />}
+                                        path="settings"
+                                        element={<Settings />}
+                                    >
+                                        <Route
+                                            path="profile"
+                                            element={<Profile />}
+                                        />
+                                        <Route
+                                            path="password"
+                                            element={<Password />}
+                                        />
+                                        <Route
+                                            path="bank-info"
+                                            element={<BankInfo />}
+                                        />
+                                        <Route path="kyc" element={<Kyc />} />
+                                        <Route
+                                            path="account"
+                                            element={<Account />}
+                                        />
+                                        <Route
+                                            path="notifications"
+                                            element={<Notifications />}
+                                        />
+                                    </Route>
+                                    <Route
+                                        path="withdraw"
+                                        element={<Withdraw />}
                                     />
                                 </Route>
-                                <Route path="withdraw" element={<Withdraw />} />
+                                <Route path="*" element={<NotFound />} />
                             </Route>
-                            <Route path="*" element={<NotFound />} />
-                        </Route>
-                    </Routes>
+                        </Routes>
+                    </Wrapper>
                 </BrowserRouter>
             </PersistGate>
         </Provider>
