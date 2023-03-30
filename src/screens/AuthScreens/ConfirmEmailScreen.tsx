@@ -45,7 +45,7 @@ const ConfirmEmail = () => {
         dispatch(setLoading(true));
         let res: any = await dispatch(confirmCustomer(state));
         if (res && customer) {
-            const resp:any = await dispatch(
+            const resp: any = await dispatch(
                 loginCustomer({
                     username: customer.username,
                     password: customer.password,
@@ -59,7 +59,7 @@ const ConfirmEmail = () => {
             if (!errors) {
                 localStorage.removeItem("customerRegRes");
                 localStorage.removeItem("customerRegData");
-                navigate("/");
+                navigate("/dashboard");
             }
         }
     };

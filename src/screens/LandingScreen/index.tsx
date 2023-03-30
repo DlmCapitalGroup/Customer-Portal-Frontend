@@ -134,13 +134,6 @@ const LandingScreen = () => {
 
                             <div className="flex items-center gap-x-10 text-[18px] font-semibold">
                                 <Link
-                                    to="about"
-                                    smooth={true}
-                                    className="cursor-pointer"
-                                >
-                                    About Us
-                                </Link>
-                                <Link
                                     to="products"
                                     smooth={true}
                                     className="cursor-pointer"
@@ -195,7 +188,7 @@ const LandingScreen = () => {
                         <img alt="" src={heroImage} />
                     </div>
                 </div>
-                <Marquee gradient={false} speed={60} className="bg-primary/60">
+                {/* <Marquee gradient={false} speed={60} className="bg-primary/60">
                     <div className="flex w-full justify-around py-5 px-20">
                         <h1 className="text-[40px] font-semibold">
                             Client Name
@@ -207,7 +200,7 @@ const LandingScreen = () => {
                             Client Name
                         </h1>
                     </div>
-                </Marquee>
+                </Marquee> */}
                 <div className="border-primary/60">
                     <div
                         className="container max-w-[1440px] px-10 lg:px-20 py-20"
@@ -305,10 +298,7 @@ const LandingScreen = () => {
                     </div>
                 </div>
                 <div className="relative">
-                    <div
-                        className="container max-w-[1440px] px-10 lg:px-20 py-10"
-                        id="about"
-                    >
+                    <div className="container max-w-[1440px] px-10 lg:px-20 py-10">
                         <h1 className="text-[40px] font-semibold text-center my-10">
                             What they say about us
                         </h1>
@@ -317,7 +307,7 @@ const LandingScreen = () => {
                             for us
                         </p>
                         <div className="grid grid-cols-2 gap-x-20">
-                            <div className="flex flex-col gap-y-5 items-center bg-[#E1E6EA] shadow-xl shadow-primary/10 h-[384px] justify-center px-10 z-[1]">
+                            <div className="flex flex-col gap-y-5 rounded-lg items-center bg-[#E1E6EA] shadow-xl shadow-primary/10 h-[384px] justify-center px-10 z-[1]">
                                 <img
                                     alt=""
                                     src={avatar2}
@@ -337,7 +327,7 @@ const LandingScreen = () => {
                                     stuff
                                 </p>
                             </div>
-                            <div className="flex flex-col gap-y-5 items-center bg-[#E1E6EA] shadow-primary/10 shadow-xl h-[384px] justify-center px-10 z-[1]">
+                            <div className="flex flex-col gap-y-5 items-center rounded-lg bg-[#E1E6EA] shadow-primary/10 shadow-xl h-[384px] justify-center px-10 z-[1]">
                                 <img
                                     alt=""
                                     src={avatar2}
@@ -368,7 +358,7 @@ const LandingScreen = () => {
                 <div className="pt-[100px]">
                     <div
                         className="container max-w-[945px] px-10 lg:px-20 py-10 flex flex-col"
-                        id="contact"
+                        id="faqs"
                     >
                         <h1 className="text-[40px] font-semibold text-center my-10">
                             Have any question for us?
@@ -381,7 +371,7 @@ const LandingScreen = () => {
                             <div className="mx-auto max-w-[566px] flex flex-col gap-y-5">
                                 {faqs.map((el, index) => (
                                     <div
-                                        className="cursor-pointer min-h-[72px] border-primary/10 bg-[#FAFAFF] rounded-md px-4 flex flex-col"
+                                        className="cursor-pointer min-h-[72px] border-primary/10 bg-[#FAFAFF] rounded-lg px-4 flex flex-col"
                                         onClick={() => {
                                             if (index === activeFaq) {
                                                 setActiveFaq(null);
@@ -583,6 +573,18 @@ const LandingScreen = () => {
                                 >
                                     Facebook
                                 </a>
+                            </div>
+                            <div className="flex flex-col gap-y-4 w-fit">
+                                <p className="text-lg cursor-pointer font-semibold">
+                                    Resources
+                                </p>
+                                <Link
+                                    to="faqs"
+                                    smooth={true}
+                                    className="text-lg cursor-pointer"
+                                >
+                                    FAQs
+                                </Link>
                             </div>
                         </div>
                     </div>

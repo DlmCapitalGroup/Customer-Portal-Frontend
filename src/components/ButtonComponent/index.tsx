@@ -37,7 +37,7 @@ const Button = (props: buttonProps) => {
                     : disabled
                     ? "bg-primary/60 hover:bg-primary/60 text-white"
                     : "bg-primary hover:bg-primary/80 text-white"
-            } text-base rounded-[8px] font-semibold`}
+            } text-base rounded-lg font-semibold`}
             disabled={(loading ? true : false) || disabled}
         >
             {hasIcon && <img alt="button icon" src={icon} />}

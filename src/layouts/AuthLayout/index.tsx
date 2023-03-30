@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Logo from "../../assets/images/logo.svg";
 import Spinner from "../../assets/images/spinner.svg";
 import LeftBgImg from "../../assets/images/left-bg-img.svg";
 import RightBgImg from "../../assets/images/right-bg-img.svg";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../store/hooks";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface AuthLayoutProps {
     children: React.ReactNode;
@@ -15,8 +14,6 @@ const AuthLayout = (props: AuthLayoutProps) => {
     const navigate = useNavigate();
     const { children, loading } = props;
     const location = useLocation();
-
-    const { user, customer }: any = useAppSelector((state) => state.auth);
 
     return (
         <div className="min-h-screen w-full grid place-items-center bg-primary-light py-10">
@@ -38,7 +35,8 @@ const AuthLayout = (props: AuthLayoutProps) => {
                     <img
                         alt="logo"
                         src={Logo}
-                        className="mx-auto w-[122px] h-[122px] mb-10"
+                        className="mx-auto w-[122px] h-[122px] cursor-pointer mb-10"
+                        onClick={() => navigate("/")}
                     />
                     {loading ? (
                         <img

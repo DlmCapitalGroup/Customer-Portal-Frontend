@@ -49,7 +49,7 @@ function Login() {
         }
 
         // if(localModal !== "false") {
-        navigate("/");
+        navigate("/dashboard");
         // } else {
         //     navigate("/");
         // }

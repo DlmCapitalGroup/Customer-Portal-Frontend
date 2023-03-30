@@ -240,8 +240,15 @@ const TargetDatePlan = (props: _props) => {
                     });
                 })
                 .catch((err) => {
-                    console.log(err);
+                    if (err.response.data === "No customer details found") {
+                        toast.error(`${err.response.data}`);
+                    } else {
+                        toast.error(
+                            "Unable to fetch customer details, check internet connection"
+                        );
+                    }
                     setLoading(false);
+                    setNewClient(true);
                 })
                 .finally(() => setLoading(false));
         }

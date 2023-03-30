@@ -201,7 +201,7 @@ const StepperModal = (props: stepperProps) => {
                             className="w-[180px] border-primary border rounded-[8px] hover:bg-primary/5 font-semibold"
                         >
                             {currentStepper === 4 ||
-                            !newClient ||
+                            newClient === false ||
                             (iCorp && currentStepper > 2) ||
                             (rPlan && currentStepper > 1) ||
                             (cep && currentStepper > 1)
