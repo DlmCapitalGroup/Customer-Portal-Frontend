@@ -37,7 +37,6 @@ const TargetDatePlan = (props: _props) => {
         City: "",
         Country: "",
         Date: "",
-        Nationality: "",
         Occupation: "",
         PhoneNumber: "",
         IdType: "",
@@ -82,11 +81,11 @@ const TargetDatePlan = (props: _props) => {
                         PhoneNumber: res.data.phoneNumber,
                         Address: res.data.residentialAddress,
                         State: res.data.state,
-                        Nationality: res.data.country,
                         Country: res.data.country,
                         City: res.data.city,
                         Occupation: res.data.occupation,
                         IdType: res.data.idType,
+                        PlaceOfBirth: res.data.placeOfBirth,
                         IdNumber: res.data.idNumber,
                         BankName: res.data.bankName,
                         AccountName: res.data.accountName,
@@ -126,7 +125,6 @@ const TargetDatePlan = (props: _props) => {
             City: "",
             Country: "",
             Date: "",
-            Nationality: "",
             Occupation: "",
             PhoneNumber: "",
             IdType: "",
@@ -215,7 +213,6 @@ const TargetDatePlan = (props: _props) => {
                         City: res.data.city,
                         Country: res.data.country,
                         Date: res.data.date,
-                        Nationality: res.data.nationality,
                         Occupation: res.data.occupation,
                         PhoneNumber: res.data.phoneNumber,
                         IdType: res.data.idType,
@@ -330,7 +327,6 @@ const TargetDatePlan = (props: _props) => {
                 data.append("LastName", formData.LastName);
                 data.append("LastNameNok", formData.LastNameNok);
                 data.append("MeansOfId", formData.MeansOfId);
-                data.append("Nationality", formData.Nationality);
                 data.append("Occupation", formData.Occupation);
                 data.append("PassportPhoto", formData.PassportPhoto);
                 data.append("PhoneNumber", formData.PhoneNumber);
@@ -420,7 +416,6 @@ const TargetDatePlan = (props: _props) => {
         data.append("LastName", formData.LastName);
         data.append("LastNameNok", formData.LastNameNok);
         data.append("MeansOfId", formData.MeansOfId);
-        data.append("Nationality", formData.Nationality);
         data.append("Occupation", formData.Occupation);
         data.append("PassportPhoto", formData.PassportPhoto);
         data.append("PhoneNumber", formData.PhoneNumber);
@@ -698,15 +693,6 @@ const TargetDatePlan = (props: _props) => {
                                 type="date"
                                 required
                                 value={formData.Date || null}
-                            />
-                            <Input
-                                placeholder="Nationality  *"
-                                name="Nationality"
-                                onChange={formChange}
-                                pattern="^[A-Za-z]+[A-Za-z ]*$"
-                                title="Only Alphabets are allowed"
-                                required
-                                value={formData.Nationality || null}
                             />
                             <Input
                                 placeholder="Occupation  *"

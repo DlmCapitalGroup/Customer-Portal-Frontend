@@ -38,7 +38,6 @@ const HiipCorporateForm = (props: _props) => {
         AnnualRevenue: "",
         CompanyAddress: "",
         State: "",
-        City: "",
         Country: "",
         Postalcode: "",
         Bank: "",
@@ -56,9 +55,10 @@ const HiipCorporateForm = (props: _props) => {
     const { customer }: any = useAppSelector((state) => state.auth);
 
     React.useEffect(() => {
+        setLoading(true);
         devInstance
             .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -88,7 +88,12 @@ const HiipCorporateForm = (props: _props) => {
                     UtilityBill: res.data.utilityBill,
                     UnitHolderSignature: res.data.unitHolderSignature,
                 });
-            });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
     }, []);
 
     function clearForm() {
@@ -110,7 +115,6 @@ const HiipCorporateForm = (props: _props) => {
             AnnualRevenue: "",
             CompanyAddress: "",
             State: "",
-            City: "",
             Country: "",
             Postalcode: "",
             Bank: "",
@@ -233,7 +237,6 @@ const HiipCorporateForm = (props: _props) => {
             data.append("BusinessNature", formData.BusinessNature);
             data.append("BVN", formData.BVN);
             data.append("ChiefContactSign", formData.ChiefContactSign);
-            data.append("City", formData.City);
             data.append("CompanyAddress", formData.CompanyAddress);
             data.append("CompanyName", formData.CompanyName);
             data.append("ComplianceOfficer", formData.ComplianceOfficer);
@@ -521,15 +524,6 @@ const HiipCorporateForm = (props: _props) => {
                                     required
                                     value={formData.State || null}
                                 />
-                                <Input
-                                    placeholder="City *"
-                                    name="City"
-                                    onChange={formChange}
-                                    required
-                                    value={formData.City}
-                                />
-                            </div>
-                            <div className="grid grid-cols-2 gap-x-7">
                                 <Select
                                     options={["Nigeria", "Ghana", "Togo"]}
                                     title="Country *"
@@ -538,15 +532,15 @@ const HiipCorporateForm = (props: _props) => {
                                     required
                                     value={formData.Country || null}
                                 />
-                                <Input
-                                    placeholder="Postal Code *"
-                                    name="Postalcode"
-                                    onChange={formChange}
-                                    type="number"
-                                    required
-                                    value={formData.Postalcode}
-                                />
                             </div>
+                            <Input
+                                placeholder="Postal Code *"
+                                name="Postalcode"
+                                onChange={formChange}
+                                type="number"
+                                required
+                                value={formData.Postalcode}
+                            />
                             {/* <Input
                                 placeholder="Passport Picture *"
                                 name="PassportPhoto"

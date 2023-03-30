@@ -63,9 +63,10 @@ const ChildEducationPlan = (props: _props) => {
     const { customer }: any = useAppSelector((state) => state.auth);
 
     React.useEffect(() => {
+        setLoading(true);
         devInstance
             .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -79,9 +80,11 @@ const ChildEducationPlan = (props: _props) => {
                     PhoneNumber: res.data.phoneNumber,
                     Address: res.data.residentialAddress,
                     State: res.data.state,
+                    Gender: res.data.gender,
                     Country: res.data.country,
                     Occupation: res.data.occupation,
                     IdType: res.data.idType,
+                    PlaceOfBirth: res.data.placeOfBirth,
                     IdNumber: res.data.idNumber,
                     BankName: res.data.bankName,
                     AccountName: res.data.accountName,
@@ -95,7 +98,12 @@ const ChildEducationPlan = (props: _props) => {
                     UtilityBill: res.data.utilityBill,
                     UnitHolderSignature: res.data.unitHolderSignature,
                 });
-            });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
     }, []);
 
     function clearForm() {
@@ -195,7 +203,6 @@ const ChildEducationPlan = (props: _props) => {
         data.append("Address", formData.Address);
         data.append("ChildAddress", formData.ChildAddress);
         data.append("ChildAge", formData.ChildAge);
-        data.append("ChildCity", formData.ChildCity);
         data.append("ChildCountry", formData.ChildCountry);
         data.append("ChildCurrentClass", formData.ChildCurrentClass);
         data.append("ChildCurrentEduLevel", formData.ChildCurrentEduLevel);
@@ -559,13 +566,6 @@ const ChildEducationPlan = (props: _props) => {
                                 />
                             </div>
                             <Input
-                                name="ChildCity"
-                                placeholder="City *"
-                                onChange={formChange}
-                                required
-                                value={formData.ChildCity || null}
-                            />
-                            <Input
                                 placeholder="Phone Number *"
                                 name="ChildPhoneNumber"
                                 onChange={formChange}
@@ -664,35 +664,6 @@ const ChildEducationPlan = (props: _props) => {
                                     formData.IsFreeEduAdvisoryService || null
                                 }
                             />
-                            <p className="flex space-x-5 items-start text-base text-black mt-12">
-                                <input
-                                    type="checkbox"
-                                    className="rounded-[5px] bg-white-lighter mt-1"
-                                    required
-                                />
-                                <p className="-tracking-[.02em] text-xs">
-                                    I confirm/hereby declare that the
-                                    information provided above is complete and
-                                    accurate to the best of my knowledge,
-                                    belief, and understanding. I pledge to
-                                    inform DLM Asset Management Limited
-                                    immediately if there are any changes to this
-                                    information. If any of the information
-                                    provided is found to be false, untrue,
-                                    misleading, or misrepresented, I understand
-                                    that I may be held liable for it.
-                                    <br />
-                                    <br />
-                                    I hereby give DLM Asset Management Limited
-                                    permission to share any of the information
-                                    provided in this form at its discretion.
-                                    <br />
-                                    <br />I acknowledge that a non-refundable
-                                    charge of 10 naira (the naira should be in
-                                    symbol) will be automatically debited from
-                                    the linked bank account to add my card.
-                                </p>
-                            </p>
                             <p className="flex space-x-5 items-start text-base text-black mt-12">
                                 <input
                                     type="checkbox"

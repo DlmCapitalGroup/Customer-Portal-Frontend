@@ -59,9 +59,10 @@ const HiipIndividualForm = (props: _props) => {
     const { currentStepper }: any = useAppSelector((state) => state.stepper);
 
     React.useEffect(() => {
+        setLoading(true);
         devInstance
             .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -69,13 +70,16 @@ const HiipIndividualForm = (props: _props) => {
                     ...formData,
                     Surname: res.data.surname,
                     FirstName: res.data.firstName,
+                    PlaceOfBirth: res.data.placeOfBirth,
                     Age: res.data.age,
                     BirthDate: res.data.birthDate.slice(0, 10),
                     EmailAddress: res.data.emailAddress,
                     PhoneNumber: res.data.phoneNumber,
                     ResidentialAddress: res.data.residentialAddress,
                     State: res.data.state,
+                    Gender: res.data.gender,
                     Country: res.data.country,
+                    BirthPlace: res.data.placeOfBirth,
                     Occupation: res.data.occupation,
                     IdType: res.data.idType,
                     IdNumber: res.data.idNumber,
@@ -91,7 +95,12 @@ const HiipIndividualForm = (props: _props) => {
                     UtilityBill: res.data.utilityBill,
                     UnitHolderSignature: res.data.unitHolderSignature,
                 });
-            });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
     }, []);
 
     function clearForm() {

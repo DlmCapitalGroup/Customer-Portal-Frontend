@@ -75,6 +75,7 @@ const FixedIncomeFund = (props: _props) => {
                         JointApplicantsName: formData.JointApplicantsName,
                         FirstName: res.data.firstName,
                         Surname: res.data.surname,
+                        PlaceOfBirth: res.data.placeOfBirth,
                         Age: res.data.age,
                         BirthDate: res.data.birthDate,
                         EmailAddress: res.data.emailAddress,

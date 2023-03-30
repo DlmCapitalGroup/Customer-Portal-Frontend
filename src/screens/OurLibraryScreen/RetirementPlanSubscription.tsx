@@ -61,9 +61,10 @@ const RetirementPlanSubscription = (props: _props) => {
     const { customer }: any = useAppSelector((state) => state.auth);
 
     React.useEffect(() => {
+        setLoading(true);
         devInstance
             .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.emailAddress}`
+                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -76,6 +77,7 @@ const RetirementPlanSubscription = (props: _props) => {
                     Email: res.data.emailAddress,
                     PhoneNumber: res.data.phoneNumber,
                     Address: res.data.residentialAddress,
+                    PlaceOfBirth: res.data.placeOfBirth,
                     State: res.data.state,
                     Country: res.data.country,
                     Occupation: res.data.occupation,
@@ -93,7 +95,12 @@ const RetirementPlanSubscription = (props: _props) => {
                     UtilityBill: res.data.utilityBill,
                     UnitHolderSignature: res.data.unitHolderSignature,
                 });
-            });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
     }, []);
 
     function clearForm() {
@@ -123,7 +130,6 @@ const RetirementPlanSubscription = (props: _props) => {
             InvestmentNotInterestedIn: "",
             EarningsExpectations: "",
             InvestmentPlanDetailsInFiveYears: "",
-            Nationality: "",
             IsInterestedInFinPlanAdvisoryServices: "",
             KnowledgeLevelInInvestment: "",
             SubscriptionCategory: "",
@@ -263,7 +269,6 @@ const RetirementPlanSubscription = (props: _props) => {
             data.append("LastName", formData.LastName);
             data.append("FirstName", formData.FirstName);
             data.append("MeansOfId", formData.MeansOfId);
-            data.append("Nationality", formData.Nationality);
             data.append("NoOfDependents", formData.NoOfDependents);
             data.append("Occupation", formData.Occupation);
             data.append("OtherIncomeSources", formData.OtherIncomeSources);
@@ -453,15 +458,6 @@ const RetirementPlanSubscription = (props: _props) => {
                                     value={formData.Country || null}
                                 />
                             </div>
-                            <Input
-                                placeholder="Nationality  *"
-                                name="Nationality"
-                                onChange={formChange}
-                                pattern="^[A-Za-z]+[A-Za-z ]*$"
-                                title="Only Alphabets are allowed"
-                                required
-                                value={formData.Nationality || null}
-                            />
 
                             <Input
                                 placeholder="Phone Number  *"
