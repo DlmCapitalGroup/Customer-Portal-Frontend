@@ -78,7 +78,7 @@ const RetirementPlanSubscription = (props: _props) => {
                     PhoneNumber: res.data.phoneNumber,
                     Address: res.data.residentialAddress,
                     PlaceOfBirth: res.data.placeOfBirth,
-                    State: res.data.state,
+                    City: res.data.state,
                     Country: res.data.country,
                     Occupation: res.data.occupation,
                     IdType: res.data.idType,

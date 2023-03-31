@@ -52,7 +52,6 @@ const FixedIncomeFund = (props: _props) => {
         BankName: "",
         BVN: "",
         InterestReinvestment: "",
-        Nationality: "",
         ResidenceJurisdiction: "",
         UsTin: "",
         PassportPhoto: "",
@@ -78,6 +77,7 @@ const FixedIncomeFund = (props: _props) => {
                         PlaceOfBirth: res.data.placeOfBirth,
                         Age: res.data.age,
                         BirthDate: res.data.birthDate,
+                        CityNOK: res.data.cityNOK,
                         EmailAddress: res.data.emailAddress,
                         PhoneNumber: res.data.phoneNumber,
                         ResidentialAddress: res.data.residentialAddress,
@@ -90,7 +90,6 @@ const FixedIncomeFund = (props: _props) => {
                         ExpiryDate: res.data.expiryDate,
                         NameNOK: res.data.nameNOK,
                         ResidentialAddressNOK: res.data.residentialAddressNOK,
-                        CityNOK: res.data.cityNOK,
                         EmailAddressNOK: res.data.emailAddressNOK,
                         RelationshipWithNOK: res.data.relationshipWithNOK,
                         PrefCommunicationMode: res.data.prefCommunicationMode,
@@ -324,7 +323,6 @@ const FixedIncomeFund = (props: _props) => {
                 data.append("BirthDate", formData.BirthDate);
                 data.append("BankName", formData.BankName);
                 data.append("BVN", formData.BVN);
-                data.append("CityNOK", formData.CityNOK);
                 data.append("Country", formData.Country);
                 data.append("EmailAddress", formData.EmailAddress);
                 data.append("EmailAddressNOK", formData.EmailAddressNOK);
@@ -340,6 +338,7 @@ const FixedIncomeFund = (props: _props) => {
                     "InterestReinvestment",
                     formData.InterestReinvestment || "false"
                 );
+                data.append("CityNOK", formData.CityNOK);
                 data.append("InvestmentAmount", formData.InvestmentAmount);
                 data.append("IsAJointApplicant", formData.IsAJointApplicant);
                 data.append("IsANewClient", formData.IsANewClient);
@@ -348,7 +347,6 @@ const FixedIncomeFund = (props: _props) => {
                     formData.JointApplicantsName || "NA"
                 );
                 data.append("NameNOK", formData.NameNOK);
-                data.append("Nationality", formData.Nationality);
                 data.append("Occupation", formData.Occupation);
                 data.append("PassportPhoto", formData.PassportPhoto);
                 data.append("PhoneNumber", formData.PhoneNumber);
@@ -442,7 +440,6 @@ const FixedIncomeFund = (props: _props) => {
             formData.JointApplicantsName || "NA"
         );
         data.append("NameNOK", formData.NameNOK);
-        data.append("Nationality", formData.Nationality);
         data.append("Occupation", formData.Occupation);
         data.append("PassportPhoto", formData.PassportPhoto);
         data.append("PhoneNumber", formData.PhoneNumber);
@@ -569,7 +566,7 @@ const FixedIncomeFund = (props: _props) => {
                                     title="Is this a joint applicant? *"
                                     name="IsAJointApplicant"
                                     onChange={formChange}
-                                    // required
+                                    required
                                     value={formData.IsAJointApplicant || null}
                                 />
                             </div>
@@ -599,7 +596,7 @@ const FixedIncomeFund = (props: _props) => {
                                     placeholder="First Name *"
                                     name="FirstName"
                                     onChange={formChange}
-                                    // required
+                                    required
                                     value={formData.FirstName}
                                     pattern="[A-Za-z]+"
                                     title="Only Alphabets are allowed"
@@ -608,7 +605,7 @@ const FixedIncomeFund = (props: _props) => {
                                     placeholder="Surname *"
                                     name="Surname"
                                     onChange={formChange}
-                                    // required
+                                    required
                                     pattern="[A-Za-z]+"
                                     title="Only Alphabets are allowed"
                                     value={formData.Surname}
@@ -620,7 +617,7 @@ const FixedIncomeFund = (props: _props) => {
                                 placeholder="Age *"
                                 name="Age"
                                 onChange={formChange}
-                                // required
+                                required
                                 max="99"
                                 min="18"
                                 type="number"
@@ -630,7 +627,7 @@ const FixedIncomeFund = (props: _props) => {
                                 placeholder="Date Of Birth *"
                                 name="BirthDate"
                                 onChange={formChange}
-                                // required
+                                required
                                 type="date"
                                 value={formData.BirthDate || null}
                             />
@@ -638,7 +635,7 @@ const FixedIncomeFund = (props: _props) => {
                                 placeholder="Email Address *"
                                 name="EmailAddress"
                                 onChange={formChange}
-                                // required
+                                required
                                 type="email"
                                 value={formData.EmailAddress}
                             />
@@ -647,14 +644,14 @@ const FixedIncomeFund = (props: _props) => {
                                 name="PhoneNumber"
                                 type="number"
                                 onChange={formChange}
-                                // required
+                                required
                                 value={formData.PhoneNumber}
                             />
                             <Input
                                 placeholder="Residential Address *"
                                 name="ResidentialAddress"
                                 onChange={formChange}
-                                // required
+                                required
                                 value={formData.ResidentialAddress}
                             />
                             <div className="grid grid-cols-2 gap-x-7">
@@ -663,7 +660,7 @@ const FixedIncomeFund = (props: _props) => {
                                     title="Country *"
                                     name="Country"
                                     onChange={formChange}
-                                    // required
+                                    required
                                     value={formData.Country || null}
                                 />
                                 <Select
@@ -672,7 +669,7 @@ const FixedIncomeFund = (props: _props) => {
                                     name="State"
                                     placeholder="state"
                                     onChange={formChange}
-                                    // required
+                                    required
                                     value={formData.State || null}
                                 />
                             </div>
@@ -682,7 +679,7 @@ const FixedIncomeFund = (props: _props) => {
                                 onChange={formChange}
                                 pattern="^[A-Za-z]+[A-Za-z ]*$"
                                 title="Only Alphabets are allowed"
-                                // required
+                                required
                                 value={formData.Occupation || null}
                             />
                             <div className="grid grid-cols-2 gap-x-7">
@@ -702,19 +699,20 @@ const FixedIncomeFund = (props: _props) => {
                                     placeholder="ID Number *"
                                     name="IdNumber"
                                     onChange={formChange}
-                                    // required
+                                    required
                                     type="number"
                                     value={formData.IdNumber}
                                 />
                             </div>
                             {(formData.IdType === "Driver's License" ||
-                                formData.IdType === "National ID") && (
+                                formData.IdType ===
+                                    "International Passport") && (
                                 <div className="grid grid-cols-2 gap-x-7">
                                     <Input
                                         placeholder="ID Issue Date *"
                                         name="IdIssueDate"
                                         onChange={formChange}
-                                        // required
+                                        required
                                         type="date"
                                         value={formData.IdIssueDate}
                                     />
@@ -722,7 +720,7 @@ const FixedIncomeFund = (props: _props) => {
                                         placeholder="Expiry Date *"
                                         name="ExpiryDate"
                                         onChange={formChange}
-                                        // required
+                                        required
                                         type="date"
                                         value={formData.ExpiryDate}
                                     />
@@ -743,21 +741,21 @@ const FixedIncomeFund = (props: _props) => {
                                 onChange={formChange}
                                 pattern="^[A-Za-z]+[A-Za-z ]*$"
                                 title="Only Alphabets are allowed"
-                                // required
+                                required
                                 value={formData.NameNOK}
                             />
                             <Input
                                 placeholder="Residential Address *"
                                 name="ResidentialAddressNOK"
                                 onChange={formChange}
-                                // required
+                                required
                                 value={formData.ResidentialAddressNOK}
                             />
                             <Input
                                 placeholder="City *"
                                 name="CityNOK"
                                 onChange={formChange}
-                                // required
+                                required
                                 pattern="^[A-Za-z]+[A-Za-z ]*$"
                                 title="Only Alphabets are allowed"
                                 value={formData.CityNOK}
@@ -766,7 +764,7 @@ const FixedIncomeFund = (props: _props) => {
                                 placeholder="Email Address *"
                                 name="EmailAddressNOK"
                                 onChange={formChange}
-                                // required
+                                required
                                 type="email"
                                 value={formData.EmailAddressNOK}
                             />
@@ -776,7 +774,7 @@ const FixedIncomeFund = (props: _props) => {
                                 pattern="^[A-Za-z]+[A-Za-z ]*$"
                                 title="Only Alphabets are allowed"
                                 onChange={formChange}
-                                // required
+                                required
                                 value={formData.RelationshipWithNOK}
                             />
                             <Select
@@ -784,7 +782,7 @@ const FixedIncomeFund = (props: _props) => {
                                 title="Preferred Mode of Communication *"
                                 name="PrefCommunicationMode"
                                 onChange={formChange}
-                                // required
+                                required
                                 value={formData.PrefCommunicationMode || null}
                             />
                         </div>
@@ -800,7 +798,7 @@ const FixedIncomeFund = (props: _props) => {
                                 placeholder="Account Name *"
                                 name="AccountName"
                                 onChange={formChange}
-                                // required
+                                required
                                 value={formData.AccountName}
                                 pattern="^[A-Za-z]+[A-Za-z ]*$"
                                 title="Only Alphabets are allowed"
@@ -809,7 +807,7 @@ const FixedIncomeFund = (props: _props) => {
                                 placeholder="Account Number *"
                                 name="AccountNumber"
                                 onChange={formChange}
-                                // required
+                                required
                                 type="number"
                                 value={formData.AccountNumber}
                             />
@@ -821,7 +819,7 @@ const FixedIncomeFund = (props: _props) => {
                                     "GT Bank",
                                 ]}
                                 title="Bank Name *"
-                                // required
+                                required
                                 name="BankName"
                                 onChange={formChange}
                                 value={formData.BankName || null}
@@ -830,7 +828,7 @@ const FixedIncomeFund = (props: _props) => {
                                 placeholder="BVN *"
                                 name="BVN"
                                 onChange={formChange}
-                                // required
+                                required
                                 type="number"
                                 value={formData.BVN}
                             />
@@ -838,7 +836,7 @@ const FixedIncomeFund = (props: _props) => {
                                 <Select
                                     options={["Yes", "No"]}
                                     title="Do you want to reinvest Interest/Dividend? *"
-                                    // required
+                                    required
                                     name="InterestReinvestment"
                                     onChange={formChange}
                                     value={
@@ -850,13 +848,6 @@ const FixedIncomeFund = (props: _props) => {
                                     made to the bank details above
                                 </small>
                             </div>
-                            <Input
-                                placeholder="Nationality *"
-                                name="Nationality"
-                                // required
-                                onChange={formChange}
-                                value={formData.Nationality}
-                            />
                             <textarea
                                 name="ResidenceJurisdiction"
                                 onChange={formChange}

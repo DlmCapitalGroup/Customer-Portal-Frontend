@@ -28,9 +28,7 @@ const ChildEducationPlan = (props: _props) => {
         Gender: "",
         BirthDate: "",
         Occupation: "",
-        Nationality: "",
         Address: "",
-        City: "",
         State: "",
         Country: "",
         PhoneNumber: "",
@@ -44,7 +42,6 @@ const ChildEducationPlan = (props: _props) => {
         ChildSchoolName: "",
         ChildAge: "",
         ChildAddress: "",
-        ChildCity: "",
         ChildState: "",
         ChildCountry: "",
         ChildPhoneNumber: "",
@@ -115,9 +112,7 @@ const ChildEducationPlan = (props: _props) => {
             Gender: "",
             BirthDate: "",
             Occupation: "",
-            Nationality: "",
             Address: "",
-            City: "",
             State: "",
             Country: "",
             PhoneNumber: "",
@@ -131,7 +126,6 @@ const ChildEducationPlan = (props: _props) => {
             ChildSchoolName: "",
             ChildAge: "",
             ChildAddress: "",
-            ChildCity: "",
             ChildState: "",
             ChildCountry: "",
             ChildPhoneNumber: "",
@@ -216,7 +210,6 @@ const ChildEducationPlan = (props: _props) => {
         data.append("ChildSchoolName", formData.ChildSchoolName);
         data.append("ChildState", formData.ChildState);
         data.append("ChildStudyCountry", formData.ChildStudyCountry);
-        data.append("City", formData.City);
         data.append("Country", formData.Country);
         data.append("EmailAddress", formData.EmailAddress);
         data.append(
@@ -242,7 +235,6 @@ const ChildEducationPlan = (props: _props) => {
         );
         data.append("LastName", formData.LastName);
         data.append("LevelOfEduForChild", formData.LevelOfEduForChild);
-        data.append("Nationality", formData.Nationality);
         data.append("Occupation", formData.Occupation);
         data.append("PhoneNumber", formData.PhoneNumber);
         data.append("ProductName", "Child Education Plan");
@@ -413,25 +405,6 @@ const ChildEducationPlan = (props: _props) => {
                                     onChange={formChange}
                                     required
                                     value={formData.State || null}
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-x-7">
-                                <Input
-                                    name="City"
-                                    placeholder="City *"
-                                    onChange={formChange}
-                                    required
-                                    value={formData.City || null}
-                                />
-                                <Input
-                                    placeholder="Nationality  *"
-                                    name="Nationality"
-                                    onChange={formChange}
-                                    pattern="^[A-Za-z]+[A-Za-z ]*$"
-                                    title="Only Alphabets are allowed"
-                                    required
-                                    value={formData.Nationality || null}
                                 />
                             </div>
 
