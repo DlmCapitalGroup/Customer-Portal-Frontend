@@ -59,67 +59,72 @@ const LandingScreen = () => {
     const [nLoading, setNLoading] = useState(false);
 
     const contactFormAction = async () => {
-        setCLoading(true);
+        if (
+            !contactForm.email ||
+            !contactForm.fullname ||
+            !contactForm.inquiry ||
+            !contactForm.phone
+        ) {
+            toast.error("Please make sure all fields are not empty");
+        } else {
+            setCLoading(true);
 
-        var data = new FormData();
-        data.append("FullName", contactForm.fullname);
-        data.append("EmailAddress", contactForm.email);
-        data.append("PhoneNumber", contactForm.phone);
-        data.append("Inquiry", contactForm.inquiry);
+            var data = new FormData();
+            data.append("FullName", contactForm.fullname);
+            data.append("EmailAddress", contactForm.email);
+            data.append("PhoneNumber", contactForm.phone);
+            data.append("Inquiry", contactForm.inquiry);
 
-        var config = {
-            method: "post",
-            maxBodyLength: Infinity,
-            url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/MakeInquiries",
-            data: data,
-        };
+            var config = {
+                method: "post",
+                maxBodyLength: Infinity,
+                url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/MakeInquiries",
+                data: data,
+            };
 
-        devInstance(config)
-            .then(function (response: any) {
-                if (response) {
-                    toast.success(
-                        "Thank you, we have received your question we will be in touch with you."
-                    );
-                    setContactForm({
-                        ...contactForm,
-                        fullname: "",
-                        email: "",
-                        phone: "",
-                        inquiry: "",
-                    });
-                }
-            })
-            .catch(function (error: any) {
-                toast.error("Failed, Please try again later.");
-            })
-            .finally(() => setCLoading(false));
+            devInstance(config)
+                .then(function (response: any) {
+                    if (response) {
+                        toast.success(
+                            "Thank you, we have received your question we will be in touch with you."
+                        );
+                    }
+                })
+                .catch(function (error: any) {
+                    toast.error("Failed, Please try again later.");
+                })
+                .finally(() => setCLoading(false));
+        }
     };
 
     const newsLetterFormAction = async () => {
-        setNLoading(true);
-        var data = {
-            EmailAddress: newsLetter,
-        };
+        if (!newsLetter) {
+            toast.error("Email is required");
+        } else {
+            setNLoading(true);
+            var data = new FormData();
+            data.append("EmailAddress", newsLetter);
 
-        var config = {
-            method: "post",
-            url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/AddEmailForNewsletter",
-            data: data,
-        };
+            var config = {
+                method: "post",
+                maxBodyLength: Infinity,
+                url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/AddEmailForNewsletter",
+                data: data,
+            };
 
-        devInstance(config)
-            .then(function (response: any) {
-                if (response) {
-                    toast.success(
-                        "Thank you for subscribing to our news letter."
-                    );
-                    setNewsLetter("");
-                }
-            })
-            .catch(function (error: any) {
-                toast.error("Failed, Please try again later.");
-            })
-            .finally(() => setNLoading(false));
+            devInstance(config)
+                .then(function (response: any) {
+                    if (response) {
+                        toast.success(
+                            "Thank you for subscribing to our news letter."
+                        );
+                    }
+                })
+                .catch(function (error: any) {
+                    toast.error("Failed, Please try again later.");
+                })
+                .finally(() => setCLoading(false));
+        }
     };
 
     if (customer?.customerId) {
