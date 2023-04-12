@@ -261,6 +261,30 @@ const LandingScreen = () => {
                 <div className="border-primary/60">
                     <div
                         className="container max-w-[1440px] px-10 lg:px-20 py-20"
+                        // id="about"
+                    >
+                        <h1 className="text-[40px] font-semibold text-center mb-10">
+                            Awards & Achievements
+                        </h1>
+                        <div className="grid gap-x-10 gap-y-5">
+                            <h4 className="font-bold text-[18px]">1. Business Day Banking and Financial Institutions Awards</h4>
+                            <p>Development Finance Solutions Company of the year 2021</p>
+                            <p>Most Innovative Investment Bank of the Year 2020</p>
+
+                            <h4 className="font-bold text-[18px]">2. European Society for Quality Research</h4>
+                            <p>Best Investment Research 2014 – European Society for Quality Research Award</p>
+
+                            <h4 className="font-bold text-[18px]">3. International Business Star Quality Awards</h4>
+                            <p>Africa’s Best Innovative Investment Company – Presented at International Business Star Quality Awards 2014, Ghana</p>
+
+                            <h4 className="font-bold text-[18px]">4. Nigerian Investment Banking Awards</h4>
+                            <p>Best Debt House 2011 at the Nigerian Investment Banking Awards</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="border-primary/60">
+                    <div
+                        className="container max-w-[1440px] px-10 lg:px-20 py-20"
                         id="products"
                     >
                         <h1 className="text-[40px] font-semibold text-center mb-10">
