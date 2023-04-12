@@ -168,6 +168,13 @@ const LandingScreen = () => {
 
                             <div className="flex items-center gap-x-10 text-[18px] font-semibold">
                                 <Link
+                                    to="about"
+                                    smooth={true}
+                                    className="cursor-pointer"
+                                >
+                                    About us
+                                </Link>
+                                <Link
                                     to="products"
                                     smooth={true}
                                     className="cursor-pointer"
@@ -232,6 +239,25 @@ const LandingScreen = () => {
                         </h1>
                     </div>
                 </Marquee> */}
+                <div className="border-primary/60">
+                    <div
+                        className="container max-w-[1440px] px-10 lg:px-20 py-20"
+                        id="about"
+                    >
+                        <h1 className="text-[40px] font-semibold text-center mb-10">
+                            About Us
+                        </h1>
+                        <div className="grid gap-x-10 gap-y-5">
+                            <p className="text-lg">
+                                DLM Asset Management and Research Company (DLM Asset Management) is a wholly owned subsidiary of DLM Capital Group. 
+                            </p>
+                            <p className="text-lg">Licensed by the Securities and Exchange Commission of Nigeria to act as Investment Adviser and Fund/Portfolio Manager, DLM Asset Management delivers asset management solutions to its diverse range of clients; retail, mass affluent, institutional, and HNI clients through its expertise in Portfolio/Fund Management, Collective Investment Schemes, and Investment Advisory Services.</p>
+                            <p className="text-lg">
+                            Our services has granted us awards from different financial bodies in the country and even other parts of the world such as;
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <div className="border-primary/60">
                     <div
                         className="container max-w-[1440px] px-10 lg:px-20 py-20"
@@ -515,8 +541,8 @@ const LandingScreen = () => {
                                 </Button>
                             </div>
                         </div>
-                        <div className="grid grid-cols-3 my-[100px]">
-                            <div className="flex flex-col gap-y-4 w-fit">
+                        <div className="grid grid-cols-4 my-[100px]">
+                            <div className="flex flex-col gap-y-3 w-fit">
                                 <p className="text-lg font-semibold">
                                     Quick Links
                                 </p>
@@ -549,8 +575,8 @@ const LandingScreen = () => {
                                     Sign In
                                 </a>
                             </div>
-                            <div className="flex flex-col gap-y-4 w-fit">
-                                <p className="text-lg cursor-pointer font-semibold">
+                            <div className="flex flex-col gap-y-3 w-fit">
+                                <p className="text-lg  font-semibold">
                                     Socials
                                 </p>
                                 <a
@@ -586,8 +612,8 @@ const LandingScreen = () => {
                                     Facebook
                                 </a>
                             </div>
-                            <div className="flex flex-col gap-y-4 w-fit">
-                                <p className="text-lg cursor-pointer font-semibold">
+                            <div className="flex flex-col gap-y-3 w-fit">
+                                <p className="text-lg font-semibold">
                                     Resources
                                 </p>
                                 <Link
@@ -597,30 +623,30 @@ const LandingScreen = () => {
                                 >
                                     FAQs
                                 </Link>
-
-                                <div className="flex flex-col gap-y-4 w-fit">
-                                    <p className="text-lg cursor-pointer font-semibold">
-                                        Hotline
+                            </div>
+                            <div className="flex flex-col gap-y-3 w-fit">
+                                <div>
+                                    <p className="text-lg font-semibold">
+                                        Contact Us
                                     </p>
-                                    <Link
-                                        to="faqs"
-                                        smooth={true}
-                                        className="text-lg cursor-pointer"
+                                    <p
+                                        className="text-lg cursor-pointer mt-3"
                                     >
-                                        08076772494, 08122710329
-                                    </Link>
-                                </div>
-                                <div className="flex flex-col gap-y-4 w-fit">
-                                    <p className="text-lg cursor-pointer font-semibold">
-                                        Email us
+                                        08076772494
                                     </p>
-                                    <Link
-                                        to="faqs"
-                                        smooth={true}
-                                        className="text-lg cursor-pointer"
+                                    <p
+                                        className="text-lg cursor-pointer mt-3"
+                                    >
+                                        08122710329
+                                    </p>
+                                    <p
+                                        className="text-lg cursor-pointer mt-3"
                                     >
                                         asset@dlm.group
-                                    </Link>
+                                    </p>
+                                </div>
+                                <div>
+                                    
                                 </div>
                             </div>
                         </div>
