@@ -28,22 +28,36 @@ const LandingScreen = () => {
 
     const faqs = [
         {
-            title: "What is the minimum amount for an investment?",
+            title: "Do you know the full meaning of DLM? ",
+            anwser: "Dunn Loren Merrifield",
         },
         {
-            title: "How do I create an investment?",
+            title: "What is investment?",
+            anwser: "Investment refers to the act of committing money or capital to purchase assets or securities with the expectation of generating income or profit over time.",
         },
         {
-            title: "How much is the interest on fixed income fund?",
+            title: "What is the difference between saving and investing?",
+            anwser: "Saving involves putting money aside for short-term goals or emergencies, while investing involves using money to purchase assets with the goal of generating a return over the long-term.",
         },
         {
-            title: "What is the minimum amount for an investment?",
+            title: "How can I create a budget and stick to it?",
+            anwser: "To create a budget, start by listing all your income sources and expenses. Categorize your expenses and prioritize them based on necessity. Then, set spending limits for each category and track your spending to make sure you are staying within your budget.",
         },
         {
-            title: "Can I liquidate my investment at anytime?",
+            title: "What is compound interest and how does it work?",
+            anwser: "Compound interest is interest that is earned on both the principal amount and the interest already earned. Over time, compound interest can significantly increase the value of your investments. ",
         },
         {
-            title: "Can I create an investment portfolio for my child?",
+            title: "How can I diversify my investment portfolio? ",
+            anwser: "Diversification involves spreading your investments across different asset classes, such as stocks, bonds, and real estate, to reduce overall risk.",
+        },
+        {
+            title: "What is the difference between growth and value investing? ",
+            anwser: "Growth investing involves investing in companies with high growth potential, even if they are currently overvalued. Value investing involves investing in companies that are currently undervalued but have good potential for future growth.",
+        },
+        {
+            title: "How can I create an investment plan that aligns with my financial goals?",
+            anwser: "To create an investment plan that aligns with your financial goals, you should first identify your goals and the timeline for achieving them. You should then determine your risk tolerance and create an investment strategy that balances your risk and return objectives.",
         },
     ];
 
@@ -127,6 +141,21 @@ const LandingScreen = () => {
         }
     };
 
+    const testimonies = [
+        {
+            title: "Irene Iorzer from Abuja",
+            desc: "I've worked with several asset management companies in the past, but none have provided the level of service and expertise that I've found with [DLM Asset Management]. They're always available to answer my questions and provide guidance when I need it. Their client relationship management technique is top notch."
+        },
+        {
+            title: "Nwachukwu Peter from Portharcourt",
+            desc: "As a busy professional, I don't have time to manage my investments on my own. That's why I turned to [DLM Asset Management]. They've taken the time to understand my goals and risk tolerance and have put together a portfolio that meets my needs."
+        },
+        {
+            title: "Christopher Okechukwu from Lagos",
+            desc: "DLM Asset Management have consistently delivered solid investment returns and have provided me with personalized investment advice that has helped me achieve my financial goals. I highly recommend their services to anyone looking for a trustworthy and experienced asset management team."
+        },
+    ]
+
     if (customer?.customerId) {
         return <Navigate to="/dashboard" />;
     } else {
@@ -170,7 +199,7 @@ const LandingScreen = () => {
                     <div className="container max-w-[1440px] flex items-center justify-between gap-x-10 px-10 lg:px-20 py-10 grow">
                         <div className="max-w-3xl flex flex-col gap-y-10">
                             <h1 className="text-3xl font-semibold relative">
-                                Grow your wealth in the best possible way
+                                Growth your wealth in the most sustainable way.
                                 <img
                                     alt=""
                                     src={hero2}
@@ -178,10 +207,7 @@ const LandingScreen = () => {
                                 />
                             </h1>
                             <p className="text-lg mb-3">
-                                Get access to top tier wealth advisory, grow
-                                your wealth with informed investment portfolios
-                                and whatever is left there as well. It will be
-                                amazing and all you have to do is get started.
+                                We are your partners in creating wealth, preserving your wealth, and transferring your wealth to the next generation. In all, we are your dependable partner on your path to financial success. 
                             </p>
                             <Button
                                 buttonType="lg"
@@ -312,46 +338,26 @@ const LandingScreen = () => {
                             for us
                         </p>
                         <div className="grid grid-cols-2 gap-x-20">
-                            <div className="flex flex-col gap-y-5 rounded-lg items-center bg-[#E1E6EA] shadow-xl shadow-primary/10 h-[384px] justify-center px-10 z-[1]">
-                                <img
-                                    alt=""
-                                    src={avatar2}
-                                    className="w-[104px] h-[104px]"
-                                />
-                                <div className="flex flex-col gap-y-2">
-                                    <h5 className="text-lg font-semibold text-center">
-                                        David Adekunle
-                                    </h5>
-                                    <p className="text-[18px] text-center">
-                                        CFO FoodCo
+                            {testimonies.map((item, index) => (
+                                <div key={index} className="flex flex-col gap-y-5 rounded-lg items-center bg-[#E1E6EA] shadow-xl shadow-primary/10 h-[384px] justify-center px-10 z-[1] mt-10">
+                                    <img
+                                        alt=""
+                                        src={avatar2}
+                                        className="w-[104px] h-[104px]"
+                                    />
+                                    <div className="flex flex-col gap-y-2">
+                                        <h5 className="text-lg font-semibold text-center">
+                                            {item.title}
+                                        </h5>
+                                        {/* <p className="text-[18px] text-center">
+                                            CFO FoodCo
+                                        </p> */}
+                                    </div>
+                                    <p className="text-md text-center font-normal">
+                                        {item.desc}
                                     </p>
                                 </div>
-                                <p className="text-lg font-normal">
-                                    Let the words and testimonials of our
-                                    clients speak for us. We are so proud of the
-                                    stuff
-                                </p>
-                            </div>
-                            <div className="flex flex-col gap-y-5 items-center rounded-lg bg-[#E1E6EA] shadow-primary/10 shadow-xl h-[384px] justify-center px-10 z-[1]">
-                                <img
-                                    alt=""
-                                    src={avatar2}
-                                    className="w-[104px] h-[104px]"
-                                />
-                                <div className="flex flex-col gap-y-2">
-                                    <h5 className="text-lg font-semibold text-center">
-                                        David Adekunle
-                                    </h5>
-                                    <p className="text-[18px] text-center">
-                                        CFO FoodCo
-                                    </p>
-                                </div>
-                                <p className="text-lg font-normal">
-                                    Let the words and testimonials of our
-                                    clients speak for us. We are so proud of the
-                                    stuff
-                                </p>
-                            </div>
+                            ))}
                         </div>
                     </div>
                     <img
@@ -399,10 +405,11 @@ const LandingScreen = () => {
                                         </div>
                                         {activeFaq === index && (
                                             <div className="pb-5 sm:pr-8 lg:pr-10">
-                                                Yes, you can. Simply create an
+                                                {/* Yes, you can. Simply create an
                                                 account for your child, select a
                                                 product of your choice and fund
-                                                the account accordingly
+                                                the account accordingly */}
+                                                {el?.anwser}
                                             </div>
                                         )}
                                     </div>
@@ -590,6 +597,31 @@ const LandingScreen = () => {
                                 >
                                     FAQs
                                 </Link>
+
+                                <div className="flex flex-col gap-y-4 w-fit">
+                                    <p className="text-lg cursor-pointer font-semibold">
+                                        Hotline
+                                    </p>
+                                    <Link
+                                        to="faqs"
+                                        smooth={true}
+                                        className="text-lg cursor-pointer"
+                                    >
+                                        08076772494, 08122710329
+                                    </Link>
+                                </div>
+                                <div className="flex flex-col gap-y-4 w-fit">
+                                    <p className="text-lg cursor-pointer font-semibold">
+                                        Email us
+                                    </p>
+                                    <Link
+                                        to="faqs"
+                                        smooth={true}
+                                        className="text-lg cursor-pointer"
+                                    >
+                                        asset@dlm.group
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>

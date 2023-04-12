@@ -911,52 +911,6 @@ const TargetDatePlan = (props: _props) => {
                                 required
                             />
                             <p className="-tracking-[.02em] text-xs">
-                                Terms and Conditions apply Terms and Conditions
-                                apply Terms and Conditions apply Terms and
-                                Conditions apply Terms and Conditions apply
-                                Terms and Conditions apply Terms and Conditions
-                                apply Terms and Conditions apply Terms and
-                                Conditions apply Terms and Conditions apply
-                                Terms and Conditions apply Terms and Conditions
-                                apply Terms and Conditions apply Terms and
-                                Conditions apply Terms and Conditions apply
-                                Terms and Conditions apply Terms and Conditions
-                                apply Terms and Conditions apply Terms and
-                                Conditions apply Terms and Conditions apply
-                                Terms and Conditions apply
-                            </p>
-                        </p>
-                        <p className="flex space-x-5 items-start text-base text-black mt-12">
-                            <input
-                                type="checkbox"
-                                className="rounded-[5px] bg-white-lighter mt-1"
-                                required
-                            />
-                            <p className="-tracking-[.02em] text-xs">
-                                Client service agreement Client service
-                                agreement Client service agreement Client
-                                service agreement Client service agreement
-                                Client service agreement Client service
-                                agreement Client service agreement Client
-                                service agreement Client service agreement
-                                Client service agreement Client service
-                                agreement Client service agreement Client
-                                service agreement Client service agreement
-                                Client service agreement Client service
-                                agreement Client service agreement Client
-                                service agreement Client service agreement
-                                Client service agreement Client service
-                                agreement Client service agreement Client
-                                service agreement
-                            </p>
-                        </p>
-                        <p className="flex space-x-5 items-start text-base text-black mt-12">
-                            <input
-                                type="checkbox"
-                                className="rounded-[5px] bg-white-lighter mt-1"
-                                required
-                            />
-                            <p className="-tracking-[.02em] text-xs">
                                 I confirm/hereby declare that the information
                                 provided above is complete and accurate to the
                                 best of my knowledge, belief, and understanding.
@@ -971,6 +925,7 @@ const TargetDatePlan = (props: _props) => {
                                 discretion. I acknowledge that a non-refundable
                                 charge of 10 naira will be automatically debited
                                 from the linked bank account to add my card.
+                                <a href="/TC.pdf" target='_blank' className="text-[15px] ml-4 text-[#0066cc]" rel='noopener noreferrer'>Learn more</a>
                             </p>
                         </p>
                     </div>
