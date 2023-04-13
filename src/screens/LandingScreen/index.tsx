@@ -4,6 +4,7 @@ import Button from "../../components/ButtonComponent";
 import heroImage from "../../assets/images/hero-image.svg";
 import hero2 from "../../assets/images/hero2.svg";
 import fif from "../../assets/images/fif.svg";
+import award from "../../assets/images/award.svg";
 import hiip from "../../assets/images/hiip.svg";
 import childEdu from "../../assets/images/child-edu.svg";
 import tdp from "../../assets/images/tdp.svg";
@@ -226,6 +227,25 @@ const LandingScreen = () => {
                         <img alt="" src={heroImage} />
                     </div>
                 </div>
+                <div className="border-primary/60">
+                    <div
+                        className="container max-w-[1440px] px-10 lg:px-20 py-20"
+                        id="about"
+                    >
+                        <h1 className="text-[40px] font-semibold text-center mb-16">
+                            About Us
+                        </h1>
+                        <div className="grid gap-x-10 gap-y-5">
+                            <p className="text-lg">
+                                DLM Asset Management and Research Company (DLM Asset Management) is a wholly owned subsidiary of DLM Capital Group. 
+                            </p>
+                            <p className="text-lg">Licensed by the Securities and Exchange Commission of Nigeria to act as Investment Adviser and Fund/Portfolio Manager, DLM Asset Management delivers asset management solutions to its diverse range of clients; retail, mass affluent, institutional, and HNI clients through its expertise in Portfolio/Fund Management, Collective Investment Schemes, and Investment Advisory Services.</p>
+                            <p className="text-lg">
+                            Our services has granted us awards from different financial bodies in the country and even other parts of the world such as;
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 {/* <Marquee gradient={false} speed={60} className="bg-primary/60">
                     <div className="flex w-full justify-around py-5 px-20">
                         <h1 className="text-[40px] font-semibold">
@@ -241,45 +261,71 @@ const LandingScreen = () => {
                 </Marquee> */}
                 <div className="border-primary/60">
                     <div
-                        className="container max-w-[1440px] px-10 lg:px-20 py-20"
-                        id="about"
+                        className=""
+                        id="products"
                     >
-                        <h1 className="text-[40px] font-semibold text-center mb-10">
-                            About Us
-                        </h1>
-                        <div className="grid gap-x-10 gap-y-5">
-                            <p className="text-lg">
-                                DLM Asset Management and Research Company (DLM Asset Management) is a wholly owned subsidiary of DLM Capital Group. 
-                            </p>
-                            <p className="text-lg">Licensed by the Securities and Exchange Commission of Nigeria to act as Investment Adviser and Fund/Portfolio Manager, DLM Asset Management delivers asset management solutions to its diverse range of clients; retail, mass affluent, institutional, and HNI clients through its expertise in Portfolio/Fund Management, Collective Investment Schemes, and Investment Advisory Services.</p>
-                            <p className="text-lg">
-                            Our services has granted us awards from different financial bodies in the country and even other parts of the world such as;
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div className="border-primary/60">
-                    <div
-                        className="container max-w-[1440px] px-10 lg:px-20 py-20"
-                        // id="about"
-                    >
-                        <h1 className="text-[40px] font-semibold text-center mb-10">
+                        <h1 className="text-[40px] font-semibold text-center mb-16">
                             Awards & Achievements
                         </h1>
-                        <div className="grid gap-x-10 gap-y-5">
-                            <h4 className="font-bold text-[18px]">1. Business Day Banking and Financial Institutions Awards</h4>
-                            <p>Development Finance Solutions Company of the year 2021</p>
-                            <p>Most Innovative Investment Bank of the Year 2020</p>
-
-                            <h4 className="font-bold text-[18px]">2. European Society for Quality Research</h4>
-                            <p>Best Investment Research 2014 – European Society for Quality Research Award</p>
-
-                            <h4 className="font-bold text-[18px]">3. International Business Star Quality Awards</h4>
-                            <p>Africa’s Best Innovative Investment Company – Presented at International Business Star Quality Awards 2014, Ghana</p>
-
-                            <h4 className="font-bold text-[18px]">4. Nigerian Investment Banking Awards</h4>
-                            <p>Best Debt House 2011 at the Nigerian Investment Banking Awards</p>
-                        </div>
+                        <Marquee gradient={false} speed={40}>
+                            <div className="grid grid-cols-4">
+                                <div className="w-[360px] h-fit width-[50px] gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA] transition-all delay-150 duration-300 ease-in-out">
+                                    <img
+                                        alt=""
+                                        src={award}
+                                        className="w-[60px] h-[60px]"
+                                    />
+                                    <h3 className="text-[18px] font-semibold mt-4">
+                                        Business Day Banking & Financial Institutions Awards
+                                    </h3>
+                                    <p className="text-md font-normal mt-4">
+                                        Development Finance Solution Company of the Year 2021
+                                    </p>
+                                    <p className="text-md font-normal mt-4">
+                                    Most Innovative Investment Bank of the Year 2020
+                                    </p>
+                                </div>
+                                <div className="w-[360px] h-fit width-[50px] gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA] transition-all delay-150 duration-300 ease-in-out">
+                                    <img
+                                        alt=""
+                                        src={award}
+                                        className="w-[60px] h-[60px]"
+                                    />
+                                    <h3 className="text-[18px] font-semibold mt-4">
+                                        European Society for Quality Research
+                                    </h3>
+                                    <p className="text-md font-normal mt-4">
+                                        Best Investment Research 2014 – European Society for Quality Research Award
+                                    </p>
+                                </div>
+                                <div className="w-[360px] h-fit width-[50px] gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA] transition-all delay-150 duration-300 ease-in-out">
+                                    <img
+                                        alt=""
+                                        src={award}
+                                        className="w-[60px] h-[60px]"
+                                    />
+                                    <h3 className="text-[18px] font-semibold mt-4">
+                                        International Business Star Quality Awards
+                                    </h3>
+                                    <p className="text-md font-normal mt-4">
+                                        Africa’s Best Innovative Investment Company – Presented at International Business Star Quality Awards 2014, Ghana
+                                    </p>
+                                </div>
+                                <div className="w-[360px] h-fit mr-32 width-[50px] gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA] transition-all delay-150 duration-300 ease-in-out">
+                                    <img
+                                        alt=""
+                                        src={award}
+                                        className="w-[60px] h-[60px]"
+                                    />
+                                    <h3 className="text-[18px] font-semibold mt-4">
+                                        Nigerian Investment Banking Awards
+                                    </h3>
+                                    <p className="text-md font-normal mt-4">
+                                        Best Debt House 2011 at the Nigerian Investment Banking Awards
+                                    </p>
+                                </div>
+                            </div>
+                        </Marquee>
                     </div>
                 </div>
                 <div className="border-primary/60">
@@ -287,7 +333,7 @@ const LandingScreen = () => {
                         className="container max-w-[1440px] px-10 lg:px-20 py-20"
                         id="products"
                     >
-                        <h1 className="text-[40px] font-semibold text-center mb-10">
+                        <h1 className="text-[40px] font-semibold text-center mb-16">
                             Our Products
                         </h1>
                         <div className="grid grid-cols-3 gap-x-10 gap-y-5">
