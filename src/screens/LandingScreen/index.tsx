@@ -267,7 +267,7 @@ const LandingScreen = () => {
                         <h1 className="text-[40px] font-semibold text-center mb-16">
                             Awards & Achievements
                         </h1>
-                        <Marquee gradient={false} speed={40}>
+                        <Marquee gradient={false} speed={60}>
                             <div className="grid grid-cols-4">
                                 <div className="w-[360px] h-fit width-[50px] gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA] transition-all delay-150 duration-300 ease-in-out">
                                     <img
