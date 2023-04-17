@@ -34,6 +34,7 @@ const DashboardLayout = (props: dashboardProps) => {
     const { customer }: any = useAppSelector((state) => state.auth);
     const { children, onClick } = props;
     const [currentStep, setCurrentStep] = React.useState(1);
+    const [dailyNews, setDailyNews] = React.useState("");
     const location = useLocation();
     const navigate = useNavigate();
     console.log(location.pathname);
@@ -379,18 +380,32 @@ const DashboardLayout = (props: dashboardProps) => {
             .finally(() => setLoading(false));
     }, []);
 
+    useEffect(() => {
+        setLoading(true);
+        devInstance
+            .get("https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetDailyNews")
+            .then((response) => {
+                setDailyNews(response.data[0].dailyNews);
+            })
+            .catch((err) => console.log(err))
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
+
     return (
         <div className="w-full min-h-screen bg-primary-light">
-            <div className="sticky top-0 w-full z-10">
-                <Marquee
-                    gradient={false}
-                    speed={60}
-                    className="bg-primary text-white py-3"
-                >
-                    I can be a React component, multiple React components, or
-                    just some text.
-                </Marquee>
-            </div>
+            {dailyNews && (
+                <div className="sticky top-0 w-full z-10">
+                    <Marquee
+                        gradient={false}
+                        speed={60}
+                        className="bg-primary text-white py-3"
+                    >
+                        {dailyNews}
+                    </Marquee>
+                </div>
+            )}
             <div className="fixed left-0 top-0 w-[210px] z-20 transition ease-in-out delay-150 duration-300 h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col">
                 <img
                     alt=""

@@ -101,7 +101,7 @@ const Input = (props: InputProps) => {
                     <input
                         type={show ? "text" : "password"}
                         title="Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
-                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#.])[A-Za-z\d@$!%*#.?&]{8,}$"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#.])[A-Za-z\d@$!%*#.?&]{7,}$"
                         className="grow h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg"
                         {...props}
                     />

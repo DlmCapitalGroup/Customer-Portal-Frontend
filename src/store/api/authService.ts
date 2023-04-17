@@ -16,8 +16,16 @@ const loginCustomer = async (customerData: object) => {
 const loginUser = async (userData: object) => {
     const res = await devInstance.post("/Authentication/LoginUser", userData);
     if (res?.data) {
-        console.log(res?.data)
+        console.log(res?.data);
         setAuthToken(res?.data?.data?.token);
+        // localStorage.setItem("user", JSON.stringify(res?.data?.data));
+    }
+    return res.data.data;
+};
+const loginAdmin = async (adminData: object) => {
+    const res = await devInstance.post("/Admin/LoginAdmin", adminData);
+    if (res?.data) {
+        console.log(res?.data);
         // localStorage.setItem("user", JSON.stringify(res?.data?.data));
     }
     return res.data.data;
@@ -74,7 +82,8 @@ const authService = {
     confirmCustomer,
     resendOtp,
     updatePassword,
-    resetPassword
+    resetPassword,
+    loginAdmin,
 };
 
 export default authService;
