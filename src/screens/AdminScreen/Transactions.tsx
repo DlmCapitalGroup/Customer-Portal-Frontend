@@ -80,10 +80,20 @@ const TransactionsScreen = () => {
     }, []);
 
     const filteredSearch = transactions?.filter((transaction: any) => {
-        return transaction?.transactionType
-            ?.toLowerCase()
-            .includes(searchField?.toLowerCase());
+        return (
+            transaction?.transactionType
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
+            transaction?.customerName
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
+            transaction?.requestId
+                ?.toString()
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase())
+        );
     });
+
     const onSearchChange = (e: any) => {
         e.preventDefault();
         setSearchField(e.target.value);

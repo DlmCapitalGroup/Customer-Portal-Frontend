@@ -29,7 +29,7 @@ module.exports = {
         fontSize: {
             xs: "0.688rem",
             sm: "0.875rem",
-            base: "1.125rem",
+            base: "1rem",
             lg: "1.2rem",
             xl: "2rem",
             "2xl": "2.5rem",
