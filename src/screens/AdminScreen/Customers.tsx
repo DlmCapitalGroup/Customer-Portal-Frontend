@@ -81,11 +81,22 @@ const Customers = () => {
             });
     }, []);
 
-    // const filteredSearch = customers?.filter((customer: any) => {
-    //     return customer?.customerId
-    //         ?.toLowerCase()
-    //         .includes(searchField?.toLowerCase());
-    // });
+    const filteredSearch = customers?.filter((customer: any) => {
+        return (
+            customer?.firstName
+                .toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
+            customer?.lastName
+                .toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
+            (
+                customer?.firstName.toLowerCase() +
+                " " +
+                customer?.lastName.toLowerCase()
+            ).includes(searchField?.toLowerCase()) ||
+            String(customer?.customerId).includes(searchField)
+        );
+    });
     const onSearchChange = (e: any) => {
         e.preventDefault();
         setSearchField(e.target.value);
@@ -139,7 +150,7 @@ const Customers = () => {
                 </div>
                 <div className="min-h-[500px] flex flex-col">
                     <Table
-                        customers={customers}
+                        customers={filteredSearch}
                         prevPage={prevPage}
                         nextPage={nextPage}
                         totalPages={totalPages}
