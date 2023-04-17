@@ -60,11 +60,11 @@ const AdminLayout = (props: dashboardProps) => {
             icon: notebookIcon,
             path: "/admin/news",
         },
-        // {
-        //     name: "settings",
-        //     icon: settingsIcon,
-        //     path: "/settings/profile",
-        // },
+        {
+            name: "Customers",
+            icon: notebookIcon,
+            path: "/admin/customers",
+        },
         {
             name: `${
                 admin?.firstName.charAt(0).toUpperCase() +
@@ -93,7 +93,7 @@ const AdminLayout = (props: dashboardProps) => {
                 </div>
                 <div className="flex flex-col justify-between grow">
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(0, 4).map((link, index) => (
+                        {dashboardLinks.slice(0, 5).map((link, index) => (
                             <Link
                                 to={link.path}
                                 className="flex pl-[15px] items-center text-sm xl:text-base"
@@ -114,7 +114,7 @@ const AdminLayout = (props: dashboardProps) => {
                     </div>
 
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(4).map((link, index) => (
+                        {dashboardLinks.slice(5).map((link, index) => (
                             <Link
                                 to={index === 0 ? link.path : ""}
                                 className="flex pl-[15px] items-center"

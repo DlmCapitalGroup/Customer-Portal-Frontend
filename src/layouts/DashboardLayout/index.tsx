@@ -14,7 +14,7 @@ import activeIcon from "../../assets/images/active-icon.svg";
 import notebookIcon from "../../assets/images/notebook.svg";
 import dashboardBg from "../../assets/images/bg-dashboard.svg";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { logout, setLoading } from "../../store/auth-slice";
+import { logout } from "../../store/auth-slice";
 import Loader from "../../components/LoaderComponent";
 import Marquee from "react-fast-marquee";
 import Button from "../../components/ButtonComponent";

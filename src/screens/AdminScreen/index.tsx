@@ -12,7 +12,8 @@ const AdminScreen = () => {
     const [loading, setLoading] = useState(false);
     const [customers, setCustomers] = useState([]);
     const [transactions, setTransactions] = useState([]);
-    const [transaction, setTransaction] = useState({});
+    const [transactionsLength, setTransactionsLength] = useState(0);
+    const [customerLength, setCustomerLength] = useState(0);
     const [modalStatus, setModalStatus] = useState("");
     const [products, setProducts] = useState([]);
     const [openModal, setOpenModal] = useState(false);
@@ -26,6 +27,7 @@ const AdminScreen = () => {
             )
             .then((response: any) => {
                 setCustomers(response.data.data.pageItems);
+                setCustomerLength(response.data.data.totalNumberOfItems);
             })
             .catch((err) => console.log(err))
             .finally(() => {
@@ -72,6 +74,7 @@ const AdminScreen = () => {
         )
             .then((response: any) => {
                 setTransactions(response.data.data.pageItems);
+                setTransactionsLength(response.data.data.totalNumberOfItems);
                 console.log(response.data.data.pageItems);
             })
             .catch((err) => console.log(err))
@@ -138,12 +141,6 @@ const AdminScreen = () => {
                                                 ? "bg-primary"
                                                 : "bg-error"
                                         } capitalize w-28 text-center flex justify-center items-center gap-x-1 cursor-pointer p-1 text-xs rounded-md`}
-                                        onClick={() => {
-                                            setModalStatus(
-                                                item?.transactionStatus.toLowerCase()
-                                            );
-                                            setOpenModal(true);
-                                        }}
                                     >
                                         <span>
                                             {item?.transactionStatus.toLowerCase() ===
@@ -307,7 +304,7 @@ const AdminScreen = () => {
                         <div>
                             <h3 className="font-semibold">Customers</h3>
                             <p className="text-3xl font-semibold">
-                                {customers.length}
+                                {customerLength}
                             </p>
                         </div>
                     </div>
@@ -316,7 +313,9 @@ const AdminScreen = () => {
                             <h3 className="font-semibold">
                                 Total Transactions
                             </h3>
-                            <p className="text-3xl font-semibold">2000</p>
+                            <p className="text-3xl font-semibold">
+                                {transactionsLength}
+                            </p>
                         </div>
                     </div>
                     <div className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center">

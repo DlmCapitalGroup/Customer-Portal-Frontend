@@ -428,7 +428,7 @@ const News = () => {
                                 newsUpdate.map((item: any) => (
                                     <div
                                         key={item?.id}
-                                        className="border-sm border-primary/30 shadow-sm shadow-primary"
+                                        className="border border-primary/30 bg-white shadow shadow-primary/10 p-3 rounded-lg"
                                     >
                                         <a
                                             className="text-sm text-primary/70 underline"
@@ -441,8 +441,25 @@ const News = () => {
                                         <p className="text-sm mb-1">
                                             {item?.description}
                                         </p>
-                                        <p>{item?.importantNews}</p>
-                                        <div className="flex gap-x-3 items-center">
+                                        <p className="flex items-center space-x-1 text-xs font-semibold">
+                                            <div
+                                                className={`h-2 w-2 rounded-full ${
+                                                    item.importantNews
+                                                        ? "bg-error"
+                                                        : "bg-primary"
+                                                }`}
+                                            ></div>
+                                            {item?.importantNews === true ? (
+                                                <span className="text-error">
+                                                    High Priority
+                                                </span>
+                                            ) : (
+                                                <span className="text-primary">
+                                                    Normal Priority
+                                                </span>
+                                            )}
+                                        </p>
+                                        <div className="flex gap-x-3 items-center mt-5">
                                             <button
                                                 className="border text-xs border-primary bg-white-lighter text-primary hover:bg-white-lighter/50 px-3 py-1.5 rounded-lg"
                                                 onClick={() => {
@@ -533,12 +550,12 @@ const News = () => {
                                 dailyNews.map((item: any, index) => (
                                     <div
                                         key={index}
-                                        className="border-sm border-primary/30 shadow-sm shadow-primary"
+                                        className="border border-primary/30 bg-white-lighter p-3 rounded-lg shadow shadow-primary/10"
                                     >
                                         <p className="text-sm mb-1">
                                             {item?.dailyNews}
                                         </p>
-                                        <div className="flex gap-x-3 items-center">
+                                        <div className="flex gap-x-3 items-center mt-5">
                                             <button
                                                 className="border text-xs border-primary bg-white-lighter text-primary hover:bg-white-lighter/50 px-3 py-1.5 rounded-lg"
                                                 onClick={() => {

@@ -5,7 +5,7 @@ import chevronLeft from "../../assets/images/chevron-left.svg";
 import { formatter } from "../../helper";
 
 type tableProps = {
-    transactions?: Array<any>;
+    customers?: Array<any>;
     currentPage?: number;
     totalPages?: number;
     prevPage?: any;
@@ -73,35 +73,27 @@ type tableProps = {
 // };
 
 const Table = (props: tableProps) => {
-    const {
-        transactions,
-        currentPage,
-        totalPages,
-        prevPage,
-        nextPage,
-        isAdmin,
-    }: any = props;
+    const { customers, currentPage, totalPages, prevPage, nextPage }: any =
+        props;
 
-    const TransactionList = () => {
-        if (transactions.length > 0) {
+    const CustomersList = () => {
+        if (customers?.length > 0) {
             return (
                 <>
-                    {transactions?.map((item: any, index: any) => (
+                    {customers?.map((item: any, index: any) => (
                         <div className="flex items-center" key={index}>
                             <div className="basis-1/4 pl-[54px]">
-                                <h3>{item?.transactionType}</h3>
+                                <h3>{item?.customerId}</h3>
                             </div>
-                            <div className="basis-1/4 text-center">
-                                <h3>{formatter(item?.transactionAmount)}</h3>
-                            </div>
-                            <div className="basis-1/4 text-center">
+                            <div className="basis-1/4 text-center capitalize">
                                 <h3>
-                                    {new Date(
-                                        item?.transactionDate
-                                    ).toLocaleDateString()}
+                                    {item?.firstName} {item.lastName}
                                 </h3>
                             </div>
-                            {isAdmin && (
+                            <div className="basis-1/4 text-center">
+                                <h3>{item?.email}</h3>
+                            </div>
+                            {/* {isAdmin && (
                                 <>
                                     <div className="basis-1/4 text-center">
                                         <h3>{item?.requestId}</h3>
@@ -110,73 +102,34 @@ const Table = (props: tableProps) => {
                                         <h3>{item?.customerId}</h3>
                                     </div>
                                 </>
-                            )}
-                            <div
-                                className={`basis-1/4 text-right relative ${
-                                    isAdmin
-                                        ? "flex justify-end items-center pr-7"
-                                        : "pr-[54px]"
-                                }`}
-                            >
-                                {isAdmin ? (
-                                    <>
-                                        {/* <div className="absolute bg-white-lighter border border-primary/30 p-3 w-80 rounded"></div> */}
-                                        <h3
-                                            className={`${
-                                                item?.transactionStatus.toLowerCase() ===
-                                                "approved"
-                                                    ? "text-success"
-                                                    : item?.transactionStatus.toLowerCase() ===
-                                                      "pending"
-                                                    ? "text-primary"
-                                                    : "text-error"
-                                            } capitalize w-28 cursor-pointer text-sm`}
-                                            // onClick={() => {
-                                            //     // setModalStatus(
-                                            //     //     item?.transactionStatus.toLowerCase()
-                                            //     // );
-                                            //     // setOpenModal(true);
-                                            // }}
-                                        >
-                                            <span>
-                                                {item?.transactionStatus.toLowerCase() ===
-                                                "approved"
-                                                    ? "successful"
-                                                    : item?.transactionStatus}
-                                            </span>
-                                        </h3>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={1.5}
-                                            stroke="currentColor"
-                                            className="w-6 h-6 cursor-pointer"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                                            />
-                                        </svg>
-                                    </>
-                                ) : (
-                                    <h3
-                                        className={`${
-                                            item.transactionStatus ===
-                                            "approved"
-                                                ? "text-success"
-                                                : item.transactionStatus ===
-                                                  "declined"
-                                                ? "text-error"
-                                                : "text-primary"
-                                        } capitalize`}
-                                    >
-                                        {item.transactionStatus === "approved"
-                                            ? "successful"
-                                            : item.transactionStatus}
-                                    </h3>
-                                )}
+                            )} */}
+                            <div className="basis-1/4 text-right relative flex justify-end items-center pr-10">
+                                {/* <div className="absolute bg-white-lighter border border-primary/30 p-3 w-80 rounded"></div> */}
+                                <h3
+                                    className={`text-success capitalize w-28 cursor-pointer text-sm`}
+                                    // onClick={() => {
+                                    //     // setModalStatus(
+                                    //     //     item?.transactionStatus.toLowerCase()
+                                    //     // );
+                                    //     // setOpenModal(true);
+                                    // }}
+                                >
+                                    <span>Active</span>
+                                </h3>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-6 h-6 cursor-pointer"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                                    />
+                                </svg>
                             </div>
                         </div>
                     ))}
@@ -196,15 +149,15 @@ const Table = (props: tableProps) => {
             <div className="rounded-[20px] bg-white-light flex flex-col grow">
                 <div className="flex bg-primary rounded-[20px] h-[65.2px] text-white items-center text-base">
                     <div className="basis-1/4 pl-[54px]">
-                        <h3>Type</h3>
+                        <h3>ID</h3>
                     </div>
                     <div className="basis-1/4 text-center">
-                        <h3>Amount</h3>
+                        <h3>FullName</h3>
                     </div>
                     <div className="basis-1/4 text-center">
-                        <h3>Date</h3>
+                        <h3>Email Address</h3>
                     </div>
-                    {isAdmin && (
+                    {/* {isAdmin && (
                         <>
                             <div className="basis-1/4 text-center">
                                 <h3>Request ID</h3>
@@ -213,13 +166,13 @@ const Table = (props: tableProps) => {
                                 <h3>Customer ID</h3>
                             </div>
                         </>
-                    )}
-                    <div className="basis-1/4 text-center">
+                    )} */}
+                    <div className="basis-1/4 text-right pr-[54px]">
                         <h3>Status</h3>
                     </div>
                 </div>
                 <div className="flex flex-col gap-y-10 py-10 grow min-h-[500px] overflow-x-hidden">
-                    <TransactionList />
+                    <CustomersList />
                 </div>
             </div>
             <div className="flex justify-end mt-6 items-center">
