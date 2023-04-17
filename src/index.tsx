@@ -35,6 +35,13 @@ import Loader from "./components/LoaderComponent";
 import Kyc from "./screens/SettingsScreen/KycScreen";
 import BankInfo from "./screens/SettingsScreen/BankInfo";
 import LandingScreen from "./screens/LandingScreen";
+import AdminScreen from "./screens/AdminScreen";
+import LoginAdmin from "./screens/AdminScreen/login";
+import ProductsAdmin from "./screens/AdminScreen/Products";
+import News from "./screens/AdminScreen/News";
+import AdminRoutes from "./components/AdminRoute";
+import TransactionsScreen from "./screens/AdminScreen/Transactions";
+import Customers from "./screens/AdminScreen/Customers";
 
 const Wrapper = ({ children }: any) => {
     const location = useLocation();
@@ -75,6 +82,32 @@ root.render(
                                         element={<ResetPassword />}
                                     />
                                 </Route>
+                                <Route element={<AdminRoutes />}>
+                                    <Route
+                                        path="admin/dashboard"
+                                        element={<AdminScreen />}
+                                    />
+                                    <Route
+                                        path="admin/news"
+                                        element={<News />}
+                                    />
+                                    <Route
+                                        path="admin/transactions"
+                                        element={<TransactionsScreen />}
+                                    />
+                                </Route>
+                                <Route
+                                    path="admin/sign-in"
+                                    element={<LoginAdmin />}
+                                />
+                                <Route
+                                    path="admin/products"
+                                    element={<ProductsAdmin />}
+                                />
+                                <Route
+                                    path="admin/customers"
+                                    element={<Customers />}
+                                />
                                 <Route element={<PrivateRoutes />}>
                                     <Route
                                         path="dashboard"
