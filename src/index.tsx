@@ -42,6 +42,7 @@ import News from "./screens/AdminScreen/News";
 import AdminRoutes from "./components/AdminRoute";
 import TransactionsScreen from "./screens/AdminScreen/Transactions";
 import Customers from "./screens/AdminScreen/Customers";
+import Enquiries from "./screens/AdminScreen/Enquiries";
 
 const Wrapper = ({ children }: any) => {
     const location = useLocation();
@@ -107,6 +108,10 @@ root.render(
                                 <Route
                                     path="admin/customers"
                                     element={<Customers />}
+                                />
+                                <Route
+                                    path="admin/enquiries"
+                                    element={<Enquiries />}
                                 />
                                 <Route element={<PrivateRoutes />}>
                                     <Route

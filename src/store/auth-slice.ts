@@ -173,7 +173,7 @@ const authSlice = createSlice({
         setLoading: (state, action) => {
             state.loading = action.payload;
         },
-        logout: (state) => {
+        logout: (state, userType) => {
             localStorage.removeItem("persist:root");
             localStorage.removeItem("token");
             state.user = null;
@@ -182,6 +182,11 @@ const authSlice = createSlice({
             state.admin = null;
             setAuthToken(null);
             clearStepper();
+            if (userType.payload === "customer") {
+                window.location.href = "/auth/sign-in";
+            } else {
+                window.location.href = "/admin/sign-in";
+            }
         },
         updateCustomer: (state, action) => {
             state.customer = action.payload;

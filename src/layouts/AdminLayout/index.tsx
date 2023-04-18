@@ -66,6 +66,11 @@ const AdminLayout = (props: dashboardProps) => {
             path: "/admin/customers",
         },
         {
+            name: "Enquiries",
+            icon: notebookIcon,
+            path: "/admin/enquiries",
+        },
+        {
             name: `${
                 admin?.firstName.charAt(0).toUpperCase() +
                 admin?.firstName.slice(1).toLowerCase()
@@ -77,6 +82,7 @@ const AdminLayout = (props: dashboardProps) => {
             name: "Logout",
             icon: logoutIcon,
             path: "#",
+            logout: true,
         },
     ];
 
@@ -89,11 +95,11 @@ const AdminLayout = (props: dashboardProps) => {
                     className="fixed bottom-[100px] ml-6 -z-10"
                 />
                 <div className="pl-[15px] mb-[76px]">
-                    <img alt="" src={logoLg} />
+                    <img alt="logo-img" src={logoLg} />
                 </div>
                 <div className="flex flex-col justify-between grow">
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(0, 5).map((link, index) => (
+                        {dashboardLinks.slice(0, 6).map((link, index) => (
                             <Link
                                 to={link.path}
                                 className="flex pl-[15px] items-center text-sm xl:text-base"
@@ -114,15 +120,15 @@ const AdminLayout = (props: dashboardProps) => {
                     </div>
 
                     <div className="flex flex-col space-y-10">
-                        {dashboardLinks.slice(5).map((link, index) => (
+                        {dashboardLinks.slice(6).map((link, index) => (
                             <Link
                                 to={index === 0 ? link.path : ""}
                                 className="flex pl-[15px] items-center"
                                 onClick={() => {
                                     index === 1 && setLoading(true);
-                                    index === 1 &&
+                                    link?.logout &&
                                         setTimeout(() => {
-                                            dispatch(logout());
+                                            dispatch(logout("admin"));
                                             setLoading(false);
                                         }, 1500);
                                 }}
@@ -130,7 +136,9 @@ const AdminLayout = (props: dashboardProps) => {
                                 <img
                                     alt=""
                                     src={link.icon}
-                                    className={index === 0 ? "w-6 h-6" : ""}
+                                    className={`${
+                                        index === 0 ? "w-6 h-6" : ""
+                                    }w-6 h-6`}
                                 />{" "}
                                 <span className="text-base text-white ml-[25px] capitalize">
                                     {link?.name && link?.name}
