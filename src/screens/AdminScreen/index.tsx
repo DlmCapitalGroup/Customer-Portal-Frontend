@@ -14,17 +14,16 @@ import Table2 from "../../components/CustomersTable.tsx";
 const AdminScreen = () => {
     const [loading, setLoading] = useState(false);
     const [customers, setCustomers] = useState([]);
+    const [enquiries, setEnquiries] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [transactionsLength, setTransactionsLength] = useState(0);
     const [customerLength, setCustomerLength] = useState(0);
-    const [modalStatus, setModalStatus] = useState("");
     const [products, setProducts] = useState([]);
-    const [openModal, setOpenModal] = useState(false);
     const { admin }: any = useAppSelector((state) => state.auth);
     const [menu, setMenu] = useState(false);
-    const [menu2, setMenu2] = useState(false);
     const [news, setNews] = useState([]);
     const navigate = useNavigate();
+
     useEffect(() => {
         setLoading(true);
         devInstance
@@ -39,10 +38,19 @@ const AdminScreen = () => {
             .finally(() => {
                 setLoading(false);
             });
-    }, []);
 
-    useEffect(() => {
-        setLoading(true);
+        devInstance
+            .get(
+                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetAllInquiries"
+            )
+            .then((response: any) => {
+                setEnquiries(response.data.data.pageItems);
+            })
+            .catch((err) => console.log(err))
+            .finally(() => {
+                setLoading(false);
+            });
+
         devInstance
             .get(
                 "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetNewsUpdates"
@@ -55,10 +63,7 @@ const AdminScreen = () => {
             .finally(() => {
                 setLoading(false);
             });
-    }, []);
 
-    useEffect(() => {
-        setLoading(true);
         devInstance
             .get(
                 "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetProductIds"
@@ -71,10 +76,7 @@ const AdminScreen = () => {
             .finally(() => {
                 setLoading(false);
             });
-    }, []);
 
-    useEffect(() => {
-        setLoading(true);
         devInstance(
             "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetAllCustomersRequests"
         )
@@ -88,20 +90,6 @@ const AdminScreen = () => {
                 setLoading(false);
             });
     }, []);
-
-    // const getTransactions = (id: number) => {
-    //     setLoading(true);
-    //     devInstance(
-    //         `https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetAllCustomersRequests/${id}`
-    //     )
-    //         .then((response: any) => {
-    //             console.log(response.data);
-    //         })
-    //         .catch((err) => console.log(err))
-    //         .finally(() => {
-    //             setLoading(false);
-    //         });
-    // };
 
     const getProdId = (productId: any) => {
         return products.find((el: any) => productId === el.productId);
@@ -431,6 +419,17 @@ const AdminScreen = () => {
                             <h3 className="font-semibold">Total News</h3>
                             <p className="text-3xl font-semibold">
                                 {news.length}
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center cursor-pointer"
+                        onClick={() => navigate("/admin/enquiries")}
+                    >
+                        <div>
+                            <h3 className="font-semibold">Total Enquiries</h3>
+                            <p className="text-3xl font-semibold">
+                                {enquiries.length}
                             </p>
                         </div>
                     </div>

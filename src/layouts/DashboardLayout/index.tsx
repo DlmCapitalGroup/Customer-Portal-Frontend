@@ -159,6 +159,7 @@ const DashboardLayout = (props: dashboardProps) => {
             name: "Logout",
             icon: logoutIcon,
             path: "#",
+            logout: true,
         },
     ];
 
@@ -444,9 +445,9 @@ const DashboardLayout = (props: dashboardProps) => {
                                 className="flex pl-[15px] items-center"
                                 onClick={() => {
                                     index === 1 && setLoading(true);
-                                    index === 1 &&
+                                    link?.logout &&
                                         setTimeout(() => {
-                                            dispatch(logout());
+                                            dispatch(logout("customer"));
                                             setLoading(false);
                                         }, 1500);
                                 }}
