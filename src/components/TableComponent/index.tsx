@@ -127,9 +127,9 @@ const Table = (props: tableProps) => {
                         <div
                             className="flex items-center hover:cursor-pointer"
                             key={index}
-                            onClick={() =>
-                                reqId(item?.requestId, item?.customerId)
-                            }
+                            onClick={() => {
+                                reqId(item?.requestId, item?.customerId);
+                            }}
                         >
                             <div className="basis-1/4 pl-[54px]">
                                 <h3>{item?.transactionType}</h3>
@@ -250,7 +250,8 @@ const Table = (props: tableProps) => {
                                         {item?.transactionStatus.toLowerCase() !==
                                             "approved" && (
                                             <span
-                                                onClick={() => {
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
                                                     if (menu === true) {
                                                         setToggleId(null);
                                                         toggleMenu(false);
