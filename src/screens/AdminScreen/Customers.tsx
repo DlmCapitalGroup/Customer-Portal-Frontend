@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import Loader from "../../components/LoaderComponent";
 import AdminLayout from "../../layouts/AdminLayout";
 import Table2 from "../../components/CustomersTable.tsx";
+import Modal2 from "../../components/Modal";
 
 const Customers = () => {
     const data = useMemo(
@@ -57,6 +58,8 @@ const Customers = () => {
     const [menu, setMenu] = useState(false);
     const [loading, setLoading] = useState(false);
     const { admin }: any = useAppSelector((state) => state.auth);
+    const [modal2, setModal2] = useState(false);
+    const [customer, setCustomer] = useState<any>({});
 
     const fetchCustomers = useCallback((pageNumber: number) => {
         setLoading(true);
@@ -159,6 +162,18 @@ const Customers = () => {
     function toggleMenu(val: boolean) {
         setMenu(val);
     }
+    function getCustomerDetails(id: number) {
+        setLoading(true);
+        devInstance
+            .get(`/Admin/GetCustomerInfoAndTransactions/${id}`)
+            .then((res: any) => {
+                setCustomer(res?.data);
+                console.log(res, "transaction");
+                setModal2(true);
+            })
+            .catch((err: any) => toast(`${err.response.data || err.message}`))
+            .finally(() => setLoading(false));
+    }
 
     return (
         <AdminLayout>
@@ -199,8 +214,16 @@ const Customers = () => {
                         activateCustomer={activateCustomer}
                         deactivateCustomer={deactivateCustomer}
                         toggleMenu={toggleMenu}
+                        cid={getCustomerDetails}
                     />
                 </div>
+                {modal2 && (
+                    <Modal2 isCancel cancel={() => setModal2(false)}>
+                        <div className="p-5">
+                            <h3>{customer.firstName}</h3>
+                        </div>
+                    </Modal2>
+                )}
                 {modal && (
                     <Modal modalText={modalText} type={modalType}>
                         {!modalType && (

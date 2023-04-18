@@ -79,7 +79,7 @@ const TransactionsScreen = () => {
                 console.log(res, "transaction");
                 setModal2(true);
             })
-            .catch((err) => console.log(err))
+            .catch((err: any) => toast(`${err.response.data || err.message}`))
             .finally(() => setLoading(false));
         console.log(rid, "rid");
         console.log(cid, "cid");

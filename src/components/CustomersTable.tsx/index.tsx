@@ -16,6 +16,7 @@ type tableProps = {
     children?: React.ReactNode;
     toggleMenu?: any;
     menu?: boolean;
+    cid?: any;
 };
 
 // const Table = (props: any) => {
@@ -86,6 +87,7 @@ const Table2 = (props: tableProps) => {
         activateCustomer,
         deactivateCustomer,
         toggleMenu,
+        cid,
         menu,
     } = props;
     const [toggleId, setToggleId] = useState<null | number>(null);
@@ -95,7 +97,11 @@ const Table2 = (props: tableProps) => {
             return (
                 <>
                     {customers?.map((item: any, index: number) => (
-                        <div className="flex items-center" key={index}>
+                        <div
+                            className="flex items-center hover:cursor-pointer"
+                            key={index}
+                            onClick={() => cid(item.customerId)}
+                        >
                             <div className="basis-1/4 pl-[54px]">
                                 <h3>{item?.customerId}</h3>
                             </div>

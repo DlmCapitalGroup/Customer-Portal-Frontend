@@ -10,6 +10,7 @@ import Button from "../../components/ButtonComponent";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../../store/hooks";
 import Table2 from "../../components/CustomersTable.tsx";
+import Modal2 from "../../components/Modal";
 
 const AdminScreen = () => {
     const [loading, setLoading] = useState(false);
@@ -24,6 +25,8 @@ const AdminScreen = () => {
     const [menu, setMenu] = useState(false);
     const [menu2, setMenu2] = useState(false);
     const [news, setNews] = useState([]);
+    const [transaction, setTransaction] = useState<any>({});
+    const [modal2, setModal2] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
         setLoading(true);
@@ -106,6 +109,26 @@ const AdminScreen = () => {
     const getProdId = (productId: any) => {
         return products.find((el: any) => productId === el.productId);
     };
+
+    function getDetail(rid: number, cid: number) {
+        setLoading(true);
+        devInstance
+            .get("/Admin/GetCustomerProductSubDetails", {
+                params: {
+                    CustomerId: cid,
+                    RequestId: rid,
+                },
+            })
+            .then((res: any) => {
+                setTransaction(res.data);
+                console.log(res, "transaction");
+                setModal2(true);
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
+        console.log(rid, "rid");
+        console.log(cid, "cid");
+    }
 
     const TransactionList = () => {
         if (transactions?.length > 0) {
@@ -273,7 +296,7 @@ const AdminScreen = () => {
                 fetchCustomers(1);
                 setMenu(false);
             })
-            .catch((err) => toast.error(`${err.message}`))
+            .catch((err) => toast.error(`${err.response.data}`))
             .finally(() => setLoading(false));
     }
 
@@ -289,7 +312,7 @@ const AdminScreen = () => {
                 fetchCustomers(1);
                 setMenu(false);
             })
-            .catch((err) => toast.error(`${err.message}`))
+            .catch((err) => toast.error(`${err.response.data || err.message}`))
             .finally(() => setLoading(false));
     }
 
@@ -503,6 +526,7 @@ const AdminScreen = () => {
                                                 declineReq={declineReq}
                                                 menu={menu}
                                                 toggleMenu={toggleMenu2}
+                                                reqId={getDetail}
                                             />
                                         </div>
                                     </div>
@@ -515,6 +539,16 @@ const AdminScreen = () => {
                                         View more
                                     </p>
                                 </div>
+                                {modal2 && (
+                                    <Modal2
+                                        isCancel
+                                        cancel={() => setModal2(false)}
+                                    >
+                                        <div className="p-5">
+                                            <h3>{transaction?.firstName}</h3>
+                                        </div>
+                                    </Modal2>
+                                )}
                             </div>
                         </div>
                     </div>
