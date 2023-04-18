@@ -115,6 +115,10 @@ const TransactionsScreen = () => {
             transaction?.customerName
                 ?.toLowerCase()
                 .includes(searchField?.toLowerCase()) ||
+            transaction?.transactionAmount
+                .toString()
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
             transaction?.requestId
                 ?.toString()
                 ?.toLowerCase()

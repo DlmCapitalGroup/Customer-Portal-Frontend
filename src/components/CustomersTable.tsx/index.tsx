@@ -100,7 +100,11 @@ const Table2 = (props: tableProps) => {
                         <div
                             className="flex items-center hover:cursor-pointer"
                             key={index}
-                            onClick={() => cid(item.customerId)}
+                            onClick={() => {
+                                cid(item.customerId);
+                                setToggleId(null);
+                                toggleMenu(false);
+                            }}
                         >
                             <div className="basis-1/4 pl-[54px]">
                                 <h3>{item?.customerId}</h3>

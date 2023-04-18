@@ -129,6 +129,8 @@ const Table = (props: tableProps) => {
                             key={index}
                             onClick={() => {
                                 reqId(item?.requestId, item?.customerId);
+                                setToggleId(null);
+                                toggleMenu(false);
                             }}
                         >
                             <div className="basis-1/4 pl-[54px]">
@@ -231,7 +233,7 @@ const Table = (props: tableProps) => {
                                                     <div
                                                         className="p-3 hover:bg-primary/10 cursor-pointer"
                                                         onClick={(e) => {
-                                                            e.stopPropagation()
+                                                            e.stopPropagation();
                                                             setToggleId(null);
                                                             toggleMenu(false);
                                                         }}
