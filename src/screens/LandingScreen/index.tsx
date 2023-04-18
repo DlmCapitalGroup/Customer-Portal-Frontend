@@ -106,10 +106,10 @@ const LandingScreen = () => {
             setCLoading(true);
 
             var data = new FormData();
-            data.append("FullName", contactForm.fullname);
-            data.append("EmailAddress", contactForm.email);
-            data.append("PhoneNumber", contactForm.phone);
-            data.append("Inquiry", contactForm.inquiry);
+            data.append("FullName", contactForm.fullname.toLowerCase());
+            data.append("EmailAddress", contactForm.email.toLowerCase());
+            data.append("PhoneNumber", contactForm.phone.toLowerCase());
+            data.append("Inquiry", contactForm.inquiry.toLowerCase());
 
             var config = {
                 method: "post",

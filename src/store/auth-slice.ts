@@ -10,6 +10,7 @@ interface AuthState {
     loading: boolean;
     customerOnboardingData: {} | null;
     updatedOnboardingData: {} | null;
+    admin: {} | null;
 }
 
 const initialState: AuthState = {
@@ -19,6 +20,7 @@ const initialState: AuthState = {
     loading: false,
     customerOnboardingData: null,
     updatedOnboardingData: null,
+    admin: null,
 };
 
 export const loginUser = createAsyncThunk(
@@ -26,6 +28,22 @@ export const loginUser = createAsyncThunk(
     async (user: object, thunkAPI) => {
         try {
             return await authService.loginUser(user);
+        } catch (error: any) {
+            console.log(error, "error 1");
+            const message =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const loginAdmin = createAsyncThunk(
+    "Admin/LoginAdmin",
+    async (admin: object, thunkAPI) => {
+        try {
+            return await authService.loginAdmin(admin);
         } catch (error: any) {
             console.log(error, "error 1");
             const message =
@@ -155,14 +173,20 @@ const authSlice = createSlice({
         setLoading: (state, action) => {
             state.loading = action.payload;
         },
-        logout: (state) => {
+        logout: (state, userType) => {
             localStorage.removeItem("persist:root");
-            localStorage.removeItem('token');
+            localStorage.removeItem("token");
             state.user = null;
             state.customer = null;
             state.loading = false;
+            state.admin = null;
             setAuthToken(null);
             clearStepper();
+            if (userType.payload === "customer") {
+                window.location.href = "/auth/sign-in";
+            } else {
+                window.location.href = "/admin/sign-in";
+            }
         },
         updateCustomer: (state, action) => {
             state.customer = action.payload;
@@ -184,6 +208,17 @@ const authSlice = createSlice({
                 state.user = action.payload;
             })
             .addCase(loginUser.rejected, (state, action) => {
+                state.loading = false;
+                toast.error(`${action.payload}`);
+            })
+            .addCase(loginAdmin.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(loginAdmin.fulfilled, (state, action) => {
+                state.loading = false;
+                state.admin = action.payload;
+            })
+            .addCase(loginAdmin.rejected, (state, action) => {
                 state.loading = false;
                 toast.error(`${action.payload}`);
             })
@@ -266,7 +301,7 @@ const authSlice = createSlice({
 
 export const setAuthToken = (token: string | null) => {
     if (token) {
-        localStorage.setItem('token', token)
+        localStorage.setItem("token", token);
         devInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
     } else {
         delete devInstance.defaults.headers.common.Authorization;

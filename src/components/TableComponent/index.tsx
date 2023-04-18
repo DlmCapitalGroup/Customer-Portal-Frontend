@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import { useTable } from "react-table";
 import chevronRight from "../../assets/images/chevron-right.svg";
 import chevronLeft from "../../assets/images/chevron-left.svg";
@@ -10,6 +10,13 @@ type tableProps = {
     totalPages?: number;
     prevPage?: any;
     nextPage?: any;
+    isAdmin?: boolean;
+    children?: React.ReactNode;
+    approveReq?: any;
+    declineReq?: any;
+    menu?: boolean;
+    toggleMenu?: any;
+    reqId?: any;
 };
 
 // const Table = (props: any) => {
@@ -71,20 +78,64 @@ type tableProps = {
 // };
 
 const Table = (props: tableProps) => {
-    const { transactions, currentPage, totalPages, prevPage, nextPage }: any =
-        props;
+    const {
+        transactions,
+        currentPage,
+        totalPages,
+        prevPage,
+        nextPage,
+        isAdmin,
+        approveReq,
+        declineReq,
+        toggleMenu,
+        menu,
+        reqId,
+    }: any = props;
+
+    // const [toggleMenu, setToggleMenu] = useState(false);
+    const [toggleId, setToggleId] = useState<null | number>(null);
+    const [prodId, setProdId] = useState<null | number>(null);
+    const [status, setStatus] = useState<null | string>(null);
+
+    const productIds = ["FIF2847", "CEP4821", "TDP5110", "RPS8431", "HIIP5969"];
+    const getProductId = (productName: string) => {
+        if (productName === "Fixed Income Fund") {
+            return productIds[0];
+        }
+        if (productName === "Retirement Plan Subscription") {
+            return productIds[3];
+        }
+        if (productName === "Target Date Plan") {
+            return productIds[2];
+        }
+        if (
+            productName === "High Interest Investment Plan (Corporate)" ||
+            productName === "High Interest Investment Plan (Individual)"
+        ) {
+            return productIds[4];
+        }
+        if (productName === "Child Education Plan") {
+            return productIds[1];
+        }
+    };
 
     const TransactionList = () => {
         if (transactions.length > 0) {
             return (
                 <>
-                    {transactions?.map((item: any, index: any) => (
-                        <div className="flex items-center" key={index}>
+                    {transactions?.map((item: any, index: number) => (
+                        <div
+                            className="flex items-center hover:cursor-pointer"
+                            key={index}
+                            onClick={() => {
+                                reqId(item?.requestId, item?.customerId);
+                            }}
+                        >
                             <div className="basis-1/4 pl-[54px]">
-                                <h3>{item.transactionType}</h3>
+                                <h3>{item?.transactionType}</h3>
                             </div>
                             <div className="basis-1/4 text-center">
-                                <h3>{formatter(item.transactionAmount)}</h3>
+                                <h3>{formatter(item?.transactionAmount)}</h3>
                             </div>
                             <div className="basis-1/4 text-center">
                                 <h3>
@@ -93,16 +144,177 @@ const Table = (props: tableProps) => {
                                     ).toLocaleDateString()}
                                 </h3>
                             </div>
-                            <div className="basis-1/4 text-right pr-[54px]">
-                                <h3
-                                    className={`${
-                                        item.transactionStatus === "EXECUTED"
-                                            ? "text-success"
-                                            : "text-error"
-                                    }`}
-                                >
-                                    {item.transactionStatus}
-                                </h3>
+                            {isAdmin && (
+                                <>
+                                    <div className="basis-1/4 text-center">
+                                        <h3>{item?.customerName}</h3>
+                                    </div>
+                                    <div className="basis-1/4 text-center">
+                                        <h3>{item?.customerId}</h3>
+                                    </div>
+                                </>
+                            )}
+                            <div
+                                className={`basis-1/4 text-right relative font-semibold ${
+                                    isAdmin
+                                        ? "flex justify-end items-center pr-7"
+                                        : "pr-[54px]"
+                                }`}
+                            >
+                                {isAdmin ? (
+                                    <>
+                                        {toggleId === item?.requestId &&
+                                            menu === true &&
+                                            item?.transactionStatus !==
+                                                "approved" && (
+                                                <div
+                                                    className={`absolute bg-white-lighter border border-primary/30 w-48 rounded mr-8 top-0 z-10 shadow text-base text-center font-semibold ${
+                                                        (index ===
+                                                            transactions.length -
+                                                                1 ||
+                                                            index ===
+                                                                transactions.length -
+                                                                    2) &&
+                                                        "-top-28"
+                                                    }`}
+                                                >
+                                                    {item?.transactionStatus.toLowerCase() ===
+                                                    "approved" ? (
+                                                        <div
+                                                            className="p-3 text-error hover:bg-primary/10 cursor-pointer"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                declineReq(
+                                                                    item?.requestId,
+                                                                    item?.productId
+                                                                );
+                                                            }}
+                                                        >
+                                                            Close
+                                                        </div>
+                                                    ) : (
+                                                        <>
+                                                            <div
+                                                                className="p-3 text-success hover:bg-primary/10 cursor-pointer"
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    e.stopPropagation();
+                                                                    approveReq(
+                                                                        item?.requestId,
+                                                                        item?.productId
+                                                                    );
+                                                                }}
+                                                            >
+                                                                Approve
+                                                            </div>
+                                                            {item?.transactionStatus.toLowerCase() !==
+                                                                "declined" && (
+                                                                <div
+                                                                    className="p-3 text-error hover:bg-primary/10 cursor-pointer"
+                                                                    onClick={(
+                                                                        e
+                                                                    ) => {
+                                                                        e.stopPropagation();
+                                                                        declineReq(
+                                                                            item?.requestId,
+                                                                            item?.productId
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    Decline
+                                                                </div>
+                                                            )}
+                                                        </>
+                                                    )}
+
+                                                    <div
+                                                        className="p-3 hover:bg-primary/10 cursor-pointer"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            setToggleId(null);
+                                                            toggleMenu(false);
+                                                        }}
+                                                    >
+                                                        Cancel
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                        <h3
+                                            className={`${
+                                                item?.transactionStatus.toLowerCase() ===
+                                                "approved"
+                                                    ? "text-success mr-6"
+                                                    : item?.transactionStatus.toLowerCase() ===
+                                                      "declined"
+                                                    ? "text-error"
+                                                    : "text-primary"
+                                            } capitalize w-28 cursor-pointer text-sm`}
+                                            // onClick={() => {
+                                            //     // setModalStatus(
+                                            //     //     item?.transactionStatus.toLowerCase()
+                                            //     // );
+                                            //     // setOpenModal(true);
+                                            // }}
+                                        >
+                                            <span>
+                                                {item?.transactionStatus.toLowerCase() ===
+                                                "approved"
+                                                    ? "successful"
+                                                    : item?.transactionStatus}
+                                            </span>
+                                        </h3>
+                                        {item?.transactionStatus.toLowerCase() !==
+                                            "approved" && (
+                                            <span
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (menu === true) {
+                                                        setToggleId(null);
+                                                        toggleMenu(false);
+                                                    } else {
+                                                        setToggleId(
+                                                            item?.requestId
+                                                        );
+                                                        toggleMenu(true);
+                                                    }
+                                                }}
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    strokeWidth={1.5}
+                                                    stroke="currentColor"
+                                                    className="w-6 h-6 cursor-pointer"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                                                    />
+                                                </svg>
+                                            </span>
+                                        )}
+                                    </>
+                                ) : (
+                                    <h3
+                                        className={`${
+                                            item.transactionStatus.toLowerCase() ===
+                                            "approved"
+                                                ? "text-success"
+                                                : item.transactionStatus.toLowerCase() ===
+                                                  "declined"
+                                                ? "text-error"
+                                                : "text-primary"
+                                        } capitalize`}
+                                    >
+                                        {item.transactionStatus === "approved"
+                                            ? "successful"
+                                            : item.transactionStatus}
+                                    </h3>
+                                )}
                             </div>
                         </div>
                     ))}
@@ -120,7 +332,7 @@ const Table = (props: tableProps) => {
     return (
         <div className="text-sm max-w-[1119px] h-full grow flex flex-col">
             <div className="rounded-[20px] bg-white-light flex flex-col grow">
-                <div className="flex bg-primary rounded-[20px] h-[65.2px] text-white items-center text-base">
+                <div className="flex bg-primary rounded-[20px] h-[65.2px] text-white items-center text-base sticky top-0 z-10">
                     <div className="basis-1/4 pl-[54px]">
                         <h3>Type</h3>
                     </div>
@@ -130,7 +342,17 @@ const Table = (props: tableProps) => {
                     <div className="basis-1/4 text-center">
                         <h3>Date</h3>
                     </div>
-                    <div className="basis-1/4 text-right pr-[54px]">
+                    {isAdmin && (
+                        <>
+                            <div className="basis-1/4 text-center">
+                                <h3>Full Name</h3>
+                            </div>
+                            <div className="basis-1/4 text-right pr-[54px]">
+                                <h3>Customer ID</h3>
+                            </div>
+                        </>
+                    )}
+                    <div className="basis-1/4 text-center">
                         <h3>Status</h3>
                     </div>
                 </div>
@@ -138,31 +360,33 @@ const Table = (props: tableProps) => {
                     <TransactionList />
                 </div>
             </div>
-            <div className="flex justify-end mt-6 items-center">
-                {/* <p className="font-semibold text-base cursor-pointer">
+            {totalPages && (
+                <div className="flex justify-end mt-6 items-center">
+                    {/* <p className="font-semibold text-base cursor-pointer">
                     Generate Statement
                 </p> */}
-                <div className="flex space-x-[32px]">
-                    <div className="flex space-x-[20px] justify-center items-center">
-                        <div
-                            className="border-primary border-2 p-2 cursor-pointer"
-                            onClick={prevPage}
-                        >
-                            <img alt="" src={chevronLeft} />
-                        </div>
-                        <p className="text-base font-semibold">
-                            {currentPage || 1} - {totalPages || 10} of{" "}
-                            {totalPages || 10}
-                        </p>
-                        <div
-                            className="border-primary border-2 p-2 cursor-pointer"
-                            onClick={nextPage}
-                        >
-                            <img alt="" src={chevronRight} />
+                    <div className="flex space-x-[32px]">
+                        <div className="flex space-x-[20px] justify-center items-center">
+                            <div
+                                className="border-primary border-2 p-2 cursor-pointer"
+                                onClick={prevPage}
+                            >
+                                <img alt="" src={chevronLeft} />
+                            </div>
+                            <p className="text-base font-semibold">
+                                {currentPage || 1} - {totalPages || 10} of{" "}
+                                {totalPages || 10}
+                            </p>
+                            <div
+                                className="border-primary border-2 p-2 cursor-pointer"
+                                onClick={nextPage}
+                            >
+                                <img alt="" src={chevronRight} />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
