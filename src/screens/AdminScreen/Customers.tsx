@@ -3,7 +3,6 @@ import chevronRight from "../../assets/images/chevron-right.svg";
 import closeIcon from "../../assets/images/close-icon.svg";
 import Button from "../../components/ButtonComponent";
 import Modal from "../../components/ModalComponent";
-import Table from "../../components/CustomersTable.tsx";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import searchIcon from "../../assets/images/search-icon.svg";
 import filter from "../../assets/images/Filter.svg";
@@ -12,6 +11,7 @@ import { useAppSelector } from "../../store/hooks";
 import { toast } from "react-toastify";
 import Loader from "../../components/LoaderComponent";
 import AdminLayout from "../../layouts/AdminLayout";
+import Table2 from "../../components/CustomersTable.tsx";
 
 const Customers = () => {
     const data = useMemo(
@@ -54,6 +54,7 @@ const Customers = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentpage] = useState(1);
     const [searchField, setSearchField] = useState("");
+    const [menu, setMenu] = useState(false);
     const [loading, setLoading] = useState(false);
     const { admin }: any = useAppSelector((state) => state.auth);
 
@@ -127,7 +128,11 @@ const Customers = () => {
                 adminId: admin.userId,
                 customerId: id,
             })
-            .then(() => toast.success("Customer has been Enabled Successfully"))
+            .then(() => {
+                toast.success("Customer has been Enabled Successfully");
+                fetchCustomers(currentPage);
+                setMenu(false);
+            })
             .catch((err) => toast.error(`${err.message}`))
             .finally(() => setLoading(false));
     }
@@ -138,9 +143,11 @@ const Customers = () => {
                 adminId: admin.userId,
                 customerId: id,
             })
-            .then(() =>
-                toast.success("Customer has been Disabled Successfully")
-            )
+            .then(() => {
+                toast.success("Customer has been Disabled Successfully");
+                fetchCustomers(currentPage);
+                setMenu(false);
+            })
             .catch((err) => toast.error(`${err.message}`))
             .finally(() => setLoading(false));
     }
@@ -148,6 +155,10 @@ const Customers = () => {
     useEffect(() => {
         fetchCustomers(1);
     }, [fetchCustomers]);
+
+    function toggleMenu(val: boolean) {
+        setMenu(val);
+    }
 
     return (
         <AdminLayout>
@@ -178,15 +189,16 @@ const Customers = () => {
                     </div>
                 </div>
                 <div className="min-h-[500px] flex flex-col">
-                    <Table
+                    <Table2
                         customers={filteredSearch}
                         prevPage={prevPage}
                         nextPage={nextPage}
                         totalPages={totalPages}
                         currentPage={currentPage}
-                        isAdmin
+                        menu={menu}
                         activateCustomer={activateCustomer}
                         deactivateCustomer={deactivateCustomer}
+                        toggleMenu={toggleMenu}
                     />
                 </div>
                 {modal && (
