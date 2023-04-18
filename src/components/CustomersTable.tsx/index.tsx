@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import { useTable } from "react-table";
 import chevronRight from "../../assets/images/chevron-right.svg";
 import chevronLeft from "../../assets/images/chevron-left.svg";
@@ -14,6 +14,8 @@ type tableProps = {
     nextPage?: any;
     isAdmin?: boolean;
     children?: React.ReactNode;
+    toggleMenu?: any;
+    menu?: boolean;
 };
 
 // const Table = (props: any) => {
@@ -74,7 +76,7 @@ type tableProps = {
 //     );
 // };
 
-const Table = (props: tableProps) => {
+const Table2 = (props: tableProps) => {
     const {
         customers,
         currentPage,
@@ -83,47 +85,91 @@ const Table = (props: tableProps) => {
         nextPage,
         activateCustomer,
         deactivateCustomer,
+        toggleMenu,
+        menu,
     } = props;
+    const [toggleId, setToggleId] = useState<null | number>(null);
 
     const CustomersList = () => {
         if (customers && customers?.length > 0) {
             return (
                 <>
-                    {customers?.map((item: any, index: any) => (
+                    {customers?.map((item: any, index: number) => (
                         <div className="flex items-center" key={index}>
                             <div className="basis-1/4 pl-[54px]">
                                 <h3>{item?.customerId}</h3>
                             </div>
                             <div className="basis-1/4 text-center capitalize">
                                 <h3>
-                                    {item?.firstName} {item.lastName}
+                                    {item?.firstName} {item?.lastName}
                                 </h3>
                             </div>
                             <div className="basis-1/4 text-center">
                                 <h3>{item?.email}</h3>
                             </div>
-                            {/* {isAdmin && (
-                                <>
-                                    <div className="basis-1/4 text-center">
-                                        <h3>{item?.requestId}</h3>
-                                    </div>
-                                    <div className="basis-1/4 text-center">
-                                        <h3>{item?.customerId}</h3>
-                                    </div>
-                                </>
-                            )} */}
                             <div className="basis-1/4 text-right relative flex justify-end items-center pr-10">
-                                {/* <div className="absolute bg-white-lighter border border-primary/30 p-3 w-80 rounded"></div> */}
+                                {toggleId === item?.customerId &&
+                                    menu === true &&
+                                    item?.transactionStatus !== "approved" && (
+                                        <div
+                                            className={`absolute bg-white-lighter border border-primary/30 w-48 rounded mr-8 top-0 z-10 shadow text-base text-center font-semibold ${
+                                                (index ===
+                                                    customers.length - 1 ||
+                                                    index ===
+                                                        customers.length - 2) &&
+                                                "-top-16"
+                                            }`}
+                                        >
+                                            {item?.isActive === true ? (
+                                                <div
+                                                    className="p-3 text-error hover:bg-primary/10 cursor-pointer"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        deactivateCustomer(
+                                                            item?.customerId
+                                                        );
+                                                    }}
+                                                >
+                                                    Deactivate
+                                                </div>
+                                            ) : (
+                                                <div
+                                                    className="p-3 text-success hover:bg-primary/10 cursor-pointer"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        activateCustomer(
+                                                            item?.customerId
+                                                        );
+                                                    }}
+                                                >
+                                                    Activate
+                                                </div>
+                                            )}
+
+                                            <div
+                                                className="p-3 hover:bg-primary/10 cursor-pointer"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setToggleId(null);
+                                                    toggleMenu(false);
+                                                }}
+                                            >
+                                                Cancel
+                                            </div>
+                                        </div>
+                                    )}
                                 <h3
-                                    className={`text-success capitalize w-28 cursor-pointer text-sm`}
-                                    // onClick={() => {
-                                    //     // setModalStatus(
-                                    //     //     item?.transactionStatus.toLowerCase()
-                                    //     // );
-                                    //     // setOpenModal(true);
-                                    // }}
+                                    className={`capitalize w-28 cursor-pointer text-sm ${
+                                        item?.isActive === true
+                                            ? "text-success"
+                                            : "text-error"
+                                    }`}
                                 >
-                                    <span>Active</span>
+                                    <span>
+                                        {item.isActive === true
+                                            ? "Active"
+                                            : "InActive"}
+                                    </span>
                                 </h3>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -132,6 +178,16 @@ const Table = (props: tableProps) => {
                                     strokeWidth={1.5}
                                     stroke="currentColor"
                                     className="w-6 h-6 cursor-pointer"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (menu === true) {
+                                            setToggleId(null);
+                                            toggleMenu(false);
+                                        } else {
+                                            setToggleId(item?.customerId);
+                                            toggleMenu(true);
+                                        }
+                                    }}
                                 >
                                     <path
                                         strokeLinecap="round"
@@ -156,7 +212,7 @@ const Table = (props: tableProps) => {
     return (
         <div className="text-sm max-w-[1119px] h-full grow flex flex-col">
             <div className="rounded-[20px] bg-white-light flex flex-col grow">
-                <div className="flex bg-primary rounded-[20px] h-[65.2px] text-white items-center text-base">
+                <div className="flex bg-primary rounded-[20px] h-[65.2px] text-white items-center text-base sticky top-0 z-10">
                     <div className="basis-1/4 pl-[54px]">
                         <h3>ID</h3>
                     </div>
@@ -215,4 +271,4 @@ const Table = (props: tableProps) => {
     );
 };
 
-export default Table;
+export default Table2;

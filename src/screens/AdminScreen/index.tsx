@@ -9,6 +9,7 @@ import closeModal from "../../assets/images/close-modal.svg";
 import Button from "../../components/ButtonComponent";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../../store/hooks";
+import Table2 from "../../components/CustomersTable.tsx";
 
 const AdminScreen = () => {
     const [loading, setLoading] = useState(false);
@@ -21,6 +22,7 @@ const AdminScreen = () => {
     const [openModal, setOpenModal] = useState(false);
     const { admin }: any = useAppSelector((state) => state.auth);
     const [menu, setMenu] = useState(false);
+    const [menu2, setMenu2] = useState(false);
     const [news, setNews] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
@@ -255,6 +257,63 @@ const AdminScreen = () => {
         setMenu(val);
     };
 
+    const toggleMenu2 = (val: boolean) => {
+        setMenu(val);
+    };
+
+    function activateCustomer(id: number) {
+        setLoading(true);
+        devInstance
+            .post("/Admin/EnableCustomer", {
+                adminId: admin.userId,
+                customerId: id,
+            })
+            .then(() => {
+                toast.success("Customer has been Enabled Successfully");
+                fetchCustomers(1);
+                setMenu(false);
+            })
+            .catch((err) => toast.error(`${err.message}`))
+            .finally(() => setLoading(false));
+    }
+
+    function deactivateCustomer(id: number) {
+        setLoading(true);
+        devInstance
+            .post("/Admin/DisableCustomer", {
+                adminId: admin.userId,
+                customerId: id,
+            })
+            .then(() => {
+                toast.success("Customer has been Disabled Successfully");
+                fetchCustomers(1);
+                setMenu(false);
+            })
+            .catch((err) => toast.error(`${err.message}`))
+            .finally(() => setLoading(false));
+    }
+
+    const fetchCustomers = useCallback((pageNumber: number) => {
+        setLoading(true);
+        devInstance
+            .get("/Admin/GetAllCustomers", {
+                params: {
+                    pageNumber: pageNumber,
+                },
+            })
+            .then((res: any) => {
+                setCustomers(res?.data?.data?.pageItems);
+                console.log(res, "rrrrr");
+            })
+            .catch((err) => {
+                toast.error(`${err?.message}`);
+                setLoading(false);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
+
     const CustomerList = () => {
         if (customers?.length > 0) {
             return (
@@ -382,46 +441,35 @@ const AdminScreen = () => {
                     <div className="h-[365px]">
                         <div className="w-full rounded-[20px] bg-white-lighter h-full">
                             <div className="text-sm w-full rounded-[20px] bg-white-light h-[365px]">
-                                <div className="flex bg-primary rounded-[20px] h-[45.2px] text-white items-center text-sm xl:text-base">
-                                    <div className="basis-1/4 pl-[20px]">
-                                        <h3>Id</h3>
-                                    </div>
-                                    <div className="basis-1/4 text-center">
-                                        <h3>Full Name</h3>
-                                    </div>
-                                    <div className="basis-1/4 text-center">
-                                        <h3>Email Address</h3>
-                                    </div>
-                                    <div className="basis-1/4 text-right pr-[20px]">
-                                        <h3>Status</h3>
+                                <div className="flex flex-col h-[500px] overflow-hidden">
+                                    <div className="flex flex-col grow overflow-y-auto">
+                                        <Table2
+                                            customers={customers}
+                                            menu={menu}
+                                            activateCustomer={activateCustomer}
+                                            deactivateCustomer={
+                                                deactivateCustomer
+                                            }
+                                            toggleMenu={toggleMenu}
+                                        />
                                     </div>
                                 </div>
-                                <div>
-                                    <div className="flex flex-col h-[310px] overflow-hidden">
-                                        <div className="flex flex-col space-y-4 py-4 grow overflow-y-auto">
-                                            <CustomerList />
-                                        </div>
-                                    </div>
-                                    <p
-                                        className="font-semibold text-sm text-right mr-5 cursor-pointer mt-5"
-                                        onClick={() =>
-                                            navigate("/admin/customers")
-                                        }
-                                    >
-                                        View more
-                                    </p>
-                                </div>
+                                <p
+                                    className="font-semibold text-sm text-right mr-5 cursor-pointer mt-5"
+                                    onClick={() => navigate("/admin/customers")}
+                                >
+                                    View more
+                                </p>
                             </div>
                         </div>
                     </div>
-                    <div className="mt-20">
-                        <h2 className="text-xl font-semibold mb-5">
-                            Transactions
-                        </h2>
-                        <div className="h-[365px]">
-                            <div className="w-full rounded-[20px] bg-white-lighter h-full">
-                                <div className="text-sm w-full rounded-[20px] bg-white-light h-[365px]">
-                                    {/* <div className="flex bg-primary rounded-[20px] h-[45.2px] text-white items-center text-sm xl:text-base py-2">
+                </div>
+                <div className="mt-64">
+                    <h2 className="text-xl font-semibold mb-5">Transactions</h2>
+                    <div className="h-[365px]">
+                        <div className="w-full rounded-[20px] bg-white-lighter h-full">
+                            <div className="text-sm w-full rounded-[20px] bg-white-light h-[365px]">
+                                {/* <div className="flex bg-primary rounded-[20px] h-[45.2px] text-white items-center text-sm xl:text-base py-2">
                                         <div className="basis-1/4 pl-[20px]">
                                             <h3>Type</h3>
                                         </div>
@@ -441,38 +489,38 @@ const AdminScreen = () => {
                                             <h3>Status</h3>
                                         </div>
                                     </div> */}
-                                    <div>
-                                        <div className="flex flex-col h-[500px] overflow-x-hidden overflow-y-auto">
-                                            <div className="flex flex-col">
-                                                <Table
-                                                    transactions={transactions}
-                                                    // prevPage={prevPage}
-                                                    // nextPage={nextPage}
-                                                    // totalPages={totalPages}
-                                                    // currentPage={currentPage}
-                                                    isAdmin
-                                                    approveReq={approveReq}
-                                                    declineReq={declineReq}
-                                                    menu={menu}
-                                                    toggleMenu={toggleMenu}
-                                                />
-                                            </div>
+                                <div>
+                                    <div className="flex flex-col h-[500px] overflow-x-hidden overflow-y-auto">
+                                        <div className="flex flex-col">
+                                            <Table
+                                                transactions={transactions}
+                                                // prevPage={prevPage}
+                                                // nextPage={nextPage}
+                                                // totalPages={totalPages}
+                                                // currentPage={currentPage}
+                                                isAdmin
+                                                approveReq={approveReq}
+                                                declineReq={declineReq}
+                                                menu={menu}
+                                                toggleMenu={toggleMenu2}
+                                            />
                                         </div>
-                                        <p
-                                            className="font-semibold text-sm text-right mr-5 cursor-pointer mt-5"
-                                            onClick={() =>
-                                                navigate("/admin/transactions")
-                                            }
-                                        >
-                                            View more
-                                        </p>
                                     </div>
+                                    <p
+                                        className="font-semibold text-sm text-right mr-5 cursor-pointer mt-5"
+                                        onClick={() =>
+                                            navigate("/admin/transactions")
+                                        }
+                                    >
+                                        View more
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             {loading && <Loader />}
         </AdminLayout>
     );

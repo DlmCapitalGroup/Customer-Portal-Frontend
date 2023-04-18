@@ -123,7 +123,7 @@ const Table = (props: tableProps) => {
         if (transactions.length > 0) {
             return (
                 <>
-                    {transactions?.map((item: any, index: any) => (
+                    {transactions?.map((item: any, index: number) => (
                         <div
                             className="flex items-center hover:cursor-pointer"
                             key={index}
@@ -167,17 +167,28 @@ const Table = (props: tableProps) => {
                                             menu === true &&
                                             item?.transactionStatus !==
                                                 "approved" && (
-                                                <div className="absolute bg-white-lighter border border-primary/30 w-48 rounded mr-8 top-0 z-10 shadow text-base text-center font-semibold">
+                                                <div
+                                                    className={`absolute bg-white-lighter border border-primary/30 w-48 rounded mr-8 top-0 z-10 shadow text-base text-center font-semibold ${
+                                                        (index ===
+                                                            transactions.length -
+                                                                1 ||
+                                                            index ===
+                                                                transactions.length -
+                                                                    2) &&
+                                                        "-top-28"
+                                                    }`}
+                                                >
                                                     {item?.transactionStatus.toLowerCase() ===
                                                     "approved" ? (
                                                         <div
                                                             className="p-3 text-error hover:bg-primary/10 cursor-pointer"
-                                                            onClick={() =>
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
                                                                 declineReq(
                                                                     item?.requestId,
                                                                     item?.productId
-                                                                )
-                                                            }
+                                                                );
+                                                            }}
                                                         >
                                                             Close
                                                         </div>
@@ -185,12 +196,15 @@ const Table = (props: tableProps) => {
                                                         <>
                                                             <div
                                                                 className="p-3 text-success hover:bg-primary/10 cursor-pointer"
-                                                                onClick={() =>
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    e.stopPropagation();
                                                                     approveReq(
                                                                         item?.requestId,
                                                                         item?.productId
-                                                                    )
-                                                                }
+                                                                    );
+                                                                }}
                                                             >
                                                                 Approve
                                                             </div>
@@ -198,12 +212,15 @@ const Table = (props: tableProps) => {
                                                                 "declined" && (
                                                                 <div
                                                                     className="p-3 text-error hover:bg-primary/10 cursor-pointer"
-                                                                    onClick={() =>
+                                                                    onClick={(
+                                                                        e
+                                                                    ) => {
+                                                                        e.stopPropagation();
                                                                         declineReq(
                                                                             item?.requestId,
                                                                             item?.productId
-                                                                        )
-                                                                    }
+                                                                        );
+                                                                    }}
                                                                 >
                                                                     Decline
                                                                 </div>
@@ -213,7 +230,8 @@ const Table = (props: tableProps) => {
 
                                                     <div
                                                         className="p-3 hover:bg-primary/10 cursor-pointer"
-                                                        onClick={() => {
+                                                        onClick={(e) => {
+                                                            e.stopPropagation()
                                                             setToggleId(null);
                                                             toggleMenu(false);
                                                         }}
