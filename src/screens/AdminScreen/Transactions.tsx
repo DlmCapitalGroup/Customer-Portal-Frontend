@@ -238,8 +238,36 @@ const TransactionsScreen = () => {
                 </div>
                 {modal2 && (
                     <Modal2 isCancel cancel={() => setModal2(false)}>
-                        <div className="p-5">
-                            <h3>{transaction.firstName}</h3>
+                        <div className="p-10 flex flex-col gap-y-5">
+                            {transaction.firstName &&
+                                (transaction.lastName ||
+                                    transaction.surname) && (
+                                    <p>
+                                        {transaction.firstName}{" "}
+                                        {transaction.lastName ||
+                                            transaction.surname}
+                                    </p>
+                                )}
+                            {transaction.age && <p>{transaction.age}</p>}
+                            {transaction.birthDate && (
+                                <p>
+                                    {transaction.birthDate
+                                        .slice(0, 10)
+                                        .split("-")
+                                        .reverse()
+                                        .join("-")}
+                                </p>
+                            )}
+                            {transaction.phoneNumber && (
+                                <p>{transaction.phoneNumber}</p>
+                            )}
+                            {(transaction.emailAddress ||
+                                transaction.email) && (
+                                <p>
+                                    {transaction.emailAddress ||
+                                        transaction.email}
+                                </p>
+                            )}
                         </div>
                     </Modal2>
                 )}
