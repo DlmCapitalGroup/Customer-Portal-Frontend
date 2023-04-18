@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
 import Table from "../../components/TableComponent";
 import { devInstance } from "../../store/devInstance";
@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { formatter } from "../../helper";
 import closeModal from "../../assets/images/close-modal.svg";
 import Button from "../../components/ButtonComponent";
+import { toast } from "react-toastify";
+import { useAppSelector } from "../../store/hooks";
 
 const AdminScreen = () => {
     const [loading, setLoading] = useState(false);
@@ -17,6 +19,8 @@ const AdminScreen = () => {
     const [modalStatus, setModalStatus] = useState("");
     const [products, setProducts] = useState([]);
     const [openModal, setOpenModal] = useState(false);
+    const { admin }: any = useAppSelector((state) => state.auth);
+    const [menu, setMenu] = useState(false);
     const [news, setNews] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
@@ -175,47 +179,6 @@ const AdminScreen = () => {
                                         </svg>
                                     </div>
                                 </div>
-                                {openModal && (
-                                    <Modal
-                                        close={() => {
-                                            setModalStatus("");
-                                            setOpenModal(false);
-                                        }}
-                                    >
-                                        <h4 className="text-xl font-semibold">
-                                            {item?.transactionType}
-                                        </h4>
-                                        <div className="grow flex flex-col mt-10 h-full justify-between">
-                                            <p className="text-lg">
-                                                {modalStatus === "approved"
-                                                    ? "Do you want to cancel transaction?"
-                                                    : "Do you want to Approve Transaction?"}
-                                            </p>
-                                            <div className="flex justify-end gap-x-5">
-                                                <Button
-                                                    variant="light"
-                                                    onClick={() => {
-                                                        setModalStatus("");
-                                                        setOpenModal(false);
-                                                    }}
-                                                >
-                                                    No
-                                                </Button>
-                                                <Button
-                                                    onClick={() =>
-                                                        transactionAction(
-                                                            item?.transactionType,
-                                                            item?.requestId,
-                                                            item?.status.toLowerCase()
-                                                        )
-                                                    }
-                                                >
-                                                    Yes
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </Modal>
-                                )}
                             </div>
                         ))}
                 </>
@@ -229,10 +192,67 @@ const AdminScreen = () => {
         }
     };
 
-    const transactionAction = (type: string, reqId: string, status: string) => {
-        devInstance.post(
-            "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetAllCustomers"
-        );
+    const fetchTransactions = useCallback((pageNumber?: number) => {
+        setLoading(true);
+        devInstance
+            .get("/Admin/GetAllCustomersRequests/", {
+                params: {
+                    pageNumber: pageNumber,
+                },
+            })
+            .then((res: any) => {
+                setTransactions(res?.data?.data?.pageItems);
+                console.log(res, "rrrrr");
+            })
+            .catch((err) => {
+                toast.error(`${err?.message}`);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
+    }, []);
+
+    function approveReq(reqId: number, prodId: string) {
+        setLoading(true);
+        devInstance
+            .post("/Admin/ApproveInvestment", {
+                productId: prodId,
+                requestId: reqId,
+                userId: admin?.userId,
+                status: "approve",
+            })
+            .then((response: any) => {
+                toast.success("Investment was successfully Approved");
+                fetchTransactions();
+                setMenu(false);
+            })
+            .catch((err) => {
+                toast.error(`${err.message}`);
+            })
+            .finally(() => setLoading(false));
+    }
+
+    function declineReq(reqId: number, prodId: string) {
+        setLoading(true);
+        devInstance
+            .post("/Admin/ApproveInvestment", {
+                productId: prodId,
+                requestId: reqId,
+                userId: admin?.userId,
+                status: "decline",
+            })
+            .then((response: any) => {
+                toast.success("Investment was successfully Declined");
+                fetchTransactions();
+                setMenu(false);
+            })
+            .catch((err) => {
+                toast.error(`${err.message}`);
+            })
+            .finally(() => setLoading(false));
+    }
+
+    const toggleMenu = (val: boolean) => {
+        setMenu(val);
     };
 
     const CustomerList = () => {
@@ -306,10 +326,13 @@ const AdminScreen = () => {
 
     return (
         <AdminLayout>
-            <div className="pt-[50px] text-primary max-w-[1100px] text-base pb-20 mr-5">
+            <div className="pt-[50px] text-primary max-w-[1100px] text-base pb-64 mr-5">
                 <h3 className="text-xl font-semibold mb-[15px]">Overview</h3>
                 <div className="grid grid-cols-4 gap-5 mt-10">
-                    <div className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center">
+                    <div
+                        className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center cursor-pointer"
+                        onClick={() => navigate("/admin/customers")}
+                    >
                         <div>
                             <h3 className="font-semibold">Customers</h3>
                             <p className="text-3xl font-semibold">
@@ -317,7 +340,10 @@ const AdminScreen = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center">
+                    <div
+                        className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center cursor-pointer"
+                        onClick={() => navigate("/admin/transactions")}
+                    >
                         <div>
                             <h3 className="font-semibold">
                                 Total Transactions
@@ -327,7 +353,10 @@ const AdminScreen = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center">
+                    <div
+                        className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center cursor-pointer"
+                        onClick={() => navigate("/admin/products")}
+                    >
                         <div>
                             <h3 className="font-semibold">Total Products</h3>
                             <p className="text-3xl font-semibold">
@@ -335,7 +364,10 @@ const AdminScreen = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center">
+                    <div
+                        className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center cursor-pointer"
+                        onClick={() => navigate("/admin/news")}
+                    >
                         <div>
                             <h3 className="font-semibold">Total News</h3>
                             <p className="text-3xl font-semibold">
@@ -389,7 +421,7 @@ const AdminScreen = () => {
                         <div className="h-[365px]">
                             <div className="w-full rounded-[20px] bg-white-lighter h-full">
                                 <div className="text-sm w-full rounded-[20px] bg-white-light h-[365px]">
-                                    <div className="flex bg-primary rounded-[20px] h-[45.2px] text-white items-center text-sm xl:text-base py-2">
+                                    {/* <div className="flex bg-primary rounded-[20px] h-[45.2px] text-white items-center text-sm xl:text-base py-2">
                                         <div className="basis-1/4 pl-[20px]">
                                             <h3>Type</h3>
                                         </div>
@@ -408,11 +440,22 @@ const AdminScreen = () => {
                                         <div className="basis-1/4 text-right pr-[20px]">
                                             <h3>Status</h3>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div>
-                                        <div className="flex flex-col h-[310px] overflow-hidden">
-                                            <div className="flex flex-col space-y-4 py-4 grow overflow-y-auto overflow-x-hidden">
-                                                <TransactionList />
+                                        <div className="flex flex-col h-[500px] overflow-x-hidden overflow-y-auto">
+                                            <div className="flex flex-col">
+                                                <Table
+                                                    transactions={transactions}
+                                                    // prevPage={prevPage}
+                                                    // nextPage={nextPage}
+                                                    // totalPages={totalPages}
+                                                    // currentPage={currentPage}
+                                                    isAdmin
+                                                    approveReq={approveReq}
+                                                    declineReq={declineReq}
+                                                    menu={menu}
+                                                    toggleMenu={toggleMenu}
+                                                />
                                             </div>
                                         </div>
                                         <p

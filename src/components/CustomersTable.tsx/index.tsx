@@ -8,6 +8,8 @@ type tableProps = {
     customers?: Array<any>;
     currentPage?: number;
     totalPages?: number;
+    activateCustomer?: any;
+    deactivateCustomer?: any;
     prevPage?: any;
     nextPage?: any;
     isAdmin?: boolean;
@@ -73,11 +75,18 @@ type tableProps = {
 // };
 
 const Table = (props: tableProps) => {
-    const { customers, currentPage, totalPages, prevPage, nextPage }: any =
-        props;
+    const {
+        customers,
+        currentPage,
+        totalPages,
+        prevPage,
+        nextPage,
+        activateCustomer,
+        deactivateCustomer,
+    } = props;
 
     const CustomersList = () => {
-        if (customers?.length > 0) {
+        if (customers && customers?.length > 0) {
             return (
                 <>
                     {customers?.map((item: any, index: any) => (
@@ -175,31 +184,33 @@ const Table = (props: tableProps) => {
                     <CustomersList />
                 </div>
             </div>
-            <div className="flex justify-end mt-6 items-center">
-                {/* <p className="font-semibold text-base cursor-pointer">
+            {totalPages && (
+                <div className="flex justify-end mt-6 items-center">
+                    {/* <p className="font-semibold text-base cursor-pointer">
                     Generate Statement
                 </p> */}
-                <div className="flex space-x-[32px]">
-                    <div className="flex space-x-[20px] justify-center items-center">
-                        <div
-                            className="border-primary border-2 p-2 cursor-pointer"
-                            onClick={prevPage}
-                        >
-                            <img alt="" src={chevronLeft} />
-                        </div>
-                        <p className="text-base font-semibold">
-                            {currentPage || 1} - {totalPages || 10} of{" "}
-                            {totalPages || 10}
-                        </p>
-                        <div
-                            className="border-primary border-2 p-2 cursor-pointer"
-                            onClick={nextPage}
-                        >
-                            <img alt="" src={chevronRight} />
+                    <div className="flex space-x-[32px]">
+                        <div className="flex space-x-[20px] justify-center items-center">
+                            <div
+                                className="border-primary border-2 p-2 cursor-pointer"
+                                onClick={prevPage}
+                            >
+                                <img alt="" src={chevronLeft} />
+                            </div>
+                            <p className="text-base font-semibold">
+                                {currentPage || 1} - {totalPages || 10} of{" "}
+                                {totalPages || 10}
+                            </p>
+                            <div
+                                className="border-primary border-2 p-2 cursor-pointer"
+                                onClick={nextPage}
+                            >
+                                <img alt="" src={chevronRight} />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

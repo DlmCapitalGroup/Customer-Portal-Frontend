@@ -12,6 +12,7 @@ import { useAppSelector } from "../../store/hooks";
 import { toast } from "react-toastify";
 import Loader from "../../components/LoaderComponent";
 import AdminLayout from "../../layouts/AdminLayout";
+import Modal2 from "../../components/Modal";
 
 const TransactionsScreen = () => {
     const data = useMemo(
@@ -55,7 +56,34 @@ const TransactionsScreen = () => {
     const [currentPage, setCurrentpage] = useState(1);
     const [searchField, setSearchField] = useState("");
     const [loading, setLoading] = useState(false);
-    const { customer }: any = useAppSelector((state) => state.auth);
+    const { admin }: any = useAppSelector((state) => state.auth);
+    const [menu, setMenu] = useState(false);
+    const [modal2, setModal2] = useState(false);
+    const [transaction, setTransaction] = useState<any>({});
+
+    function toggleMenu(val: boolean) {
+        setMenu(val);
+    }
+
+    function getDetail(rid: number, cid: number) {
+        setLoading(true);
+        devInstance
+            .get("/Admin/GetCustomerProductSubDetails", {
+                params: {
+                    CustomerId: cid,
+                    RequestId: rid,
+                },
+            })
+            .then((res: any) => {
+                setTransaction(res.data);
+                console.log(res, "transaction");
+                setModal2(true);
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
+        console.log(rid, "rid");
+        console.log(cid, "cid");
+    }
 
     const fetchTransactions = useCallback((pageNumber: number) => {
         setLoading(true);
@@ -80,10 +108,20 @@ const TransactionsScreen = () => {
     }, []);
 
     const filteredSearch = transactions?.filter((transaction: any) => {
-        return transaction?.transactionType
-            ?.toLowerCase()
-            .includes(searchField?.toLowerCase());
+        return (
+            transaction?.transactionType
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
+            transaction?.customerName
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
+            transaction?.requestId
+                ?.toString()
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase())
+        );
     });
+
     const onSearchChange = (e: any) => {
         e.preventDefault();
         setSearchField(e.target.value);
@@ -106,6 +144,48 @@ const TransactionsScreen = () => {
     useEffect(() => {
         fetchTransactions(1);
     }, [fetchTransactions]);
+
+    function approveReq(reqId: number, prodId: string) {
+        setLoading(true);
+        devInstance
+            .post("/Admin/ApproveInvestment", {
+                productId: prodId,
+                requestId: reqId,
+                userId: admin?.userId,
+                status: "approve",
+            })
+            .then((response: any) => {
+                toast.success("Investment was successfully Approved");
+                fetchTransactions(currentPage);
+                setMenu(false);
+            })
+            .catch((err) => {
+                toast.error(`${err.message}`);
+            })
+            .finally(() => setLoading(false));
+    }
+
+    function declineReq(reqId: number, prodId: string) {
+        setLoading(true);
+        devInstance
+            .post("/Admin/ApproveInvestment", {
+                productId: prodId,
+                requestId: reqId,
+                userId: admin?.userId,
+                status: "decline",
+            })
+            .then((response: any) => {
+                toast.success("Investment was successfully Declined");
+                fetchTransactions(currentPage);
+                setMenu(false);
+            })
+            .catch((err) => {
+                toast.error(`${err.message}`);
+            })
+            .finally(() => setLoading(false));
+    }
+
+    // function declineReq() {}
 
     return (
         <AdminLayout>
@@ -145,8 +225,20 @@ const TransactionsScreen = () => {
                         totalPages={totalPages}
                         currentPage={currentPage}
                         isAdmin
+                        approveReq={approveReq}
+                        declineReq={declineReq}
+                        menu={menu}
+                        toggleMenu={toggleMenu}
+                        reqId={getDetail}
                     />
                 </div>
+                {modal2 && (
+                    <Modal2 isCancel cancel={() => setModal2(false)}>
+                        <div className="p-5">
+                            <h3>{transaction.firstName}</h3>
+                        </div>
+                    </Modal2>
+                )}
                 {modal && (
                     <Modal modalText={modalText} type={modalType}>
                         {!modalType && (

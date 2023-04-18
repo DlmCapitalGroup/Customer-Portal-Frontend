@@ -55,7 +55,7 @@ const Customers = () => {
     const [currentPage, setCurrentpage] = useState(1);
     const [searchField, setSearchField] = useState("");
     const [loading, setLoading] = useState(false);
-    const { customer }: any = useAppSelector((state) => state.auth);
+    const { admin }: any = useAppSelector((state) => state.auth);
 
     const fetchCustomers = useCallback((pageNumber: number) => {
         setLoading(true);
@@ -83,18 +83,22 @@ const Customers = () => {
 
     const filteredSearch = customers?.filter((customer: any) => {
         return (
+            customer?.customerId
+                ?.toString()
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
             customer?.firstName
-                .toLowerCase()
+                ?.toLowerCase()
                 .includes(searchField?.toLowerCase()) ||
             customer?.lastName
-                .toLowerCase()
+                ?.toLowerCase()
                 .includes(searchField?.toLowerCase()) ||
             (
                 customer?.firstName.toLowerCase() +
                 " " +
                 customer?.lastName.toLowerCase()
             ).includes(searchField?.toLowerCase()) ||
-            String(customer?.customerId).includes(searchField)
+            customer?.email?.toLowerCase().includes(searchField?.toLowerCase())
         );
     });
     const onSearchChange = (e: any) => {
@@ -114,6 +118,31 @@ const Customers = () => {
             let current = currentPage + 1;
             fetchCustomers(current);
         }
+    }
+
+    function activateCustomer(id: number) {
+        setLoading(true);
+        devInstance
+            .post("/Admin/EnableCustomer", {
+                adminId: admin.userId,
+                customerId: id,
+            })
+            .then(() => toast.success("Customer has been Enabled Successfully"))
+            .catch((err) => toast.error(`${err.message}`))
+            .finally(() => setLoading(false));
+    }
+    function deactivateCustomer(id: number) {
+        setLoading(true);
+        devInstance
+            .post("/Admin/DisableCustomer", {
+                adminId: admin.userId,
+                customerId: id,
+            })
+            .then(() =>
+                toast.success("Customer has been Disabled Successfully")
+            )
+            .catch((err) => toast.error(`${err.message}`))
+            .finally(() => setLoading(false));
     }
 
     useEffect(() => {
@@ -156,6 +185,8 @@ const Customers = () => {
                         totalPages={totalPages}
                         currentPage={currentPage}
                         isAdmin
+                        activateCustomer={activateCustomer}
+                        deactivateCustomer={deactivateCustomer}
                     />
                 </div>
                 {modal && (

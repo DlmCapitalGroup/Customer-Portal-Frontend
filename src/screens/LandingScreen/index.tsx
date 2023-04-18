@@ -11,6 +11,9 @@ import tdp from "../../assets/images/tdp.svg";
 import retirement from "../../assets/images/retirement.svg";
 import fdp from "../../assets/images/fdf.svg";
 import avatar2 from "../../assets/images/avatar2.svg";
+import ire from "../../assets/images/ire.png";
+import peter from "../../assets/images/peter.png";
+import chris from "../../assets/images/chris.png";
 import { Input } from "../../components/FormElements";
 import circle2 from "../../assets/images/circle2.svg";
 import Marquee from "react-fast-marquee";
@@ -59,6 +62,24 @@ const LandingScreen = () => {
         {
             title: "How can I create an investment plan that aligns with my financial goals?",
             anwser: "To create an investment plan that aligns with your financial goals, you should first identify your goals and the timeline for achieving them. You should then determine your risk tolerance and create an investment strategy that balances your risk and return objectives.",
+        },
+    ];
+
+    const testimonies = [
+        {
+            title: "Irene Iorzer from Abuja",
+            img: ire,
+            desc: "They're always available to answer my questions and provide guidance. DLM Asset Management’s service is top notch.",
+        },
+        {
+            title: "Nwachukwu Peter from Portharcourt",
+            img: peter,
+            desc: "They’ve taken the time to understand my goals and risk tolerance and have put together a portfolio that meets my needs.",
+        },
+        {
+            title: "Christopher Okechukwu from Lagos",
+            img: chris,
+            desc: "DLM Asset Management have consistently delivered solid investment returns and have provided me with helpful investment advice.",
         },
     ];
 
@@ -142,21 +163,6 @@ const LandingScreen = () => {
         }
     };
 
-    const testimonies = [
-        {
-            title: "Irene Iorzer from Abuja",
-            desc: "I've worked with several asset management companies in the past, but none have provided the level of service and expertise that I've found with [DLM Asset Management]. They're always available to answer my questions and provide guidance when I need it. Their client relationship management technique is top notch."
-        },
-        {
-            title: "Nwachukwu Peter from Portharcourt",
-            desc: "As a busy professional, I don't have time to manage my investments on my own. That's why I turned to [DLM Asset Management]. They've taken the time to understand my goals and risk tolerance and have put together a portfolio that meets my needs."
-        },
-        {
-            title: "Christopher Okechukwu from Lagos",
-            desc: "DLM Asset Management have consistently delivered solid investment returns and have provided me with personalized investment advice that has helped me achieve my financial goals. I highly recommend their services to anyone looking for a trustworthy and experienced asset management team."
-        },
-    ]
-
     if (customer?.customerId) {
         return <Navigate to="/dashboard" />;
     } else {
@@ -206,7 +212,7 @@ const LandingScreen = () => {
                     </nav>
                     <div className="container max-w-[1440px] flex items-center justify-between gap-x-10 px-10 lg:px-20 py-10 grow">
                         <div className="max-w-3xl flex flex-col gap-y-10">
-                            <h1 className="text-3xl font-semibold relative">
+                            <h1 className="text-[50px] font-semibold relative">
                                 Growth your wealth in the most sustainable way.
                                 <img
                                     alt=""
@@ -215,7 +221,11 @@ const LandingScreen = () => {
                                 />
                             </h1>
                             <p className="text-lg mb-3">
-                                We are your partners in creating wealth, preserving your wealth, and transferring your wealth to the next generation. In all, we are your dependable partner on your path to financial success. 
+                                We are your partners in creating wealth,
+                                preserving your wealth, and transferring your
+                                wealth to the next generation. In all, we are
+                                your dependable partner on your path to
+                                financial success.
                             </p>
                             <Button
                                 buttonType="lg"
@@ -232,39 +242,50 @@ const LandingScreen = () => {
                         className="container max-w-[1440px] px-10 lg:px-20 py-20"
                         id="about"
                     >
-                        <h1 className="text-[40px] font-semibold text-center mb-16">
+                        <h1 className="text-[30px] font-semibold text-center mb-16">
                             About Us
                         </h1>
                         <div className="grid gap-x-10 gap-y-5">
                             <p className="text-lg">
-                                DLM Asset Management and Research Company (DLM Asset Management) is a wholly owned subsidiary of DLM Capital Group. 
+                                DLM Asset Management and Research Company (DLM
+                                Asset Management) is a wholly owned subsidiary
+                                of DLM Capital Group.
                             </p>
-                            <p className="text-lg">Licensed by the Securities and Exchange Commission of Nigeria to act as Investment Adviser and Fund/Portfolio Manager, DLM Asset Management delivers asset management solutions to its diverse range of clients; retail, mass affluent, institutional, and HNI clients through its expertise in Portfolio/Fund Management, Collective Investment Schemes, and Investment Advisory Services.</p>
                             <p className="text-lg">
-                            Our services has granted us awards from different financial bodies in the country and even other parts of the world such as;
+                                Licensed by the Securities and Exchange
+                                Commission of Nigeria to act as Investment
+                                Adviser and Fund/Portfolio Manager, DLM Asset
+                                Management delivers asset management solutions
+                                to its diverse range of clients; retail, mass
+                                affluent, institutional, and HNI clients through
+                                its expertise in Portfolio/Fund Management,
+                                Collective Investment Schemes, and Investment
+                                Advisory Services.
+                            </p>
+                            <p className="text-lg">
+                                Our services has granted us awards from
+                                different financial bodies in the country and
+                                even other parts of the world such as;
                             </p>
                         </div>
                     </div>
                 </div>
                 {/* <Marquee gradient={false} speed={60} className="bg-primary/60">
                     <div className="flex w-full justify-around py-5 px-20">
-                        <h1 className="text-[40px] font-semibold">
+                        <h1 className="text-[30px] font-semibold">
                             Client Name
                         </h1>
-                        <h1 className="text-[40px] font-semibold">
+                        <h1 className="text-[30px] font-semibold">
                             Client Name
                         </h1>
-                        <h1 className="text-[40px] font-semibold">
+                        <h1 className="text-[30px] font-semibold">
                             Client Name
                         </h1>
                     </div>
                 </Marquee> */}
                 <div className="border-primary/60">
-                    <div
-                        className=""
-                        id="products"
-                    >
-                        <h1 className="text-[40px] font-semibold text-center mb-16">
+                    <div className="" id="products">
+                        <h1 className="text-[30px] font-semibold text-center mb-16">
                             Awards & Achievements
                         </h1>
                         <Marquee gradient={false} speed={60}>
@@ -276,13 +297,16 @@ const LandingScreen = () => {
                                         className="w-[60px] h-[60px]"
                                     />
                                     <h3 className="text-[18px] font-semibold mt-4">
-                                        Business Day Banking & Financial Institutions Awards
+                                        Business Day Banking & Financial
+                                        Institutions Awards
                                     </h3>
                                     <p className="text-md font-normal mt-4">
-                                        Development Finance Solution Company of the Year 2021
+                                        Development Finance Solution Company of
+                                        the Year 2021
                                     </p>
                                     <p className="text-md font-normal mt-4">
-                                    Most Innovative Investment Bank of the Year 2020
+                                        Most Innovative Investment Bank of the
+                                        Year 2020
                                     </p>
                                 </div>
                                 <div className="w-[360px] h-fit width-[50px] gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA] transition-all delay-150 duration-300 ease-in-out">
@@ -295,7 +319,8 @@ const LandingScreen = () => {
                                         European Society for Quality Research
                                     </h3>
                                     <p className="text-md font-normal mt-4">
-                                        Best Investment Research 2014 – European Society for Quality Research Award
+                                        Best Investment Research 2014 – European
+                                        Society for Quality Research Award
                                     </p>
                                 </div>
                                 <div className="w-[360px] h-fit width-[50px] gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA] transition-all delay-150 duration-300 ease-in-out">
@@ -305,10 +330,13 @@ const LandingScreen = () => {
                                         className="w-[60px] h-[60px]"
                                     />
                                     <h3 className="text-[18px] font-semibold mt-4">
-                                        International Business Star Quality Awards
+                                        International Business Star Quality
+                                        Awards
                                     </h3>
                                     <p className="text-md font-normal mt-4">
-                                        Africa’s Best Innovative Investment Company – Presented at International Business Star Quality Awards 2014, Ghana
+                                        Africa’s Best Innovative Investment
+                                        Company – Presented at International
+                                        Business Star Quality Awards 2014, Ghana
                                     </p>
                                 </div>
                                 <div className="w-[360px] h-fit mr-32 width-[50px] gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA] transition-all delay-150 duration-300 ease-in-out">
@@ -321,19 +349,21 @@ const LandingScreen = () => {
                                         Nigerian Investment Banking Awards
                                     </h3>
                                     <p className="text-md font-normal mt-4">
-                                        Best Debt House 2011 at the Nigerian Investment Banking Awards
+                                        Best Debt House 2011 at the Nigerian
+                                        Investment Banking Awards
                                     </p>
                                 </div>
                             </div>
                         </Marquee>
                     </div>
                 </div>
+
                 <div className="border-primary/60">
                     <div
                         className="container max-w-[1440px] px-10 lg:px-20 py-20"
                         id="products"
                     >
-                        <h1 className="text-[40px] font-semibold text-center mb-16">
+                        <h1 className="text-[30px] font-semibold text-center mb-16">
                             Our Products
                         </h1>
                         <div className="grid grid-cols-3 gap-x-10 gap-y-5">
@@ -424,32 +454,33 @@ const LandingScreen = () => {
                         </div>
                     </div>
                 </div>
+
                 <div className="relative">
                     <div className="container max-w-[1440px] px-10 lg:px-20 py-10">
-                        <h1 className="text-[40px] font-semibold text-center my-10">
+                        <h1 className="text-[30px] font-semibold text-center mt-10 mb-5">
                             What they say about us
                         </h1>
                         <p className="text-lg font-normal text-center mb-10">
                             Let the words and testimonials of our clients speak
                             for us
                         </p>
-                        <div className="grid grid-cols-2 gap-x-20">
+                        <div className="grid grid-cols-3 gap-x-10">
                             {testimonies.map((item, index) => (
-                                <div key={index} className="flex flex-col gap-y-5 rounded-lg items-center bg-[#E1E6EA] shadow-xl shadow-primary/10 h-[384px] justify-center px-10 z-[1] mt-10">
+                                <div
+                                    key={index}
+                                    className="flex flex-col gap-y-5 rounded-lg items-center bg-[#E1E6EA] shadow-xl shadow-primary/10 h-[100%] justify-center px-10 z-[1] mt-10"
+                                >
                                     <img
                                         alt=""
-                                        src={avatar2}
+                                        src={item.img}
                                         className="w-[104px] h-[104px]"
                                     />
                                     <div className="flex flex-col gap-y-2">
-                                        <h5 className="text-lg font-semibold text-center">
+                                        <h5 className="text-[18px] font-semibold text-center">
                                             {item.title}
                                         </h5>
-                                        {/* <p className="text-[18px] text-center">
-                                            CFO FoodCo
-                                        </p> */}
                                     </div>
-                                    <p className="text-md text-center font-normal">
+                                    <p className="text-sm text-center font-normal">
                                         {item.desc}
                                     </p>
                                 </div>
@@ -464,10 +495,10 @@ const LandingScreen = () => {
                 </div>
                 <div className="pt-[100px]">
                     <div
-                        className="container max-w-[945px] px-10 lg:px-20 py-10 flex flex-col"
+                        className="container max-w-[945px] px-10 lg:px-20 pt-10 flex flex-col"
                         id="faqs"
                     >
-                        <h1 className="text-[40px] font-semibold text-center my-10">
+                        <h1 className="text-[30px] font-semibold text-center mb-5">
                             Have any question for us?
                         </h1>
                         <p className="text-lg font-normal text-center mb-10">
@@ -519,10 +550,10 @@ const LandingScreen = () => {
                         className="container max-w-[945px] px-10 lg:px-20 py-10 flex flex-col"
                         id="contact"
                     >
-                        <h1 className="text-[40px] font-semibold text-center my-10">
+                        <h1 className="text-[30px] font-semibold text-center mt-10 mb-5">
                             Have any question for us?
                         </h1>
-                        <p className="text-lg font-normal text-center mb-10">
+                        <p className="text-lg font-normal text-center mb-20">
                             Fill the form with your questions or inquiries and
                             we will get in touch shortly
                         </p>
@@ -587,7 +618,7 @@ const LandingScreen = () => {
                 <div className="min-h-[600px] bg-[#09335E33] mt-20">
                     <div className="max-w-[1440px] container px-10 lg:px-20 py-10">
                         <div className="flex justify-between items-center">
-                            <h1 className="text-[40px] font-semibold text-center my-10">
+                            <h1 className="text-[25px] font-semibold text-center my-10">
                                 Have any question for us?
                             </h1>
                             <div className="flex items-center gap-x-4">
@@ -699,25 +730,17 @@ const LandingScreen = () => {
                                     <p className="text-lg font-semibold">
                                         Contact Us
                                     </p>
-                                    <p
-                                        className="text-lg cursor-pointer mt-3"
-                                    >
+                                    <p className="text-lg cursor-pointer mt-3">
                                         08076772494
                                     </p>
-                                    <p
-                                        className="text-lg cursor-pointer mt-3"
-                                    >
+                                    <p className="text-lg cursor-pointer mt-3">
                                         08122710329
                                     </p>
-                                    <p
-                                        className="text-lg cursor-pointer mt-3"
-                                    >
+                                    <p className="text-lg cursor-pointer mt-3">
                                         asset@dlm.group
                                     </p>
                                 </div>
-                                <div>
-                                    
-                                </div>
+                                <div></div>
                             </div>
                         </div>
                     </div>
