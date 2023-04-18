@@ -231,7 +231,7 @@ const Table = (props: tableProps) => {
                                                     <div
                                                         className="p-3 hover:bg-primary/10 cursor-pointer"
                                                         onClick={(e) => {
-                                                            e.stopPropagation()
+                                                            e.stopPropagation();
                                                             setToggleId(null);
                                                             toggleMenu(false);
                                                         }}
