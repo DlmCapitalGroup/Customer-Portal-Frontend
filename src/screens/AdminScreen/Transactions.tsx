@@ -264,6 +264,7 @@ const TransactionsScreen = () => {
                                         transaction.email}
                                 </p>
                             )}
+                            
                         </div>
                     </Modal2>
                 )}
