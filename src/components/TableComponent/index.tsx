@@ -17,6 +17,7 @@ type tableProps = {
     menu?: boolean;
     toggleMenu?: any;
     reqId?: any;
+    type?: string;
 };
 
 // const Table = (props: any) => {
@@ -90,6 +91,7 @@ const Table = (props: tableProps) => {
         toggleMenu,
         menu,
         reqId,
+        type,
     }: any = props;
 
     // const [toggleMenu, setToggleMenu] = useState(false);
@@ -151,9 +153,11 @@ const Table = (props: tableProps) => {
                                     <div className="basis-1/4 text-center">
                                         <h3>{item?.customerName}</h3>
                                     </div>
-                                    <div className="basis-1/4 text-center">
-                                        <h3>{item?.customerId}</h3>
-                                    </div>
+                                    {item?.customerId && (
+                                        <div className="basis-1/4 text-center">
+                                            <h3>{item?.customerId}</h3>
+                                        </div>
+                                    )}
                                 </>
                             )}
                             <div
@@ -275,10 +279,12 @@ const Table = (props: tableProps) => {
                                                     if (menu === true) {
                                                         setToggleId(null);
                                                         toggleMenu(false);
+                                                        console.log(toggleId, "toggle")
                                                     } else {
                                                         setToggleId(
                                                             item?.requestId
                                                         );
+                                                        console.log(toggleId, "toggle")
                                                         toggleMenu(true);
                                                     }
                                                 }}
@@ -349,9 +355,11 @@ const Table = (props: tableProps) => {
                             <div className="basis-1/4 text-center">
                                 <h3>Full Name</h3>
                             </div>
-                            <div className="basis-1/4 text-right pr-[54px]">
-                                <h3>Customer ID</h3>
-                            </div>
+                            {type !== "B" && (
+                                <div className="basis-1/4 text-right pr-[54px]">
+                                    <h3>Customer ID</h3>
+                                </div>
+                            )}
                         </>
                     )}
                     <div className="basis-1/4 text-center">
