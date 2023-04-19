@@ -492,6 +492,7 @@ const AdminScreen = () => {
                                             deactivateCustomer={
                                                 deactivateCustomer
                                             }
+                                            type="B"
                                             toggleMenu={toggleMenu}
                                             cid={getCustomerDetails}
                                         />

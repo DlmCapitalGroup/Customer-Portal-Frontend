@@ -17,6 +17,7 @@ type tableProps = {
     toggleMenu?: any;
     menu?: boolean;
     cid?: any;
+    type?: "B";
 };
 
 // const Table = (props: any) => {
@@ -89,6 +90,7 @@ const Table2 = (props: tableProps) => {
         toggleMenu,
         cid,
         menu,
+        type,
     } = props;
     const [toggleId, setToggleId] = useState<null | number>(null);
 
@@ -165,7 +167,7 @@ const Table2 = (props: tableProps) => {
                                         </div>
                                     )}
                                 <h3
-                                    className={`capitalize w-28 cursor-pointer text-sm ${
+                                    className={`capitalize w-28 cursor-pointer text-sm font-bold ${
                                         item?.isActive === true
                                             ? "text-success"
                                             : "text-error"
@@ -177,30 +179,32 @@ const Table2 = (props: tableProps) => {
                                             : "InActive"}
                                     </span>
                                 </h3>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6 cursor-pointer"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (menu === true) {
-                                            setToggleId(null);
-                                            toggleMenu(false);
-                                        } else {
-                                            setToggleId(item?.customerId);
-                                            toggleMenu(true);
-                                        }
-                                    }}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                                    />
-                                </svg>
+                                {type !== "B" && (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-6 h-6 cursor-pointer"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (menu === true) {
+                                                setToggleId(null);
+                                                toggleMenu(false);
+                                            } else {
+                                                setToggleId(item?.customerId);
+                                                toggleMenu(true);
+                                            }
+                                        }}
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                                        />
+                                    </svg>
+                                )}
                             </div>
                         </div>
                     ))}
