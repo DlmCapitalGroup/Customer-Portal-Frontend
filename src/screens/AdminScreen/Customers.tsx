@@ -14,6 +14,7 @@ import AdminLayout from "../../layouts/AdminLayout";
 import Table2 from "../../components/CustomersTable.tsx";
 import Modal2 from "../../components/Modal";
 import Table from "../../components/TableComponent";
+import DetailsModal from "../../components/DetailsModal";
 
 const Customers = () => {
     const data = useMemo(
@@ -244,212 +245,6 @@ const Customers = () => {
             .finally(() => setLoading(false));
     }
 
-    const DetailsModal = ({
-        title,
-        customerDetails,
-        hasTransactions,
-        transactions,
-        reqId,
-        cancel,
-    }: any) => {
-        return (
-            <Modal2 isCancel cancel={cancel}>
-                <div className="max-w-3xl container pb-20 pt-10 flex flex-col gap-y-3">
-                    {title && (
-                        <p className="mb-10 text-center text-lg font-semibold">
-                            {title}
-                        </p>
-                    )}
-                    {customerDetails?.firstName &&
-                        (customerDetails.lastName ||
-                            customerDetails.surname) && (
-                            <p className="grid grid-cols-2">
-                                <b className="mr-10">Full Name:</b>
-                                {customerDetails?.firstName}{" "}
-                                {customerDetails?.lastName ||
-                                    customerDetails?.surname}
-                            </p>
-                        )}
-                    {customerDetails?.age && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Age:</b>
-                            {customerDetails?.age}
-                        </p>
-                    )}
-                    {customerDetails?.emailAddress && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Email Address:</b>
-                            {customerDetails?.emailAddress}
-                        </p>
-                    )}
-                    {customerDetails?.birthDate && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Birth Date:</b>
-                            {customerDetails?.birthDate
-                                .slice(0, 10)
-                                .split("-")
-                                .reverse()
-                                .join("-")}
-                        </p>
-                    )}
-                    {(customerDetails?.phoneNumber ||
-                        customerDetails?.phone) && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Phone Number:</b>
-                            {customerDetails?.phoneNumber ||
-                                customerDetails?.phone}
-                        </p>
-                    )}
-                    {(customerDetails?.country ||
-                        customerDetails?.nationality) && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Country:</b>
-                            {customerDetails?.country ||
-                                customerDetails?.nationality}
-                        </p>
-                    )}
-                    {customerDetails?.state && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">State:</b>
-                            {customerDetails?.state}
-                        </p>
-                    )}
-                    {customerDetails?.residentialAddress && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Residential Address:</b>
-                            {customerDetails?.residentialAddress}
-                        </p>
-                    )}
-                    {customerDetails?.postalCode && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Postal Code:</b>
-                            {customerDetails?.postalCode}
-                        </p>
-                    )}
-                    {customerDetails?.placeOfBirth && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Place Of Birth:</b>
-                            {customerDetails?.placeOfBirth}
-                        </p>
-                    )}
-
-                    {customerDetails?.occupation && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Occupation:</b>
-                            {customerDetails?.occupation}
-                        </p>
-                    )}
-                    {customerDetails?.idType && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">ID Type:</b>
-                            {customerDetails?.idType}
-                        </p>
-                    )}
-                    {customerDetails?.idNumber && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Id Number:</b>
-                            {customerDetails?.idNumber}
-                        </p>
-                    )}
-                    {(customerDetails?.bankName || customerDetails?.bank) && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Bank:</b>
-                            {customerDetails?.bankName || customerDetails?.bank}
-                        </p>
-                    )}
-                    {customerDetails?.accountName && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Account Name:</b>
-                            {customerDetails?.accountName}
-                        </p>
-                    )}
-                    {customerDetails?.accountNumber && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Account Number:</b>
-                            {customerDetails?.accountNumber}
-                        </p>
-                    )}
-                    {customerDetails?.bvn && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">BVN:</b>
-                            {customerDetails?.bvn}
-                        </p>
-                    )}
-                    {customerDetails?.nextOfKinName && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Next Of KinName:</b>
-                            {customerDetails?.nextOfKinName}
-                        </p>
-                    )}
-                    {(customerDetails?.addressNOK ||
-                        customerDetails?.residentialAddressNOK) && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Next Of Kin Address:</b>
-                            {customerDetails?.addressNOK ||
-                                customerDetails?.residentialAddressNOK}
-                        </p>
-                    )}
-                    {customerDetails?.relationshipWithNOK && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">
-                                Relationship with Next Of Kin:
-                            </b>
-                            {customerDetails?.relationshipWithNOK}
-                        </p>
-                    )}
-
-                    {customerDetails?.formOfIdentity && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Form Of Identity:</b>
-                            {customerDetails?.formOfIdentity}
-                        </p>
-                    )}
-                    {customerDetails?.passportPhoto && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Passport Photo:</b>
-                            {customerDetails?.passportPhoto}
-                        </p>
-                    )}
-                    {customerDetails?.utilityBill && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Utility Bill:</b>
-                            {customerDetails?.utilityBill}
-                        </p>
-                    )}
-                    {customerDetails?.unitHolderSignature && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-10">Unit Holder Signature:</b>
-                            {customerDetails?.unitHolderSignature}
-                        </p>
-                    )}
-                    {hasTransactions && (
-                        <div className="mt-10">
-                            <p className="mb-10 text-center text-base font-semibold">
-                                Transactions
-                            </p>
-                            <div className="h-[300px] overflow-y-auto">
-                                <Table
-                                    transactions={transactions}
-                                    prevPage={prevPage}
-                                    nextPage={nextPage}
-                                    totalPages={totalPages}
-                                    currentPage={currentPage}
-                                    isAdmin
-                                    type="B"
-                                    approveReq={approveReq}
-                                    declineReq={declineReq}
-                                    menu={menu2}
-                                    toggleMenu={toggleMenu2}
-                                    reqId={reqId}
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </Modal2>
-        );
-    };
-
     return (
         <AdminLayout>
             <div className="pt-[56px] text-primary pr-10">
@@ -500,6 +295,16 @@ const Customers = () => {
                         hasTransactions
                         reqId={getDetail}
                         transactions={customer.data.pageItems}
+                        prevPage={prevPage}
+                        nextPage={nextPage}
+                        totalPages={totalPages}
+                        currentPage={currentPage}
+                        isAdmin
+                        type="B"
+                        approveReq={approveReq}
+                        declineReq={declineReq}
+                        menu={menu2}
+                        toggleMenu={toggleMenu2}
                     />
                 )}
                 {modal3 && (

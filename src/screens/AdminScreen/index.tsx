@@ -521,6 +521,7 @@ const AdminScreen = () => {
                                                 // totalPages={totalPages}
                                                 // currentPage={currentPage}
                                                 isAdmin
+                                                type="B"
                                                 approveReq={approveReq}
                                                 declineReq={declineReq}
                                                 menu={menu}
