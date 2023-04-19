@@ -1,27 +1,22 @@
 import React, { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setAuthToken, setCustomer, setUser } from "./store/auth-slice";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { Cloudinary } from "@cloudinary/url-gen";
 import jwt_decode from "jwt-decode";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import { clearStepper } from "./store/stepperSlice";
 
 function App() {
     const { user, customer }: any = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
-
-    // const cld = new Cloudinary({
-    //     cloud: {
-    //       cloudName: 'demo',
-    //     }
-    //   });
+    const location = useLocation();
+    const navigate = useNavigate();
 
     // check for token
     if (localStorage.token) {
-
         // Set auth token header auth
         setAuthToken(localStorage.token);
         // Decode token and get user info and exp
@@ -30,13 +25,12 @@ function App() {
         const currentTime = Date.now() / 1000;
         if (decoded.exp < currentTime) {
             localStorage.removeItem("persist:root");
-            localStorage.removeItem('token');
+            localStorage.removeItem("token");
             setCustomer(null);
             setUser(null);
             setAuthToken(null);
             clearStepper();
         }
-        
     }
 
     useEffect(() => {
@@ -47,10 +41,17 @@ function App() {
             }
         }
     }, [customer, dispatch, user]);
+
+    useEffect(() => {
+        if (location.pathname === "/admin") {
+            navigate("/admin/dashboard");
+        }
+    }, [navigate]);
+
     return (
         <div className="App" id="top">
             <Outlet />
-            <ToastContainer /> 
+            <ToastContainer />
         </div>
     );
 }

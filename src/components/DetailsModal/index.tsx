@@ -198,7 +198,7 @@ const DetailsModal = ({
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Next Of Kin Phone:</b>
                             {customerDetails.phoneNumberNOK ||
-                                customerDetails.phoneNumberNOK}
+                                customerDetails.phoneNumberNok}
                         </p>
                     )}
                     {(customerDetails?.addressNOK ||
@@ -223,14 +223,13 @@ const DetailsModal = ({
                             {customerDetails?.countryNok}
                         </p>
                     )}
-                    {customerDetails.cityNOK ||
-                        (customerDetails?.cityNok && (
-                            <p className="grid grid-cols-2">
-                                <b className="mr-5">Next Of Kin City:</b>
-                                {customerDetails?.cityNOK ||
-                                    customerDetails?.cityNok}
-                            </p>
-                        ))}
+                    {(customerDetails.cityNOK || customerDetails?.cityNok) && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Next Of Kin City:</b>
+                            {customerDetails?.cityNOK ||
+                                customerDetails?.cityNok}
+                        </p>
+                    )}
                     {(customerDetails?.relationshipWithNOK ||
                         customerDetails?.relationshipWithNok) && (
                         <p className="grid grid-cols-2">
@@ -603,15 +602,19 @@ const DetailsModal = ({
                     {customerDetails?.isTuitionFromInvestment && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Is Tuition From Investment:</b>
-                            {customerDetails?.isTuitionFromInvestment}
+                            {customerDetails?.isTuitionFromInvestment === true
+                                ? "Yes"
+                                : "No"}
                         </p>
                     )}
                     {customerDetails?.isFreeEduAdvisoryService && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">
-                                Is Free Educatioin Advisory Service:
+                                Is Free Education Advisory Service:
                             </b>
-                            {customerDetails?.isFreeEduAdvisoryService}
+                            {customerDetails?.isFreeEduAdvisoryService === true
+                                ? "Yes"
+                                : "No"}
                         </p>
                     )}
 

@@ -27,7 +27,7 @@ import chevronDown from "../../assets/images/chevron-down.svg";
 
 const LandingScreen = () => {
     const navigate = useNavigate();
-    const { customer }: any = useAppSelector((state) => state.auth);
+    const { customer, admin }: any = useAppSelector((state) => state.auth);
     const [activeFaq, setActiveFaq] = useState<any>(null);
 
     const faqs = [
@@ -165,6 +165,8 @@ const LandingScreen = () => {
 
     if (customer?.customerId) {
         return <Navigate to="/dashboard" />;
+    } else if (admin?.userId) {
+        return <Navigate to="/admin/dashboard" />;
     } else {
         return (
             <div className="text-primary min-h-screen bg-[#DBE1E6]">
