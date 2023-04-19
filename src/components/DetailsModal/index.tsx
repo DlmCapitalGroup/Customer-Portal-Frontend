@@ -173,31 +173,42 @@ const DetailsModal = ({
                         </p>
                     )}
                     {(customerDetails?.nextOfKinName ||
-                        customerDetails.nameNOK) && (
+                        customerDetails.nameNOK ||
+                        (customerDetails.firstNameNok &&
+                            customerDetails.lastNameNok)) && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Next Of KinName:</b>
                             {customerDetails?.nextOfKinName ||
-                                customerDetails.nameNOK}
+                                customerDetails.nameNOK ||
+                                customerDetails.firstNameNok +
+                                    " " +
+                                    customerDetails.lastNameNok}
                         </p>
                     )}
-                    {customerDetails.emailAddressNOK && (
+                    {(customerDetails.emailAddressNOK ||
+                        customerDetails?.emailNok) && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Next Of Kin Email:</b>
-                            {customerDetails?.emailAddressNOK}
+                            {customerDetails?.emailAddressNOK ||
+                                customerDetails?.emailNok}
                         </p>
                     )}
-                    {customerDetails.PhoneNumberNOK && (
+                    {(customerDetails.phoneNumberNOK ||
+                        customerDetails.phoneNumberNok) && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Next Of Kin Phone:</b>
-                            {customerDetails?.PhoneNumberNOK}
+                            {customerDetails.phoneNumberNOK ||
+                                customerDetails.phoneNumberNOK}
                         </p>
                     )}
                     {(customerDetails?.addressNOK ||
-                        customerDetails?.residentialAddressNOK) && (
+                        customerDetails?.residentialAddressNOK ||
+                        customerDetails?.addressNok) && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Next Of Kin Address:</b>
                             {customerDetails?.addressNOK ||
-                                customerDetails?.residentialAddressNOK}
+                                customerDetails?.residentialAddressNOK ||
+                                customerDetails?.addressNok}
                         </p>
                     )}
                     {customerDetails?.contactAddressNOK && (
@@ -206,24 +217,36 @@ const DetailsModal = ({
                             {customerDetails?.contactAddressNOK}
                         </p>
                     )}
-                    {customerDetails.cityNOK && (
+                    {customerDetails.countryNok && (
                         <p className="grid grid-cols-2">
-                            <b className="mr-5">Next Of Kin City:</b>
-                            {customerDetails?.cityNOK}
+                            <b className="mr-5">Next Of Kin Country:</b>
+                            {customerDetails?.countryNok}
                         </p>
                     )}
-                    {customerDetails?.relationshipWithNOK && (
+                    {customerDetails.cityNOK ||
+                        (customerDetails?.cityNok && (
+                            <p className="grid grid-cols-2">
+                                <b className="mr-5">Next Of Kin City:</b>
+                                {customerDetails?.cityNOK ||
+                                    customerDetails?.cityNok}
+                            </p>
+                        ))}
+                    {(customerDetails?.relationshipWithNOK ||
+                        customerDetails?.relationshipWithNok) && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">
                                 Relationship with Next Of Kin:
                             </b>
-                            {customerDetails?.relationshipWithNOK}
+                            {customerDetails?.relationshipWithNOK ||
+                                customerDetails?.relationshipWithNok}
                         </p>
                     )}
-                    {customerDetails?.formOfIdentity && (
+                    {(customerDetails?.formOfIdentity ||
+                        customerDetails?.meansOfId) && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Form Of Identity:</b>
-                            {customerDetails?.formOfIdentity}
+                            {customerDetails?.formOfIdentity ||
+                                customerDetails?.meansOfId}
                         </p>
                     )}
                     {(customerDetails?.passportPhoto ||
@@ -260,6 +283,32 @@ const DetailsModal = ({
                                 customerDetails.investmentFreq}
                         </p>
                     )}
+                    {customerDetails.goalToAchieve && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Goal To Achieve:</b>
+                            {customerDetails?.goalToAchieve}
+                        </p>
+                    )}
+                    {customerDetails.estimatedAmountForGoal && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Estimated Amount For Goal:</b>
+                            {customerDetails?.estimatedAmountForGoal}
+                        </p>
+                    )}
+                    {customerDetails.expectedDateForGoalAchievement && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">
+                                Expected Date For Goal Achievement:
+                            </b>
+                            {customerDetails?.expectedDateForGoalAchievement}
+                        </p>
+                    )}
+                    {customerDetails.investmentAmountPerTime && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Investment Amount Per Time:</b>
+                            {customerDetails?.investmentAmountPerTime}
+                        </p>
+                    )}
                     {customerDetails?.date && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Target Date:</b>
@@ -267,11 +316,11 @@ const DetailsModal = ({
                         </p>
                     )}
                     {(customerDetails.hearAboutUs ||
-                        customerDetails?.HeardAboutUs) && (
+                        customerDetails?.heardAboutUs) && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">How Did You Hear About Us:</b>
                             {customerDetails.hearAboutUs ||
-                                customerDetails?.HeardAboutUs}
+                                customerDetails?.heardAboutUs}
                         </p>
                     )}
                     {customerDetails.isAJointApplicant && (
@@ -288,12 +337,14 @@ const DetailsModal = ({
                             {customerDetails?.jointApplicantsName}
                         </p>
                     )}
-                    {customerDetails.prefCommunicationMode && (
+                    {(customerDetails.prefCommunicationMode ||
+                        customerDetails?.preferredCommunicationMode) && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">
                                 Preferred Communication Mode:
                             </b>
-                            {customerDetails?.prefCommunicationMode}
+                            {customerDetails.prefCommunicationMode ||
+                                customerDetails?.preferredCommunicationMode}
                         </p>
                     )}
                     {customerDetails.interestReinvestment && (
