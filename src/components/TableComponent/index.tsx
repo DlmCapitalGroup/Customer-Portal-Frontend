@@ -17,7 +17,7 @@ type tableProps = {
     menu?: boolean;
     toggleMenu?: any;
     reqId?: any;
-    type?: string;
+    type?: "B";
 };
 
 // const Table = (props: any) => {
@@ -271,38 +271,54 @@ const Table = (props: tableProps) => {
                                                     : item?.transactionStatus}
                                             </span>
                                         </h3>
-                                        {item?.transactionStatus.toLowerCase() !==
-                                            "approved" && (
-                                            <span
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    if (menu === true) {
-                                                        setToggleId(null);
-                                                        toggleMenu(false);
-                                                        console.log(toggleId, "toggle")
-                                                    } else {
-                                                        setToggleId(
-                                                            item?.requestId
-                                                        );
-                                                        console.log(toggleId, "toggle")
-                                                        toggleMenu(true);
-                                                    }
-                                                }}
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    strokeWidth={1.5}
-                                                    stroke="currentColor"
-                                                    className="w-6 h-6 cursor-pointer"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                                                    />
-                                                </svg>
+                                        {type !== "B" && (
+                                            <span>
+                                                {item?.transactionStatus.toLowerCase() !==
+                                                    "approved" && (
+                                                    <span
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            if (menu === true) {
+                                                                setToggleId(
+                                                                    null
+                                                                );
+                                                                toggleMenu(
+                                                                    false
+                                                                );
+                                                                console.log(
+                                                                    toggleId,
+                                                                    "toggle"
+                                                                );
+                                                            } else {
+                                                                setToggleId(
+                                                                    item?.requestId
+                                                                );
+                                                                console.log(
+                                                                    toggleId,
+                                                                    "toggle"
+                                                                );
+                                                                toggleMenu(
+                                                                    true
+                                                                );
+                                                            }
+                                                        }}
+                                                    >
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            strokeWidth={1.5}
+                                                            stroke="currentColor"
+                                                            className="w-6 h-6 cursor-pointer"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                                                            />
+                                                        </svg>
+                                                    </span>
+                                                )}
                                             </span>
                                         )}
                                     </>
