@@ -198,7 +198,7 @@ const DetailsModal = ({
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Next Of Kin Phone:</b>
                             {customerDetails.phoneNumberNOK ||
-                                customerDetails.phoneNumberNOK}
+                                customerDetails.phoneNumberNok}
                         </p>
                     )}
                     {(customerDetails?.addressNOK ||
@@ -223,14 +223,13 @@ const DetailsModal = ({
                             {customerDetails?.countryNok}
                         </p>
                     )}
-                    {customerDetails.cityNOK ||
-                        (customerDetails?.cityNok && (
-                            <p className="grid grid-cols-2">
-                                <b className="mr-5">Next Of Kin City:</b>
-                                {customerDetails?.cityNOK ||
-                                    customerDetails?.cityNok}
-                            </p>
-                        ))}
+                    {(customerDetails.cityNOK || customerDetails?.cityNok) && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Next Of Kin City:</b>
+                            {customerDetails?.cityNOK ||
+                                customerDetails?.cityNok}
+                        </p>
+                    )}
                     {(customerDetails?.relationshipWithNOK ||
                         customerDetails?.relationshipWithNok) && (
                         <p className="grid grid-cols-2">
@@ -603,15 +602,19 @@ const DetailsModal = ({
                     {customerDetails?.isTuitionFromInvestment && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Is Tuition From Investment:</b>
-                            {customerDetails?.isTuitionFromInvestment}
+                            {customerDetails?.isTuitionFromInvestment === true
+                                ? "Yes"
+                                : "No"}
                         </p>
                     )}
                     {customerDetails?.isFreeEduAdvisoryService && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">
-                                Is Free Educatioin Advisory Service:
+                                Is Free Education Advisory Service:
                             </b>
-                            {customerDetails?.isFreeEduAdvisoryService}
+                            {customerDetails?.isFreeEduAdvisoryService === true
+                                ? "Yes"
+                                : "No"}
                         </p>
                     )}
 
@@ -649,6 +652,118 @@ const DetailsModal = ({
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Gross Annual Income:</b>
                             {customerDetails?.grossAnnualIncome}
+                        </p>
+                    )}
+
+                    {customerDetails?.isExistRetirementPlan && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Is Exist Retirement Plan</b>
+                            {customerDetails?.isExistRetirementPlan}
+                        </p>
+                    )}
+                    {customerDetails?.noOfDependents && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">No Of Dependents</b>
+                            {customerDetails?.noOfDependents}
+                        </p>
+                    )}
+                    {customerDetails?.yearsOfWork && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Years Of Work</b>
+                            {customerDetails?.yearsOfWork}
+                        </p>
+                    )}
+                    {customerDetails?.retirementTime && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Retirement Time</b>
+                            {customerDetails?.retirementTime}
+                        </p>
+                    )}
+                    {customerDetails?.rsaBalance && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">RSA Balance</b>
+                            {customerDetails?.rsaBalance}
+                        </p>
+                    )}
+                    {customerDetails?.isSalaryEarner && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Is Salary Earner</b>
+                            {customerDetails?.isSalaryEarner}
+                        </p>
+                    )}
+                    {customerDetails?.isEntrepreneur && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Is Entrepreneur</b>
+                            {customerDetails?.isEntrepreneur}
+                        </p>
+                    )}
+                    {customerDetails?.otherIncomeSources && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Other Income Sources</b>
+                            {customerDetails?.otherIncomeSources}
+                        </p>
+                    )}
+                    {customerDetails?.isExistFinancialPlan && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Is Exist Financial Plan</b>
+                            {customerDetails?.isExistFinancialPlan}
+                        </p>
+                    )}
+                    {customerDetails?.isSecureCashFlow && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Is Secure Cash Flow</b>
+                            {customerDetails?.isSecureCashFlow}
+                        </p>
+                    )}
+                    {customerDetails?.investmentNotInterestedIn && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Investment Not Interested In</b>
+                            {customerDetails?.investmentNotInterestedIn}
+                        </p>
+                    )}
+                    {customerDetails?.earningsExpectations && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Earnings Expectations</b>
+                            {customerDetails?.earningsExpectations}
+                        </p>
+                    )}
+                    {customerDetails?.investmentPlanDetailsInFiveYears && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">
+                                Investment PlanDetails In Five Years
+                            </b>
+                            {customerDetails?.investmentPlanDetailsInFiveYears}
+                        </p>
+                    )}
+                    {customerDetails?.isInterestedInFinPlanAdvisoryServices && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">
+                                IsInterested In Financial Plan Advisory Services
+                            </b>
+                            {
+                                customerDetails?.isInterestedInFinPlanAdvisoryServices
+                            }
+                        </p>
+                    )}
+                    {customerDetails?.knowledgeLevelInInvestment && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">
+                                Knowledge Level In Investment
+                            </b>
+                            {customerDetails?.knowledgeLevelInInvestment}
+                        </p>
+                    )}
+                    {customerDetails?.subscriptionCategory && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">Subscription Category</b>
+                            {customerDetails?.subscriptionCategory}
+                        </p>
+                    )}
+
+                    {customerDetails?.afterRetirementPlan && (
+                        <p className="grid grid-cols-2">
+                            <b className="mr-5">After Retirement Plan</b>
+                            {customerDetails?.afterRetirementPlan}
                         </p>
                     )}
                 </div>

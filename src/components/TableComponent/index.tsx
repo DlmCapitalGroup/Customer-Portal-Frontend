@@ -253,8 +253,11 @@ const Table = (props: tableProps) => {
                                                 "approved"
                                                     ? "text-success mr-6"
                                                     : item?.transactionStatus.toLowerCase() ===
-                                                      "declined"
+                                                          "declined" &&
+                                                      type !== "B"
                                                     ? "text-error"
+                                                    : type === "B"
+                                                    ? "mr-6"
                                                     : "text-primary"
                                             } capitalize w-28 cursor-pointer text-sm`}
                                             // onClick={() => {

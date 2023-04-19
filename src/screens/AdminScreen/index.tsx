@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { useAppSelector } from "../../store/hooks";
 import Table2 from "../../components/CustomersTable.tsx";
 import Modal2 from "../../components/Modal";
+import DetailsModal from "../../components/DetailsModal";
 
 const AdminScreen = () => {
     const [loading, setLoading] = useState(false);
@@ -25,7 +26,12 @@ const AdminScreen = () => {
     const [news, setNews] = useState([]);
     const [transaction, setTransaction] = useState<any>({});
     const [modal2, setModal2] = useState(false);
+    const [modal, setModal] = useState(false);
     const navigate = useNavigate();
+    const [modal3, setModal3] = useState(false);
+    const [cid, setCid] = useState<null | number>(null);
+    const [customer, setCustomer] = useState<any>({});
+    const [menu2, setMenu2] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -97,6 +103,20 @@ const AdminScreen = () => {
     const getProdId = (productId: any) => {
         return products.find((el: any) => productId === el.productId);
     };
+
+    function getCustomerDetails(id: number) {
+        setLoading(true);
+        devInstance
+            .get(`/Admin/GetCustomerInfoAndTransactions/${id}`)
+            .then((res: any) => {
+                setCustomer(res?.data);
+                setCid(id);
+                console.log(res, "transaction");
+                setModal(true);
+            })
+            .catch((err: any) => toast(`${err.response.data || err.message}`))
+            .finally(() => setLoading(false));
+    }
 
     function getDetail(rid: number, cid: number) {
         setLoading(true);
@@ -472,7 +492,9 @@ const AdminScreen = () => {
                                             deactivateCustomer={
                                                 deactivateCustomer
                                             }
+                                            type="B"
                                             toggleMenu={toggleMenu}
+                                            cid={getCustomerDetails}
                                         />
                                     </div>
                                 </div>
@@ -539,17 +561,37 @@ const AdminScreen = () => {
                                         View more
                                     </p>
                                 </div>
-                                {modal2 && (
-                                    <Modal2
-                                        isCancel
-                                        cancel={() => setModal2(false)}
-                                    >
-                                        <div className="p-5">
-                                            <h3>{transaction?.firstName}</h3>
-                                        </div>
-                                    </Modal2>
+                                {modal && (
+                                    <DetailsModal
+                                        cancel={(e: any) => {
+                                            // e.stopPropagation();
+                                            setModal(false);
+                                        }}
+                                        title="Customer Details"
+                                        customerDetails={
+                                            customer.customerDetails
+                                        }
+                                        hasTransactions
+                                        reqId={getDetail}
+                                        transactions={customer.data.pageItems}
+                                        isAdmin
+                                        type="B"
+                                        approveReq={approveReq}
+                                        declineReq={declineReq}
+                                        menu={menu2}
+                                        toggleMenu={toggleMenu2}
+                                    />
                                 )}
                             </div>
+                            {modal2 && (
+                                <DetailsModal
+                                    close={(e: any) => {
+                                        // e.stopPropagation();
+                                        setModal2(false);
+                                    }}
+                                    customerDetails={transaction}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
