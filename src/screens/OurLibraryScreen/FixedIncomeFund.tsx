@@ -257,13 +257,13 @@ const FixedIncomeFund = (props: _props) => {
                     console.log(data.secure_url);
                     setFormData({
                         ...formData,
-                        [e.target.name]: data,
+                        [e.target.name]: data.secure_url,
                     });
-                    console.log(formData);
+                    // console.log(formData);
                 })
                 .catch((err) => {
                     setLoading(false);
-                    toast(`${err}`);
+                    toast.error(`${err}`);
                 })
                 .finally(() => setLoading(false));
         } else {
@@ -272,7 +272,7 @@ const FixedIncomeFund = (props: _props) => {
                 [e.target.name]: e.target.value,
             });
         }
-        console.log(formData);
+        // console.log(formData);
     };
 
     const fileErrors = [
@@ -909,7 +909,7 @@ const FixedIncomeFund = (props: _props) => {
                                 disabled
                             />
                         </div>
-                        
+
                         <p className="flex space-x-5 items-start text-base text-black mt-12">
                             <input
                                 type="checkbox"
@@ -931,7 +931,14 @@ const FixedIncomeFund = (props: _props) => {
                                 discretion. I acknowledge that a non-refundable
                                 charge of 10 naira will be automatically debited
                                 from the linked bank account to add my card.
-                                <a href="/TC.pdf" target='_blank' className="text-[15px] ml-4 text-[#0066cc]" rel='noopener noreferrer'>Learn more</a>
+                                <a
+                                    href="/TC.pdf"
+                                    target="_blank"
+                                    className="text-[15px] ml-4 text-[#0066cc]"
+                                    rel="noopener noreferrer"
+                                >
+                                    Learn more
+                                </a>
                             </p>
                         </p>
                     </div>

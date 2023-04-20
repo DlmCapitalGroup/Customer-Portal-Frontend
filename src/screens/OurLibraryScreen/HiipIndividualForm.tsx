@@ -171,9 +171,9 @@ const HiipIndividualForm = (props: _props) => {
                     console.log(data.secure_url);
                     setFormData({
                         ...formData,
-                        [e.target.name]: data,
+                        [e.target.name]: data.secure_url,
                     });
-                    console.log(formData);
+                    // console.log(formData);
                 })
                 .catch((err) => {
                     setLoading(false);
@@ -186,7 +186,7 @@ const HiipIndividualForm = (props: _props) => {
                 [e.target.name]: e.target.value,
             });
         }
-        console.log(formData);
+        // console.log(formData);
     };
 
     const fileErrors = [
