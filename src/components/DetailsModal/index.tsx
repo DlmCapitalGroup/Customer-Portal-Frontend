@@ -7,7 +7,7 @@ const DetailsModal = ({
     customerDetails,
     hasTransactions,
     transactions,
-    reqId,
+    reqId = console.log("reqId"),
     cancel,
     prevPage,
     nextPage,

@@ -535,16 +535,19 @@ const News = () => {
                         <h3 className="text-lg font-semibold mb-5">
                             Daily News
                         </h3>
-                        <button
-                            className="text-xs mb-10 bg-primary border border-primary text-white-lighter hover:bg-primary/80 px-3 py-1.5 rounded-lg"
-                            onClick={() => {
-                                setNewNews(true);
-                                setDailyNewsForm("");
-                                setDailyNewsModal(true);
-                            }}
-                        >
-                            Add +
-                        </button>
+                        {dailyNews.length < 0 && (
+                            <button
+                                className="text-xs mb-10 bg-primary border border-primary text-white-lighter hover:bg-primary/80 px-3 py-1.5 rounded-lg"
+                                onClick={() => {
+                                    setNewNews(true);
+                                    setDailyNewsForm("");
+                                    setDailyNewsModal(true);
+                                }}
+                            >
+                                Add +
+                            </button>
+                        )}
+
                         <div className="flex flex-col gap-y-5">
                             {dailyNews.length > 0 ? (
                                 dailyNews.map((item: any, index) => (
