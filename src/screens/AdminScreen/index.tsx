@@ -118,7 +118,7 @@ const AdminScreen = () => {
             .finally(() => setLoading(false));
     }
 
-    function getDetail(rid: number, cid: number) {
+    function getDetail(rid: number) {
         setLoading(true);
         devInstance
             .get("/Admin/GetCustomerProductSubDetails", {
@@ -134,8 +134,6 @@ const AdminScreen = () => {
             })
             .catch((err) => console.log(err))
             .finally(() => setLoading(false));
-        console.log(rid, "rid");
-        console.log(cid, "cid");
     }
 
     const TransactionList = () => {
