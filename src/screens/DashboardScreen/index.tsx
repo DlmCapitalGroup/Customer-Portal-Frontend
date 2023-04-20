@@ -46,7 +46,7 @@ const DashboardScreen = () => {
         (state) => state.auth
     );
     const [transactions, setTransactions] = React.useState([]);
-    const [news, setNews] = React.useState([]);
+    const [news, setNews] = React.useState<any>([]);
     const [overviewData, setOverViewData] = React.useState<any>({});
     const [loading, setLoading] = React.useState(false);
     const dispatch = useAppDispatch();
@@ -96,7 +96,7 @@ const DashboardScreen = () => {
                 .finally(() => setLoading(false));
 
             await devInstance
-                .get("/Dashboard/News-Updates")
+                .get("/Admin/GetNewsUpdates")
                 .then((res: any) => {
                     setNews(res?.data);
                     // console.log(res, "News");
@@ -393,12 +393,13 @@ const DashboardScreen = () => {
                                 </h3>
                                 <div className="text-sm flex flex-col items-start space-y-2">
                                     {news.length ? (
-                                        news?.map((item: string, index) => (
+                                        news?.map((item: any, index: any) => (
                                             <div
-                                                className="flex items-start gap-x-3 relative py-2 bg-[#DBE1E64D]/30 px-1 rounded-md"
+                                                className="flex w-full items-start gap-x-3 relative py-2 bg-[#DBE1E64D]/30 px-1 rounded-md"
                                                 key={index}
                                             >
-                                                {index === 0 ? (
+                                                {news?.importantNews ===
+                                                true ? (
                                                     <img
                                                         alt=""
                                                         src={importantImg}
@@ -412,7 +413,10 @@ const DashboardScreen = () => {
                                                     />
                                                 )}
                                                 <div className="grow">
-                                                    {item.slice(0, 100) + "..."}
+                                                    {item?.description.slice(
+                                                        0,
+                                                        100
+                                                    ) + "..."}
                                                     <span className="mt-2 flex justify-end text-xs">
                                                         Read more
                                                     </span>

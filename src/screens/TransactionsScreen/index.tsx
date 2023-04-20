@@ -11,6 +11,7 @@ import { devInstance } from "../../store/devInstance";
 import { useAppSelector } from "../../store/hooks";
 import { toast } from "react-toastify";
 import Loader from "../../components/LoaderComponent";
+import DetailsModal from "../../components/DetailsModal";
 
 const Transactions = () => {
     const data = useMemo(
@@ -54,6 +55,8 @@ const Transactions = () => {
     const [currentPage, setCurrentpage] = useState(1);
     const [searchField, setSearchField] = useState("");
     const [loading, setLoading] = useState(false);
+    const [transaction, setTransaction] = useState<any>({});
+    const [modal2, setModal2] = useState(false);
     const { customer }: any = useAppSelector((state) => state.auth);
 
     const fetchTransactions = useCallback(
@@ -108,6 +111,26 @@ const Transactions = () => {
         }
     }
 
+    function getDetail(rid: number, cid: number) {
+        setLoading(true);
+        devInstance
+            .get("/Admin/GetCustomerProductSubDetails", {
+                params: {
+                    CustomerId: customer.customerId,
+                    RequestId: rid,
+                },
+            })
+            .then((res: any) => {
+                setTransaction(res.data);
+                console.log(res, "transaction");
+                setModal2(true);
+            })
+            .catch((err: any) => toast(`${err.response.data || err.message}`))
+            .finally(() => setLoading(false));
+        console.log(rid, "rid");
+        console.log(cid, "cid");
+    }
+
     useEffect(() => {
         fetchTransactions(1);
     }, [fetchTransactions]);
@@ -149,8 +172,17 @@ const Transactions = () => {
                         nextPage={nextPage}
                         totalPages={totalPages}
                         currentPage={currentPage}
+                        reqId={getDetail}
                     />
                 </div>
+
+                {modal2 && (
+                    <DetailsModal
+                        // close={() => setModal2(false)}
+                        cancel={() => setModal2(false)}
+                        customerDetails={transaction}
+                    />
+                )}
                 {modal && (
                     <Modal modalText={modalText} type={modalType}>
                         {!modalType && (
