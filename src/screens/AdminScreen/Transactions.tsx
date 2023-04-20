@@ -239,7 +239,8 @@ const TransactionsScreen = () => {
                 </div>
                 {modal2 && (
                     <DetailsModal
-                        close={() => setModal2(false)}
+                        // close={() => setModal2(false)}
+                        cancel={() => setModal2(false)}
                         customerDetails={transaction}
                     />
                 )}

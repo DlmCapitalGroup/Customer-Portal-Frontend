@@ -17,101 +17,140 @@ const DetailsModal = ({
     approveReq,
     declineReq,
     menu2,
-    toggleMenu2,
+    toggleMenu2 = () => console.log("clicked"),
 }: any) => {
     return (
         <Modal2 isCancel cancel={cancel}>
             <div className="max-w-4xl container pb-10 pt-10 flex flex-col gap-y-3">
                 {title && (
-                    <p className="mb-10 text-center text-lg font-semibold">
-                        {title}
-                    </p>
+                    <p className="mb-10 text-lg font-semibold">{title}</p>
                 )}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div className="">
+                        <>
+                            {customerDetails?.firstName &&
+                                (customerDetails.lastName ||
+                                    customerDetails.surname) && (
+                                    <>
+                                        <b className="mr-5">Full Name</b>
+                                        <p className="mb-5 text-sm mt-1">
+                                            {customerDetails?.firstName}{" "}
+                                            {customerDetails.middleName &&
+                                                customerDetails.middleName +
+                                                    " "}
+                                            {customerDetails?.lastName ||
+                                                customerDetails?.surname}
+                                        </p>
+                                    </>
+                                )}
+                        </>
+                        <>
+                            {customerDetails?.age && (
+                                <>
+                                    <b className="mr-5">Age</b>
+                                    <p className="mb-5 text-sm mt-1">
+                                        {customerDetails?.age}
+                                    </p>
+                                </>
+                            )}
+                        </>
+                        <>
+                            {(customerDetails?.emailAddress ||
+                                customerDetails.email) && (
+                                <>
+                                    <b className="mr-5">Email Address</b>
+                                    <p className="mb-5 text-sm mt-1">
+                                        {customerDetails?.emailAddress ||
+                                            customerDetails.email}
+                                    </p>
+                                </>
+                            )}
+                        </>
+                        <>
+                            {(customerDetails?.residentialAddress ||
+                                customerDetails?.address) && (
+                                <>
+                                    <b className="mr-5">Residential Address</b>
+                                    <p className="mb-5 text-sm mt-1">
+                                        {customerDetails?.residentialAddress ||
+                                            customerDetails?.address}
+                                    </p>
+                                </>
+                            )}
+                        </>
+                        <>
+                            {customerDetails?.postalCode && (
+                                <>
+                                    <b className="mr-5">Postal Code</b>
+                                    <p className="mb-5 text-sm mt-1">
+                                        {customerDetails?.postalCode}
+                                    </p>
+                                </>
+                            )}
+                        </>
+                        <>
+                            {customerDetails?.placeOfBirth && (
+                                <>
+                                    <b className="mr-5">Place Of Birth</b>
+                                    <p className="mb-5 text-sm mt-1">
+                                        {customerDetails?.placeOfBirth}
+                                    </p>
+                                </>
+                            )}
+                        </>
+                    </div>
+                    <div className="">
+                        <>
+                            {customerDetails?.birthDate && (
+                                <>
+                                    <b className="mr-5">Birth Date</b>
+                                    <p className="mb-5 text-sm mt-1">
+                                        {customerDetails?.birthDate
+                                            .slice(0, 10)
+                                            .split("-")
+                                            .reverse()
+                                            .join("-")}
+                                    </p>
+                                </>
+                            )}
+                        </>
+                        <>
+                            {(customerDetails?.phoneNumber ||
+                                customerDetails?.phone) && (
+                                <>
+                                    <b className="mr-5">Phone Number</b>
+                                    <p className="mb-5 text-sm mt-1">
+                                        {customerDetails?.phoneNumber ||
+                                            customerDetails?.phone}
+                                    </p>
+                                </>
+                            )}
+                        </>
+                        <>
+                            {(customerDetails?.country ||
+                                customerDetails?.nationality) && (
+                                <>
+                                    <b className="mr-5">Country:</b>
+                                    <p className="mb-5 text-sm mt-1">
+                                        {customerDetails?.country ||
+                                            customerDetails?.nationality}
+                                    </p>
+                                </>
+                            )}
+                        </>
+                        <>
+                            {customerDetails?.state && (
+                                <>
+                                    <b className="mr-5">State</b>
+                                    <p className="mb-5 text-sm mt-1">
+                                        {customerDetails?.state}
+                                    </p>
+                                </>
+                            )}
+                        </>
+                    </div>
+                </div>
                 <div className="grid grid-cols-2 gap-x-10 gap-y-3 text-sm">
-                    {customerDetails?.firstName &&
-                        (customerDetails.lastName ||
-                            customerDetails.surname) && (
-                            <p className="grid grid-cols-2">
-                                <b className="mr-5">Full Name:</b>
-                                {customerDetails?.firstName}{" "}
-                                {customerDetails.middleName &&
-                                    customerDetails.middleName + " "}
-                                {customerDetails?.lastName ||
-                                    customerDetails?.surname}
-                            </p>
-                        )}
-                    {customerDetails?.motherMaidenName && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-5">Mother Maiden Name:</b>
-                            {customerDetails?.motherMaidenName}
-                        </p>
-                    )}
-                    {customerDetails?.age && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-5">Age:</b>
-                            {customerDetails?.age}
-                        </p>
-                    )}
-                    {(customerDetails?.emailAddress ||
-                        customerDetails.email) && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-5">Email Address:</b>
-                            {customerDetails?.emailAddress ||
-                                customerDetails.email}
-                        </p>
-                    )}
-                    {customerDetails?.birthDate && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-5">Birth Date:</b>
-                            {customerDetails?.birthDate
-                                .slice(0, 10)
-                                .split("-")
-                                .reverse()
-                                .join("-")}
-                        </p>
-                    )}
-                    {(customerDetails?.phoneNumber ||
-                        customerDetails?.phone) && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-5">Phone Number:</b>
-                            {customerDetails?.phoneNumber ||
-                                customerDetails?.phone}
-                        </p>
-                    )}
-                    {(customerDetails?.country ||
-                        customerDetails?.nationality) && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-5">Country:</b>
-                            {customerDetails?.country ||
-                                customerDetails?.nationality}
-                        </p>
-                    )}
-                    {customerDetails?.state && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-5">State:</b>
-                            {customerDetails?.state}
-                        </p>
-                    )}
-                    {(customerDetails?.residentialAddress ||
-                        customerDetails?.address) && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-5">Residential Address:</b>
-                            {customerDetails?.residentialAddress ||
-                                customerDetails?.address}
-                        </p>
-                    )}
-                    {customerDetails?.postalCode && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-5">Postal Code:</b>
-                            {customerDetails?.postalCode}
-                        </p>
-                    )}
-                    {customerDetails?.placeOfBirth && (
-                        <p className="grid grid-cols-2">
-                            <b className="mr-5">Place Of Birth:</b>
-                            {customerDetails?.placeOfBirth}
-                        </p>
-                    )}
                     {customerDetails?.occupation && (
                         <p className="grid grid-cols-2">
                             <b className="mr-5">Occupation:</b>
@@ -769,7 +808,7 @@ const DetailsModal = ({
                 </div>
                 {hasTransactions && (
                     <div className="mt-20">
-                        <p className="mb-10 text-center text-base font-semibold">
+                        <p className="mb-10 text-lg font-semibold">
                             Transactions
                         </p>
                         <div className="h-[500px] overflow-y-auto">

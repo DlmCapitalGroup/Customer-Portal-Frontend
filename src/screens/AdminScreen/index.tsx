@@ -585,7 +585,7 @@ const AdminScreen = () => {
                             </div>
                             {modal2 && (
                                 <DetailsModal
-                                    close={(e: any) => {
+                                    cancel={(e: any) => {
                                         // e.stopPropagation();
                                         setModal2(false);
                                     }}
