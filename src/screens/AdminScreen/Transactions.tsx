@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import Loader from "../../components/LoaderComponent";
 import AdminLayout from "../../layouts/AdminLayout";
 import Modal2 from "../../components/Modal";
+import DetailsModal from "../../components/DetailsModal";
 
 const TransactionsScreen = () => {
     const data = useMemo(
@@ -79,7 +80,7 @@ const TransactionsScreen = () => {
                 console.log(res, "transaction");
                 setModal2(true);
             })
-            .catch((err) => console.log(err))
+            .catch((err: any) => toast(`${err.response.data || err.message}`))
             .finally(() => setLoading(false));
         console.log(rid, "rid");
         console.log(cid, "cid");
@@ -113,6 +114,10 @@ const TransactionsScreen = () => {
                 ?.toLowerCase()
                 .includes(searchField?.toLowerCase()) ||
             transaction?.customerName
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
+            transaction?.transactionAmount
+                .toString()
                 ?.toLowerCase()
                 .includes(searchField?.toLowerCase()) ||
             transaction?.requestId
@@ -233,11 +238,11 @@ const TransactionsScreen = () => {
                     />
                 </div>
                 {modal2 && (
-                    <Modal2 isCancel cancel={() => setModal2(false)}>
-                        <div className="p-5">
-                            <h3>{transaction.firstName}</h3>
-                        </div>
-                    </Modal2>
+                    <DetailsModal
+                        // close={() => setModal2(false)}
+                        cancel={() => setModal2(false)}
+                        customerDetails={transaction}
+                    />
                 )}
                 {modal && (
                     <Modal modalText={modalText} type={modalType}>

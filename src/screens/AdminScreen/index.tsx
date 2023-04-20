@@ -10,6 +10,8 @@ import Button from "../../components/ButtonComponent";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../../store/hooks";
 import Table2 from "../../components/CustomersTable.tsx";
+import Modal2 from "../../components/Modal";
+import DetailsModal from "../../components/DetailsModal";
 
 const AdminScreen = () => {
     const [loading, setLoading] = useState(false);
@@ -22,7 +24,14 @@ const AdminScreen = () => {
     const { admin }: any = useAppSelector((state) => state.auth);
     const [menu, setMenu] = useState(false);
     const [news, setNews] = useState([]);
+    const [transaction, setTransaction] = useState<any>({});
+    const [modal2, setModal2] = useState(false);
+    const [modal, setModal] = useState(false);
     const navigate = useNavigate();
+    const [modal3, setModal3] = useState(false);
+    const [cid, setCid] = useState<null | number>(null);
+    const [customer, setCustomer] = useState<any>({});
+    const [menu2, setMenu2] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -94,6 +103,38 @@ const AdminScreen = () => {
     const getProdId = (productId: any) => {
         return products.find((el: any) => productId === el.productId);
     };
+
+    function getCustomerDetails(id: number) {
+        setLoading(true);
+        devInstance
+            .get(`/Admin/GetCustomerInfoAndTransactions/${id}`)
+            .then((res: any) => {
+                setCustomer(res?.data);
+                setCid(id);
+                console.log(res, "transaction");
+                setModal(true);
+            })
+            .catch((err: any) => toast(`${err.response.data || err.message}`))
+            .finally(() => setLoading(false));
+    }
+
+    function getDetail(rid: number) {
+        setLoading(true);
+        devInstance
+            .get("/Admin/GetCustomerProductSubDetails", {
+                params: {
+                    CustomerId: cid,
+                    RequestId: rid,
+                },
+            })
+            .then((res: any) => {
+                setTransaction(res.data);
+                console.log(res, "transaction");
+                setModal2(true);
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
+    }
 
     const TransactionList = () => {
         if (transactions?.length > 0) {
@@ -261,7 +302,7 @@ const AdminScreen = () => {
                 fetchCustomers(1);
                 setMenu(false);
             })
-            .catch((err) => toast.error(`${err.message}`))
+            .catch((err) => toast.error(`${err.response.data}`))
             .finally(() => setLoading(false));
     }
 
@@ -277,7 +318,7 @@ const AdminScreen = () => {
                 fetchCustomers(1);
                 setMenu(false);
             })
-            .catch((err) => toast.error(`${err.message}`))
+            .catch((err) => toast.error(`${err.response.data || err.message}`))
             .finally(() => setLoading(false));
     }
 
@@ -449,7 +490,9 @@ const AdminScreen = () => {
                                             deactivateCustomer={
                                                 deactivateCustomer
                                             }
+                                            type="B"
                                             toggleMenu={toggleMenu}
+                                            cid={getCustomerDetails}
                                         />
                                     </div>
                                 </div>
@@ -498,10 +541,12 @@ const AdminScreen = () => {
                                                 // totalPages={totalPages}
                                                 // currentPage={currentPage}
                                                 isAdmin
+                                                type="B"
                                                 approveReq={approveReq}
                                                 declineReq={declineReq}
                                                 menu={menu}
                                                 toggleMenu={toggleMenu2}
+                                                reqId={getDetail}
                                             />
                                         </div>
                                     </div>
@@ -514,7 +559,37 @@ const AdminScreen = () => {
                                         View more
                                     </p>
                                 </div>
+                                {modal && (
+                                    <DetailsModal
+                                        cancel={(e: any) => {
+                                            // e.stopPropagation();
+                                            setModal(false);
+                                        }}
+                                        title="Customer Details"
+                                        customerDetails={
+                                            customer.customerDetails
+                                        }
+                                        hasTransactions
+                                        reqId={getDetail}
+                                        transactions={customer.data.pageItems}
+                                        isAdmin
+                                        type="B"
+                                        approveReq={approveReq}
+                                        declineReq={declineReq}
+                                        menu={menu2}
+                                        toggleMenu={toggleMenu2}
+                                    />
+                                )}
                             </div>
+                            {modal2 && (
+                                <DetailsModal
+                                    cancel={(e: any) => {
+                                        // e.stopPropagation();
+                                        setModal2(false);
+                                    }}
+                                    customerDetails={transaction}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

@@ -4,10 +4,8 @@ import { Input } from "../../components/FormElements";
 import Loader from "../../components/LoaderComponent";
 import Button from "../../components/ButtonComponent";
 import { Link, useNavigate } from "react-router-dom";
-import { devInstance } from "../../store/devInstance";
 import { useAppDispatch } from "../../store/hooks";
 import { loginAdmin, loginUser, setUser } from "../../store/auth-slice";
-import { toast } from "react-toastify";
 
 const LoginAdmin = () => {
     const navigate = useNavigate();

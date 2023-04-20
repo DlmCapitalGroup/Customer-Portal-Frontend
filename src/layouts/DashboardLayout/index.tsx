@@ -217,7 +217,7 @@ const DashboardLayout = (props: dashboardProps) => {
                     console.log(data.secure_url);
                     setFormData({
                         ...formData,
-                        [e.target.name]: data,
+                        [e.target.name]: data.secure_url,
                     });
                     console.log(formData);
                 })

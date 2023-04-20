@@ -12,6 +12,9 @@ import { toast } from "react-toastify";
 import Loader from "../../components/LoaderComponent";
 import AdminLayout from "../../layouts/AdminLayout";
 import Table2 from "../../components/CustomersTable.tsx";
+import Modal2 from "../../components/Modal";
+import Table from "../../components/TableComponent";
+import DetailsModal from "../../components/DetailsModal";
 
 const Customers = () => {
     const data = useMemo(
@@ -57,6 +60,12 @@ const Customers = () => {
     const [menu, setMenu] = useState(false);
     const [loading, setLoading] = useState(false);
     const { admin }: any = useAppSelector((state) => state.auth);
+    const [modal2, setModal2] = useState(false);
+    const [customer, setCustomer] = useState<any>({});
+    const [cid, setCid] = useState<null | number>(null);
+    const [transaction, setTransaction] = useState({});
+    const [modal3, setModal3] = useState(false);
+    const [menu2, setMenu2] = useState(false);
 
     const fetchCustomers = useCallback((pageNumber: number) => {
         setLoading(true);
@@ -159,6 +168,82 @@ const Customers = () => {
     function toggleMenu(val: boolean) {
         setMenu(val);
     }
+    function toggleMenu2(val: boolean) {
+        setMenu2(val);
+    }
+    function getCustomerDetails(id: number) {
+        setLoading(true);
+        devInstance
+            .get(`/Admin/GetCustomerInfoAndTransactions/${id}`)
+            .then((res: any) => {
+                setCustomer(res?.data);
+                console.log(res, "transaction");
+                setModal2(true);
+                setCid(id);
+            })
+            .catch((err: any) => toast(`${err.response.data || err.message}`))
+            .finally(() => setLoading(false));
+    }
+
+    function getDetail(rid: number) {
+        setLoading(true);
+        devInstance
+            .get("/Admin/GetCustomerProductSubDetails", {
+                params: {
+                    CustomerId: cid,
+                    RequestId: rid,
+                },
+            })
+            .then((res: any) => {
+                setTransaction(res.data);
+                console.log(res, "transaction");
+                setModal3(true);
+            })
+            .catch((err: any) => toast(`${err.response.data || err.message}`))
+            .finally(() => setLoading(false));
+        console.log(rid, "rid");
+        console.log(cid, "cid");
+    }
+
+    function approveReq(reqId: number, prodId: string) {
+        setLoading(true);
+        devInstance
+            .post("/Admin/ApproveInvestment", {
+                productId: prodId,
+                requestId: reqId,
+                userId: admin?.userId,
+                status: "approve",
+            })
+            .then((response: any) => {
+                toast.success("Investment was successfully Approved");
+                fetchCustomers(currentPage);
+                setMenu(false);
+            })
+            .catch((err) => {
+                toast.error(`${err.message}`);
+            })
+            .finally(() => setLoading(false));
+    }
+
+    function declineReq(reqId: number, prodId: string) {
+        setLoading(true);
+        devInstance
+            .post("/Admin/ApproveInvestment", {
+                productId: prodId,
+                requestId: reqId,
+                userId: admin?.userId,
+                status: "decline",
+            })
+            .then((response: any) => {
+                toast.success("Investment was successfully Declined");
+                fetchCustomers(currentPage);
+                setMenu(false);
+            })
+            .catch((err) => {
+                toast.error(`${err.message}`);
+            })
+            .finally(() => setLoading(false));
+    }
 
     return (
         <AdminLayout>
@@ -199,8 +284,38 @@ const Customers = () => {
                         activateCustomer={activateCustomer}
                         deactivateCustomer={deactivateCustomer}
                         toggleMenu={toggleMenu}
+                        cid={getCustomerDetails}
                     />
                 </div>
+                {modal2 && (
+                    <DetailsModal
+                        cancel={() => setModal2(false)}
+                        title="Customer Details"
+                        customerDetails={customer.customerDetails}
+                        hasTransactions
+                        reqId={getDetail}
+                        transactions={customer.data.pageItems}
+                        prevPage={prevPage}
+                        nextPage={nextPage}
+                        totalPages={totalPages}
+                        currentPage={currentPage}
+                        isAdmin
+                        type="B"
+                        approveReq={approveReq}
+                        declineReq={declineReq}
+                        menu={menu2}
+                        toggleMenu={toggleMenu2}
+                    />
+                )}
+                {modal3 && (
+                    <DetailsModal
+                        cancel={() => setModal3(false)}
+                        // title="Customer Details"
+                        customerDetails={transaction}
+                        // hasTransactions
+                        // reqId={getDetail}
+                    />
+                )}
                 {modal && (
                     <Modal modalText={modalText} type={modalType}>
                         {!modalType && (
