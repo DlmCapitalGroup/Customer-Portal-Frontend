@@ -56,6 +56,8 @@ const DashboardScreen = () => {
 
     const dobRef = useRef<any>(null);
 
+    console.log(news, "news");
+
     const fetchData = useCallback(async () => {
         console.log(dobRef?.current, "it is working");
         if (customer?.customerId || customer.portalUsername) {
@@ -96,7 +98,11 @@ const DashboardScreen = () => {
                 .finally(() => setLoading(false));
 
             await devInstance
-                .get("/Dashboard/News-Updates")
+                // .get("/Dashboard/News-Updates")
+                .get(
+                    "https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetNewsUpdates"
+                )
+                // "https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetNewsUpdates"
                 .then((res: any) => {
                     setNews(res?.data);
                     // console.log(res, "News");
@@ -393,12 +399,13 @@ const DashboardScreen = () => {
                                 </h3>
                                 <div className="text-sm flex flex-col items-start space-y-2">
                                     {news.length ? (
-                                        news?.map((item: string, index) => (
+                                        news?.map((item: any, index) => (
                                             <div
-                                                className="flex items-start gap-x-3 relative py-2 bg-[#DBE1E64D]/30 px-1 rounded-md"
+                                                className="flex items-start gap-x-3 relative py-2 bg-[#DBE1E64D]/30 px-1 rounded-md w-full"
                                                 key={index}
                                             >
-                                                {index === 0 ? (
+                                                {item?.importantNews ===
+                                                true ? (
                                                     <img
                                                         alt=""
                                                         src={importantImg}
@@ -412,10 +419,20 @@ const DashboardScreen = () => {
                                                     />
                                                 )}
                                                 <div className="grow">
-                                                    {item.slice(0, 100) + "..."}
-                                                    <span className="mt-2 flex justify-end text-xs">
-                                                        Read more
-                                                    </span>
+                                                    {item?.description
+                                                        ?.lenght >= 30 ? (
+                                                        <>
+                                                            {item?.description?.slice(
+                                                                0,
+                                                                100
+                                                            ) + "..."}
+                                                            <span className="mt-2 flex justify-end text-xs">
+                                                                Read more
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <>{item?.description}</>
+                                                    )}
                                                 </div>
                                             </div>
                                         ))
