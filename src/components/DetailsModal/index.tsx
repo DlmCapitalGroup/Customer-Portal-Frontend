@@ -772,8 +772,8 @@ const DetailsModal = ({
                         <p className="mb-10 text-center text-base font-semibold">
                             Transactions
                         </p>
-                        <div className="h-[500px] overflow-y-auto">
-                            <Table
+                        <div className="min-h-[500px] overflow-y-auto flex flex-col gap-y-5">
+                            {/* <Table
                                 transactions={transactions}
                                 prevPage={prevPage}
                                 nextPage={nextPage}
@@ -786,7 +786,55 @@ const DetailsModal = ({
                                 menu={menu2}
                                 toggleMenu={toggleMenu2}
                                 reqId={reqId}
-                            />
+                            /> */}
+                            {transactions.map((item: any, index: number) => (
+                                <div
+                                    className="min-h-56 w-full bg-white-lighter shadow-sm border border-primary/10 p-10 grid grid-cols-2 gap-x-20 gap-y-5 text-primary cursor-pointer hover:shadow-md rounded-xl hover:border-primary/20"
+                                    onClick={() => reqId(item?.reqId)}
+                                >
+                                    <div className="grid grid-cols-2">
+                                        <p className="font-bold">Type:</p>
+                                        <p>{item?.transactionType}</p>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <p className="font-bold">Amount:</p>
+                                        <p>{item?.transactionAmount}</p>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <p className="font-bold">Date:</p>
+                                        <p>
+                                            {item?.transactionDate
+                                                .slice(0, 10)
+                                                .split("-")
+                                                .reverse()
+                                                .join("-")}
+                                        </p>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <p className="font-bold">Name:</p>
+                                        <p>{item?.customerName}</p>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <p className="font-bold">Status:</p>
+                                        <p
+                                            className={`text-white-lighter text-xs px-2 py-1.5 w-fit rounded ${
+                                                item?.transactionStatus ===
+                                                "approved"
+                                                    ? "bg-success"
+                                                    : item?.transactionStatus ===
+                                                      "declined"
+                                                    ? "bg-error"
+                                                    : "bg-primary"
+                                            }`}
+                                        >
+                                            {item?.transactionStatus ===
+                                            "approved"
+                                                ? "Successful"
+                                                : item?.transactionStatus}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 )}
