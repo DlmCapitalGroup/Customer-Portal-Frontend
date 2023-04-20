@@ -283,13 +283,15 @@ const DetailsModal = ({
                         customerDetails?.meansOfId) && (
                         <p className="grid grid-cols-1 gap-y-1">
                             <b className="mr-5">Form Of Identity:</b>
-                            {customerDetails?.formOfIdentity ||
-                                customerDetails?.meansOfId}
+                            <span>
+                                {customerDetails?.formOfIdentity ||
+                                    customerDetails?.meansOfId}
+                            </span>
                         </p>
                     )}
                     {(customerDetails?.passportPhoto ||
                         customerDetails?.passportPicture) && (
-                        <p className="grid grid-cols-1 gap-y-1">
+                        <p className="flex flex-col flex-wrap gap-y-1">
                             <b className="mr-5">Passport Photo:</b>
                             {customerDetails?.passportPhoto ||
                                 customerDetails?.passportPicture}
