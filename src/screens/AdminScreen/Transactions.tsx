@@ -116,6 +116,10 @@ const TransactionsScreen = () => {
             transaction?.customerName
                 ?.toLowerCase()
                 .includes(searchField?.toLowerCase()) ||
+            transaction?.transactionAmount
+                .toString()
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
             transaction?.requestId
                 ?.toString()
                 ?.toLowerCase()
@@ -235,7 +239,8 @@ const TransactionsScreen = () => {
                 </div>
                 {modal2 && (
                     <DetailsModal
-                        close={() => setModal2(false)}
+                        // close={() => setModal2(false)}
+                        cancel={() => setModal2(false)}
                         customerDetails={transaction}
                     />
                 )}

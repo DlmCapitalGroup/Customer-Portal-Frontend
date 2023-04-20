@@ -131,6 +131,8 @@ const Table = (props: tableProps) => {
                             key={index}
                             onClick={() => {
                                 reqId(item?.requestId, item?.customerId);
+                                setToggleId(null);
+                                toggleMenu(false);
                             }}
                         >
                             <div className="basis-1/4 pl-[54px]">
