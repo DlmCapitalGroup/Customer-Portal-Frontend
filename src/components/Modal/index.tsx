@@ -14,18 +14,18 @@ const Modal2 = (props: modalProps) => {
     const { children, cancel, isCancel } = props;
     return (
         <div
-            className="fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-primary/20 z-50"
+            className="fixed w-screen min-h-screen h-full top-0 left-0 flex flex-col items-center bg-primary/20 pt-10 pb-20 z-50 overflow-y-auto"
             {...props}
         >
             <div
-                className={`bg-white-light shadow-sm rounded-[20px] relative w-[1000px] min-h-[800px]`}
+                className={`bg-white-light shadow-sm rounded-[20px] w-[1000px]`}
             >
                 {isCancel && (
                     <img
                         alt=""
                         src={cancelBtn}
                         onClick={cancel}
-                        className="cursor-pointer absolute right-5 top-5"
+                        className="cursor-pointer flex ml-auto mt-5 mr-5"
                     />
                 )}
                 {children}

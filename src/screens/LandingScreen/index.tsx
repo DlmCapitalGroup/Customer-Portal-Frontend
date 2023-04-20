@@ -27,7 +27,7 @@ import chevronDown from "../../assets/images/chevron-down.svg";
 
 const LandingScreen = () => {
     const navigate = useNavigate();
-    const { customer }: any = useAppSelector((state) => state.auth);
+    const { customer, admin }: any = useAppSelector((state) => state.auth);
     const [activeFaq, setActiveFaq] = useState<any>(null);
 
     const faqs = [
@@ -165,6 +165,8 @@ const LandingScreen = () => {
 
     if (customer?.customerId) {
         return <Navigate to="/dashboard" />;
+    } else if (admin?.userId) {
+        return <Navigate to="/admin/dashboard" />;
     } else {
         return (
             <div className="text-primary min-h-screen bg-[#DBE1E6]">
@@ -377,8 +379,9 @@ const LandingScreen = () => {
                                     Fixed Income Fund
                                 </h3>
                                 <p className="text-lg font-normal">
-                                    Fixed Income Fund Fixed Income Fund Fixed
-                                    Income Fund Fixed Income Fund
+                                    An SEC-registered mutual fund that invests
+                                    in fixed income assets, with a N10,000
+                                    minimum
                                 </p>
                             </div>
                             <div className="flex flex-col gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA]">
@@ -391,8 +394,8 @@ const LandingScreen = () => {
                                     High Interest Investment Plan
                                 </h3>
                                 <p className="text-lg font-normal">
-                                    Fixed Income Fund Fixed Income Fund Fixed
-                                    Income Fund Fixed Income Fund
+                                    This investment opportunity gives the chance
+                                    to earn high returns over a specific period
                                 </p>
                             </div>
                             <div className="flex flex-col gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA]">
@@ -405,8 +408,8 @@ const LandingScreen = () => {
                                     Child Education Plan
                                 </h3>
                                 <p className="text-lg font-normal">
-                                    Fixed Income Fund Fixed Income Fund Fixed
-                                    Income Fund Fixed Income Fund
+                                    Secure the future of your child by planning
+                                    and funding their education with us
                                 </p>
                             </div>
                             <div className="flex flex-col gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA]">
@@ -419,8 +422,8 @@ const LandingScreen = () => {
                                     Target Date Plan
                                 </h3>
                                 <p className="text-lg font-normal">
-                                    Fixed Income Fund Fixed Income Fund Fixed
-                                    Income Fund Fixed Income Fund
+                                    TDP is tailored to meet the needs of
+                                    investors who have a specific financial goal
                                 </p>
                             </div>
                             <div className="flex flex-col gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA]">
@@ -433,8 +436,8 @@ const LandingScreen = () => {
                                     Retirement Plan
                                 </h3>
                                 <p className="text-lg font-normal">
-                                    Fixed Income Fund Fixed Income Fund Fixed
-                                    Income Fund Fixed Income Fund
+                                    Tailored for employers and employees who are
+                                    planning for their post-retirement life.
                                 </p>
                             </div>
                             <div className="flex flex-col gap-y-[18px] p-5 hover:shadow-xl hover:shadow-primary/10 rounded-md hover:bg-[#E1E6EA]">
@@ -447,8 +450,8 @@ const LandingScreen = () => {
                                     Fixed Deposit Fund
                                 </h3>
                                 <p className="text-lg font-normal">
-                                    Fixed Income Fund Fixed Income Fund Fixed
-                                    Income Fund Fixed Income Fund
+                                    We help you achieve your major financial
+                                    goal with discipline and interest.
                                 </p>
                             </div>
                         </div>

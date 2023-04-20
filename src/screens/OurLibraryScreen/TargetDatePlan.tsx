@@ -178,9 +178,9 @@ const TargetDatePlan = (props: _props) => {
                     console.log(data.secure_url);
                     setFormData({
                         ...formData,
-                        [e.target.name]: data,
+                        [e.target.name]: data.secure_url,
                     });
-                    console.log(formData);
+                    // console.log(formData);
                 })
                 .catch((err) => {
                     setLoading(false);
@@ -193,7 +193,7 @@ const TargetDatePlan = (props: _props) => {
                 [e.target.name]: e.target.value,
             });
         }
-        console.log(formData);
+        // console.log(formData);
     };
 
     React.useEffect(() => {
@@ -925,7 +925,14 @@ const TargetDatePlan = (props: _props) => {
                                 discretion. I acknowledge that a non-refundable
                                 charge of 10 naira will be automatically debited
                                 from the linked bank account to add my card.
-                                <a href="/TC.pdf" target='_blank' className="text-[15px] ml-4 text-[#0066cc]" rel='noopener noreferrer'>Learn more</a>
+                                <a
+                                    href="/TC.pdf"
+                                    target="_blank"
+                                    className="text-[15px] ml-4 text-[#0066cc]"
+                                    rel="noopener noreferrer"
+                                >
+                                    Learn more
+                                </a>
                             </p>
                         </p>
                     </div>

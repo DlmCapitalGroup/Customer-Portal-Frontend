@@ -17,6 +17,7 @@ type tableProps = {
     menu?: boolean;
     toggleMenu?: any;
     reqId?: any;
+    type?: "B";
 };
 
 // const Table = (props: any) => {
@@ -90,6 +91,7 @@ const Table = (props: tableProps) => {
         toggleMenu,
         menu,
         reqId,
+        type,
     }: any = props;
 
     // const [toggleMenu, setToggleMenu] = useState(false);
@@ -129,6 +131,8 @@ const Table = (props: tableProps) => {
                             key={index}
                             onClick={() => {
                                 reqId(item?.requestId, item?.customerId);
+                                setToggleId(null);
+                                toggleMenu(false);
                             }}
                         >
                             <div className="basis-1/4 pl-[54px]">
@@ -149,9 +153,11 @@ const Table = (props: tableProps) => {
                                     <div className="basis-1/4 text-center">
                                         <h3>{item?.customerName}</h3>
                                     </div>
-                                    <div className="basis-1/4 text-center">
-                                        <h3>{item?.customerId}</h3>
-                                    </div>
+                                    {item?.customerId && (
+                                        <div className="basis-1/4 text-center">
+                                            <h3>{item?.customerId}</h3>
+                                        </div>
+                                    )}
                                 </>
                             )}
                             <div
@@ -231,7 +237,7 @@ const Table = (props: tableProps) => {
                                                     <div
                                                         className="p-3 hover:bg-primary/10 cursor-pointer"
                                                         onClick={(e) => {
-                                                            e.stopPropagation()
+                                                            e.stopPropagation();
                                                             setToggleId(null);
                                                             toggleMenu(false);
                                                         }}
@@ -247,8 +253,11 @@ const Table = (props: tableProps) => {
                                                 "approved"
                                                     ? "text-success mr-6"
                                                     : item?.transactionStatus.toLowerCase() ===
-                                                      "declined"
+                                                          "declined" &&
+                                                      type !== "B"
                                                     ? "text-error"
+                                                    : type === "B"
+                                                    ? "mr-6"
                                                     : "text-primary"
                                             } capitalize w-28 cursor-pointer text-sm`}
                                             // onClick={() => {
@@ -265,36 +274,54 @@ const Table = (props: tableProps) => {
                                                     : item?.transactionStatus}
                                             </span>
                                         </h3>
-                                        {item?.transactionStatus.toLowerCase() !==
-                                            "approved" && (
-                                            <span
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    if (menu === true) {
-                                                        setToggleId(null);
-                                                        toggleMenu(false);
-                                                    } else {
-                                                        setToggleId(
-                                                            item?.requestId
-                                                        );
-                                                        toggleMenu(true);
-                                                    }
-                                                }}
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    strokeWidth={1.5}
-                                                    stroke="currentColor"
-                                                    className="w-6 h-6 cursor-pointer"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                                                    />
-                                                </svg>
+                                        {type !== "B" && (
+                                            <span>
+                                                {item?.transactionStatus.toLowerCase() !==
+                                                    "approved" && (
+                                                    <span
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            if (menu === true) {
+                                                                setToggleId(
+                                                                    null
+                                                                );
+                                                                toggleMenu(
+                                                                    false
+                                                                );
+                                                                console.log(
+                                                                    toggleId,
+                                                                    "toggle"
+                                                                );
+                                                            } else {
+                                                                setToggleId(
+                                                                    item?.requestId
+                                                                );
+                                                                console.log(
+                                                                    toggleId,
+                                                                    "toggle"
+                                                                );
+                                                                toggleMenu(
+                                                                    true
+                                                                );
+                                                            }
+                                                        }}
+                                                    >
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            strokeWidth={1.5}
+                                                            stroke="currentColor"
+                                                            className="w-6 h-6 cursor-pointer"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                                                            />
+                                                        </svg>
+                                                    </span>
+                                                )}
                                             </span>
                                         )}
                                     </>
@@ -347,9 +374,11 @@ const Table = (props: tableProps) => {
                             <div className="basis-1/4 text-center">
                                 <h3>Full Name</h3>
                             </div>
-                            <div className="basis-1/4 text-right pr-[54px]">
-                                <h3>Customer ID</h3>
-                            </div>
+                            {type !== "B" && (
+                                <div className="basis-1/4 text-right pr-[54px]">
+                                    <h3>Customer ID</h3>
+                                </div>
+                            )}
                         </>
                     )}
                     <div className="basis-1/4 text-center">

@@ -16,6 +16,8 @@ type tableProps = {
     children?: React.ReactNode;
     toggleMenu?: any;
     menu?: boolean;
+    cid?: any;
+    type?: "B";
 };
 
 // const Table = (props: any) => {
@@ -86,7 +88,9 @@ const Table2 = (props: tableProps) => {
         activateCustomer,
         deactivateCustomer,
         toggleMenu,
+        cid,
         menu,
+        type,
     } = props;
     const [toggleId, setToggleId] = useState<null | number>(null);
 
@@ -95,7 +99,15 @@ const Table2 = (props: tableProps) => {
             return (
                 <>
                     {customers?.map((item: any, index: number) => (
-                        <div className="flex items-center" key={index}>
+                        <div
+                            className="flex items-center hover:cursor-pointer"
+                            key={index}
+                            onClick={() => {
+                                cid(item.customerId);
+                                setToggleId(null);
+                                toggleMenu(false);
+                            }}
+                        >
                             <div className="basis-1/4 pl-[54px]">
                                 <h3>{item?.customerId}</h3>
                             </div>
@@ -159,7 +171,7 @@ const Table2 = (props: tableProps) => {
                                         </div>
                                     )}
                                 <h3
-                                    className={`capitalize w-28 cursor-pointer text-sm ${
+                                    className={`capitalize w-28 cursor-pointer text-sm font-bold ${
                                         item?.isActive === true
                                             ? "text-success"
                                             : "text-error"
@@ -171,30 +183,32 @@ const Table2 = (props: tableProps) => {
                                             : "InActive"}
                                     </span>
                                 </h3>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6 cursor-pointer"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (menu === true) {
-                                            setToggleId(null);
-                                            toggleMenu(false);
-                                        } else {
-                                            setToggleId(item?.customerId);
-                                            toggleMenu(true);
-                                        }
-                                    }}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                                    />
-                                </svg>
+                                {type !== "B" && (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-6 h-6 cursor-pointer"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (menu === true) {
+                                                setToggleId(null);
+                                                toggleMenu(false);
+                                            } else {
+                                                setToggleId(item?.customerId);
+                                                toggleMenu(true);
+                                            }
+                                        }}
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                                        />
+                                    </svg>
+                                )}
                             </div>
                         </div>
                     ))}
