@@ -182,7 +182,7 @@ const ProductsAdmin = () => {
                                 <ProductCard
                                     title={i.productName}
                                     key={index}
-                                    image={i.thumb}
+                                    image={i.imageUrl}
                                     isValid={
                                         i.isDisabled === false ? true : false
                                     }
@@ -201,7 +201,7 @@ const ProductsAdmin = () => {
                                 <ProductCard
                                     title={i.productName}
                                     key={index}
-                                    image={i.thumb}
+                                    image={i.imageUrl}
                                     isValid={
                                         i.isDisabled === false ? true : false
                                     }

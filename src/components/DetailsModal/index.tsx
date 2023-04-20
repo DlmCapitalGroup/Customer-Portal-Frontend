@@ -1,5 +1,6 @@
 import Modal2 from "../Modal";
 import Table from "../TableComponent";
+import folderIcon from "../../assets/images/folder.png";
 
 const DetailsModal = ({
     title,
@@ -283,30 +284,63 @@ const DetailsModal = ({
                         customerDetails?.meansOfId) && (
                         <p className="grid grid-cols-1 gap-y-1">
                             <b className="mr-5">Form Of Identity:</b>
-                            <span>
-                                {customerDetails?.formOfIdentity ||
-                                    customerDetails?.meansOfId}
-                            </span>
+                            <a
+                                href={
+                                    customerDetails?.formOfIdentity ||
+                                    customerDetails?.meansOfId
+                                }
+                                target="_blank"
+                                className="height-[50px] h-20 w-20"
+                                rel="noreferrer"
+                            >
+                                <img alt="" src={folderIcon} />
+                            </a>
                         </p>
                     )}
                     {(customerDetails?.passportPhoto ||
                         customerDetails?.passportPicture) && (
                         <p className="flex flex-col flex-wrap gap-y-1">
                             <b className="mr-5">Passport Photo:</b>
-                            {customerDetails?.passportPhoto ||
-                                customerDetails?.passportPicture}
+                            <a
+                                href={
+                                    customerDetails?.passportPhoto ||
+                                    customerDetails?.passportPicture
+                                }
+                                target="_blank"
+                                className="height-[50px] h-20 w-20"
+                                rel="noreferrer"
+                            >
+                                <img alt="" src={folderIcon} />
+                            </a>
                         </p>
                     )}
                     {customerDetails?.utilityBill && (
                         <p className="grid grid-cols-1 gap-y-1">
                             <b className="mr-5">Utility Bill:</b>
-                            {customerDetails?.utilityBill}
+                            <a
+                                href={customerDetails?.utilityBill}
+                                target="_blank"
+                                className="height-[50px] h-20 w-20"
+                                rel="noreferrer"
+                            >
+                                <img alt="" src={folderIcon} />
+                            </a>
                         </p>
                     )}
                     {customerDetails?.unitHolderSignature && (
                         <p className="grid grid-cols-1 gap-y-1">
                             <b className="mr-5">Unit Holder Signature:</b>
-                            {customerDetails?.unitHolderSignature}
+                            <a
+                                href={customerDetails?.unitHolderSignature}
+                                target="_blank"
+                                className="height-[50px] h-20 w-20"
+                                rel="noreferrer"
+                            >
+                                <img alt="" src={folderIcon} />
+                                {/* <p className="text-bol view-full">
+                                    View Document
+                                </p> */}
+                            </a>
                         </p>
                     )}
                 </div>
