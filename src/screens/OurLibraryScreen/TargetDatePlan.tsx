@@ -925,7 +925,14 @@ const TargetDatePlan = (props: _props) => {
                                 discretion. I acknowledge that a non-refundable
                                 charge of 10 naira will be automatically debited
                                 from the linked bank account to add my card.
-                                <a href="/TC.pdf" target='_blank' className="text-[15px] ml-4 text-[#0066cc]" rel='noopener noreferrer'>Learn more</a>
+                                <a
+                                    href="/TC.pdf"
+                                    target="_blank"
+                                    className="text-[15px] ml-4 text-[#0066cc]"
+                                    rel="noopener noreferrer"
+                                >
+                                    Learn more
+                                </a>
                             </p>
                         </p>
                     </div>
