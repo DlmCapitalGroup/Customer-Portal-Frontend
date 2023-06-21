@@ -60,7 +60,7 @@ const Profile = () => {
             <div className="rounded-full bg-primary w-[131px] h-[131px] flex items-center justify-center mb-[81px]">
                 <img alt="" src={avatar} className="w-24 h-16" />
             </div>
-            <div className="flex flex-col space-y-[30px] mb-[91px]">
+            <div className="flex flex-col space-y-[30px] mb-[91px] pr-10 lg:pr-0">
                 <div>
                     <Input
                         label="Full Name"
@@ -146,26 +146,28 @@ const Profile = () => {
                 </div>
             </div>
             {/* <Button buttonType="full">Update Information</Button>, */}
-            <p className="mb-[21px] text-center text-primary font-semibold text-sm">
+            <p className="mb-[21px] text-center text-primary font-semibold text-sm pr-10 lg:pr-0">
                 To change your account information please send an email <br />
                 <span className="font-bold">asset@dlm.group</span>
             </p>
-            <Button
-                buttonType="full"
-                onClick={() => {
-                    if (!formData.BVN) {
-                        triggerError();
-                    } else {
-                        window.open(
-                            `mailto:${groupEmail}?subject=${encodeURIComponent(
-                                subject
-                            )}&body=`
-                        );
-                    }
-                }}
-            >
-                Update Information
-            </Button>
+            <div className="pr-10 lg:pr-0">
+                <Button
+                    buttonType="full"
+                    onClick={() => {
+                        if (!formData.BVN) {
+                            triggerError();
+                        } else {
+                            window.open(
+                                `mailto:${groupEmail}?subject=${encodeURIComponent(
+                                    subject
+                                )}&body=`
+                            );
+                        }
+                    }}
+                >
+                    Update Information
+                </Button>
+            </div>
             {loading && <Loader />}
         </div>
     );

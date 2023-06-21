@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import logoSm from "../../assets/images/logo-sm.svg";
+import logoSm from "../../assets/images/logo-sm.svg";
 import logoLg from "../../assets/images/logo-lg.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import dashboardIcon from "../../assets/images/dashboard-icon.svg";
@@ -407,21 +407,22 @@ const DashboardLayout = (props: dashboardProps) => {
                     </Marquee>
                 </div>
             )}
-            <div className="fixed left-0 top-0 w-[210px] z-20 transition ease-in-out delay-150 duration-300 h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col">
+            <div className="fixed left-0 top-0 z-20 transition ease-in-out delay-150 duration-300 h-screen py-[40px] bg-primary rounded-tr-3xl rounded-br-3xl flex flex-col">
                 <img
                     alt=""
                     src={dashboardBg}
                     className="fixed bottom-[100px] ml-6 -z-10"
                 />
-                <div className="pl-[15px] mb-[76px]">
-                    <img alt="" src={logoLg} />
+                <div className="flex flex-col items-center lg:items-start lg:pl-[15px] mb-[76px]">
+                    <img alt="" src={logoLg} className="hidden lg:block" />
+                    <img alt="" src={logoSm} className="lg:hidden" />
                 </div>
-                <div className="flex flex-col justify-between grow">
-                    <div className="flex flex-col space-y-10">
+                <div className="flex flex-col justify-between grow w-[70px] sm:w-[100px] lg:w-full">
+                    <div className="flex flex-col space-y-10 items-center">
                         {dashboardLinks.slice(0, 4).map((link, index) => (
                             <Link
                                 to={link.path}
-                                className="flex pl-[15px] items-center text-sm xl:text-base"
+                                className="flex lg:pl-[15px] items-center text-sm xl:text-base lg:mr-auto"
                             >
                                 {location.pathname === link.path && (
                                     <img
@@ -431,18 +432,18 @@ const DashboardLayout = (props: dashboardProps) => {
                                     />
                                 )}
                                 <img alt="" src={link?.icon} />{" "}
-                                <span className="text-base text-white ml-[25px] capitalize">
+                                <span className="text-base text-white mx-[15px] capitalize hidden lg:block">
                                     {link.name}
                                 </span>
                             </Link>
                         ))}
                     </div>
 
-                    <div className="flex flex-col space-y-10">
+                    <div className="flex flex-col space-y-10 items-center lg:items-start">
                         {dashboardLinks.slice(4).map((link, index) => (
                             <Link
                                 to={index === 0 ? link.path : ""}
-                                className="flex pl-[15px] items-center"
+                                className="flex lg:pl-[15px] items-center"
                                 onClick={() => {
                                     index === 1 && setLoading(true);
                                     link?.logout &&
@@ -457,7 +458,7 @@ const DashboardLayout = (props: dashboardProps) => {
                                     src={link.icon}
                                     className={index === 0 ? "w-6 h-6" : ""}
                                 />{" "}
-                                <span className="text-base text-white ml-[25px] capitalize">
+                                <span className="text-base text-white mx-[15px] capitalize hidden lg:block">
                                     {link?.name && link?.name}
                                 </span>
                             </Link>
@@ -465,7 +466,7 @@ const DashboardLayout = (props: dashboardProps) => {
                     </div>
                 </div>
             </div>
-            <div className="ml-[250px] pb-20">
+            <div className="ml-[100px] sm:ml-[120px] lg:ml-[250px] pb-20">
                 {updateProfileForm && (
                     <div className="py-6 mt-10 mr-16 bg-primary text-white px-8 text-base font-bold flex justify-between items-center mb-10 rounded-xl">
                         <span>Please Complete your profile</span>

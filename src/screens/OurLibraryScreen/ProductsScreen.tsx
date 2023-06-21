@@ -74,6 +74,7 @@ const Products = () => {
     const [serviceModal, setServiceModal] = React.useState(false);
     const [apiProducts, setApiProducts] = React.useState([]);
     const [products, setProducts] = useState([]);
+    const [grid, setGrid] = useState(false)
 
     useEffect(() => {
         setLoading(true)
@@ -126,7 +127,7 @@ const Products = () => {
 
     return (
         <div className="pt-[50px] text-primary max-w-[1100px] text-base pb-20">
-            <h3 className="text-xl font-semibold mb-[15px]">
+            <h3 className="text-lg lg:text-xl font-semibold mb-[15px]">
                 Products Library
             </h3>
             <p className="mb-[73px] text-base">
@@ -134,8 +135,8 @@ const Products = () => {
                 offer you.
             </p>
 
-            <div className="flex flex-col gap-y-6 mb-20">
-                <div className="flex justify-between gap-x-3 xl:gap-x-5">
+            <div className="flex flex-col gap-y-10 lg:gap-y-6 mb-20">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 xl:gap-5">
                     {products?.slice(0, 3).map((i: any, index) => {
                         if (!i.isDisabled) {
                             const item = i?.productName
@@ -159,7 +160,7 @@ const Products = () => {
                         }
                     })}
                 </div>
-                <div className="flex justify-between gap-x-3 xl:gap-x-5">
+                <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gapx-5">
                     {products?.slice(3).map((i: any, index: number) => {
                         if (!i.isDisabled) {
                             const item = i?.productName

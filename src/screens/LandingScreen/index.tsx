@@ -175,7 +175,7 @@ const LandingScreen = () => {
                         <div className="container max-w-[1440px] flex items-center justify-between px-10 lg:px-20 py-10">
                             <img alt="" src={logoDark} />
 
-                            <div className="flex items-center gap-x-10 text-[18px] font-semibold">
+                            <div className="hidden lg:flex items-center gap-x-10 text-[18px] font-semibold">
                                 <Link
                                     to="about"
                                     smooth={true}

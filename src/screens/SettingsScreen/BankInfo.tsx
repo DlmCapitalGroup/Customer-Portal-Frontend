@@ -48,7 +48,7 @@ const BankInfo = () => {
     const groupEmail = "asset@dlm.group";
 
     return (
-        <div className="max-w-[570px]">
+        <div className="max-w-[570px] pr-10 lg:pr-0">
             <div className="rounded-full bg-primary w-[131px] h-[131px] flex items-center justify-center mb-[81px]">
                 <img alt="" src={avatar} className="w-24 h-16" />
             </div>

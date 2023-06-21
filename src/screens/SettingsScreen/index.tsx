@@ -29,7 +29,7 @@ const Settings = () => {
                         Settings
                     </h2>
 
-                    <div className="flex space-x-10">
+                    <div className="flex gap-x-10 flex-wrap gap-y-5">
                         {tabs.map((item, index) => (
                             <span
                                 className={`cursor-pointer text-base ${

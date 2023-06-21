@@ -80,7 +80,7 @@ const Password = () => {
                 <img alt="" src={lock} />
             </div>
 
-            <form className="max-w-[570px]" onSubmit={changePassword}>
+            <form className="max-w-[570px] pr-10 lg:pr-0" onSubmit={changePassword}>
                 <div
                     className={`flex flex-col space-y-[30px] ${
                         !error && "mb-[91px]"

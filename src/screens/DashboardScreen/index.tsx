@@ -182,7 +182,7 @@ const DashboardScreen = () => {
 
     return (
         <DashboardLayout>
-            <div className="pt-[48px] pr-16 text-primary">
+            <div className="pt-[48px] pr-5 lg:pr-16 text-primary">
                 {/* <div className="flex justify-between items-center mb-[60px] max-w-[1119px] space-x-14">
                     <div className="relative flex items-center max-w-[664px] w-full">
                         <input
@@ -235,13 +235,13 @@ const DashboardScreen = () => {
                         </div> */}
                     </div>
 
-                    <div className="h-[328px] flex justify-between space-x-3">
-                        <div className="w-[456px] h-full bg-white-light shadow-sm rounded-[20px]">
+                    <div className="flex flex-col gap-y-10 lg:flex-row justify-between space-x-3">
+                        <div className="w-full lg:w-[456px] h-[328px] bg-white-light shadow-sm rounded-[20px]">
                             <div className="py-3 text-center flex text-sm xl:text-base divide-x h-full">
                                 <div className="basis-1/2 flex flex-col divide-y">
                                     <div className="basis-1/3 flex items-center justify-center">
                                         <div>
-                                            <p>Net Asset (₦)</p>
+                                            <p>Net Asset Value (₦)</p>
                                             <p className="font-semibold">
                                                 ₦{" "}
                                                 {overviewData?.netAssetValue
@@ -254,7 +254,7 @@ const DashboardScreen = () => {
                                     </div>
                                     <div className="basis-1/3 flex items-center justify-center">
                                         <div>
-                                            <p>Wallet</p>
+                                            <p>Cash</p>
                                             <p className="font-semibold">
                                                 ₦{" "}
                                                 {customer?.cashAccountBalance
@@ -267,7 +267,7 @@ const DashboardScreen = () => {
                                     </div>
                                     <div className="basis-1/3 flex items-center justify-center">
                                         <div>
-                                            <p>Savings</p>
+                                            <p>Value of Holding</p>
                                             <p className="font-semibold">₦ 0</p>
                                         </div>
                                     </div>
@@ -275,26 +275,26 @@ const DashboardScreen = () => {
                                 <div className="basis-1/2 flex flex-col divide-y">
                                     <div className="basis-1/3 flex items-center justify-center">
                                         <div>
-                                            <p>Net Asset ($)</p>
+                                            <p>Unit Price</p>
                                             <p className="font-semibold">$ 0</p>
                                         </div>
                                     </div>
                                     <div className="basis-1/3 flex items-center justify-center">
                                         <div>
-                                            <p>Returns</p>
+                                            <p>Interest</p>
                                             <p className="font-semibold">$ 0</p>
                                         </div>
                                     </div>
                                     <div className="basis-1/3 flex items-center justify-center">
                                         <div>
-                                            <p>Investments</p>
+                                            <p>Total Investment</p>
                                             <p className="font-semibold">$ 0</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="w-[363px] h-full bg-white-light shadow-sm rounded-[20px]">
+                        <div className="basis-full md:basis-auto lg:w-[363px] h-[328px] bg-white-light shadow-sm rounded-[20px]">
                             <h3 className="font-semibold text-sm xl:text-base mb-[60px] mt-[18px] ml-5">
                                 Investment Analysis
                             </h3>
@@ -315,7 +315,7 @@ const DashboardScreen = () => {
                             </LineChart>
                         </div>
 
-                        <div className="w-[253px] h-full bg-white-light shadow-sm rounded-[20px] flex flex-col">
+                        <div className="basis-full md:basis-auto lg:w-[253px] h-[328px] bg-white-light shadow-sm rounded-[20px] flex flex-col">
                             <h3 className="font-semibold text-sm xl:text-base mt-[18px] ml-5">
                                 Portfolio Analysis
                             </h3>
@@ -349,12 +349,12 @@ const DashboardScreen = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-[40px]">
+                    <div className="mt-20 lg:mt-[40px]">
                         <h2 className="text-xl font-semibold mb-5">
                             Transactions
                         </h2>
-                        <div className="flex justify-between h-[365px] space-x-3">
-                            <div className="w-[679px] rounded-[20px] bg-white-lighter h-full">
+                        <div className="flex flex-col lg:flex-row justify-between min-h-[365px] gap-y-10 gap-x-3">
+                            <div className="w-full lg:w-[679px] rounded-[20px] bg-white-lighter h-full">
                                 <div className="text-sm w-full rounded-[20px] bg-white-light h-[365px]">
                                     <div className="flex bg-primary rounded-[20px] h-[45.2px] text-white items-center text-sm xl:text-base">
                                         <div className="basis-1/4 pl-[20px]">
@@ -387,7 +387,7 @@ const DashboardScreen = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-[420px] rounded-[20px] bg-white-light py-[18px] px-8 overflow-y-auto">
+                            <div className="w-full lg:w-[420px] rounded-[20px] bg-white-light py-[18px] px-8 overflow-y-auto">
                                 <h3 className="text-base font-semibold mb-5">
                                     News & Updates
                                 </h3>

@@ -25,9 +25,9 @@ const Button = (props: buttonProps) => {
                     : hasIcon === true
                     ? "w-[249px]"
                     : buttonType === "lg"
-                    ? "w-[420px]"
+                    ? "w-full lg:w-[420px]"
                     : buttonType === "xl"
-                    ? "w-[568px]"
+                    ? "w-full lg:w-[568px]"
                     : buttonType === "full"
                     ? "w-full"
                     : "w-[125px]"

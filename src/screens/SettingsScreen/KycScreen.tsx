@@ -47,7 +47,7 @@ const Kyc = () => {
     const groupEmail = "asset@dlm.group";
 
     return (
-        <div>
+        <div className="pr-10 lg:pr-0">
             {/* {msg && <p className="text-error mb-5">{msg}</p>} */}
             <div className="w-[131px] h-[131px] rounded-full grid place-items-center bg-primary mb-[81px]">
                 <img alt="" src={lock} />
