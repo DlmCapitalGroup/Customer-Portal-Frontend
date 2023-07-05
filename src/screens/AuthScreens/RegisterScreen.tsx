@@ -8,18 +8,21 @@ import {
     setLoading,
 } from "../../store/auth-slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { Input } from "../../components/FormElements";
+import { Input, Select } from "../../components/FormElements";
 import Loader from "../../components/LoaderComponent";
+import { toast } from "react-toastify";
 
 const Register = () => {
     const [formData, setFormData] = React.useState({
+        active: "true",
+        channel: "WEB",
         firstName: "",
         lastName: "",
-        username: "",
-        email: "",
-        phoneNumber: "",
-        password: "",
-        confirmPassword: "",
+        cellPhone: "",
+        emailAddress1: "",
+        portalUserName: "",
+        portalPassword: "",
+        partnerType: "INDIVIDUAL",
     });
     const [error, setError] = React.useState("");
 
@@ -29,67 +32,54 @@ const Register = () => {
     const { loading }: any = useAppSelector((state) => state.auth);
 
     const formChange = (e: any) => {
-        if (e.target.type === "number" && e.target.value.length <= 11) {
-            setFormData((prevState) => ({
-                ...prevState,
-                [e.target.name]: e.target.value,
-            }));
-            console.log("working")
-        } else if (e.target.type !== "number") {
-            console.log("not working");
-            setFormData((prevState) => ({
-                ...prevState,
-                [e.target.name]: e.target.value,
-            }));
-        }
+        setFormData(() => ({
+            ...formData,
+            [e.target.name]: e.target.value,
+        }));
+
+        console.log(formData)
     };
 
-    useEffect(() => {
-        if (
-            formData.password.length > 0 &&
-            formData.confirmPassword.length > 0
-        ) {
-            if (formData.password !== formData.confirmPassword) {
-                setError("Passwords do not match");
-            } else {
-                setError("");
-            }
-        }
-    }, [formData.confirmPassword, formData.password]);
+    // useEffect(() => {
+    //     if (
+    //         formData.password.length > 0 &&
+    //         formData.confirmPassword.length > 0
+    //     ) {
+    //         if (formData.password !== formData.confirmPassword) {
+    //             setError("Passwords do not match");
+    //         } else {
+    //             setError("");
+    //         }
+    //     }
+    // }, [formData.confirmPassword, formData.password]);
 
     const register = async (e: any) => {
         e.preventDefault();
-        if (!error) {
-            dispatch(setLoading(true));
-            let res: any = await dispatch(
-                loginUser({
-                    username: "hamzah",
-                    password: "Ade@125",
-                })
-            );
+
+        setLoading(true);
+        let data: any = new FormData();
+        data.append("username", "support.api");
+        data.append("password", "Apisupport@123");
+
+        let res: any = await dispatch(loginUser(data));
+        let errors =
+            res.meta.rejectedWithValue === true ||
+            res.meta.requestStatus === "rejected";
+
+        if (!errors) {
+            let signupRes: any = await dispatch(registerCustomer(formData));
+            console.log(signupRes, "signupRes");
+
             let errors =
-                res.meta.rejectedWithValue === true ||
-                res.meta.requestStatus === "rejected";
+            res.meta.rejectedWithValue === true ||
+            res.meta.requestStatus === "rejected";
 
             if (!errors) {
-                let signupRes: any = await dispatch(registerCustomer(formData));
-                console.log(signupRes, "signupRes");
-                let resCheck = signupRes.meta.requestStatus === "fulfilled";
-                localStorage.setItem(
-                    "customerRegData",
-                    JSON.stringify(formData)
-                );
-                localStorage.setItem(
-                    "customerRegRes",
-                    JSON.stringify(signupRes.payload)
-                );
-                if (resCheck) {
-                    navigate("/auth/confirm-email", {
-                        state: {
-                            data: signupRes.payload,
-                        },
-                    });
-                }
+                toast("Account Created Successfully")
+            }
+
+            else {
+                toast("Error Creating Account")
             }
         }
     };
@@ -125,21 +115,10 @@ const Register = () => {
                             label="Email Address"
                             type="email"
                             placeholder="Email Address"
-                            name="email"
+                            name="emailAddress1"
                             onChange={formChange}
                             required
-                            value={formData.email}
-                        />
-                    </div>
-                    <div>
-                        <Input
-                            label="Username"
-                            type="text"
-                            placeholder="Username"
-                            name="username"
-                            onChange={formChange}
-                            required
-                            value={formData.username}
+                            value={formData.emailAddress1}
                         />
                     </div>
                     <div>
@@ -148,40 +127,47 @@ const Register = () => {
                             type="number"
                             max="99999999999"
                             placeholder="Phone Number"
-                            name="phoneNumber"
+                            name="cellPhone"
                             onChange={formChange}
                             required
-                            value={formData.phoneNumber}
-                        />
-                    </div>
-                    <div>
-                        <Input
-                            label="Password"
-                            placeholder="Password"
-                            name="password"
-                            isPassword
-                            onChange={formChange}
-                            required
-                            value={formData.password}
-                        />
-                    </div>
-                    <div>
-                        <Input
-                            label="Confirm Password"
-                            placeholder="Confirm Password"
-                            name="confirmPassword"
-                            isPassword
-                            onChange={formChange}
-                            required
-                            value={formData.confirmPassword}
+                            value={formData.cellPhone}
                         />
                     </div>
 
-                    {error && (
-                        <p className="text-center text-error">
-                            Password does not match
-                        </p>
-                    )}
+                    <div>
+                        <Input
+                            label="Username"
+                            placeholder="Username"
+                            name="portalUserName"
+                            onChange={formChange}
+                            required
+                            value={formData.portalUserName}
+                        />
+                    </div>
+
+                    <div>
+                        <Input
+                            label="Password"
+                            type="password"
+                            placeholder="Password"
+                            name="portalPassword"
+                            onChange={formChange}
+                            required
+                            value={formData.portalPassword}
+                        />
+                    </div>
+
+                    <div>
+                        <Select
+                            options={["INDIVIDUAL", "CORPORATE"]}
+                            label="Partner Type"
+                            placeholder="Partner Type"
+                            name="partnerType"
+                            onChange={formChange}
+                            required
+                            value={formData.partnerType}
+                        />
+                    </div>
 
                     <p className="flex space-x-3 items-center text-base text-black w-[350px]">
                         <input

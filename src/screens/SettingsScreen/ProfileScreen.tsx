@@ -76,7 +76,7 @@ const Profile = () => {
                     <Input
                         label="Username"
                         placeholder="Username"
-                        value={customer?.portalUsername || customer?.customerId}
+                        value={customer?.portalUserName || customer?.customerId}
                         disabled
                     />
                 </div>
@@ -84,7 +84,7 @@ const Profile = () => {
                     <Input
                         label="Email Address"
                         placeholder="adesewa@emailaddress.com"
-                        value={customer?.emailAddress}
+                        value={customer?.emailAddress1}
                         disabled
                     />
                 </div>
@@ -92,19 +92,19 @@ const Profile = () => {
                     <Input
                         label="Phone Number"
                         placeholder="Phone Number"
-                        value={formData.PhoneNumber}
+                        value={customer?.cellPhone}
                         disabled
                     />
                 </div>
-                <div>
+                {/* <div>
                     <Input
                         label="BVN"
                         placeholder="BVN"
                         value={formData.BVN}
                         disabled
                     />
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                     <Input
                         label="Residential Address"
                         placeholder="Residential Address"
@@ -143,7 +143,7 @@ const Profile = () => {
                         value={formData.PostalCode}
                         disabled
                     />
-                </div>
+                </div> */}
             </div>
             {/* <Button buttonType="full">Update Information</Button>, */}
             <p className="mb-[21px] text-center text-primary font-semibold text-sm pr-10 lg:pr-0">

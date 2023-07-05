@@ -1,26 +1,25 @@
 import { setAuthToken } from "../auth-slice";
 import { devInstance } from "../devInstance";
 
-const loginCustomer = async (customerData: object) => {
-    const res = await devInstance.post(
-        "/Authentication/CustomerLogin",
-        customerData
+const loginCustomer = async (customerData: any) => {
+    console.log(customerData, "esfesvsefdv");
+    const res = await devInstance.get(
+        `/security/customer/username/${customerData?.username || customerData?.portalUserName}`
     );
-    if (res?.data) {
-        // localStorage.setItem("customer", JSON.stringify(res?.data?.details));
-        console.log(res?.data?.details);
-    }
-    return res.data.details;
+    return res.data;
 };
 
 const loginUser = async (userData: object) => {
-    const res = await devInstance.post("/Authentication/LoginUser", userData);
+    const res = await devInstance.post(
+        "/security/request/access-token",
+        userData
+    );
     if (res?.data) {
         console.log(res?.data);
-        setAuthToken(res?.data?.data?.token);
-        // localStorage.setItem("user", JSON.stringify(res?.data?.data));
+        console.log(res?.data.access_token);
+        setAuthToken(res?.data?.access_token);
     }
-    return res.data.data;
+    return res.data;
 };
 const loginAdmin = async (adminData: object) => {
     const res = await devInstance.post("/Admin/LoginAdmin", adminData);
@@ -43,12 +42,9 @@ const confirmCustomer = async (state: any) => {
 };
 
 const registerCustomer = async (customer: object) => {
-    const res = await devInstance.post(
-        "/Authentication/CustomerSignUp",
-        customer
-    );
-
-    return res.data.data || res.data.result;
+    const res = await devInstance.post("/partner/customer/create", customer);
+    console.log(res, "response responsew gjhbhjbjkh");
+    return res.data;
 };
 
 const resendOtp = async (customerEmail: string) => {

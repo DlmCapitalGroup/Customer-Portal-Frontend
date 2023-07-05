@@ -35,7 +35,7 @@ function App() {
 
     useEffect(() => {
         if (user) {
-            setAuthToken(user?.token);
+            setAuthToken(user?.access_token);
             if (customer) {
                 dispatch(setCustomer(customer));
             }

@@ -6,13 +6,16 @@ import { Input } from "../../components/FormElements";
 import { loginCustomer, loginUser, setLoading } from "../../store/auth-slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Loader from "../../components/LoaderComponent";
+import { devInstance } from "../../store/devInstance";
 
 function Login() {
     const [formData, setFormData] = React.useState({
         username: "",
         password: "",
     });
-    const localModal = localStorage.getItem("serviceModal");
+    // const localModal = localStorage.getItem("serviceModal");
+
+
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -27,32 +30,26 @@ function Login() {
 
     const login = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(setLoading(true));
-        let res: any = await dispatch(
-            loginUser({
-                username: "hamzah",
-                password: "Ade@125",
-            })
-        );
+        setLoading(true)
+        let data: any = new FormData();
+        data.append("username", "support.api");
+        data.append("password", "Apisupport@123");
+
+        let res: any = await dispatch(loginUser(data));
 
         let errors =
             res.meta.rejectedWithValue === true ||
             res.meta.requestStatus === "rejected";
 
         if (!errors) {
-            await dispatch(
-                loginCustomer(
-                    formData
-                    // { username: "ifytest", password: "Dlmtest123#" }
-                )
-            );
+            // let cus: any = new FormData();
+            // cus.append("password", formData.password);
+            // cus.append("username", formData.username);
+            await dispatch(loginCustomer(formData));
         }
 
-        // if(localModal !== "false") {
         navigate("/dashboard");
-        // } else {
-        //     navigate("/");
-        // }
+        setLoading(false)
     };
 
     return (

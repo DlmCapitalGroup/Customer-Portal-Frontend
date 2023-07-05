@@ -163,35 +163,35 @@ const DashboardLayout = (props: dashboardProps) => {
         },
     ];
 
-    const findMissingFormdata = () => {
-        return !!(
-            formData.FirstName &&
-            formData.Surname &&
-            formData.Age &&
-            formData.BirthDate &&
-            formData.EmailAddress &&
-            formData.PhoneNumber &&
-            formData.ResidentialAddress &&
-            formData.State &&
-            formData.Country &&
-            formData.Occupation &&
-            formData.IdType &&
-            formData.IdNumber &&
-            formData.BankName &&
-            formData.AccountName &&
-            formData.AccountNumber &&
-            formData.BVN &&
-            formData.NextOfKinName &&
-            formData.AddressNOK &&
-            formData.RelationshipWithNOK &&
-            formData.PassportPhoto &&
-            formData.FormOfIdentity &&
-            formData.UtilityBill &&
-            formData.UnitHolderSignature &&
-            formData.PostalCode &&
-            formData.PlaceOfBirth
-        );
-    };
+    // const findMissingFormdata = () => {
+    //     return !!(
+    //         formData.FirstName &&
+    //         formData.Surname &&
+    //         formData.Age &&
+    //         formData.BirthDate &&
+    //         formData.EmailAddress &&
+    //         formData.PhoneNumber &&
+    //         formData.ResidentialAddress &&
+    //         formData.State &&
+    //         formData.Country &&
+    //         formData.Occupation &&
+    //         formData.IdType &&
+    //         formData.IdNumber &&
+    //         formData.BankName &&
+    //         formData.AccountName &&
+    //         formData.AccountNumber &&
+    //         formData.BVN &&
+    //         formData.NextOfKinName &&
+    //         formData.AddressNOK &&
+    //         formData.RelationshipWithNOK &&
+    //         formData.PassportPhoto &&
+    //         formData.FormOfIdentity &&
+    //         formData.UtilityBill &&
+    //         formData.UnitHolderSignature &&
+    //         formData.PostalCode &&
+    //         formData.PlaceOfBirth
+    //     );
+    // };
 
     function prevFunction() {
         if (currentStep > 1) {
@@ -238,161 +238,161 @@ const DashboardLayout = (props: dashboardProps) => {
 
     function nextFunction(e: any) {
         e.preventDefault();
-        if (currentStep < 2) {
-            setCurrentStep((prev) => prev + 1);
-        } else {
-            accountOnboarding();
-        }
+        // if (currentStep < 2) {
+        //     setCurrentStep((prev) => prev + 1);
+        // } else {
+        //     accountOnboarding();
+        // }
     }
 
-    const fileErrors = [
-        {
-            title: "Passport Photo",
-            value: formData.PassportPhoto,
-        },
-        {
-            title: "Utility Bill",
-            value: formData.UtilityBill,
-        },
-        {
-            title: "Unit Holder Signature",
-            value: formData.UnitHolderSignature,
-        },
-        {
-            title: "Form of Identity",
-            value: formData.FormOfIdentity,
-        },
-    ];
+    // const fileErrors = [
+    //     {
+    //         title: "Passport Photo",
+    //         value: formData.PassportPhoto,
+    //     },
+    //     {
+    //         title: "Utility Bill",
+    //         value: formData.UtilityBill,
+    //     },
+    //     {
+    //         title: "Unit Holder Signature",
+    //         value: formData.UnitHolderSignature,
+    //     },
+    //     {
+    //         title: "Form of Identity",
+    //         value: formData.FormOfIdentity,
+    //     },
+    // ];
 
-    const accountOnboarding = () => {
-        if (fileErrors[0].value === "") {
-            toast.error(`${fileErrors[0].title} is required`);
-        }
-        if (fileErrors[1].value === "") {
-            toast.error(`${fileErrors[1].title} is required`);
-        }
-        if (fileErrors[2].value === "") {
-            toast.error(`${fileErrors[2].title} is required`);
-        }
-        if (fileErrors[3].value === "") {
-            toast.error(`${fileErrors[3].title} is required`);
-        }
+    // const accountOnboarding = () => {
+    //     if (fileErrors[0].value === "") {
+    //         toast.error(`${fileErrors[0].title} is required`);
+    //     }
+    //     if (fileErrors[1].value === "") {
+    //         toast.error(`${fileErrors[1].title} is required`);
+    //     }
+    //     if (fileErrors[2].value === "") {
+    //         toast.error(`${fileErrors[2].title} is required`);
+    //     }
+    //     if (fileErrors[3].value === "") {
+    //         toast.error(`${fileErrors[3].title} is required`);
+    //     }
 
-        if (
-            fileErrors[0].value &&
-            fileErrors[1].value &&
-            fileErrors[2].value &&
-            fileErrors[3].value
-        ) {
-            setLoading(true);
-            var data = new FormData();
-            data.append("AccountName", formData.AccountName);
-            data.append("AccountNumber", formData.AccountNumber);
-            data.append("AddressNOK", formData.AddressNOK);
-            data.append("Age", formData.Age);
-            data.append("BankName", formData.BankName);
-            data.append("BirthDate", formData.BirthDate);
-            data.append("BVN", formData.BVN);
-            data.append("Country", formData.Country);
-            data.append("EmailAddress", formData.EmailAddress);
-            data.append("FirstName", formData.FirstName);
-            data.append("FormOfIdentity", formData.FormOfIdentity);
-            data.append("IdNumber", formData.IdNumber);
-            data.append("IdType", formData.IdType);
-            data.append("NextOfKinName", formData.NextOfKinName);
-            data.append("Occupation", formData.Occupation);
-            data.append("PassportPhoto", formData.PassportPhoto);
-            data.append("PhoneNumber", formData.PhoneNumber);
-            data.append("RelationshipWithNOK", formData.RelationshipWithNOK);
-            data.append("ResidentialAddress", formData.ResidentialAddress);
-            data.append("State", formData.State);
-            data.append("Surname", formData.Surname);
-            data.append("UnitHolderSignature", formData.UnitHolderSignature);
-            data.append("UtilityBill", formData.UtilityBill);
-            data.append("PostalCode", formData.PostalCode);
-            data.append("PlaceOfBirth", formData.PlaceOfBirth);
+    //     if (
+    //         fileErrors[0].value &&
+    //         fileErrors[1].value &&
+    //         fileErrors[2].value &&
+    //         fileErrors[3].value
+    //     ) {
+    //         setLoading(true);
+    //         var data = new FormData();
+    //         data.append("AccountName", formData.AccountName);
+    //         data.append("AccountNumber", formData.AccountNumber);
+    //         data.append("AddressNOK", formData.AddressNOK);
+    //         data.append("Age", formData.Age);
+    //         data.append("BankName", formData.BankName);
+    //         data.append("BirthDate", formData.BirthDate);
+    //         data.append("BVN", formData.BVN);
+    //         data.append("Country", formData.Country);
+    //         data.append("EmailAddress", formData.EmailAddress);
+    //         data.append("FirstName", formData.FirstName);
+    //         data.append("FormOfIdentity", formData.FormOfIdentity);
+    //         data.append("IdNumber", formData.IdNumber);
+    //         data.append("IdType", formData.IdType);
+    //         data.append("NextOfKinName", formData.NextOfKinName);
+    //         data.append("Occupation", formData.Occupation);
+    //         data.append("PassportPhoto", formData.PassportPhoto);
+    //         data.append("PhoneNumber", formData.PhoneNumber);
+    //         data.append("RelationshipWithNOK", formData.RelationshipWithNOK);
+    //         data.append("ResidentialAddress", formData.ResidentialAddress);
+    //         data.append("State", formData.State);
+    //         data.append("Surname", formData.Surname);
+    //         data.append("UnitHolderSignature", formData.UnitHolderSignature);
+    //         data.append("UtilityBill", formData.UtilityBill);
+    //         data.append("PostalCode", formData.PostalCode);
+    //         data.append("PlaceOfBirth", formData.PlaceOfBirth);
 
-            var config = {
-                method: "post",
-                maxBodyLength: Infinity,
-                url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/InvestmentOnboarding",
-                data: data,
-            };
+    //         var config = {
+    //             method: "post",
+    //             maxBodyLength: Infinity,
+    //             url: "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/InvestmentOnboarding",
+    //             data: data,
+    //         };
 
-            devInstance(config)
-                .then(function (response: any) {
-                    console.log(JSON.stringify(response.data));
-                    toast.success(`${response.data.message}`);
-                    setStepper(false);
-                    navigate("/products");
-                })
-                .catch(function (error: any) {
-                    console.log(error);
-                    setLoading(false);
-                    toast.error("Failed");
-                })
-                .finally(() => setLoading(false));
-        }
-    };
+    //         devInstance(config)
+    //             .then(function (response: any) {
+    //                 console.log(JSON.stringify(response.data));
+    //                 toast.success(`${response.data.message}`);
+    //                 setStepper(false);
+    //                 navigate("/products");
+    //             })
+    //             .catch(function (error: any) {
+    //                 console.log(error);
+    //                 setLoading(false);
+    //                 toast.error("Failed");
+    //             })
+    //             .finally(() => setLoading(false));
+    //     }
+    // };
 
-    useEffect(() => {
-        setLoading(true);
-        devInstance
-            .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
-            )
-            .then((res) => {
-                console.log(res, "response 22");
-                setFormData({
-                    ...formData,
-                    Surname: res.data.surname,
-                    Age: res.data.age,
-                    BirthDate: res.data.birthDate.slice(0, 10),
-                    EmailAddress: res.data.emailAddress,
-                    PhoneNumber: res.data.phoneNumber,
-                    ResidentialAddress: res.data.residentialAddress,
-                    State: res.data.state,
-                    Country: res.data.country,
-                    Occupation: res.data.occupation,
-                    IdType: res.data.idType,
-                    IdNumber: res.data.idNumber,
-                    BankName: res.data.bankName,
-                    AccountName: res.data.accountName,
-                    AccountNumber: res.data.accountNumber,
-                    BVN: res.data.bvn,
-                    NextOfKinName: res.data.nextOfKinName,
-                    AddressNOK: res.data.addressNOK,
-                    RelationshipWithNOK: res.data.relationshipWithNOK,
-                    PassportPhoto: res.data.passportPhoto,
-                    FormOfIdentity: res.data.formOfIdentity,
-                    UtilityBill: res.data.utilityBill,
-                    UnitHolderSignature: res.data.unitHolderSignature,
-                });
-                console.log(formData);
-                if (!findMissingFormdata) {
-                    setUpdateProfileForm(true);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                setUpdateProfileForm(true);
-                setLoading(false);
-            })
-            .finally(() => setLoading(false));
-    }, []);
+    // useEffect(() => {
+    //     setLoading(true);
+    //     devInstance
+    //         .get(
+    //             `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
+    //         )
+    //         .then((res) => {
+    //             console.log(res, "response 22");
+    //             setFormData({
+    //                 ...formData,
+    //                 Surname: res.data.surname,
+    //                 Age: res.data.age,
+    //                 BirthDate: res.data.birthDate.slice(0, 10),
+    //                 EmailAddress: res.data.emailAddress,
+    //                 PhoneNumber: res.data.phoneNumber,
+    //                 ResidentialAddress: res.data.residentialAddress,
+    //                 State: res.data.state,
+    //                 Country: res.data.country,
+    //                 Occupation: res.data.occupation,
+    //                 IdType: res.data.idType,
+    //                 IdNumber: res.data.idNumber,
+    //                 BankName: res.data.bankName,
+    //                 AccountName: res.data.accountName,
+    //                 AccountNumber: res.data.accountNumber,
+    //                 BVN: res.data.bvn,
+    //                 NextOfKinName: res.data.nextOfKinName,
+    //                 AddressNOK: res.data.addressNOK,
+    //                 RelationshipWithNOK: res.data.relationshipWithNOK,
+    //                 PassportPhoto: res.data.passportPhoto,
+    //                 FormOfIdentity: res.data.formOfIdentity,
+    //                 UtilityBill: res.data.utilityBill,
+    //                 UnitHolderSignature: res.data.unitHolderSignature,
+    //             });
+    //             console.log(formData);
+    //             if (!findMissingFormdata) {
+    //                 setUpdateProfileForm(true);
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //             setUpdateProfileForm(true);
+    //             setLoading(false);
+    //         })
+    //         .finally(() => setLoading(false));
+    // }, []);
 
-    useEffect(() => {
-        setLoading(true);
-        devInstance
-            .get("https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetDailyNews")
-            .then((response) => {
-                setDailyNews(response.data[0].dailyNews);
-            })
-            .catch((err) => console.log(err))
-            .finally(() => {
-                setLoading(false);
-            });
-    }, []);
+    // useEffect(() => {
+    //     setLoading(true);
+    //     devInstance
+    //         .get("https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetDailyNews")
+    //         .then((response) => {
+    //             setDailyNews(response.data[0].dailyNews);
+    //         })
+    //         .catch((err) => console.log(err))
+    //         .finally(() => {
+    //             setLoading(false);
+    //         });
+    // }, []);
 
     return (
         <div className="w-full min-h-screen bg-primary-light">

@@ -58,32 +58,33 @@ const DashboardScreen = () => {
 
     const fetchData = useCallback(async () => {
         console.log(dobRef?.current, "it is working");
-        if (customer?.customerId || customer.portalUsername) {
+        if (customer?.id) {
             setLoading(true);
-            await devInstance
-                .get("/Dashboard/GetTransactionDetails", {
-                    params: { CustomerId: customer?.customerId },
-                })
-                .then((res: any) => {
-                    setOverViewData(res.data);
-                    console.log(res.data.details, "details");
-                })
-                .catch((error: any) => {
-                    const message =
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString();
-                    console.log(message);
-                    setLoading(false);
-                })
-                .finally(() => setLoading(false));
+            // await devInstance
+            //     .get("/Dashboard/GetTransactionDetails", {
+            //         params: { id: customer?.id },
+            //     })
+            //     .then((res: any) => {
+            //         setOverViewData(res.data);
+            //         console.log(res.data.details, "details");
+            //     })
+            //     .catch((error: any) => {
+            //         const message =
+            //             (error.response && error.response.data) ||
+            //             error.message ||
+            //             error.toString();
+            //         console.log(message);
+            //         setLoading(false);
+            //     })
+            //     .finally(() => setLoading(false));
 
             await devInstance
-                .get(`/Dashboard/GetTransactions/${customer.customerId}`, {
-                    params: { CustomerId: customer?.customerId },
+                .get(`/partner/cash-transaction/list/`, {
+                    params: { id: customer?.customerId },
                 })
                 .then((res: any) => {
-                    setTransactions(res?.data?.data?.pageItems);
+                    console.log(res);
+                    // setTransactions(res?.data?.data?.pageItems);
                 })
                 .catch((error: any) => {
                     const message =
@@ -111,7 +112,7 @@ const DashboardScreen = () => {
                 })
                 .finally(() => setLoading(false));
         }
-    }, [customer?.customerId, customer.portalUsername]);
+    }, [customer?.id]);
 
     useEffect(() => {
         fetchData();
@@ -257,8 +258,8 @@ const DashboardScreen = () => {
                                             <p>Cash</p>
                                             <p className="font-semibold">
                                                 ₦{" "}
-                                                {customer?.cashAccountBalance
-                                                    ? customer?.cashAccountBalance.slice(
+                                                {customer?.cashAcctBalance
+                                                    ? customer?.cashAcctBalance.slice(
                                                           3
                                                       )
                                                     : 0}

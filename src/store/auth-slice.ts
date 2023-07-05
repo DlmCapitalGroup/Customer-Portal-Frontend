@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import authService from "./api/authService";
 import { devInstance } from "./devInstance";
 import { clearStepper } from "./stepperSlice";
+import { store } from ".";
 interface AuthState {
     user: {} | null;
     customer: {} | null;
@@ -14,8 +15,46 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-    user: null,
-    customer: null,
+    user: {
+        access_token:
+            "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhMVFQeFJTQmEtTkR3U1VtMjFySXp4UHBQZmJ0NWdfdDRlQ3ZXemZhTFU4In0.eyJleHAiOjE2ODg1NTgzNTAsImlhdCI6MTY4ODUyMjM1MCwianRpIjoiM2I1ZTkzN2UtYTdhOC00Y2NiLTlkZWMtZjNhNjhiZDJhZjk2IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrOjgwODAvYXV0aC9yZWFsbXMvemFuaWJhbC1hcHBsaWNhdGlvbi1zdWl0ZSIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIyODkyNzM0ZS1hMTNjLTQ2OWItOWI5Yy00MmZmODk2NmYxZTYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlZmluYW5jZS1hcHBzIiwic2Vzc2lvbl9zdGF0ZSI6ImJhNjQ2YWU0LTFmYjctNDk5OS1hZDk2LWVhMmZhZDBlOTc1NSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy16YW5pYmFsLWFwcGxpY2F0aW9uLXN1aXRlIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImVmaW5hbmNlLWFwcHMiOnsicm9sZXMiOlsiYXBpLXVzZXIiLCJhcHAtYWRtaW4iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiYXBwLWdyb3VwIjoiU1lTQURNSU4iLCJuYW1lIjoiQmlzb2xhIE9ndW55ZSIsInByZWZlcnJlZF91c2VybmFtZSI6InN1cHBvcnQuYXBpIiwiZ2l2ZW5fbmFtZSI6IkJpc29sYSIsImZhbWlseV9uYW1lIjoiT2d1bnllIn0.e35icDlgWOrqe6hqui3AThwUQVYjD3TvOBU_6jIwhc7f5IO6yKYb73rNoywZzY_tU3bRsT7MMNrlsqLJb-sjXgxdSTeMCaJVg3P7rN5j7afdC8n2ov_LjtJUZBuzafhYzD5bi81g-TZRgQeyrTgbC6qyaBmOP8a7IcczYSAVwxda3YO3uRjbycGpL6X97h505AZadblXIZBAzxn5VzwvzKJ9c4DtIJfa5I-xxTNHZk4EeLQaarReDEen_6mNKOA5yDYIH4T_O-Sl-M1xRZdA-PdO5E4xY8eQmwapxzbWTJrS5OFS4w4URiqnK14dj5U15wTkI4z3EAhaxXnVjGwZ8g",
+        expires_in: 36000,
+        refresh_expires_in: 1800,
+        refresh_token:
+            "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3MDM3NThhMS05OGVmLTRkZTQtOWRhMS04NWIyZTZiNDZlM2YifQ.eyJleHAiOjE2ODg1MjQxNTAsImlhdCI6MTY4ODUyMjM1MCwianRpIjoiMWY1MDkwOWYtNTE3Yy00YTliLTgyNDQtMTY2MjcyZTk5OWI4IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrOjgwODAvYXV0aC9yZWFsbXMvemFuaWJhbC1hcHBsaWNhdGlvbi1zdWl0ZSIsImF1ZCI6Imh0dHA6Ly9rZXljbG9hazo4MDgwL2F1dGgvcmVhbG1zL3phbmliYWwtYXBwbGljYXRpb24tc3VpdGUiLCJzdWIiOiIyODkyNzM0ZS1hMTNjLTQ2OWItOWI5Yy00MmZmODk2NmYxZTYiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiZWZpbmFuY2UtYXBwcyIsInNlc3Npb25fc3RhdGUiOiJiYTY0NmFlNC0xZmI3LTQ5OTktYWQ5Ni1lYTJmYWQwZTk3NTUiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUifQ.BX60BtyqRNJSi2jIo_YJyitBJ0LhSoTq74PxtGj_bJY",
+        token_type: "Bearer",
+        "not-before-policy": 0,
+        session_state: "ba646ae4-1fb7-4999-ad96-ea2fad0e9755",
+        scope: "email profile",
+    },
+    customer: {
+        id: 851715,
+        active: true,
+        name: "0000010943",
+        label: "AJANAKU OLADIMEJI",
+        ecrmId: 851715,
+        referalCode: "OLAJ1715",
+        cashAcct: "0000019179",
+        cashAcctBalance: "NGN 0.00",
+        firstName: "Oladimeji",
+        lastName: "Ajanaku",
+        cellPhone: "09162611469",
+        emailAddress1: "hamzat-oz@hotmail.com",
+        portalUserName: "hammy06",
+        portalPasswordToken:
+            "VzJDfFWv4f6q1+zy3GAAy0HQaESS0HyV4RrMRK8wVHNjhSA0cdVA+HxgoL5XldLpkQyVGiliKztPenKVwrzBPw==",
+        allowDebitBalance: false,
+        customerGroupName: "STANDARD",
+        customerGroupLabel: "STANDARD",
+        businessOfficeName: "0000000008",
+        customerType: "REGULAR",
+        partnerType: "INDIVIDUAL",
+        termsAndCondAccepted: false,
+        enrollInContribScheme: false,
+        accountOpened: 1687392000000,
+        status: "ACTIVE",
+        workflowStatus: "APPROVED",
+    },
     token: "",
     loading: false,
     customerOnboardingData: null,
@@ -24,7 +63,7 @@ const initialState: AuthState = {
 };
 
 export const loginUser = createAsyncThunk(
-    "Authentication/LoginUser",
+    "/security/request/access-token",
     async (user: object, thunkAPI) => {
         try {
             return await authService.loginUser(user);
@@ -57,8 +96,9 @@ export const loginAdmin = createAsyncThunk(
 
 export const loginCustomer = createAsyncThunk(
     "Authentication/CustomerLogin",
-    async (customer: object, thunkAPI) => {
+    async (customer: any, thunkAPI) => {
         try {
+            // console.log(customer)
             return await authService.loginCustomer(customer);
         } catch (error: any) {
             const message =
@@ -71,7 +111,7 @@ export const loginCustomer = createAsyncThunk(
 );
 
 export const registerCustomer = createAsyncThunk(
-    "Authentication/CustomerSignUp",
+    "/partner/customer/create",
     async (customer: object, thunkAPI) => {
         try {
             return await authService.registerCustomer(customer);
@@ -228,6 +268,7 @@ const authSlice = createSlice({
             .addCase(loginCustomer.fulfilled, (state, action) => {
                 state.customer = action.payload;
                 state.loading = false;
+                console.log(action.payload);
                 // toast.success("Login Successful");
             })
             .addCase(loginCustomer.rejected, (state, action) => {
@@ -235,48 +276,50 @@ const authSlice = createSlice({
                 toast.error(`${action.payload}`);
             })
             .addCase(registerCustomer.pending, (state) => {
-                state.loading = true;
+                // state.loading = true;
             })
             .addCase(registerCustomer.fulfilled, (state, action) => {
-                state.customer = action.payload;
-                state.loading = false;
-                toast.success("Check your email inbox or spam for OTP");
+                // store.dispatch(loginCustomer(action.payload));
+                // state.loading = false;
+                // toast.success("Check your email inbox or spam for OTP");
             })
             .addCase(registerCustomer.rejected, (state, action: any) => {
-                state.loading = false;
-                toast.error(`${action.payload}`);
+                // state.loading = false;
+                // toast.error(`${action.payload}`);
+                console.log(action.payload);
+                toast.error("Error Creating Account");
             })
             .addCase(forgottenPassword.pending, (state) => {
-                state.loading = true;
+                // state.loading = true;
             })
             .addCase(forgottenPassword.fulfilled, (state) => {
                 toast.success("Check your email to reset password");
-                state.loading = false;
+                // state.loading = false;
             })
             .addCase(forgottenPassword.rejected, (state, action) => {
                 state.loading = false;
                 toast.error(`${action.payload}`);
             })
             .addCase(resendOtpCode.pending, (state) => {
-                state.loading = true;
+                // state.loading = true;
             })
             .addCase(resendOtpCode.fulfilled, (state) => {
-                state.loading = false;
+                // state.loading = false;
                 toast.success("OTP has been resent");
             })
             .addCase(resendOtpCode.rejected, (state, action) => {
-                state.loading = false;
+                // state.loading = false;
                 toast.error(`${action.payload}`);
             })
             .addCase(resetPassword.pending, (state) => {
-                state.loading = true;
+                // state.loading = true;
             })
             .addCase(resetPassword.fulfilled, (state) => {
-                state.loading = false;
+                // state.loading = false;
                 toast.success("Password has been changed successfully");
             })
             .addCase(resetPassword.rejected, (state, action: any) => {
-                state.loading = false;
+                // state.loading = false;
                 toast.error(
                     `${action.payload.errors.ConfirmPassword.map(
                         (err: any) => err
@@ -286,14 +329,14 @@ const authSlice = createSlice({
                 console.log(action.payload.errors);
             })
             .addCase(updatePassword.pending, (state) => {
-                state.loading = true;
+                // state.loading = true;
             })
             .addCase(updatePassword.fulfilled, (state) => {
-                state.loading = false;
+                // state.loading = false;
                 toast.success("Password has been updated successfully");
             })
             .addCase(updatePassword.rejected, (state, action: any) => {
-                state.loading = false;
+                // state.loading = false;
                 toast.error(`${action.payload}`);
             });
     },
@@ -301,6 +344,7 @@ const authSlice = createSlice({
 
 export const setAuthToken = (token: string | null) => {
     if (token) {
+        console.log(token, "set authentication token method");
         localStorage.setItem("token", token);
         devInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
     } else {
