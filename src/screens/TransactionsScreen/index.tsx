@@ -61,36 +61,36 @@ const Transactions = () => {
 
     const fetchTransactions = useCallback(
         (pageNumber: number) => {
-            if (customer?.customerId) {
+            if (customer?.id) {
                 setLoading(true);
                 devInstance
-                    .get(`/Dashboard/GetTransactions/${customer?.customerId}`, {
-                        params: {
-                            CustomerId: customer?.customerId,
-                            pageNumber: pageNumber,
-                        },
+                    .get(`/order/terminstrument/customer/list`, {
+                        params: { c: customer?.id },
                     })
                     .then((res: any) => {
-                        setTransactions(res?.data?.data?.pageItems);
-                        setCurrentpage(res?.data?.data.currentPage);
-                        setTotalPages(res?.data?.data?.totalNumberOfPages);
-                        setPreviousPage(res?.data?.data?.previousPage);
+                        setTransactions(res?.data?.result);
+                        // setCurrentpage(res?.data?.currentPage);
+                        // setTotalPages(res?.data?.count);
+                        // setPreviousPage(res?.data?.previousPage);
                         console.log(res, "rrrrr");
                     })
                     .catch((err) => {
-                        toast.error(`${err?.message}`);
+                        console.log(`${err?.message}`);
                         setLoading(false);
                     })
                     .finally(() => setLoading(false));
             }
         },
-        [customer?.customerId]
+        [customer?.id]
     );
 
     const filteredSearch = transactions?.filter((transaction: any) => {
-        return transaction?.transactionType
-            ?.toLowerCase()
-            .includes(searchField?.toLowerCase());
+        return (
+            transaction?.instrumentTypeLabel
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase()) ||
+            transaction?.faceValue.startsWith(searchField)
+        );
     });
     const onSearchChange = (e: any) => {
         e.preventDefault();
@@ -125,7 +125,9 @@ const Transactions = () => {
                 console.log(res, "transaction");
                 setModal2(true);
             })
-            .catch((err: any) => toast(`${err.response.data || err.message}`))
+            .catch((err: any) =>
+                console.log(`${err.response.data || err.message}`)
+            )
             .finally(() => setLoading(false));
         console.log(rid, "rid");
         console.log(cid, "cid");

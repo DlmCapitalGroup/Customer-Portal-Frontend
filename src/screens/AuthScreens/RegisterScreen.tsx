@@ -24,6 +24,7 @@ const Register = () => {
         portalPassword: "",
         partnerType: "INDIVIDUAL",
     });
+
     const [error, setError] = React.useState("");
 
     const navigate = useNavigate();
@@ -37,7 +38,7 @@ const Register = () => {
             [e.target.name]: e.target.value,
         }));
 
-        console.log(formData)
+        console.log(formData);
     };
 
     // useEffect(() => {
@@ -71,15 +72,14 @@ const Register = () => {
             console.log(signupRes, "signupRes");
 
             let errors =
-            res.meta.rejectedWithValue === true ||
-            res.meta.requestStatus === "rejected";
+                res.meta.rejectedWithValue === true ||
+                res.meta.requestStatus === "rejected";
 
             if (!errors) {
-                toast("Account Created Successfully")
-            }
-
-            else {
-                toast("Error Creating Account")
+                toast.success("Account Created Successfully, Please sign in");
+                navigate("/auth/sign-in");
+            } else {
+                toast.error("Error Creating Account");
             }
         }
     };
@@ -159,12 +159,13 @@ const Register = () => {
 
                     <div>
                         <Select
-                            options={["INDIVIDUAL", "CORPORATE"]}
+                            options={["INDIVIDUAL"]}
                             label="Partner Type"
                             placeholder="Partner Type"
                             name="partnerType"
                             onChange={formChange}
                             required
+                            disabled
                             value={formData.partnerType}
                         />
                     </div>

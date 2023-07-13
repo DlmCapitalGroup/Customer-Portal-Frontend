@@ -130,21 +130,21 @@ const Table = (props: tableProps) => {
                             className="flex items-center hover:cursor-pointer"
                             key={index}
                             onClick={() => {
-                                reqId(item?.requestId, item?.customerId);
+                                reqId(item?.requestId, item?.id);
                                 setToggleId(null);
                                 toggleMenu(false);
                             }}
                         >
                             <div className="basis-1/4 pl-[54px]">
-                                <h3>{item?.transactionType}</h3>
+                                <h3>{item?.instrumentTypeLabel}</h3>
                             </div>
                             <div className="basis-1/4 text-center">
-                                <h3>{formatter(item?.transactionAmount)}</h3>
+                                <h3>{formatter(item?.faceValue)}</h3>
                             </div>
                             <div className="basis-1/4 text-center">
                                 <h3>
                                     {new Date(
-                                        item?.transactionDate
+                                        item?.startDate
                                     ).toLocaleDateString()}
                                 </h3>
                             </div>
@@ -249,11 +249,10 @@ const Table = (props: tableProps) => {
 
                                         <h3
                                             className={`${
-                                                item?.transactionStatus.toLowerCase() ===
-                                                "approved"
-                                                    ? "text-success mr-6"
-                                                    : item?.transactionStatus.toLowerCase() ===
-                                                          "declined" &&
+                                                item?.status === "RUNNING"
+                                                    ? "text-success"
+                                                    : item?.status ===
+                                                          "DECLINED" &&
                                                       type !== "B"
                                                     ? "text-error"
                                                     : type === "B"
@@ -268,16 +267,15 @@ const Table = (props: tableProps) => {
                                             // }}
                                         >
                                             <span>
-                                                {item?.transactionStatus.toLowerCase() ===
-                                                "approved"
+                                                {item?.status === "RUNNING"
                                                     ? "successful"
-                                                    : item?.transactionStatus}
+                                                    : item?.status}
                                             </span>
                                         </h3>
                                         {type !== "B" && (
                                             <span>
-                                                {item?.transactionStatus.toLowerCase() !==
-                                                    "approved" && (
+                                                {item?.status !==
+                                                    "RUNNING" && (
                                                     <span
                                                         onClick={(e) => {
                                                             e.stopPropagation();
@@ -328,18 +326,17 @@ const Table = (props: tableProps) => {
                                 ) : (
                                     <h3
                                         className={`${
-                                            item.transactionStatus.toLowerCase() ===
-                                            "approved"
+                                            item.status === "RUNNING"
                                                 ? "text-success"
-                                                : item.transactionStatus.toLowerCase() ===
-                                                  "declined"
+                                                : item?.status ===
+                                                  "DECLINED"
                                                 ? "text-error"
                                                 : "text-primary"
                                         } capitalize`}
                                     >
-                                        {item.transactionStatus === "approved"
+                                        {item?.status === "RUNNING"
                                             ? "successful"
-                                            : item.transactionStatus}
+                                            : item?.status}
                                     </h3>
                                 )}
                             </div>

@@ -9,6 +9,7 @@ import Button from "../ButtonComponent";
 import { usePaystackPayment } from "react-paystack";
 import { devInstance } from "../../store/devInstance";
 import { toast } from "react-toastify";
+import { loginLocal } from "../../store/auth-slice";
 
 interface stepperProps {
     children?: React.ReactNode;
@@ -43,11 +44,11 @@ const StepperModal = (props: stepperProps) => {
         newClient,
     } = props;
 
-    const { customer }: any = useAppSelector((state) => state.auth);
+    const { customer, local }: any = useAppSelector((state) => state.auth);
 
     const config: any = {
         reference: new Date().getTime().toString(),
-        email: email || customer.emailAddress,
+        email: email || customer?.emailAddress1,
         amount: amount * 100 || 50000, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.REACT_APP_APIKEY_PAYSTACK,
         metadata: {
@@ -65,8 +66,27 @@ const StepperModal = (props: stepperProps) => {
 
     const submitPaystackData = async (data: any) => {
         console.log(data, "pp! data");
-        await devInstance
-            .post("/Transaction/PayDetails", data)
+        // const res = await devInstance.post(
+        //     "https://apps.dlm.group/ASSETMGTAPI/api/v1/Authentication/LoginUser"
+        // );
+
+        await dispatch(
+            loginLocal({
+                username: "hamzah",
+                password: "Ade@125",
+            })
+        );
+
+        devInstance
+            .post(
+                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/PayDetails",
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${local}`,
+                    },
+                }
+            )
             .then((res: any) => {
                 if (res.status === 200) {
                     submitEvent?.();
@@ -86,11 +106,14 @@ const StepperModal = (props: stepperProps) => {
     const onSuccess: any = (referenceRes: any) => {
         let data = {
             reference: referenceRes?.reference,
-            customerId: customer?.customerId,
+            customerId: customer?.id,
             trans: referenceRes?.trans,
             transaction: referenceRes?.transaction,
             trxref: referenceRes?.trxref,
             redirecturl: referenceRes?.redirecturl,
+            firstName: customer?.firstName,
+            lastName: customer?.lastName,
+            email: customer?.emailAddress1,
         };
 
         if (referenceRes) {

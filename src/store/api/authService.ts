@@ -1,19 +1,29 @@
+import axios from "axios";
 import { setAuthToken } from "../auth-slice";
 import { devInstance } from "../devInstance";
 
 const loginCustomer = async (customerData: any) => {
     console.log(customerData, "esfesvsefdv");
     const res = await devInstance.get(
-        `/security/customer/username/${customerData?.username || customerData?.portalUserName}`
+        `/security/customer/username/${
+            customerData?.username || customerData?.portalUserName
+        }`
     );
     return res.data;
 };
 
 const loginUser = async (userData: object) => {
-    const res = await devInstance.post(
+    console.log(userData, "fcserfvsfdvsfg");
+    const data = new FormData();
+    data.append("username", "support.api");
+    data.append("password", "Apisupport@123");
+
+    const res: any = await devInstance.post(
         "/security/request/access-token",
-        userData
+        data
     );
+
+    console.log(res, "response response");
     if (res?.data) {
         console.log(res?.data);
         console.log(res?.data.access_token);
@@ -28,6 +38,15 @@ const loginAdmin = async (adminData: object) => {
         // localStorage.setItem("user", JSON.stringify(res?.data?.data));
     }
     return res.data.data;
+};
+
+const loginLocal = async (userData: object) => {
+    const res = await devInstance.post(
+        "https://apps.dlm.group/ASSETMGTAPI/api/v1/Authentication/LoginUser",
+        userData
+    );
+    console.log(res);
+    return res?.data?.data?.token;
 };
 
 const forgottenPassword = async (customerEmail: string) => {
@@ -80,6 +99,7 @@ const authService = {
     updatePassword,
     resetPassword,
     loginAdmin,
+    loginLocal,
 };
 
 export default authService;

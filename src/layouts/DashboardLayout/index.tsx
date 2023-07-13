@@ -14,7 +14,7 @@ import activeIcon from "../../assets/images/active-icon.svg";
 import notebookIcon from "../../assets/images/notebook.svg";
 import dashboardBg from "../../assets/images/bg-dashboard.svg";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { logout } from "../../store/auth-slice";
+import { loginLocal, logout } from "../../store/auth-slice";
 import Loader from "../../components/LoaderComponent";
 import Marquee from "react-fast-marquee";
 import Button from "../../components/ButtonComponent";
@@ -31,7 +31,7 @@ interface dashboardProps {
 const DashboardLayout = (props: dashboardProps) => {
     const [loading, setLoading] = React.useState(false);
     const [stepper, setStepper] = useState(false);
-    const { customer }: any = useAppSelector((state) => state.auth);
+    const { customer, local }: any = useAppSelector((state) => state.auth);
     const { children, onClick } = props;
     const [currentStep, setCurrentStep] = React.useState(1);
     const [dailyNews, setDailyNews] = React.useState("");
@@ -381,18 +381,35 @@ const DashboardLayout = (props: dashboardProps) => {
     //         .finally(() => setLoading(false));
     // }, []);
 
-    // useEffect(() => {
-    //     setLoading(true);
-    //     devInstance
-    //         .get("https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetDailyNews")
-    //         .then((response) => {
-    //             setDailyNews(response.data[0].dailyNews);
-    //         })
-    //         .catch((err) => console.log(err))
-    //         .finally(() => {
-    //             setLoading(false);
-    //         });
-    // }, []);
+    useEffect(() => {
+        fetchDailyNews();
+    }, []);
+
+    async function fetchDailyNews() {
+        setLoading(true);
+        await dispatch(
+            loginLocal({
+                username: "hamzah",
+                password: "Ade@125",
+            })
+        );
+        devInstance
+            .get(
+                "https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetDailyNews",
+                {
+                    headers: {
+                        Authorization: `Bearer ${local}`,
+                    },
+                }
+            )
+            .then((response) => {
+                setDailyNews(response.data[0].dailyNews);
+            })
+            .catch((err) => console.log(err))
+            .finally(() => {
+                setLoading(false);
+            });
+    }
 
     return (
         <div className="w-full min-h-screen bg-primary-light">

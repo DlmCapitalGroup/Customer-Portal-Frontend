@@ -8,6 +8,7 @@ interface AuthState {
     user: {} | null;
     customer: {} | null;
     token: {};
+    local: string;
     loading: boolean;
     customerOnboardingData: {} | null;
     updatedOnboardingData: {} | null;
@@ -15,47 +16,10 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-    user: {
-        access_token:
-            "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhMVFQeFJTQmEtTkR3U1VtMjFySXp4UHBQZmJ0NWdfdDRlQ3ZXemZhTFU4In0.eyJleHAiOjE2ODg1NTgzNTAsImlhdCI6MTY4ODUyMjM1MCwianRpIjoiM2I1ZTkzN2UtYTdhOC00Y2NiLTlkZWMtZjNhNjhiZDJhZjk2IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrOjgwODAvYXV0aC9yZWFsbXMvemFuaWJhbC1hcHBsaWNhdGlvbi1zdWl0ZSIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIyODkyNzM0ZS1hMTNjLTQ2OWItOWI5Yy00MmZmODk2NmYxZTYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlZmluYW5jZS1hcHBzIiwic2Vzc2lvbl9zdGF0ZSI6ImJhNjQ2YWU0LTFmYjctNDk5OS1hZDk2LWVhMmZhZDBlOTc1NSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy16YW5pYmFsLWFwcGxpY2F0aW9uLXN1aXRlIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImVmaW5hbmNlLWFwcHMiOnsicm9sZXMiOlsiYXBpLXVzZXIiLCJhcHAtYWRtaW4iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiYXBwLWdyb3VwIjoiU1lTQURNSU4iLCJuYW1lIjoiQmlzb2xhIE9ndW55ZSIsInByZWZlcnJlZF91c2VybmFtZSI6InN1cHBvcnQuYXBpIiwiZ2l2ZW5fbmFtZSI6IkJpc29sYSIsImZhbWlseV9uYW1lIjoiT2d1bnllIn0.e35icDlgWOrqe6hqui3AThwUQVYjD3TvOBU_6jIwhc7f5IO6yKYb73rNoywZzY_tU3bRsT7MMNrlsqLJb-sjXgxdSTeMCaJVg3P7rN5j7afdC8n2ov_LjtJUZBuzafhYzD5bi81g-TZRgQeyrTgbC6qyaBmOP8a7IcczYSAVwxda3YO3uRjbycGpL6X97h505AZadblXIZBAzxn5VzwvzKJ9c4DtIJfa5I-xxTNHZk4EeLQaarReDEen_6mNKOA5yDYIH4T_O-Sl-M1xRZdA-PdO5E4xY8eQmwapxzbWTJrS5OFS4w4URiqnK14dj5U15wTkI4z3EAhaxXnVjGwZ8g",
-        expires_in: 36000,
-        refresh_expires_in: 1800,
-        refresh_token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3MDM3NThhMS05OGVmLTRkZTQtOWRhMS04NWIyZTZiNDZlM2YifQ.eyJleHAiOjE2ODg1MjQxNTAsImlhdCI6MTY4ODUyMjM1MCwianRpIjoiMWY1MDkwOWYtNTE3Yy00YTliLTgyNDQtMTY2MjcyZTk5OWI4IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrOjgwODAvYXV0aC9yZWFsbXMvemFuaWJhbC1hcHBsaWNhdGlvbi1zdWl0ZSIsImF1ZCI6Imh0dHA6Ly9rZXljbG9hazo4MDgwL2F1dGgvcmVhbG1zL3phbmliYWwtYXBwbGljYXRpb24tc3VpdGUiLCJzdWIiOiIyODkyNzM0ZS1hMTNjLTQ2OWItOWI5Yy00MmZmODk2NmYxZTYiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiZWZpbmFuY2UtYXBwcyIsInNlc3Npb25fc3RhdGUiOiJiYTY0NmFlNC0xZmI3LTQ5OTktYWQ5Ni1lYTJmYWQwZTk3NTUiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUifQ.BX60BtyqRNJSi2jIo_YJyitBJ0LhSoTq74PxtGj_bJY",
-        token_type: "Bearer",
-        "not-before-policy": 0,
-        session_state: "ba646ae4-1fb7-4999-ad96-ea2fad0e9755",
-        scope: "email profile",
-    },
-    customer: {
-        id: 851715,
-        active: true,
-        name: "0000010943",
-        label: "AJANAKU OLADIMEJI",
-        ecrmId: 851715,
-        referalCode: "OLAJ1715",
-        cashAcct: "0000019179",
-        cashAcctBalance: "NGN 0.00",
-        firstName: "Oladimeji",
-        lastName: "Ajanaku",
-        cellPhone: "09162611469",
-        emailAddress1: "hamzat-oz@hotmail.com",
-        portalUserName: "hammy06",
-        portalPasswordToken:
-            "VzJDfFWv4f6q1+zy3GAAy0HQaESS0HyV4RrMRK8wVHNjhSA0cdVA+HxgoL5XldLpkQyVGiliKztPenKVwrzBPw==",
-        allowDebitBalance: false,
-        customerGroupName: "STANDARD",
-        customerGroupLabel: "STANDARD",
-        businessOfficeName: "0000000008",
-        customerType: "REGULAR",
-        partnerType: "INDIVIDUAL",
-        termsAndCondAccepted: false,
-        enrollInContribScheme: false,
-        accountOpened: 1687392000000,
-        status: "ACTIVE",
-        workflowStatus: "APPROVED",
-    },
+    user: {},
+    customer: {},
     token: "",
+    local: "",
     loading: false,
     customerOnboardingData: null,
     updatedOnboardingData: null,
@@ -100,6 +64,22 @@ export const loginCustomer = createAsyncThunk(
         try {
             // console.log(customer)
             return await authService.loginCustomer(customer);
+        } catch (error: any) {
+            const message =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const loginLocal = createAsyncThunk(
+    "Authentication/LocalLogin",
+    async (user: any, thunkAPI) => {
+        try {
+            // console.log(customer)
+            return await authService.loginLocal(user);
         } catch (error: any) {
             const message =
                 (error.response && error.response.data) ||
@@ -338,6 +318,19 @@ const authSlice = createSlice({
             .addCase(updatePassword.rejected, (state, action: any) => {
                 // state.loading = false;
                 toast.error(`${action.payload}`);
+            })
+            .addCase(loginLocal.rejected, (state, action) => {
+                state.loading = false;
+                toast.error(`${action.payload}`);
+            })
+            .addCase(loginLocal.pending, (state) => {
+                // state.loading = true;
+            })
+            .addCase(loginLocal.fulfilled, (state, action) => {
+                state.local = action.payload;
+                // store.dispatch(loginCustomer(action.payload));
+                // state.loading = false;
+                // toast.success("Check your email inbox or spam for OTP");
             });
     },
 });

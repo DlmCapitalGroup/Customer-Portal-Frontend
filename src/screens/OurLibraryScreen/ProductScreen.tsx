@@ -17,6 +17,7 @@ import ChildEducationPlan from "./ChildEducationPlan";
 import { clearStepper } from "../../store/stepperSlice";
 import Back from "../../components/BackButton";
 import { devInstance } from "../../store/devInstance";
+import IndividualForm from "./Form";
 
 const Product = () => {
     const location: any = useLocation();
@@ -24,127 +25,138 @@ const Product = () => {
     const [openStepper, setOpenStepper] = React.useState(false);
     const [stepperType, setStepperType] = React.useState("");
     const [loading, setLoading] = useState(false);
-    let stateParams = location?.state?.selectedProduct;
+    let stateParams = location?.state?.productId;
     const dispatch = useAppDispatch();
     const [products, setProducts] = useState<any>([]);
 
     const { customer }: any = useAppSelector((state) => state.auth);
 
-    const states = [
-        "Abia",
-        "Adamawa",
-        "Akwa Ibom",
-        "Anambra",
-        "Bauchi",
-        "Bayelsa",
-        "Benue",
-        "Borno",
-        "Cross River",
-        "Delta",
-        "Ebonyi",
-        "Edo",
-        "Ekiti",
-        "Enugu",
-        "FCT - Abuja",
-        "Gombe",
-        "Imo",
-        "Jigawa",
-        "Kaduna",
-        "Kano",
-        "Katsina",
-        "Kebbi",
-        "Kogi",
-        "Kwara",
-        "Lagos",
-        "Nasarawa",
-        "Niger",
-        "Ogun",
-        "Ondo",
-        "Osun",
-        "Oyo",
-        "Plateau",
-        "Rivers",
-        "Sokoto",
-        "Taraba",
-        "Yobe",
-        "Zamfara",
-    ];
+    // const states = [
+    // "Abia",
+    // "Adamawa",
+    // "Akwa Ibom",
+    // "Anambra",
+    // "Bauchi",
+    // "Bayelsa",
+    // "Benue",
+    // "Borno",
+    // "Cross River",
+    // "Delta",
+    // "Ebonyi",
+    // "Edo",
+    // "Ekiti",
+    // "Enugu",
+    // "FCT - Abuja",
+    // "Gombe",
+    // "Imo",
+    // "Jigawa",
+    // "Kaduna",
+    // "Kano",
+    // "Katsina",
+    // "Kebbi",
+    // "Kogi",
+    // "Kwara",
+    // "Lagos",
+    // "Nasarawa",
+    // "Niger",
+    // "Ogun",
+    // "Ondo",
+    // "Osun",
+    // "Oyo",
+    // "Plateau",
+    // "Rivers",
+    // "Sokoto",
+    // "Taraba",
+    // "Yobe",
+    // "Zamfara",
+    // ];
+
+    // useEffect(() => {
+    //     setLoading(true);
+    //     devInstance
+    //         .get(
+    //             "https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetProductIds"
+    //         )
+    //         .then((response) => {
+    //             setProducts(response.data.data);
+    //             console.log(response.data.data);
+    //         })
+    //         .catch((err) => console.log(err))
+    //         .finally(() => {
+    //             setLoading(false);
+    //         });
+    // }, []);
 
     useEffect(() => {
         setLoading(true);
         devInstance
             .get(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetProductIds"
+                "https://zas-dev.zanibal.com/api/v1/order/terminstrumenttype/list/active"
             )
-            .then((response) => {
-                setProducts(response.data.data);
-                console.log(response.data.data);
+            .then((res) => {
+                let found = res?.data.result
+                    .slice(0, 9)
+                    .find((el: any) => el.id === stateParams);
+                setInvestment(found);
+                console.log(found, "i found you")
             })
             .catch((err) => console.log(err))
-            .finally(() => {
-                setLoading(false);
-            });
-    }, []);
-
-    useEffect(() => {
-        if (typeof stateParams === "string") {
-            let product = products.find(
-                (el: any) => el.productName === stateParams
-            );
-            setInvestment(product);
-        }
-        console.log(investment);
-    }, [investment, products, stateParams]);
+            .finally(() => setLoading(false));
+    }, [stateParams]);
 
     function openModal() {
         setOpenStepper(true);
-        if (
-            investment?.productName.toLowerCase() === "fixed income fund" ||
-            products[stateParams]?.productName.toLowerCase() ===
-                "fixed income fund"
-        ) {
-            setStepperType("fif");
-            dispatch(clearStepper());
-        }
-        if (
-            investment?.productName.toLowerCase() ===
-                "high interest investment plan" ||
-            products[stateParams]?.productName.toLowerCase() ===
-                "high interest investment plan"
-        ) {
-            setStepperType("hiip1");
-            dispatch(clearStepper());
-        }
-        if (
-            investment?.productName.toLowerCase() === "target date plan" ||
-            products[stateParams]?.productName.toLowerCase() ===
-                "target date plan"
-        ) {
-            setStepperType("tdp");
-            dispatch(clearStepper());
-        }
-        if (
-            investment?.productName.toLowerCase() ===
-                "retirement plan subscription" ||
-            products[stateParams]?.productName.toLowerCase() ===
-                "retirement plan subscription"
-        ) {
-            setStepperType("rps");
-            dispatch(clearStepper());
-        }
-        if (
-            investment?.productName.toLowerCase() === "child education plan" ||
-            products[stateParams]?.productName.toLowerCase() ===
-                "child education plan"
-        ) {
-            setStepperType("cep");
-            dispatch(clearStepper());
-        }
     }
+
+    // function openModal() {
+    //     setOpenStepper(true);
+    //     if (
+    //         investment?.productName.toLowerCase() === "fixed income fund" ||
+    //         products[stateParams]?.productName.toLowerCase() ===
+    //             "fixed income fund"
+    //     ) {
+    //         setStepperType("fif");
+    //         dispatch(clearStepper());
+    //     }
+    //     if (
+    //         investment?.productName.toLowerCase() ===
+    //             "high interest investment plan" ||
+    //         products[stateParams]?.productName.toLowerCase() ===
+    //             "high interest investment plan"
+    //     ) {
+    //         setStepperType("hiip1");
+    //         dispatch(clearStepper());
+    //     }
+    //     if (
+    //         investment?.productName.toLowerCase() === "target date plan" ||
+    //         products[stateParams]?.productName.toLowerCase() ===
+    //             "target date plan"
+    //     ) {
+    //         setStepperType("tdp");
+    //         dispatch(clearStepper());
+    //     }
+    //     if (
+    //         investment?.productName.toLowerCase() ===
+    //             "retirement plan subscription" ||
+    //         products[stateParams]?.productName.toLowerCase() ===
+    //             "retirement plan subscription"
+    //     ) {
+    //         setStepperType("rps");
+    //         dispatch(clearStepper());
+    //     }
+    //     if (
+    //         investment?.productName.toLowerCase() === "child education plan" ||
+    //         products[stateParams]?.productName.toLowerCase() ===
+    //             "child education plan"
+    //     ) {
+    //         setStepperType("cep");
+    //         dispatch(clearStepper());
+    //     }
+    // }
 
     function closeModal() {
         setOpenStepper(false);
-        setStepperType("");
+        // setStepperType("");
         dispatch(clearStepper());
     }
 
@@ -165,7 +177,7 @@ const Product = () => {
         <div className="pt-[50px] text-primary max-w-[1120px] text-base pb-20">
             <Back />
             <h3 className="text-xl font-semibold mb-[15px] capitalize">
-                {investment?.productName || products[stateParams]?.productName}
+                {investment && investment?.label}
             </h3>
             <p className="mb-[73px] text-base">
                 See and learn more about our products and what they have to
@@ -175,31 +187,32 @@ const Product = () => {
                 <div className="mb-10 h-96 w-full">
                     <img
                         alt=""
-                        src={
-                            investment?.imageUrl ||
-                            products[stateParams]?.imageUrl
-                        }
+                        src={r1}
                         className="w-full h-full object-cover object-center rounded-[20px]"
                     />
                 </div>
 
-                <p className="mb-20">
+                {/* <p className="mb-20">
                     {investment?.productDescription ||
                         products[stateParams]?.productDescription}
-                </p>
+                </p> */}
 
                 <div className="text-center">
                     <Button buttonType="lg" onClick={openModal}>
-                        Create account
+                        Create Investment
                     </Button>
                 </div>
                 {loading && <Loader />}
             </div>
 
-            {openStepper && stepperType === "fif" && (
-                <FixedIncomeFund states={states} closeModal={closeModal} />
+            {openStepper && (
+                <IndividualForm
+                    closeModal={closeModal}
+                    instrumentTypeName={investment?.name}
+                    instrumentTypeLabel={investment?.label}
+                />
             )}
-            {openStepper && stepperType === "hiip1" && (
+            {/* {openStepper && stepperType === "hiip1" && (
                 <HiipIndividualForm
                     closeModal={closeModal}
                     states={states}
@@ -221,7 +234,7 @@ const Product = () => {
             )}
             {openStepper && stepperType === "cep" && (
                 <ChildEducationPlan closeModal={closeModal} states={states} />
-            )}
+            )} */}
         </div>
     );
 };

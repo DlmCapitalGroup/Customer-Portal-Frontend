@@ -22,6 +22,7 @@ import axios from "axios";
 import chevronDown from "../../assets/images/chevron-down.svg";
 import importantImg from "../../assets/images/important.svg";
 import {
+    loginLocal,
     setCustomerOnboardingData,
     setUpdatedOnboardingData,
 } from "../../store/auth-slice";
@@ -42,9 +43,7 @@ const DashboardScreen = () => {
         { name: "8", uv: 400, pv: 200, amt: 100 },
         { name: "9", uv: 500, pv: 500, amt: 500 },
     ];
-    const { customer, customerOnboardingData }: any = useAppSelector(
-        (state) => state.auth
-    );
+    const { customer, local }: any = useAppSelector((state) => state.auth);
     const [transactions, setTransactions] = React.useState([]);
     const [news, setNews] = React.useState<any>([]);
     const [overviewData, setOverViewData] = React.useState<any>({});
@@ -56,77 +55,96 @@ const DashboardScreen = () => {
 
     const dobRef = useRef<any>(null);
 
-    const fetchData = useCallback(async () => {
+    const fetchData = useCallback(() => {
         console.log(dobRef?.current, "it is working");
         if (customer?.id) {
             setLoading(true);
+
+            devInstance
+                .get(`/order/terminstrument/customer/list`, {
+                    params: { c: customer?.id },
+                })
+                .then((res: any) => {
+                    console.log(res?.data?.result);
+                    setTransactions(res?.data?.result);
+                })
+                .catch((error: any) => {
+                    const message =
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString();
+                    // console.log(message);
+                    setLoading(false);
+                })
+                .finally(() => setLoading(false));
+
             // await devInstance
-            //     .get("/Dashboard/GetTransactionDetails", {
-            //         params: { id: customer?.id },
-            //     })
+            //     .get("/Admin/GetNewsUpdates")
             //     .then((res: any) => {
-            //         setOverViewData(res.data);
-            //         console.log(res.data.details, "details");
+            //         setNews(res?.data);
+            //         // console.log(res, "News");
             //     })
             //     .catch((error: any) => {
             //         const message =
             //             (error.response && error.response.data) ||
             //             error.message ||
             //             error.toString();
-            //         console.log(message);
+            //         // console.log(message);
             //         setLoading(false);
             //     })
             //     .finally(() => setLoading(false));
-
-            await devInstance
-                .get(`/partner/cash-transaction/list/`, {
-                    params: { id: customer?.customerId },
-                })
-                .then((res: any) => {
-                    console.log(res);
-                    // setTransactions(res?.data?.data?.pageItems);
-                })
-                .catch((error: any) => {
-                    const message =
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString();
-                    // console.log(message);
-                    setLoading(false);
-                })
-                .finally(() => setLoading(false));
-
-            await devInstance
-                .get("/Admin/GetNewsUpdates")
-                .then((res: any) => {
-                    setNews(res?.data);
-                    // console.log(res, "News");
-                })
-                .catch((error: any) => {
-                    const message =
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString();
-                    // console.log(message);
-                    setLoading(false);
-                })
-                .finally(() => setLoading(false));
         }
     }, [customer?.id]);
 
+    useEffect(() => {});
+
     useEffect(() => {
         fetchData();
-    }, [fetchData]);
+        fetchNews();
+    }, []);
 
-    useLayoutEffect(() => {
+    async function fetchNews() {
+        setLoading(true)
+        await dispatch(
+            loginLocal({
+                username: "hamzah",
+                password: "Ade@125",
+            })
+        );
+
         devInstance
             .get(
-                `/Transaction/GetCustomerSignUpDetails/${customer.emailAddress}`
+                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetNewsUpdates",
+                {
+                    headers: {
+                        Authorization: `Bearer ${local}`,
+                    },
+                }
             )
-            .then((res) => {
-                dispatch(setCustomerOnboardingData(res.data));
-            });
-    }, [customer.emailAddress, dispatch]);
+            .then((res: any) => {
+                setNews(res?.data);
+                console.log(res, "news");
+            })
+            .catch((error: any) => {
+                const message =
+                    (error.response && error.response.data) ||
+                    error.message ||
+                    error.toString();
+                console.log(message);
+                toast.error(message);
+            })
+            .finally(() => setLoading(false));
+    }
+
+    // useLayoutEffect(() => {
+    //     devInstance
+    //         .get(
+    //             `/Transaction/GetCustomerSignUpDetails/${customer.emailAddress}`
+    //         )
+    //         .then((res) => {
+    //             dispatch(setCustomerOnboardingData(res.data));
+    //         });
+    // }, [customer.emailAddress, dispatch]);
 
     const TransactionList = () => {
         if (transactions?.length > 0) {
@@ -137,30 +155,31 @@ const DashboardScreen = () => {
                         .map((item: any, index: number) => (
                             <div className="flex items-center">
                                 <div className="basis-1/4 pl-[20px]">
-                                    <h3>{item?.transactionType}</h3>
+                                    <h3>{item?.instrumentTypeLabel}</h3>
                                 </div>
                                 <div className="basis-1/4 text-center">
-                                    <h3>
-                                        {formatter(item?.transactionAmount)}
-                                    </h3>
+                                    <h3>{formatter(item?.faceValue)}</h3>
                                 </div>
                                 <div className="basis-1/4 text-center">
                                     <h3>
                                         {new Date(
-                                            item?.transactionDate
+                                            item?.startDate
                                         ).toLocaleDateString()}
                                     </h3>
                                 </div>
                                 <div className="basis-1/4 text-right pr-[20px]">
                                     <h3
                                         className={`${
-                                            item?.transactionStatus ===
-                                            "EXECUTED"
+                                            item?.status === "RUNNING"
                                                 ? "text-success"
-                                                : "text-error"
+                                                : item?.status === "DECLINED"
+                                                ? "text-error"
+                                                : "text-primary"
                                         }`}
                                     >
-                                        {item?.transactionStatus}
+                                        {item?.status === "RUNNING"
+                                            ? "CONFIRMED"
+                                            : item?.status}
                                     </h3>
                                 </div>
                             </div>

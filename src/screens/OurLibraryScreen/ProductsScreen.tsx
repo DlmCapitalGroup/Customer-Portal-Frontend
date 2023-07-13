@@ -74,15 +74,17 @@ const Products = () => {
     const [serviceModal, setServiceModal] = React.useState(false);
     const [apiProducts, setApiProducts] = React.useState([]);
     const [products, setProducts] = useState([]);
-    const [grid, setGrid] = useState(false)
+    const [grid, setGrid] = useState(false);
 
     useEffect(() => {
-        setLoading(true)
+        setLoading(true);
         devInstance
-            .get("/Admin/GetProductIds")
+            .get(
+                "https://zas-dev.zanibal.com/api/v1/order/terminstrumenttype/list/active"
+            )
             .then((res: any) => {
-                setProducts(res.data.data);
-                console.log(res, "afesdd");
+                setProducts(res?.data?.result);
+                console.log(res, "term instruments");
             })
             .catch((err) => {
                 console.log(err);
@@ -136,22 +138,22 @@ const Products = () => {
             </p>
 
             <div className="flex flex-col gap-y-10 lg:gap-y-6 mb-20">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 xl:gap-5">
-                    {products?.slice(0, 3).map((i: any, index) => {
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 xl:gap-5">
+                    {products?.slice(0, 9).map((i: any, index) => {
                         if (!i.isDisabled) {
-                            const item = i?.productName
+                            const item = i?.label
                                 .toLowerCase()
                                 .replace(/\s+/g, "-");
 
                             return (
                                 <ProductCard
-                                    title={i?.productName}
+                                    title={i?.label}
                                     key={index}
-                                    image={i?.imageUrl}
+                                    image={r1}
                                     onClick={() => {
                                         navigate(`/products/${item}`, {
                                             state: {
-                                                selectedProduct: i?.productName,
+                                                productId: i?.id,
                                             },
                                         });
                                     }}
@@ -160,7 +162,7 @@ const Products = () => {
                         }
                     })}
                 </div>
-                <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gapx-5">
+                {/* <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gapx-5">
                     {products?.slice(3).map((i: any, index: number) => {
                         if (!i.isDisabled) {
                             const item = i?.productName
@@ -182,7 +184,7 @@ const Products = () => {
                             );
                         }
                     })}
-                </div>
+                </div> */}
             </div>
 
             {/* <h3 className="text-xl font-semibold mb-5">Latest Product News </h3>

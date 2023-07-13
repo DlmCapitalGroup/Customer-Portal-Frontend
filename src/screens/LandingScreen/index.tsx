@@ -163,7 +163,7 @@ const LandingScreen = () => {
         }
     };
 
-    if (customer?.customerId) {
+    if (customer?.id) {
         return <Navigate to="/dashboard" />;
     } else if (admin?.userId) {
         return <Navigate to="/admin/dashboard" />;
