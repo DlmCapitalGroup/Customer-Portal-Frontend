@@ -1,6 +1,7 @@
 import axios from "axios";
 import { setAuthToken } from "../auth-slice";
 import { devInstance } from "../devInstance";
+import { store } from "..";
 
 const loginCustomer = async (customerData: any) => {
     console.log(customerData, "esfesvsefdv");
@@ -85,6 +86,37 @@ const resetPassword = async (customerDetails: object) => {
     const res = await devInstance.post(
         "/Authentication/ResetPassword",
         customerDetails
+    );
+    return res.data;
+};
+
+export const getProfileInfo = async (id: number) => {
+    const res = await devInstance.get(
+        `Transaction/GetCustomerOnboardingDetails/${id}`
+    );
+    return res.data;
+};
+
+export const getbankInfo = async (id: number, local: any) => {
+    const res = await axios.get(
+        `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetBankInfo/${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${local}`,
+            },
+        }
+    );
+    return res.data;
+};
+
+export const getKycInfo = async (id: number, local: any) => {
+    const res = await axios.get(
+        `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetKycDocuments/${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${local}`,
+            },
+        }
     );
     return res.data;
 };

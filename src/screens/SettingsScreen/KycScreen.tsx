@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { toast } from "react-toastify";
 import lock from "../../assets/images/lock.svg";
 import Button from "../../components/ButtonComponent";
@@ -24,11 +24,8 @@ const Kyc = () => {
     function triggerError() {
         toast.error("Please Update Your Profile");
     }
-    React.useEffect(() => {
-        getKycInfo();
-    }, []);
 
-    const getKycInfo = () => {
+    const getKycInfo = useCallback(() => {
         setLoading(true);
         devInstance
             .get(
@@ -55,7 +52,11 @@ const Kyc = () => {
                 setLoading(false);
             })
             .finally(() => setLoading(false));
-    };
+    }, []);
+
+    React.useEffect(() => {
+        getKycInfo();
+    }, [getKycInfo]);
 
     const addKycInfo = () => {
         setLoading(true);
@@ -189,7 +190,7 @@ const Kyc = () => {
             )}
 
             <Button buttonType="full">Update Information</Button>
-            {loading && <Loader />}
+            {/* {loading && <Loader />} */}
         </form>
     );
 };

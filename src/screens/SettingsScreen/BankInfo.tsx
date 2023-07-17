@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { toast } from "react-toastify";
 import avatar from "../../assets/images/icon.png";
 import Button from "../../components/ButtonComponent";
@@ -30,11 +30,7 @@ const BankInfo = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    React.useEffect(() => {
-        getBankInfo();
-    }, []);
-
-    const getBankInfo = () => {
+    const getBankInfo = useCallback(() => {
         setLoading(true);
         devInstance
             .get(
@@ -61,7 +57,11 @@ const BankInfo = () => {
                 setLoading(false);
             })
             .finally(() => setLoading(false));
-    };
+    }, []);
+
+    React.useEffect(() => {
+        getBankInfo();
+    }, [getBankInfo]);
 
     function checkBank() {
         if (
@@ -172,7 +172,7 @@ const BankInfo = () => {
                 </p>
             )}
             <Button buttonType="full">Update Information</Button>
-            {loading && <Loader />}
+            {/* {loading && <Loader />} */}
         </form>
     );
 };

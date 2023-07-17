@@ -1,28 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import DashboardLayout from "../../layouts/DashboardLayout";
+import Kyc from "./KycScreen";
+import BankInfo from "./BankInfo";
+import Profile from "./ProfileScreen";
+import { devInstance } from "../../store/devInstance";
+import { useAppSelector } from "../../store/hooks";
 
 const Settings = () => {
+    const { customer, local }: any = useAppSelector((state) => state.auth);
     const location = useLocation();
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = React.useState("/settings/profile");
-    const tabs = [
-        { name: "My Profile", path: "/settings/profile" },
-        // { name: "Password", path: "/settings/password" },
-        { name: "Bank Info", path: "/settings/bank-info" },
-        { name: "KYC Documents", path: "/settings/kyc" },
-        // { name: "Notifications", path: "/settings/notifications" },
-        // { name: "My Account", path: "/settings/account" },
-    ];
+    const [activeTab, setActiveTab] = React.useState(0);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        if (location.pathname === "/settings") {
-            navigate("/settings/profile");
-        } else {
-            navigate(location.pathname);
-            setActiveTab(location.pathname);
-        }
-    }, [location, navigate]);
+    const tabs = [
+        { name: "My Profile", path: 0 },
+        { name: "Bank Info", path: 1 },
+        { name: "KYC Documents", path: 2 },
+    ];
 
     return (
         <DashboardLayout>
@@ -51,7 +47,10 @@ const Settings = () => {
                     </div>
                 </div>
                 <div className="my-14">
-                    <Outlet />
+                    {activeTab === 0 && <Profile />}
+                    {activeTab === 1 && <BankInfo />}
+                    {activeTab === 2 && <Kyc />}
+                    {/* <Outlet /> */}
                 </div>
             </div>
         </DashboardLayout>

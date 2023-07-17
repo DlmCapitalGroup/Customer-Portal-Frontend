@@ -150,18 +150,18 @@ root.render(
                                         element={<Settings />}
                                     >
                                         <Route
-                                            path="profile"
-                                            element={<Profile />}
-                                        />
-                                        <Route
                                             path="password"
                                             element={<Password />}
                                         />
-                                        <Route
+                                        {/* <Route
+                                                path="profile"
+                                                element={<Profile />}
+                                            /> */}
+                                        {/* <Route
                                             path="bank-info"
                                             element={<BankInfo />}
-                                        />
-                                        <Route path="kyc" element={<Kyc />} />
+                                        /> */}
+                                        {/* <Route path="kyc" element={<Kyc />} /> */}
                                         <Route
                                             path="account"
                                             element={<Account />}

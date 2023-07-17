@@ -142,7 +142,7 @@ const DashboardLayout = (props: dashboardProps) => {
         {
             name: "settings",
             icon: settingsIcon,
-            path: "/settings/profile",
+            path: "/settings",
         },
         {
             name: `${
@@ -153,7 +153,7 @@ const DashboardLayout = (props: dashboardProps) => {
                 customer?.lastName.slice(1).toLowerCase()
             }`,
             icon: userIcon,
-            path: "/settings/profile",
+            path: "/settings",
         },
         {
             name: "Logout",
@@ -844,7 +844,7 @@ const DashboardLayout = (props: dashboardProps) => {
                     </form>
                 </div>
             )}
-            {loading && <Loader />}
+            {/* {loading && <Loader />} */}
         </div>
     );
 };

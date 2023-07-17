@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import avatar from "../../assets/images/icon.png";
 import Button from "../../components/ButtonComponent";
@@ -26,7 +26,7 @@ const Profile = () => {
         toast.error("Please Update Your Profile");
     }
 
-    React.useEffect(() => {
+    const handleFetchData = useCallback(() => {
         setLoading(true);
         devInstance
             .get(
@@ -51,6 +51,10 @@ const Profile = () => {
             })
             .finally(() => setLoading(false));
     }, []);
+
+    React.useEffect(() => {
+        handleFetchData();
+    }, [handleFetchData]);
 
     const subject = "Profile Update";
     const groupEmail = "asset@dlm.group";
@@ -168,7 +172,7 @@ const Profile = () => {
                     Update Information
                 </Button>
             </div>
-            {loading && <Loader />}
+            {/* {loading && <Loader />} */}
         </div>
     );
 };
