@@ -39,7 +39,7 @@ const IndividualForm = (props: _props) => {
             instrumentTypeLabel: instrumentTypeLabel,
             customerId: customer?.id,
             startDate: "",
-            tenure: 270,
+            tenure: 365,
             currency: "NGN",
             faceValue: "",
             currentRate: "",
