@@ -85,6 +85,7 @@ const Input = (props: InputProps) => {
         value,
         uploaded,
         transparent,
+        disabled
     } = props;
     const [show, setShow] = React.useState(false);
     const inputFile = useRef() as MutableRefObject<HTMLInputElement>;
@@ -100,8 +101,8 @@ const Input = (props: InputProps) => {
                 <div className="flex items-center relative">
                     <input
                         type={show ? "text" : "password"}
-                        title="Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
-                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#.])[A-Za-z\d@$!%*#.?&]{7,}$"
+                        title="Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and the @ character"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@])[A-Za-z\d@]{7,}$"
                         className="grow h-[56px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg"
                         {...props}
                     />
@@ -114,7 +115,7 @@ const Input = (props: InputProps) => {
                 </div>
             ) : type === "file" ? (
                 <div
-                    className={`h-[56px] w-full flex items-center text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg relative hover:cursor-pointer`}
+                    className={`h-[56px] w-full flex items-center text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg relative hover:cursor-pointer ${disabled && "hover:cursor-not-allowed"}`}
                     onClick={() => inputFile.current.click()}
                 >
                     <p className="text-primary">

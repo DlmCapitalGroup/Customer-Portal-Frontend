@@ -8,47 +8,114 @@ import { devInstance } from "../../store/devInstance";
 import { useAppSelector } from "../../store/hooks";
 
 const BankInfo = () => {
-    const { customer }: any = useAppSelector((state) => state.auth);
+    const { customer, local }: any = useAppSelector((state) => state.auth);
     const [loading, setLoading] = React.useState(false);
     const [msg, setMsg] = React.useState("");
     const [formData, setFormData] = React.useState({
-        BankName: "",
-        AccountNumber: "",
-        AccountName: "",
-        BVN: "",
+        bankname: "",
+        accountName: "",
+        accountNumber: "",
+        bvn: "",
+        email: customer?.email,
+        customerId: customer?.id,
     });
+
+    const [disabled, setDisabled] = React.useState(false);
 
     function triggerError() {
         toast.error("Please Update Your Profile");
     }
+
+    const formChange = (e: any) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
     React.useEffect(() => {
+        getBankInfo();
+    }, []);
+
+    const getBankInfo = () => {
         setLoading(true);
         devInstance
             .get(
-                `/Transaction/GetCustomerOnboardingDetails/${customer.customerId}`
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetBankInfo/${customer.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${local}`,
+                    },
+                }
             )
             .then((res) => {
                 console.log(res, "response");
                 setFormData({
                     ...formData,
-                    BVN: res.data.bvn,
-                    BankName: res.data.bankName,
-                    AccountNumber: res.data.accountNumber,
-                    AccountName: res.data.accountName,
+                    bvn: res.data.bvn,
+                    bankname: res.data.bankname,
+                    accountNumber: res.data.accountNumber,
+                    accountName: res.data.accountName,
                 });
+                setDisabled(true);
             })
             .catch((err) => {
                 console.log(err);
                 setLoading(false);
             })
             .finally(() => setLoading(false));
-    }, []);
+    };
+
+    function checkBank() {
+        if (
+            formData.bvn &&
+            formData.bankname &&
+            formData.accountName &&
+            formData.accountNumber
+        )
+            return true;
+    }
+
+    const addBankInfo = () => {
+        setLoading(true);
+        devInstance
+            .post(
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/AddBankInfo`,
+                { ...formData },
+                {
+                    headers: {
+                        Authorization: `Bearer ${local}`,
+                    },
+                }
+            )
+            .then((res) => {
+                getBankInfo();
+                toast.success("Bank info updated successfully!");
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+                toast.error("Error updating KYC, try again!");
+            })
+            .finally(() => setLoading(false));
+    };
 
     const subject = "Bank Info Update";
     const groupEmail = "asset@dlm.group";
 
     return (
-        <div className="max-w-[570px] pr-10 lg:pr-0">
+        <form
+            className="max-w-[570px] pr-10 lg:pr-0"
+            onSubmit={(e: any) => {
+                e.preventDefault();
+                if (checkBank()) {
+                    window.open(
+                        `mailto:${groupEmail}?subject=${encodeURIComponent(
+                            subject
+                        )}&body=`
+                    );
+                } else {
+                    addBankInfo();
+                }
+            }}
+        >
             <div className="rounded-full bg-primary w-[131px] h-[131px] flex items-center justify-center mb-[81px]">
                 <img alt="" src={avatar} className="w-24 h-16" />
             </div>
@@ -57,60 +124,56 @@ const BankInfo = () => {
                     <Input
                         label="Bank Name"
                         placeholder="Bank Name"
-                        disabled
-                        value={formData.BankName}
+                        name="bankname"
+                        value={formData.bankname}
+                        onChange={formChange}
+                        disabled={disabled}
                     />
                 </div>
                 <div>
                     <Input
                         label="Account Name"
                         placeholder="Account Name"
-                        disabled
-                        value={formData.AccountName}
+                        name="accountName"
+                        value={formData.accountName}
+                        onChange={formChange}
+                        disabled={disabled}
                     />
                 </div>
                 <div>
                     <Input
                         label="Account Number"
                         placeholder="Account Number"
-                        disabled
                         type="number"
-                        value={formData.AccountNumber}
+                        name="accountNumber"
+                        value={formData.accountNumber}
+                        onChange={formChange}
+                        disabled={disabled}
                     />
                 </div>
                 <div>
                     <Input
                         label="BVN"
                         placeholder="BVN"
-                        value={formData.BVN}
-                        disabled
+                        value={formData.bvn}
                         type="number"
+                        onChange={formChange}
+                        disabled={disabled}
+                        name="bvn"
                     />
                 </div>
             </div>
             {/* <Button buttonType="full">Update Information</Button>, */}
-            <p className="mb-[21px] text-center text-primary font-semibold text-sm">
-                To change your account information please send an email <br />
-                <span className="font-bold">asset@dlm.group</span>
-            </p>
-            <Button
-                buttonType="full"
-                onClick={() => {
-                    if (!formData.BankName) {
-                        triggerError();
-                    } else {
-                        window.open(
-                            `mailto:${groupEmail}?subject=${encodeURIComponent(
-                                subject
-                            )}&body=`
-                        );
-                    }
-                }}
-            >
-                Update Information
-            </Button>
+            {checkBank() && (
+                <p className="mb-[21px] text-center text-primary font-semibold text-sm">
+                    To change your account information please send an email{" "}
+                    <br />
+                    <span className="font-bold">asset@dlm.group</span>
+                </p>
+            )}
+            <Button buttonType="full">Update Information</Button>
             {loading && <Loader />}
-        </div>
+        </form>
     );
 };
 

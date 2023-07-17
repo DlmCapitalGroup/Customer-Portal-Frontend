@@ -8,7 +8,7 @@ const Settings = () => {
     const [activeTab, setActiveTab] = React.useState("/settings/profile");
     const tabs = [
         { name: "My Profile", path: "/settings/profile" },
-        { name: "Password", path: "/settings/password" },
+        // { name: "Password", path: "/settings/password" },
         { name: "Bank Info", path: "/settings/bank-info" },
         { name: "KYC Documents", path: "/settings/kyc" },
         // { name: "Notifications", path: "/settings/notifications" },
@@ -18,6 +18,9 @@ const Settings = () => {
     useEffect(() => {
         if (location.pathname === "/settings") {
             navigate("/settings/profile");
+        } else {
+            navigate(location.pathname);
+            setActiveTab(location.pathname);
         }
     }, [location, navigate]);
 

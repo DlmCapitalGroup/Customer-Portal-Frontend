@@ -8,7 +8,7 @@ type selectProps = {
     title?: string;
     setOption?: any;
     toggleSelect?: () => void;
-    selected?: string;
+    selected?: any;
     required?: boolean;
 };
 
@@ -34,14 +34,14 @@ const Select = (props: selectProps) => {
                 }`}
                 onClick={toggleSelect}
             >
-                {selected || title || "Select"}
+                {selected?.label || selected || title || "Select"}
                 <img alt="" src={chevronDown} />
             </div>
             {select && (
                 <div className="absolute w-full z-50 flex flex-col gap-y-4 pt-4 pb-14 border border-primary/10 rounded-br-[20px] rounded-bl-[20px] bg-white-lighter h-fit max-h-64 overflow-y-auto">
                     {options ? (
                         options.map((option, index) => {
-                            let item = option.title || option;
+                            let item = option;
                             return (
                                 <div
                                     key={index}
@@ -56,7 +56,7 @@ const Select = (props: selectProps) => {
                                                 : radioUnchecked
                                         }
                                     />{" "}
-                                    {item}
+                                    {item?.label || item}
                                 </div>
                             );
                         })

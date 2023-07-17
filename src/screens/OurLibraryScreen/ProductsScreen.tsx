@@ -68,7 +68,7 @@ const NewsCard = (props: cardProps) => {
 
 const Products = () => {
     const [loading, setLoading] = useState(true);
-    const [investment, setInvestment] = React.useState("");
+    const [investment, setInvestment] = React.useState<any>(null);
     const navigate = useNavigate();
     const { customer }: any = useAppSelector((state) => state.auth);
     const [serviceModal, setServiceModal] = React.useState(false);
@@ -107,10 +107,10 @@ const Products = () => {
     }
 
     function openInvestment() {
-        const item = investment.toLowerCase().replace(/\s+/g, "-");
+        const item = investment?.label.toLowerCase().replace(/\s+/g, "-");
         navigate(`/products/${item}`, {
             state: {
-                selectedProduct: investment,
+                productId: investment?.id,
             },
         });
         setServiceModal(false);
@@ -233,8 +233,10 @@ const Products = () => {
                         </div>
                         <div className="mb-32">
                             <Select
-                                title={`${investment || "Select a product"}`}
-                                options={products}
+                                title={`${
+                                    investment?.label || "Select a product"
+                                }`}
+                                options={products.slice(0, 9)}
                                 setOption={setOption}
                                 selected={investment}
                             />
@@ -242,7 +244,7 @@ const Products = () => {
 
                         <Button
                             buttonType="full"
-                            disabled={!investment.length}
+                            disabled={!investment}
                             onClick={openInvestment}
                         >
                             Proceed

@@ -21,6 +21,8 @@ import { clearStepper } from "../../store/stepperSlice";
 import axios from "axios";
 import chevronDown from "../../assets/images/chevron-down.svg";
 import importantImg from "../../assets/images/important.svg";
+import accountIcon from "../../assets/images/account_details.png";
+import bvnIcon from "../../assets/images/bvn_icon.png";
 import {
     loginLocal,
     setCustomerOnboardingData,
@@ -50,6 +52,19 @@ const DashboardScreen = () => {
     const [loading, setLoading] = React.useState(false);
     const dispatch = useAppDispatch();
     const [stepper, setStepper] = React.useState(false);
+    const [bankData, setBankData] = React.useState({
+        bvn: "",
+        bankname: "",
+        accountNumber: "",
+        accountName: "",
+    });
+
+    const [kycData, setKycData] = React.useState({
+        passportPicture: "",
+        formOfIdentity: "",
+        utilityBill: "",
+        unitHolderSignature: "",
+    });
 
     const navigate = useNavigate();
 
@@ -96,15 +111,88 @@ const DashboardScreen = () => {
         }
     }, [customer?.id]);
 
-    useEffect(() => {});
-
     useEffect(() => {
         fetchData();
         fetchNews();
+        devInstance
+            .get(
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetBankInfo/${customer.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${local}`,
+                    },
+                }
+            )
+            .then((res) => {
+                console.log(res, "response");
+                setBankData({
+                    ...bankData,
+                    bvn: res.data.bvn,
+                    bankname: res.data.bankname,
+                    accountNumber: res.data.accountNumber,
+                    accountName: res.data.accountName,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
+
+        devInstance
+            .get(
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetKycDocuments/${customer?.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${local}`,
+                    },
+                }
+            )
+            .then((res) => {
+                console.log(res, "response");
+                setKycData({
+                    ...kycData,
+                    passportPicture: res?.data?.passportPicture,
+                    formOfIdentity: res?.data?.formOfIdentity,
+                    utilityBill: res?.data?.utilityBill,
+                    unitHolderSignature: res?.data?.unitHolderSignature,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
     }, []);
 
+    function checkBank() {
+        if (
+            bankData.bvn &&
+            bankData.bankname &&
+            bankData.accountName &&
+            bankData.accountNumber
+        )
+            return true;
+    }
+
+    function checkKyc() {
+        if (
+            kycData.passportPicture &&
+            kycData.unitHolderSignature &&
+            kycData.utilityBill &&
+            kycData.formOfIdentity
+        )
+            return true;
+    }
+
+    function checkAll() {
+        if (checkBank() && checkKyc()) {
+            return true;
+        }
+    }
+
     async function fetchNews() {
-        setLoading(true)
+        setLoading(true);
         await dispatch(
             loginLocal({
                 username: "hamzah",
@@ -254,6 +342,60 @@ const DashboardScreen = () => {
                             </Button>
                         </div> */}
                     </div>
+
+                    {!checkAll() && (
+                        <div>
+                            <h2 className="text-lg font-semibold text-primary mb-3">
+                                Complete your profile
+                            </h2>
+                            <div className="flex items-start gap-x-10 mb-16">
+                                {!checkKyc() && (
+                                    <div
+                                        className="w-56 h-64 bg-blue-light/30 p-6 hover:cursor-pointer relative shadow-md hover:border hover:border-primary"
+                                        onClick={() => {
+                                            navigate("/settings/kyc");
+                                        }}
+                                    >
+                                        <h3 className="text-lg font-semibold text-primary">
+                                            KYC Documents
+                                        </h3>
+
+                                        <p className="text-base text-primary/60">
+                                            0/1 Completed
+                                        </p>
+                                        <img
+                                            alt=""
+                                            src={bvnIcon}
+                                            className="relative left-5"
+                                        />
+                                    </div>
+                                )}
+
+                                {!checkBank() && (
+                                    <div
+                                        className="w-56 h-64 bg-error/30 p-6 hover:cursor-pointer shadow-md hover:border hover:border-primary"
+                                        onClick={() => {
+                                            navigate("/settings/bank-info");
+                                        }}
+                                    >
+                                        <h3 className="text-lg font-semibold text-primary">
+                                            Bank Details
+                                        </h3>
+
+                                        <p className="text-base text-primary/60">
+                                            0/1 Completed
+                                        </p>
+
+                                        <img
+                                            alt=""
+                                            src={accountIcon}
+                                            className="relative left-5"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
 
                     <div className="flex flex-col gap-y-10 lg:flex-row justify-between space-x-3">
                         <div className="w-full lg:w-[456px] h-[328px] bg-white-light shadow-sm rounded-[20px]">

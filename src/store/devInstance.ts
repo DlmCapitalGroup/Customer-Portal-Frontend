@@ -20,7 +20,26 @@ devInstance.interceptors.response.use(
         return config;
     },
     (error: any) => {
-        if (error.response.status === 401) {
+        if (error?.response?.status === 401) {
+            localStorage.removeItem("persist:root");
+            localStorage.removeItem("token");
+            setCustomer(null);
+            setUser(null);
+            setAuthToken(null);
+            clearStepper();
+        }
+        return Promise.reject(error);
+    }
+);
+
+devInstance.interceptors.response.use(
+    function (response) {
+        // Any status code that lie within the range of 2xx cause this function to trigger
+        // Do something with response data
+        return response;
+    },
+    function (error) {
+        if (error?.response?.status === 401) {
             localStorage.removeItem("persist:root");
             localStorage.removeItem("token");
             setCustomer(null);

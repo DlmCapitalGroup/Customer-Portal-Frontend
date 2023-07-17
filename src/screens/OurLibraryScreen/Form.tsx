@@ -25,8 +25,8 @@ const IndividualForm = (props: _props) => {
         instrumentTypeName: instrumentTypeName,
         instrumentTypeLabel: instrumentTypeLabel,
         customerId: customer?.id,
-        startDate: new Date(Date.now()).toISOString(),
-        tenure: 270,
+        startDate: "",
+        tenure: 365,
         currency: "NGN",
         faceValue: "",
         currentRate: "",
@@ -148,7 +148,7 @@ const IndividualForm = (props: _props) => {
                             if (postInvestRes) {
                                 dispatch(clearStepper());
                                 clearForm();
-                                closeModal()
+                                closeModal();
                                 toast.success("Investment Successful");
                             }
                         }
@@ -177,7 +177,7 @@ const IndividualForm = (props: _props) => {
                 {currentStepper === 0 && (
                     <div>
                         <h3 className="text-xl font-semibold text-center mb-3">
-                            Fixed Income Fund Investment
+                            {instrumentTypeLabel}
                         </h3>
                         <p className="mb-[29px] text-center">
                             Kindly fill the form to get started on your fixed

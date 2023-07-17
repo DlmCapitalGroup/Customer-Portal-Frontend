@@ -18,6 +18,8 @@ import { clearStepper } from "../../store/stepperSlice";
 import Back from "../../components/BackButton";
 import { devInstance } from "../../store/devInstance";
 import IndividualForm from "./Form";
+import { loginLocal } from "../../store/auth-slice";
+import Modal2 from "../../components/Modal";
 
 const Product = () => {
     const location: any = useLocation();
@@ -28,8 +30,22 @@ const Product = () => {
     let stateParams = location?.state?.productId;
     const dispatch = useAppDispatch();
     const [products, setProducts] = useState<any>([]);
+    const [modal, setModal] = useState(false);
+    const [bankData, setBankData] = React.useState({
+        bvn: "",
+        bankname: "",
+        accountNumber: "",
+        accountName: "",
+    });
 
-    const { customer }: any = useAppSelector((state) => state.auth);
+    const [kycData, setKycData] = React.useState({
+        passportPicture: "",
+        formOfIdentity: "",
+        utilityBill: "",
+        unitHolderSignature: "",
+    });
+
+    const { customer, local }: any = useAppSelector((state) => state.auth);
 
     // const states = [
     // "Abia",
@@ -98,14 +114,107 @@ const Product = () => {
                     .slice(0, 9)
                     .find((el: any) => el.id === stateParams);
                 setInvestment(found);
-                console.log(found, "i found you")
+                console.log(found, "i found you");
             })
             .catch((err) => console.log(err))
             .finally(() => setLoading(false));
     }, [stateParams]);
 
+    useEffect(() => {
+        fetchDetails();
+    }, []);
+
+    const fetchDetails = async () => {
+        setLoading(true);
+        await dispatch(
+            loginLocal({
+                username: "hamzah",
+                password: "Ade@125",
+            })
+        );
+        devInstance
+            .get(
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetBankInfo/${customer.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${local}`,
+                    },
+                }
+            )
+            .then((res) => {
+                console.log(res, "response");
+                setBankData({
+                    ...bankData,
+                    bvn: res.data.bvn,
+                    bankname: res.data.bankname,
+                    accountNumber: res.data.accountNumber,
+                    accountName: res.data.accountName,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
+
+        devInstance
+            .get(
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetKycDocuments/${customer?.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${local}`,
+                    },
+                }
+            )
+            .then((res) => {
+                console.log(res, "response");
+                setKycData({
+                    ...kycData,
+                    passportPicture: res?.data?.passportPicture,
+                    formOfIdentity: res?.data?.formOfIdentity,
+                    utilityBill: res?.data?.utilityBill,
+                    unitHolderSignature: res?.data?.unitHolderSignature,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            })
+            .finally(() => setLoading(false));
+    };
+
     function openModal() {
-        setOpenStepper(true);
+        if (!checkAll()) {
+            setModal(true);
+        } else {
+            setOpenStepper(true);
+        }
+    }
+
+    function checkBank() {
+        if (
+            bankData.bvn &&
+            bankData.bankname &&
+            bankData.accountName &&
+            bankData.accountNumber
+        )
+            return true;
+    }
+
+    function checkKyc() {
+        if (
+            kycData.passportPicture &&
+            kycData.unitHolderSignature &&
+            kycData.utilityBill &&
+            kycData.formOfIdentity
+        )
+            return true;
+    }
+
+    function checkAll() {
+        if (checkBank() && checkKyc()) {
+            return true;
+        }
     }
 
     // function openModal() {
@@ -171,6 +280,8 @@ const Product = () => {
         }
     }
 
+    const navigate = useNavigate();
+
     console.log(stateParams);
 
     return (
@@ -204,6 +315,24 @@ const Product = () => {
                 </div>
                 {loading && <Loader />}
             </div>
+
+            {modal && (
+                <Modal2 isCancel cancel={() => setModal(false)}>
+                    <div className="pb-10 px-10">
+                        <h2 className="text-lg font-bold text-primary mb-5">
+                            Complete your profile to continue
+                        </h2>
+                        <div className="text-right">
+                            <Button
+                                buttonType="md"
+                                onClick={() => navigate("/settings/bank-info")}
+                            >
+                                Complete Profile
+                            </Button>
+                        </div>
+                    </div>
+                </Modal2>
+            )}
 
             {openStepper && (
                 <IndividualForm

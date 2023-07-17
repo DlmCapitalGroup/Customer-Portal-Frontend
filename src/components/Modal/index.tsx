@@ -14,7 +14,7 @@ const Modal2 = (props: modalProps) => {
     const { children, cancel, isCancel } = props;
     return (
         <div
-            className="fixed w-screen min-h-screen h-full top-0 left-0 flex flex-col items-center bg-primary/20 pt-10 pb-20 z-50 overflow-y-auto"
+            className="fixed w-screen min-h-screen h-full top-0 left-0 flex flex-col items-center bg-primary/70 pt-10 pb-20 z-50 overflow-y-auto"
             {...props}
         >
             <div
