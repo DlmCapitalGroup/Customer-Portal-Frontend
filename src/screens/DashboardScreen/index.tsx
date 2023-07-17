@@ -112,6 +112,12 @@ const DashboardScreen = () => {
     }, [customer?.id]);
 
     useEffect(() => {
+        dispatch(
+            loginLocal({
+                username: "hamzah",
+                password: "Ade@125",
+            })
+        );
         fetchData();
         fetchNews();
         devInstance
@@ -193,13 +199,6 @@ const DashboardScreen = () => {
 
     async function fetchNews() {
         setLoading(true);
-        await dispatch(
-            loginLocal({
-                username: "hamzah",
-                password: "Ade@125",
-            })
-        );
-
         devInstance
             .get(
                 "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetNewsUpdates",
