@@ -342,7 +342,7 @@ const DashboardScreen = () => {
                         </div> */}
                     </div>
 
-                    {!checkAll() && (
+                    {!checkAll() && !loading && (
                         <div>
                             <h2 className="text-lg font-semibold text-primary mb-3">
                                 Complete your profile
@@ -352,7 +352,7 @@ const DashboardScreen = () => {
                                     <div
                                         className="w-56 h-64 bg-blue-light/30 p-6 hover:cursor-pointer relative shadow-md hover:border hover:border-primary"
                                         onClick={() => {
-                                            navigate("/settings/kyc");
+                                            navigate("/settings");
                                         }}
                                     >
                                         <h3 className="text-lg font-semibold text-primary">
@@ -370,11 +370,11 @@ const DashboardScreen = () => {
                                     </div>
                                 )}
 
-                                {!checkBank() && (
+                                {!checkBank() && !loading && (
                                     <div
                                         className="w-56 h-64 bg-error/30 p-6 hover:cursor-pointer shadow-md hover:border hover:border-primary"
                                         onClick={() => {
-                                            navigate("/settings/bank-info");
+                                            navigate("/settings");
                                         }}
                                     >
                                         <h3 className="text-lg font-semibold text-primary">

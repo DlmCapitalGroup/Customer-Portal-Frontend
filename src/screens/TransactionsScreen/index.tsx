@@ -89,9 +89,15 @@ const Transactions = () => {
             transaction?.instrumentTypeLabel
                 ?.toLowerCase()
                 .includes(searchField?.toLowerCase()) ||
-            transaction?.faceValue.startsWith(searchField)
+            transaction?.faceValue
+                .toString()
+                ?.toLowerCase()
+                .includes(searchField?.toLowerCase())
         );
     });
+
+    console.log(transactions, "transactions");
+
     const onSearchChange = (e: any) => {
         e.preventDefault();
         setSearchField(e.target.value);
