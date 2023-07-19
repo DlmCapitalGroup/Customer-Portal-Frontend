@@ -171,7 +171,7 @@ const Kyc = () => {
                     required
                 />
             </div>
-            {checkKyc() && (
+            {disabled && (
                 <p className="mb-[21px] text-center text-primary font-semibold text-sm">
                     To change your account information please send an email{" "}
                     <br />

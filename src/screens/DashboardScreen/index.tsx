@@ -59,7 +59,7 @@ const DashboardScreen = () => {
         accountName: "",
     });
 
-    const [info, setInfo] = React.useState(true);
+    const [show, setShow] = React.useState(false);
 
     const [kycData, setKycData] = React.useState({
         passportPicture: "",
@@ -133,6 +133,7 @@ const DashboardScreen = () => {
             .catch((err) => {
                 console.log(err);
                 setLoading(false);
+                setShow(true);
             })
             .finally(() => setLoading(false));
 
@@ -153,6 +154,7 @@ const DashboardScreen = () => {
             .catch((err) => {
                 console.log(err);
                 setLoading(false);
+                setShow(true);
             })
             .finally(() => setLoading(false));
     }, []);
@@ -179,7 +181,6 @@ const DashboardScreen = () => {
 
     function checkAll() {
         if (checkBank() && checkKyc()) {
-            setInfo(true);
             return true;
         }
     }
@@ -324,7 +325,7 @@ const DashboardScreen = () => {
                         </div> */}
                     </div>
 
-                    {!checkAll() && info === false && (
+                    {show && !checkAll() && (
                         <div>
                             <h2 className="text-lg font-semibold text-primary mb-3">
                                 Complete your profile
@@ -334,7 +335,11 @@ const DashboardScreen = () => {
                                     <div
                                         className="w-56 h-64 bg-blue-light/30 p-6 hover:cursor-pointer relative shadow-md hover:border hover:border-primary"
                                         onClick={() => {
-                                            navigate("/settings");
+                                            navigate("/settings", {
+                                                state: {
+                                                    path: 2,
+                                                },
+                                            });
                                         }}
                                     >
                                         <h3 className="text-lg font-semibold text-primary">
@@ -356,7 +361,11 @@ const DashboardScreen = () => {
                                     <div
                                         className="w-56 h-64 bg-error/30 p-6 hover:cursor-pointer shadow-md hover:border hover:border-primary"
                                         onClick={() => {
-                                            navigate("/settings");
+                                            navigate("/settings", {
+                                                state: {
+                                                    path: 1,
+                                                },
+                                            });
                                         }}
                                     >
                                         <h3 className="text-lg font-semibold text-primary">

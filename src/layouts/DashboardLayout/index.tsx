@@ -387,21 +387,8 @@ const DashboardLayout = (props: dashboardProps) => {
 
     async function fetchDailyNews() {
         setLoading(true);
-        await dispatch(
-            loginLocal({
-                username: "hamzah",
-                password: "Ade@125",
-            })
-        );
         devInstance
-            .get(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetDailyNews",
-                {
-                    headers: {
-                        Authorization: `Bearer ${local}`,
-                    },
-                }
-            )
+            .get("https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetDailyNews")
             .then((response) => {
                 setDailyNews(response.data[0].dailyNews);
             })
