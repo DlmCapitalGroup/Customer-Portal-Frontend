@@ -59,6 +59,8 @@ const DashboardScreen = () => {
         accountName: "",
     });
 
+    const [info, setInfo] = React.useState(true);
+
     const [kycData, setKycData] = React.useState({
         passportPicture: "",
         formOfIdentity: "",
@@ -112,22 +114,11 @@ const DashboardScreen = () => {
     }, [customer?.id]);
 
     useEffect(() => {
-        dispatch(
-            loginLocal({
-                username: "hamzah",
-                password: "Ade@125",
-            })
-        );
         fetchData();
         fetchNews();
         devInstance
             .get(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetBankInfo/${customer.id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${local}`,
-                    },
-                }
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetBankInfo/${customer.id}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -147,12 +138,7 @@ const DashboardScreen = () => {
 
         devInstance
             .get(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetKycDocuments/${customer?.id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${local}`,
-                    },
-                }
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetKycDocuments/${customer?.id}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -193,6 +179,7 @@ const DashboardScreen = () => {
 
     function checkAll() {
         if (checkBank() && checkKyc()) {
+            setInfo(true);
             return true;
         }
     }
@@ -201,12 +188,7 @@ const DashboardScreen = () => {
         setLoading(true);
         devInstance
             .get(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetNewsUpdates",
-                {
-                    headers: {
-                        Authorization: `Bearer ${local}`,
-                    },
-                }
+                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetNewsUpdates"
             )
             .then((res: any) => {
                 setNews(res?.data);
@@ -342,7 +324,7 @@ const DashboardScreen = () => {
                         </div> */}
                     </div>
 
-                    {!checkAll() && !loading && (
+                    {!checkAll() && info === false && (
                         <div>
                             <h2 className="text-lg font-semibold text-primary mb-3">
                                 Complete your profile

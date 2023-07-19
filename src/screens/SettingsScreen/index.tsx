@@ -17,7 +17,7 @@ const Settings = () => {
 
     useEffect(() => {
         if (stateParams) {
-            navigate(stateParams);
+            // navigate(stateParams);
             setActiveTab(stateParams);
         }
     }, []);
@@ -45,7 +45,7 @@ const Settings = () => {
                                 }`}
                                 key={index}
                                 onClick={() => {
-                                    navigate(item.path);
+                                    // navigate(item.path);
                                     setActiveTab(item.path);
                                 }}
                             >
