@@ -34,12 +34,7 @@ const BankInfo = () => {
         setLoading(true);
         devInstance
             .get(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetBankInfo/${customer.id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${local}`,
-                    },
-                }
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetBankInfo/${customer.id}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -78,12 +73,7 @@ const BankInfo = () => {
         devInstance
             .post(
                 `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/AddBankInfo`,
-                { ...formData },
-                {
-                    headers: {
-                        Authorization: `Bearer ${local}`,
-                    },
-                }
+                { ...formData }
             )
             .then((res) => {
                 getBankInfo();

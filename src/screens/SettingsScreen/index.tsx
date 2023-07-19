@@ -9,10 +9,18 @@ import { useAppSelector } from "../../store/hooks";
 
 const Settings = () => {
     const { customer, local }: any = useAppSelector((state) => state.auth);
-    const location = useLocation();
+    const location: any = useLocation();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = React.useState(0);
     const [loading, setLoading] = useState(false);
+    let stateParams: any = location?.state?.path;
+
+    useEffect(() => {
+        if (stateParams) {
+            navigate(stateParams);
+            setActiveTab(stateParams);
+        }
+    }, []);
 
     const tabs = [
         { name: "My Profile", path: 0 },

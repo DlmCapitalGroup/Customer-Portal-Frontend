@@ -126,20 +126,9 @@ const Product = () => {
 
     const fetchDetails = async () => {
         setLoading(true);
-        await dispatch(
-            loginLocal({
-                username: "hamzah",
-                password: "Ade@125",
-            })
-        );
         devInstance
             .get(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetBankInfo/${customer.id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${local}`,
-                    },
-                }
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetBankInfo/${customer.id}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -159,12 +148,7 @@ const Product = () => {
 
         devInstance
             .get(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetKycDocuments/${customer?.id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${local}`,
-                    },
-                }
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetKycDocuments/${customer?.id}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -325,7 +309,13 @@ const Product = () => {
                         <div className="text-right">
                             <Button
                                 buttonType="md"
-                                onClick={() => navigate("/settings/bank-info")}
+                                onClick={() =>
+                                    navigate("/settings", {
+                                        state: {
+                                            path: 1,
+                                        },
+                                    })
+                                }
                             >
                                 Complete Profile
                             </Button>

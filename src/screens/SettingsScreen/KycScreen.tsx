@@ -29,12 +29,7 @@ const Kyc = () => {
         setLoading(true);
         devInstance
             .get(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetKycDocuments/${customer?.id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${local}`,
-                    },
-                }
+                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetKycDocuments/${customer?.id}`
             )
             .then((res) => {
                 console.log(res, "response");
@@ -63,12 +58,7 @@ const Kyc = () => {
         devInstance
             .post(
                 "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/AddKycDocuments",
-                { ...formData },
-                {
-                    headers: {
-                        Authorization: `Bearer ${local}`,
-                    },
-                }
+                { ...formData }
             )
             .then((res) => {
                 console.log(res, "response");
