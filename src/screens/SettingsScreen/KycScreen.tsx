@@ -180,7 +180,7 @@ const Kyc = () => {
             )}
 
             <Button buttonType="full">Update Information</Button>
-            {/* {loading && <Loader />} */}
+            {loading && <Loader />}
         </form>
     );
 };

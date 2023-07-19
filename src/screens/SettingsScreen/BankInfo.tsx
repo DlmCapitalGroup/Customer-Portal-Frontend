@@ -58,14 +58,30 @@ const BankInfo = () => {
         getBankInfo();
     }, [getBankInfo]);
 
-    function checkBank() {
-        if (
-            formData.bvn &&
-            formData.bankname &&
-            formData.accountName &&
-            formData.accountNumber
-        )
-            return true;
+    // const checkBank = () => {
+    //     if (
+    //         formData.bvn &&
+    //         formData.bankname &&
+    //         formData.accountName &&
+    //         formData.accountNumber
+    //     )
+    //         return true;
+    // };
+
+    function hasCompleteInfo(item: any) {
+        // logger(item, 'item');
+        const requiredFields = [
+            "bankname",
+            "accountName",
+            "accountNumber",
+            "bvn",
+        ];
+        for (const field of requiredFields) {
+            if (!item?.[field]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     const addBankInfo = () => {
@@ -95,14 +111,14 @@ const BankInfo = () => {
             className="max-w-[570px] pr-10 lg:pr-0"
             onSubmit={(e: any) => {
                 e.preventDefault();
-                if (checkBank()) {
+                if (!hasCompleteInfo(formData) && disabled === false) {
+                    addBankInfo();
+                } else {
                     window.open(
                         `mailto:${groupEmail}?subject=${encodeURIComponent(
                             subject
                         )}&body=`
                     );
-                } else {
-                    addBankInfo();
                 }
             }}
         >
@@ -118,6 +134,7 @@ const BankInfo = () => {
                         value={formData.bankname}
                         onChange={formChange}
                         disabled={disabled}
+                        required
                     />
                 </div>
                 <div>
@@ -128,6 +145,7 @@ const BankInfo = () => {
                         value={formData.accountName}
                         onChange={formChange}
                         disabled={disabled}
+                        required
                     />
                 </div>
                 <div>
@@ -139,6 +157,7 @@ const BankInfo = () => {
                         value={formData.accountNumber}
                         onChange={formChange}
                         disabled={disabled}
+                        required
                     />
                 </div>
                 <div>
@@ -150,11 +169,12 @@ const BankInfo = () => {
                         onChange={formChange}
                         disabled={disabled}
                         name="bvn"
+                        required
                     />
                 </div>
             </div>
             {/* <Button buttonType="full">Update Information</Button>, */}
-            {checkBank() && (
+            {disabled === true && (
                 <p className="mb-[21px] text-center text-primary font-semibold text-sm">
                     To change your account information please send an email{" "}
                     <br />
@@ -162,7 +182,7 @@ const BankInfo = () => {
                 </p>
             )}
             <Button buttonType="full">Update Information</Button>
-            {/* {loading && <Loader />} */}
+            {loading && <Loader />}
         </form>
     );
 };
