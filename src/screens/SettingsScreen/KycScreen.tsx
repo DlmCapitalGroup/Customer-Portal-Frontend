@@ -117,7 +117,7 @@ const Kyc = () => {
             className="pr-10 lg:pr-0"
             onSubmit={(e: any) => {
                 e.preventDefault();
-                if (checkKyc()) {
+                if (disabled === true) {
                     window.open(
                         `mailto:${groupEmail}?subject=${encodeURIComponent(
                             subject

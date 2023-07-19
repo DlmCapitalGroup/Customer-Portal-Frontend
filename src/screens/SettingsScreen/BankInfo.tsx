@@ -111,7 +111,7 @@ const BankInfo = () => {
             className="max-w-[570px] pr-10 lg:pr-0"
             onSubmit={(e: any) => {
                 e.preventDefault();
-                if (!hasCompleteInfo(formData) && disabled === false) {
+                if (disabled === false) {
                     addBankInfo();
                 } else {
                     window.open(
