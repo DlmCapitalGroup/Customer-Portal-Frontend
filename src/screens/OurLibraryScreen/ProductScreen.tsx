@@ -313,6 +313,7 @@ const Product = () => {
                                     navigate("/settings", {
                                         state: {
                                             path: 1,
+                                            checkAll: true,
                                         },
                                     })
                                 }

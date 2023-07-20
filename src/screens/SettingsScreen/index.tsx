@@ -20,13 +20,15 @@ const Settings = () => {
             // navigate(stateParams);
             setActiveTab(stateParams);
         }
-    }, []);
+    }, [])
 
     const tabs = [
         { name: "My Profile", path: 0 },
         { name: "Bank Info", path: 1 },
         { name: "KYC Documents", path: 2 },
     ];
+
+    
 
     return (
         <DashboardLayout>
@@ -56,7 +58,7 @@ const Settings = () => {
                 </div>
                 <div className="my-14">
                     {activeTab === 0 && <Profile />}
-                    {activeTab === 1 && <BankInfo />}
+                    {activeTab === 1 && <BankInfo setTabPath={(path:number) => setActiveTab(path)} />}
                     {activeTab === 2 && <Kyc />}
                     {/* <Outlet /> */}
                 </div>

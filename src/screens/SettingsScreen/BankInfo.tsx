@@ -6,8 +6,9 @@ import { Input } from "../../components/FormElements";
 import Loader from "../../components/LoaderComponent";
 import { devInstance } from "../../store/devInstance";
 import { useAppSelector } from "../../store/hooks";
+import { useLocation } from "react-router-dom";
 
-const BankInfo = () => {
+const BankInfo = ({ setTabPath }: any) => {
     const { customer, local }: any = useAppSelector((state) => state.auth);
     const [loading, setLoading] = React.useState(false);
     const [msg, setMsg] = React.useState("");
@@ -19,6 +20,8 @@ const BankInfo = () => {
         email: customer?.email,
         customerId: customer?.id,
     });
+
+    const location: any = useLocation();
 
     const [disabled, setDisabled] = React.useState(false);
 
@@ -67,6 +70,15 @@ const BankInfo = () => {
     //     )
     //         return true;
     // };
+
+    React.useLayoutEffect(() => {
+        if (location?.state?.checkAll) {
+            if (disabled) {
+                setTabPath(2);
+                location.state.checkAll = false;
+            }
+        }
+    }, [disabled]);
 
     function hasCompleteInfo(item: any) {
         // logger(item, 'item');

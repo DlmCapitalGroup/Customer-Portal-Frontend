@@ -6,8 +6,9 @@ import { Input } from "../../components/FormElements";
 import Loader from "../../components/LoaderComponent";
 import { devInstance } from "../../store/devInstance";
 import { useAppSelector } from "../../store/hooks";
+import { useLocation } from "react-router-dom";
 
-const Kyc = () => {
+const Kyc = (props: any) => {
     const { customer, local }: any = useAppSelector((state) => state.auth);
     const [loading, setLoading] = React.useState(false);
     const [formData, setFormData] = React.useState({
@@ -18,6 +19,8 @@ const Kyc = () => {
         utilityBill: "",
         unitHolderSignature: "",
     });
+    const location: any = useLocation();
+    let checkAll: any = location?.state?.checkAll;
 
     const [disabled, setDisabled] = React.useState(false);
 
@@ -52,6 +55,14 @@ const Kyc = () => {
     React.useEffect(() => {
         getKycInfo();
     }, [getKycInfo]);
+
+    // React.useEffect(() => {
+    //     if (checkAll) {
+    //         if (disabled) {
+    //             props.setTabPath(1);
+    //         }
+    //     }
+    // }, []);
 
     const addKycInfo = () => {
         setLoading(true);
@@ -90,7 +101,6 @@ const Kyc = () => {
                     ...formData,
                     [e.target.name]: data.secure_url,
                 });
-                // console.log(formData);
             })
             .catch((err) => {
                 setLoading(false);
