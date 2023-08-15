@@ -32,6 +32,7 @@ const AdminScreen = () => {
     const [cid, setCid] = useState<null | number>(null);
     const [customer, setCustomer] = useState<any>({});
     const [menu2, setMenu2] = useState(false);
+    const [investmentTest, setInvestmentTest] = useState<any>([])
 
     useEffect(() => {
         setLoading(true);
@@ -73,28 +74,29 @@ const AdminScreen = () => {
                 setLoading(false);
             });
 
-        devInstance
-            .get(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetProductIds"
-            )
-            .then((response: any) => {
-                setProducts(response.data.data);
-                // console.log(response.data)
-            })
-            .catch((err) => console.log(err))
-            .finally(() => {
-                setLoading(false);
-            });
+        // devInstance
+        //     .get(
+        //         "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetProductIds"
+        //     )
+        //     .then((response: any) => {
+        //         setProducts(response.data.data);
+        //         // console.log(response.data)
+        //     })
+        //     .catch((err) => console.log(err))
+        //     .finally(() => {
+        //         setLoading(false);
+        //     });
 
-        devInstance(
-            "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetAllCustomersRequests"
-        )
-            .then((response: any) => {
-                setTransactions(response.data.data.pageItems);
-                setTransactionsLength(response.data.data.totalNumberOfItems);
-                console.log(response.data.data.pageItems);
+        devInstance("http://localhost:80/api/v1/investments")
+            .then((response: any) => response.json)
+            .then((response) => {
+                setInvestmentTest(response?.data?.data?.investments)
+                // setTransactionsLength(
+                //     response?.data?.data?.results
+                // );
+                console.log(response.data, "data");
             })
-            .catch((err) => console.log(err))
+            .catch((err) => console.log(err, "error"))
             .finally(() => {
                 setLoading(false);
             });
@@ -137,33 +139,27 @@ const AdminScreen = () => {
     }
 
     const TransactionList = () => {
-        if (transactions?.length > 0) {
+        if (investmentTest?.length > 0) {
             return (
                 <>
-                    {transactions
+                    {investmentTest
                         ?.slice(0, 9)
                         .map((item: any, index: number) => (
                             <div className="flex items-center">
                                 <div className="basis-1/4 pl-[20px]">
-                                    <h3>{item?.transactionType}</h3>
+                                    <h3>{item?.instrumentTypeLabel}</h3>
                                 </div>
                                 <div className="basis-1/4 text-center">
-                                    <h3>
-                                        {formatter(item?.transactionAmount)}
-                                    </h3>
+                                    <h3>{formatter(item?.faceValue)}</h3>
                                 </div>
                                 <div className="basis-1/4 text-center">
-                                    <h3>
-                                        {new Date(
-                                            item?.transactionDate
-                                        ).toLocaleDateString()}
-                                    </h3>
+                                    <h3>{item?.instrumentType}</h3>
                                 </div>
                                 <div className="basis-1/4 text-center">
-                                    <h3>{item?.requestId}</h3>
+                                    <h3>{item?.id}</h3>
                                 </div>
                                 <div className="basis-1/4 text-center">
-                                    <h3>{item.customerId}</h3>
+                                    <h3>{item?.customerId}</h3>
                                 </div>
                                 <div className="basis-1/4 flex justify-end pr-[10px] text-white-lighter">
                                     <div
@@ -172,10 +168,10 @@ const AdminScreen = () => {
                                         {/* <div className="absolute bg-white-lighter border border-primary/30 p-3 w-80 rounded"></div> */}
                                         <h3
                                             className={`${
-                                                item?.transactionStatus.toLowerCase() ===
+                                                item?.status.toLowerCase() ===
                                                 "approved"
                                                     ? "text-success"
-                                                    : item?.transactionStatus.toLowerCase() ===
+                                                    : item?.status.toLowerCase() ===
                                                       "pending"
                                                     ? "text-primary"
                                                     : "text-error"
@@ -188,10 +184,10 @@ const AdminScreen = () => {
                                             // }}
                                         >
                                             <span>
-                                                {item?.transactionStatus.toLowerCase() ===
+                                                {item?.status.toLowerCase() ===
                                                 "approved"
                                                     ? "successful"
-                                                    : item?.transactionStatus}
+                                                    : item?.status}
                                             </span>
                                         </h3>
                                         <svg
@@ -353,10 +349,10 @@ const AdminScreen = () => {
                                 <h3>{item?.customerId}</h3>
                             </div>
                             <div className="basis-1/4 text-center">
-                                <h3>{item.firstName + " " + item.lastName}</h3>
+                                <h3>{item?.firstName + " " + item?.lastName}</h3>
                             </div>
                             <div className="basis-1/4 text-center">
-                                <h3>{item.email}</h3>
+                                <h3>{item?.email}</h3>
                             </div>
                             <div className="basis-1/4 flex justify-end pr-[10px]">
                                 <button
@@ -437,7 +433,7 @@ const AdminScreen = () => {
                                 Total Transactions
                             </h3>
                             <p className="text-3xl font-semibold">
-                                {transactionsLength}
+                                {investmentTest?.length}
                             </p>
                         </div>
                     </div>
@@ -476,7 +472,7 @@ const AdminScreen = () => {
                     </div>
                 </div>
 
-                <div className="mt-20">
+                {/* <div className="mt-20">
                     <h2 className="text-xl font-semibold mb-5">Customers</h2>
                     <div className="h-[365px]">
                         <div className="w-full rounded-[20px] bg-white-lighter h-full">
@@ -505,7 +501,7 @@ const AdminScreen = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="mt-64">
                     <h2 className="text-xl font-semibold mb-5">Transactions</h2>
                     <div className="h-[365px]">

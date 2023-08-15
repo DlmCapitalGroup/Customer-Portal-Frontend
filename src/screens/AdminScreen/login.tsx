@@ -6,13 +6,14 @@ import Button from "../../components/ButtonComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store/hooks";
 import { loginAdmin, loginUser, setUser } from "../../store/auth-slice";
+import { devInstance } from "../../store/devInstance";
 
 const LoginAdmin = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
-        username: "",
+        username: "", 
         password: "",
     });
 
@@ -38,52 +39,18 @@ const LoginAdmin = () => {
         //     data: data,
         // };
 
-        let res: any = await dispatch(
-            loginUser({
-                username: "hamzah",
-                password: "Ade@125",
-            })
-        );
+        let res: any = await devInstance.post("https://localhost:80", {
+            username: formData.username,
+            password: formData.password,
+        });
 
-        let errors =
-            res.meta.rejectedWithValue === true ||
-            res.meta.requestStatus === "rejected";
-
-        if (!errors) {
-            let res: any = await dispatch(
-                loginAdmin({
-                    username: formData.username,
-                    password: formData.password,
-                })
-            );
-            let errors =
-                res.meta.rejectedWithValue === true ||
-                res.meta.requestStatus === "rejected";
-            if (!errors) {
-                navigate("/admin/dashboard");
-                setLoading(false);
-            }
-            // devInstance
-            //     .request(config)
-            //     .then((response: any) => {
-            //         dispatch(setAdmin(response.data.data));
-            //         toast.success(
-            //             `${response.message || response.data.message}`
-            //         );
-            //         if (response) {
-            //             navigate("/admin/dashboard");
-            //         }
-            //         console.log(JSON.stringify(response.data));
-            //     })
-            //     .catch((error) => {
-            //         console.log(error);
-            //     })
-            //     .finally(() => {
-            //         setLoading(false);
-            //     });
-        } else {
-            setLoading(false);
-        }
+        // if (res) {
+        //     dispatch(setAdmin(res?.data?.admin));
+        //     navigate("/admin/dashboard");
+        //     setLoading(false);
+        // } else {
+        //     setLoading(false);
+        // }
     };
 
     return (

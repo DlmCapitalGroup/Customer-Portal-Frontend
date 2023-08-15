@@ -176,15 +176,15 @@ const Table = (props: tableProps) => {
                                                 <div
                                                     className={`absolute bg-white-lighter border border-primary/30 w-48 rounded mr-8 top-0 z-10 shadow text-base text-center font-semibold ${
                                                         (index ===
-                                                            transactions.length -
+                                                            transactions?.length -
                                                                 1 ||
                                                             index ===
-                                                                transactions.length -
+                                                                transactions?.length -
                                                                     2) &&
                                                         "-top-28"
                                                     }`}
                                                 >
-                                                    {item?.transactionStatus.toLowerCase() ===
+                                                    {item?.transactionStatus?.toLowerCase() ===
                                                     "approved" ? (
                                                         <div
                                                             className="p-3 text-error hover:bg-primary/10 cursor-pointer"

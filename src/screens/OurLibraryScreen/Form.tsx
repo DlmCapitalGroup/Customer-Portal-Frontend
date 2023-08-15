@@ -25,12 +25,12 @@ const IndividualForm = (props: _props) => {
         instrumentTypeName: instrumentTypeName,
         instrumentTypeLabel: instrumentTypeLabel,
         customerId: customer?.id,
-        startDate: "",
-        tenure: 365,
-        currency: "NGN",
+        // startDate: "",
+        // tenure: 365,
+        // currency: "NGN",
         faceValue: "",
-        currentRate: "",
-        autoRollover: "",
+        // currentRate: "",
+        // autoRollover: "",
     });
 
     function clearForm() {
@@ -99,61 +99,72 @@ const IndividualForm = (props: _props) => {
     const openAccount = async () => {
         setLoading(true);
         try {
-            const cashAcc = await devInstance.get(
-                `https://zas-dev.zanibal.com/api/v1/finance/account/customer/id/${customer?.id}`
+            // const cashAcc = await devInstance.get(
+            //     `https://zas-dev.zanibal.com/api/v1/finance/account/customer/id/${customer?.id}`
+            // );
+
+            // if (cashAcc) {
+            //     console.log(
+            //         cashAcc?.data?.result[0],
+            //         "Cash Account get successful"
+            //     );
+
+            //     const cashTrans = await devInstance.post(
+            //         "https://zas-dev.zanibal.com/api/v1/finance/cash-transaction/create",
+            //         {
+            //             partnerId: customer?.id,
+            //             cashAccountId: cashAcc?.data?.result[0]?.id,
+            //             amount: formData.faceValue,
+            //             currency: "NGN",
+            //             transMethod: "ECHANNEL",
+            //             transType: "RECEIPT",
+            //         }
+            //     );
+
+            //     if (cashTrans) {
+            //         console.log("cash transaction post successful");
+
+            //         const postCashTransRes = await devInstance.put(
+            //             `https://zas-dev.zanibal.com/api/v1/finance/cash-transaction/post/id/${cashTrans?.data?.msgArgs[0]}`
+            //         );
+
+            //         if (postCashTransRes) {
+            //             console.log(
+            //                 postCashTransRes,
+            //                 "cash transaction confirmed"
+            //             );
+
+            //             const investRes = await devInstance.post(
+            //                 "https://zas-dev.zanibal.com/api/v1/order/terminstrument/submit",
+            //                 formData
+            //             );
+
+            //             if (investRes) {
+            //                 console.log("investment taken");
+            //                 const postInvestRes = await devInstance.put(
+            //                     `https://zas-dev.zanibal.com/api/v1/order/terminstrument/post/${investRes?.data?.msgArgs[0]}`
+            //                 );
+
+            //                 if (postInvestRes) {
+            //                     dispatch(clearStepper());
+            //                     clearForm();
+            //                     closeModal();
+            //                     toast.success("Investment Successful");
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+
+            const res = await devInstance.post(
+                "https://assetmgt-api.dlm.group/api/v1/investments",
+                formData
             );
-
-            if (cashAcc) {
-                console.log(
-                    cashAcc?.data?.result[0],
-                    "Cash Account get successful"
-                );
-
-                const cashTrans = await devInstance.post(
-                    "https://zas-dev.zanibal.com/api/v1/finance/cash-transaction/create",
-                    {
-                        partnerId: customer?.id,
-                        cashAccountId: cashAcc?.data?.result[0]?.id,
-                        amount: formData.faceValue,
-                        currency: "NGN",
-                        transMethod: "ECHANNEL",
-                        transType: "RECEIPT",
-                    }
-                );
-
-                if (cashTrans) {
-                    console.log("cash transaction post successful");
-
-                    const postCashTransRes = await devInstance.put(
-                        `https://zas-dev.zanibal.com/api/v1/finance/cash-transaction/post/id/${cashTrans?.data?.msgArgs[0]}`
-                    );
-
-                    if (postCashTransRes) {
-                        console.log(
-                            postCashTransRes,
-                            "cash transaction confirmed"
-                        );
-
-                        const investRes = await devInstance.post(
-                            "https://zas-dev.zanibal.com/api/v1/order/terminstrument/submit",
-                            formData
-                        );
-
-                        if (investRes) {
-                            console.log("investment taken");
-                            const postInvestRes = await devInstance.put(
-                                `https://zas-dev.zanibal.com/api/v1/order/terminstrument/post/${investRes?.data?.msgArgs[0]}`
-                            );
-
-                            if (postInvestRes) {
-                                dispatch(clearStepper());
-                                clearForm();
-                                closeModal();
-                                toast.success("Investment Successful");
-                            }
-                        }
-                    }
-                }
+            if (res) {
+                toast.success("Investment has been placed on review");
+                dispatch(clearStepper());
+                clearForm();
+                closeModal();
             }
         } catch (err) {
             console.log(err);
@@ -195,7 +206,7 @@ const IndividualForm = (props: _props) => {
                                     value={formData.faceValue || null}
                                 />
                             </div>
-                            <div>
+                            {/* <div>
                                 <Input
                                     placeholder="Current Rate"
                                     name="currentRate"
@@ -214,9 +225,9 @@ const IndividualForm = (props: _props) => {
                                     onChange={formChange}
                                     value={formData.autoRollover || null}
                                 />
-                            </div>
+                            </div> */}
 
-                            <div>
+                            {/* <div>
                                 <Input
                                     placeholder="Start Date"
                                     name="startDate"
@@ -226,7 +237,7 @@ const IndividualForm = (props: _props) => {
                                         formData.startDate.slice(0, 10) || null
                                     }
                                 />
-                            </div>
+                            </div> */}
                             <p className="flex space-x-5 items-start text-base text-black mt-12">
                                 <input
                                     type="checkbox"
