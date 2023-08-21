@@ -78,7 +78,7 @@ const DashboardScreen = () => {
             setLoading(true);
 
             devInstance
-                .get(`http://localhost:80/api/v1/investments/get-customer-investments/${customer?.customerId}`)
+                .get(`https://assetmgt-api.dlm.group/api/v1/investments/get-customer-investments/${customer?.customerId}`)
                 .then((res: any) => {
                     console.log(res?.data?.result);
                     setTransactions(res?.data?.result);

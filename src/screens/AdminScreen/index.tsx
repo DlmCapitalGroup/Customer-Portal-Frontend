@@ -88,7 +88,7 @@ const AdminScreen = () => {
         //         setLoading(false);
         //     });
 
-        devInstance("http://localhost:80/api/v1/investments")
+        devInstance("https://assetmgt-api.dlm.group/api/v1/investments")
             // .then((response: any) => response.json)
             .then((response) => {
                 setInvestments(response?.data?.data?.investments);
@@ -225,7 +225,7 @@ const AdminScreen = () => {
     function approveReq(id: number) {
         setLoading(true);
         devInstance
-            .post(`http://localhost:80/api/v1/investments/${id}`, {
+            .post(`https://assetmgt-api.dlm.group/api/v1/investments/${id}`, {
                 status: "approved",
             })
             .then((response: any) => {
@@ -242,7 +242,7 @@ const AdminScreen = () => {
     function declineReq(id: number) {
         setLoading(true);
         devInstance
-            .put(`http://localhost:80/api/v1/investments/${id}`)
+            .put(`https://assetmgt-api.dlm.group/api/v1/investments/${id}`)
             .then((response: any) => {
                 toast.success("Investment was successfully Declined");
                 fetchTransactions();

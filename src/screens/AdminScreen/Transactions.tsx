@@ -89,7 +89,7 @@ const TransactionsScreen = () => {
     const fetchTransactions = useCallback((pageNumber: number) => {
         setLoading(true);
         devInstance
-            .get("http://localhost:80/api/v1/investments")
+            .get("https://assetmgt-api.dlm.group/api/v1/investments")
             .then((res: any) => {
                 setTransactions(res?.data?.data?.investments);
                 // setCurrentpage(res?.data?.data.currentPage);
@@ -149,7 +149,7 @@ const TransactionsScreen = () => {
     function approveReq(id: Number) {
         setLoading(true);
         devInstance
-            .post(`http://localhost:80/api/v1/investments/${id}`)
+            .post(`https://assetmgt-api.dlm.group/api/v1/investments/${id}`)
             .then((response: any) => {
                 toast.success("Investment was successfully Approved");
                 fetchTransactions(currentPage);
@@ -164,7 +164,7 @@ const TransactionsScreen = () => {
     function declineReq(id: Number) {
         setLoading(true);
         devInstance
-            .put(`http://localhost:80/api/v1/investments/${id}`)
+            .put(`https://assetmgt-api.dlm.group/api/v1/investments/${id}`)
             .then((response: any) => {
                 toast.success("Investment was successfully Declined");
                 fetchTransactions(currentPage);
