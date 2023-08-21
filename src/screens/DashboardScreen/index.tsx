@@ -78,9 +78,7 @@ const DashboardScreen = () => {
             setLoading(true);
 
             devInstance
-                .get(`/order/terminstrument/customer/list`, {
-                    params: { c: customer?.id },
-                })
+                .get(`http://localhost:80/api/v1/investments/get-customer-investments/${customer?.customerId}`)
                 .then((res: any) => {
                     console.log(res?.data?.result);
                     setTransactions(res?.data?.result);

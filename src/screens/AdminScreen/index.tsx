@@ -32,47 +32,48 @@ const AdminScreen = () => {
     const [cid, setCid] = useState<null | number>(null);
     const [customer, setCustomer] = useState<any>({});
     const [menu2, setMenu2] = useState(false);
-    const [investmentTest, setInvestmentTest] = useState<any>([])
+    const [investments, setInvestments] = useState<any>([]);
+    const [investmentId, setInvestmentId] = useState<any>(null);
 
     useEffect(() => {
         setLoading(true);
-        devInstance
-            .get(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetAllCustomers"
-            )
-            .then((response: any) => {
-                setCustomers(response.data.data.pageItems);
-                setCustomerLength(response.data.data.totalNumberOfItems);
-            })
-            .catch((err) => console.log(err))
-            .finally(() => {
-                setLoading(false);
-            });
+        // devInstance
+        //     .get(
+        //         "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetAllCustomers"
+        //     )
+        //     .then((response: any) => {
+        //         setCustomers(response.data.data.pageItems);
+        //         setCustomerLength(response.data.data.totalNumberOfItems);
+        //     })
+        //     .catch((err) => console.log(err))
+        //     .finally(() => {
+        //         setLoading(false);
+        //     });
 
-        devInstance
-            .get(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetAllInquiries"
-            )
-            .then((response: any) => {
-                setEnquiries(response.data.data.pageItems);
-            })
-            .catch((err) => console.log(err))
-            .finally(() => {
-                setLoading(false);
-            });
+        // devInstance
+        //     .get(
+        //         "https://apps.dlm.group/ASSETMGTAPI/api/v1/Transaction/GetAllInquiries"
+        //     )
+        //     .then((response: any) => {
+        //         setEnquiries(response.data.data.pageItems);
+        //     })
+        //     .catch((err) => console.log(err))
+        //     .finally(() => {
+        //         setLoading(false);
+        //     });
 
-        devInstance
-            .get(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetNewsUpdates"
-            )
-            .then((response: any) => {
-                setNews(response.data);
-                // console.log(response.data)
-            })
-            .catch((err) => console.log(err))
-            .finally(() => {
-                setLoading(false);
-            });
+        // devInstance
+        //     .get(
+        //         "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetNewsUpdates"
+        //     )
+        //     .then((response: any) => {
+        //         setNews(response.data);
+        //         // console.log(response.data)
+        //     })
+        //     .catch((err) => console.log(err))
+        //     .finally(() => {
+        //         setLoading(false);
+        //     });
 
         // devInstance
         //     .get(
@@ -88,148 +89,131 @@ const AdminScreen = () => {
         //     });
 
         devInstance("http://localhost:80/api/v1/investments")
-            .then((response: any) => response.json)
+            // .then((response: any) => response.json)
             .then((response) => {
-                setInvestmentTest(response?.data?.data?.investments)
+                setInvestments(response?.data?.data?.investments);
                 // setTransactionsLength(
                 //     response?.data?.data?.results
                 // );
-                console.log(response.data, "data");
+                console.log(response, "investmentTest 01");
             })
+
             .catch((err) => console.log(err, "error"))
             .finally(() => {
                 setLoading(false);
             });
     }, []);
 
-    const getProdId = (productId: any) => {
-        return products.find((el: any) => productId === el.productId);
-    };
+    // const getProdId = (productId: any) => {
+    //     return products.find((el: any) => productId === el.productId);
+    // };
 
-    function getCustomerDetails(id: number) {
-        setLoading(true);
-        devInstance
-            .get(`/Admin/GetCustomerInfoAndTransactions/${id}`)
-            .then((res: any) => {
-                setCustomer(res?.data);
-                setCid(id);
-                console.log(res, "transaction");
-                setModal(true);
-            })
-            .catch((err: any) => toast(`${err.response.data || err.message}`))
-            .finally(() => setLoading(false));
-    }
+    // function getCustomerDetails(id: number) {
+    //     setLoading(true);
+    //     devInstance
+    //         .get(`/Admin/GetCustomerInfoAndTransactions/${id}`)
+    //         .then((res: any) => {
+    //             setCustomer(res?.data);
+    //             setCid(id);
+    //             console.log(res, "transaction");
+    //             setModal(true);
+    //         })
+    //         .catch((err: any) => toast(`${err.response.data || err.message}`))
+    //         .finally(() => setLoading(false));
+    // }
 
-    function getDetail(rid: number) {
-        setLoading(true);
-        devInstance
-            .get("/Admin/GetCustomerProductSubDetails", {
-                params: {
-                    CustomerId: cid,
-                    RequestId: rid,
-                },
-            })
-            .then((res: any) => {
-                setTransaction(res.data);
-                console.log(res, "transaction");
-                setModal2(true);
-            })
-            .catch((err) => console.log(err))
-            .finally(() => setLoading(false));
-    }
+    // function getDetail(id: number) {
+    //     setInvestmentId(id);
+    // }
 
-    const TransactionList = () => {
-        if (investmentTest?.length > 0) {
-            return (
-                <>
-                    {investmentTest
-                        ?.slice(0, 9)
-                        .map((item: any, index: number) => (
-                            <div className="flex items-center">
-                                <div className="basis-1/4 pl-[20px]">
-                                    <h3>{item?.instrumentTypeLabel}</h3>
-                                </div>
-                                <div className="basis-1/4 text-center">
-                                    <h3>{formatter(item?.faceValue)}</h3>
-                                </div>
-                                <div className="basis-1/4 text-center">
-                                    <h3>{item?.instrumentType}</h3>
-                                </div>
-                                <div className="basis-1/4 text-center">
-                                    <h3>{item?.id}</h3>
-                                </div>
-                                <div className="basis-1/4 text-center">
-                                    <h3>{item?.customerId}</h3>
-                                </div>
-                                <div className="basis-1/4 flex justify-end pr-[10px] text-white-lighter">
-                                    <div
-                                        className={`basis-1/4 text-right relative flex justify-end items-center`}
-                                    >
-                                        {/* <div className="absolute bg-white-lighter border border-primary/30 p-3 w-80 rounded"></div> */}
-                                        <h3
-                                            className={`${
-                                                item?.status.toLowerCase() ===
-                                                "approved"
-                                                    ? "text-success"
-                                                    : item?.status.toLowerCase() ===
-                                                      "pending"
-                                                    ? "text-primary"
-                                                    : "text-error"
-                                            } capitalize w-28 cursor-pointer text-sm`}
-                                            // onClick={() => {
-                                            //     // setModalStatus(
-                                            //     //     item?.transactionStatus.toLowerCase()
-                                            //     // );
-                                            //     // setOpenModal(true);
-                                            // }}
-                                        >
-                                            <span>
-                                                {item?.status.toLowerCase() ===
-                                                "approved"
-                                                    ? "successful"
-                                                    : item?.status}
-                                            </span>
-                                        </h3>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={1.5}
-                                            stroke="#09335E"
-                                            className="w-6 h-6 cursor-pointer"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                </>
-            );
-        } else {
-            return (
-                <div className="pl-[20px] text-center text-error">
-                    <h3>No Transactions Found</h3>
-                </div>
-            );
-        }
-    };
+    // const TransactionList = () => {
+    //     if (investments?.length > 0) {
+    //         return (
+    //             <>
+    //                 {investments
+    //                     ?.slice(0, 9)
+    //                     .map((item: any, index: number) => (
+    //                         <div className="flex items-center">
+    //                             <div className="basis-1/4 pl-[20px]">
+    //                                 <h3>{item?.instrumentTypeLabel}</h3>
+    //                             </div>
+    //                             <div className="basis-1/4 text-center">
+    //                                 <h3>{formatter(item?.faceValue)}</h3>
+    //                             </div>
+    //                             <div className="basis-1/4 text-center">
+    //                                 <h3>{item?.instrumentType}</h3>
+    //                             </div>
+    //                             <div className="basis-1/4 text-center">
+    //                                 <h3>{item?.id}</h3>
+    //                             </div>
+    //                             <div className="basis-1/4 text-center">
+    //                                 <h3>{item?.customerId}</h3>
+    //                             </div>
+    //                             <div className="basis-1/4 flex justify-end pr-[10px] text-white-lighter">
+    //                                 <div
+    //                                     className={`basis-1/4 text-right relative flex justify-end items-center`}
+    //                                 >
+    //                                     {/* <div className="absolute bg-white-lighter border border-primary/30 p-3 w-80 rounded"></div> */}
+    //                                     <h3
+    //                                         className={`${
+    //                                             item?.status.toLowerCase() ===
+    //                                             "approved"
+    //                                                 ? "text-success"
+    //                                                 : item?.status.toLowerCase() ===
+    //                                                   "pending"
+    //                                                 ? "text-primary"
+    //                                                 : "text-error"
+    //                                         } capitalize w-28 cursor-pointer text-sm`}
+    //                                         // onClick={() => {
+    //                                         //     // setModalStatus(
+    //                                         //     //     item?.transactionStatus.toLowerCase()
+    //                                         //     // );
+    //                                         //     // setOpenModal(true);
+    //                                         // }}
+    //                                     >
+    //                                         <span>
+    //                                             {item?.status.toLowerCase() ===
+    //                                             "approved"
+    //                                                 ? "successful"
+    //                                                 : item?.status}
+    //                                         </span>
+    //                                     </h3>
+    //                                     <svg
+    //                                         xmlns="http://www.w3.org/2000/svg"
+    //                                         fill="none"
+    //                                         viewBox="0 0 24 24"
+    //                                         strokeWidth={1.5}
+    //                                         stroke="#09335E"
+    //                                         className="w-6 h-6 cursor-pointer"
+    //                                     >
+    //                                         <path
+    //                                             strokeLinecap="round"
+    //                                             strokeLinejoin="round"
+    //                                             d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+    //                                         />
+    //                                     </svg>
+    //                                 </div>
+    //                             </div>
+    //                         </div>
+    //                     ))}
+    //             </>
+    //         );
+    //     } else {
+    //         return (
+    //             <div className="pl-[20px] text-center text-error">
+    //                 <h3>No Transactions Found</h3>
+    //             </div>
+    //         );
+    //     }
+    // };
 
     const fetchTransactions = useCallback((pageNumber?: number) => {
         setLoading(true);
         devInstance
-            .get("/Admin/GetAllCustomersRequests/", {
-                params: {
-                    pageNumber: pageNumber,
-                },
-            })
-            .then((res: any) => {
-                setTransactions(res?.data?.data?.pageItems);
-                console.log(res, "rrrrr");
+            .get("http://localhost:3000/api/v1/investments")
+            .then((response: any) => {
+                setInvestments(response?.data?.data?.investments);
+                console.log(response, "investmentTest 01");
             })
             .catch((err) => {
                 toast.error(`${err?.message}`);
@@ -238,19 +222,16 @@ const AdminScreen = () => {
             .finally(() => setLoading(false));
     }, []);
 
-    function approveReq(reqId: number, prodId: string) {
+    function approveReq(id: number) {
         setLoading(true);
         devInstance
-            .post("/Admin/ApproveInvestment", {
-                productId: prodId,
-                requestId: reqId,
-                userId: admin?.userId,
-                status: "approve",
+            .post(`http://localhost:80/api/v1/investments/${id}`, {
+                status: "approved",
             })
             .then((response: any) => {
                 toast.success("Investment was successfully Approved");
-                fetchTransactions();
                 setMenu(false);
+                fetchTransactions();
             })
             .catch((err) => {
                 toast.error(`${err.message}`);
@@ -258,15 +239,10 @@ const AdminScreen = () => {
             .finally(() => setLoading(false));
     }
 
-    function declineReq(reqId: number, prodId: string) {
+    function declineReq(id: number) {
         setLoading(true);
         devInstance
-            .post("/Admin/ApproveInvestment", {
-                productId: prodId,
-                requestId: reqId,
-                userId: admin?.userId,
-                status: "decline",
-            })
+            .put(`http://localhost:80/api/v1/investments/${id}`)
             .then((response: any) => {
                 toast.success("Investment was successfully Declined");
                 fetchTransactions();
@@ -278,135 +254,137 @@ const AdminScreen = () => {
             .finally(() => setLoading(false));
     }
 
-    const toggleMenu = (val: boolean) => {
-        setMenu(val);
-    };
+    // const toggleMenu = (val: boolean) => {
+    //     setMenu(val);
+    // };
 
     const toggleMenu2 = (val: boolean) => {
         setMenu(val);
     };
 
-    function activateCustomer(id: number) {
-        setLoading(true);
-        devInstance
-            .post("/Admin/EnableCustomer", {
-                adminId: admin.userId,
-                customerId: id,
-            })
-            .then(() => {
-                toast.success("Customer has been Enabled Successfully");
-                fetchCustomers(1);
-                setMenu(false);
-            })
-            .catch((err) => toast.error(`${err.response.data}`))
-            .finally(() => setLoading(false));
-    }
+    // function activateCustomer(id: number) {
+    //     setLoading(true);
+    //     devInstance
+    //         .post("/Admin/EnableCustomer", {
+    //             adminId: admin.userId,
+    //             customerId: id,
+    //         })
+    //         .then(() => {
+    //             toast.success("Customer has been Enabled Successfully");
+    //             fetchCustomers(1);
+    //             setMenu(false);
+    //         })
+    //         .catch((err) => toast.error(`${err.response.data}`))
+    //         .finally(() => setLoading(false));
+    // }
 
-    function deactivateCustomer(id: number) {
-        setLoading(true);
-        devInstance
-            .post("/Admin/DisableCustomer", {
-                adminId: admin.userId,
-                customerId: id,
-            })
-            .then(() => {
-                toast.success("Customer has been Disabled Successfully");
-                fetchCustomers(1);
-                setMenu(false);
-            })
-            .catch((err) => toast.error(`${err.response.data || err.message}`))
-            .finally(() => setLoading(false));
-    }
+    // function deactivateCustomer(id: number) {
+    //     setLoading(true);
+    //     devInstance
+    //         .post("/Admin/DisableCustomer", {
+    //             adminId: admin.userId,
+    //             customerId: id,
+    //         })
+    //         .then(() => {
+    //             toast.success("Customer has been Disabled Successfully");
+    //             fetchCustomers(1);
+    //             setMenu(false);
+    //         })
+    //         .catch((err) => toast.error(`${err.response.data || err.message}`))
+    //         .finally(() => setLoading(false));
+    // }
 
-    const fetchCustomers = useCallback((pageNumber: number) => {
-        setLoading(true);
-        devInstance
-            .get("/Admin/GetAllCustomers", {
-                params: {
-                    pageNumber: pageNumber,
-                },
-            })
-            .then((res: any) => {
-                setCustomers(res?.data?.data?.pageItems);
-                console.log(res, "rrrrr");
-            })
-            .catch((err) => {
-                toast.error(`${err?.message}`);
-                setLoading(false);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }, []);
+    // const fetchCustomers = useCallback((pageNumber: number) => {
+    //     setLoading(true);
+    //     devInstance
+    //         .get("/Admin/GetAllCustomers", {
+    //             params: {
+    //                 pageNumber: pageNumber,
+    //             },
+    //         })
+    //         .then((res: any) => {
+    //             setCustomers(res?.data?.data?.pageItems);
+    //             console.log(res, "rrrrr");
+    //         })
+    //         .catch((err) => {
+    //             toast.error(`${err?.message}`);
+    //             setLoading(false);
+    //         })
+    //         .finally(() => {
+    //             setLoading(false);
+    //         });
+    // }, []);
 
-    const CustomerList = () => {
-        if (customers?.length > 0) {
-            return (
-                <>
-                    {customers?.slice(0, 9).map((item: any, index: number) => (
-                        <div className="flex items-center">
-                            <div className="basis-1/4 pl-[20px]">
-                                <h3>{item?.customerId}</h3>
-                            </div>
-                            <div className="basis-1/4 text-center">
-                                <h3>{item?.firstName + " " + item?.lastName}</h3>
-                            </div>
-                            <div className="basis-1/4 text-center">
-                                <h3>{item?.email}</h3>
-                            </div>
-                            <div className="basis-1/4 flex justify-end pr-[10px]">
-                                <button
-                                    disabled
-                                    className={`bg-error capitalize w-28 disabled:opacity-70 text-center flex justify-center items-center gap-x-1 cursor-pointer p-1 text-xs rounded-md`}
-                                    // onClick={() => {
+    // const CustomerList = () => {
+    //     if (customers?.length > 0) {
+    //         return (
+    //             <>
+    //                 {customers?.slice(0, 9).map((item: any, index: number) => (
+    //                     <div className="flex items-center">
+    //                         <div className="basis-1/4 pl-[20px]">
+    //                             <h3>{item?.customerId}</h3>
+    //                         </div>
+    //                         <div className="basis-1/4 text-center">
+    //                             <h3>
+    //                                 {item?.firstName + " " + item?.lastName}
+    //                             </h3>
+    //                         </div>
+    //                         <div className="basis-1/4 text-center">
+    //                             <h3>{item?.email}</h3>
+    //                         </div>
+    //                         <div className="basis-1/4 flex justify-end pr-[10px]">
+    //                             <button
+    //                                 disabled
+    //                                 className={`bg-error capitalize w-28 disabled:opacity-70 text-center flex justify-center items-center gap-x-1 cursor-pointer p-1 text-xs rounded-md`}
+    //                                 // onClick={() => {
 
-                                    // }}
-                                >
-                                    Disable
-                                    <span>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={1.5}
-                                            stroke="currentColor"
-                                            className="w-4 h-4"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                                            />
-                                        </svg>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </>
-            );
-        } else {
-            return (
-                <div className="pl-[20px] text-center text-error">
-                    <h3>No Customers Found</h3>
-                </div>
-            );
-        }
-    };
+    //                                 // }}
+    //                             >
+    //                                 Disable
+    //                                 <span>
+    //                                     <svg
+    //                                         xmlns="http://www.w3.org/2000/svg"
+    //                                         fill="none"
+    //                                         viewBox="0 0 24 24"
+    //                                         strokeWidth={1.5}
+    //                                         stroke="currentColor"
+    //                                         className="w-4 h-4"
+    //                                     >
+    //                                         <path
+    //                                             strokeLinecap="round"
+    //                                             strokeLinejoin="round"
+    //                                             d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+    //                                         />
+    //                                     </svg>
+    //                                 </span>
+    //                             </button>
+    //                         </div>
+    //                     </div>
+    //                 ))}
+    //             </>
+    //         );
+    //     } else {
+    //         return (
+    //             <div className="pl-[20px] text-center text-error">
+    //                 <h3>No Customers Found</h3>
+    //             </div>
+    //         );
+    //     }
+    // };
 
-    const Modal = ({ children, close }: any) => (
-        <div className="fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-primary/20">
-            <div className="w-[800px] flex flex-col min-h-[400px] bg-white-light shadow-sm rounded-[20px] p-10 relative">
-                <img
-                    alt=""
-                    src={closeModal}
-                    className="w-5 absolute top-10 right-10 cursor-pointer"
-                    onClick={close}
-                />
-                <>{children}</>
-            </div>
-        </div>
-    );
+    // const Modal = ({ children, close }: any) => (
+    //     <div className="fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-primary/20">
+    //         <div className="w-[800px] flex flex-col min-h-[400px] bg-white-light shadow-sm rounded-[20px] p-10 relative">
+    //             <img
+    //                 alt=""
+    //                 src={closeModal}
+    //                 className="w-5 absolute top-10 right-10 cursor-pointer"
+    //                 onClick={close}
+    //             />
+    //             <>{children}</>
+    //         </div>
+    //     </div>
+    // );
 
     return (
         <AdminLayout>
@@ -433,7 +411,7 @@ const AdminScreen = () => {
                                 Total Transactions
                             </h3>
                             <p className="text-3xl font-semibold">
-                                {investmentTest?.length}
+                                {investments?.length}
                             </p>
                         </div>
                     </div>
@@ -531,18 +509,17 @@ const AdminScreen = () => {
                                     <div className="flex flex-col h-[500px] overflow-x-hidden overflow-y-auto">
                                         <div className="flex flex-col">
                                             <Table
-                                                transactions={transactions}
+                                                transactions={investments}
                                                 // prevPage={prevPage}
                                                 // nextPage={nextPage}
                                                 // totalPages={totalPages}
                                                 // currentPage={currentPage}
                                                 isAdmin
-                                                type="B"
                                                 approveReq={approveReq}
                                                 declineReq={declineReq}
                                                 menu={menu}
                                                 toggleMenu={toggleMenu2}
-                                                reqId={getDetail}
+                                                // reqId={getDetail}
                                             />
                                         </div>
                                     </div>
@@ -555,7 +532,7 @@ const AdminScreen = () => {
                                         View more
                                     </p>
                                 </div>
-                                {modal && (
+                                {/* {modal && (
                                     <DetailsModal
                                         cancel={(e: any) => {
                                             // e.stopPropagation();
@@ -575,7 +552,7 @@ const AdminScreen = () => {
                                         menu={menu2}
                                         toggleMenu={toggleMenu2}
                                     />
-                                )}
+                                )} */}
                             </div>
                             {modal2 && (
                                 <DetailsModal

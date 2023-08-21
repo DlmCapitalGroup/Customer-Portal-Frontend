@@ -97,29 +97,6 @@ const Table = (props: tableProps) => {
     // const [toggleMenu, setToggleMenu] = useState(false);
     const [toggleId, setToggleId] = useState<null | number>(null);
     const [prodId, setProdId] = useState<null | number>(null);
-    const [status, setStatus] = useState<null | string>(null);
-
-    const productIds = ["FIF2847", "CEP4821", "TDP5110", "RPS8431", "HIIP5969"];
-    const getProductId = (productName: string) => {
-        if (productName === "Fixed Income Fund") {
-            return productIds[0];
-        }
-        if (productName === "Retirement Plan Subscription") {
-            return productIds[3];
-        }
-        if (productName === "Target Date Plan") {
-            return productIds[2];
-        }
-        if (
-            productName === "High Interest Investment Plan (Corporate)" ||
-            productName === "High Interest Investment Plan (Individual)"
-        ) {
-            return productIds[4];
-        }
-        if (productName === "Child Education Plan") {
-            return productIds[1];
-        }
-    };
 
     const TransactionList = () => {
         if (transactions.length > 0) {
@@ -130,7 +107,7 @@ const Table = (props: tableProps) => {
                             className="flex items-center hover:cursor-pointer"
                             key={index}
                             onClick={() => {
-                                reqId(item?.requestId, item?.id);
+                                reqId(item?.id);
                                 setToggleId(null);
                                 toggleMenu(false);
                             }}
@@ -143,16 +120,15 @@ const Table = (props: tableProps) => {
                             </div>
                             <div className="basis-1/4 text-center">
                                 <h3>
-                                    {new Date(
-                                        item?.startDate
-                                    ).toLocaleDateString()}
+                                    {item?.startData
+                                        ? new Date(
+                                              item?.startDate
+                                          ).toLocaleDateString()
+                                        : "Not Started"}
                                 </h3>
                             </div>
                             {isAdmin && (
                                 <>
-                                    <div className="basis-1/4 text-center">
-                                        <h3>{item?.customerName}</h3>
-                                    </div>
                                     {item?.customerId && (
                                         <div className="basis-1/4 text-center">
                                             <h3>{item?.customerId}</h3>
@@ -169,30 +145,30 @@ const Table = (props: tableProps) => {
                             >
                                 {isAdmin ? (
                                     <>
-                                        {toggleId === item?.requestId &&
+                                        {toggleId === item?.id &&
                                             menu === true &&
-                                            item?.transactionStatus !==
+                                            item?.status.toLowerCase() !==
                                                 "approved" && (
                                                 <div
-                                                    className={`absolute bg-white-lighter border border-primary/30 w-48 rounded mr-8 top-0 z-10 shadow text-base text-center font-semibold ${
+                                                    className={`absolute bg-white-lighter border border-primary/30 w-48 rounded mr-8 top-0 z-50 shadow text-base text-center font-semibold ${
                                                         (index ===
                                                             transactions?.length -
                                                                 1 ||
                                                             index ===
                                                                 transactions?.length -
                                                                     2) &&
-                                                        "-top-28"
+                                                        ""
                                                     }`}
                                                 >
-                                                    {item?.transactionStatus?.toLowerCase() ===
+                                                    {item?.status?.toLowerCase() ===
                                                     "approved" ? (
                                                         <div
                                                             className="p-3 text-error hover:bg-primary/10 cursor-pointer"
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
                                                                 declineReq(
-                                                                    item?.requestId,
-                                                                    item?.productId
+                                                                    item?.id
+                                                                    // item?.productId
                                                                 );
                                                             }}
                                                         >
@@ -207,14 +183,13 @@ const Table = (props: tableProps) => {
                                                                 ) => {
                                                                     e.stopPropagation();
                                                                     approveReq(
-                                                                        item?.requestId,
-                                                                        item?.productId
+                                                                        item?.id
                                                                     );
                                                                 }}
                                                             >
                                                                 Approve
                                                             </div>
-                                                            {item?.transactionStatus.toLowerCase() !==
+                                                            {item?.status.toLowerCase() !==
                                                                 "declined" && (
                                                                 <div
                                                                     className="p-3 text-error hover:bg-primary/10 cursor-pointer"
@@ -223,8 +198,8 @@ const Table = (props: tableProps) => {
                                                                     ) => {
                                                                         e.stopPropagation();
                                                                         declineReq(
-                                                                            item?.requestId,
-                                                                            item?.productId
+                                                                            item?.id
+                                                                            // item?.productId
                                                                         );
                                                                     }}
                                                                 >
@@ -249,7 +224,7 @@ const Table = (props: tableProps) => {
 
                                         <h3
                                             className={`${
-                                                item?.status === "RUNNING"
+                                                item?.status === "APPROVED"
                                                     ? "text-success"
                                                     : item?.status ===
                                                           "DECLINED" &&
@@ -259,12 +234,13 @@ const Table = (props: tableProps) => {
                                                     ? "mr-6"
                                                     : "text-primary"
                                             } capitalize w-28 cursor-pointer text-sm`}
-                                            // onClick={() => {
-                                            //     // setModalStatus(
-                                            //     //     item?.transactionStatus.toLowerCase()
-                                            //     // );
-                                            //     // setOpenModal(true);
-                                            // }}
+                                            onClick={() => {
+                                                // setModalStatus(
+                                                //     item?.transactionStatus.toLowerCase()
+                                                // );
+                                                // setOpenModal(true);
+                                                alert(item?.id);
+                                            }}
                                         >
                                             <span>
                                                 {item?.status === "RUNNING"
@@ -272,64 +248,77 @@ const Table = (props: tableProps) => {
                                                     : item?.status}
                                             </span>
                                         </h3>
-                                        {type !== "B" && (
-                                            <span>
-                                                {item?.status !==
-                                                    "RUNNING" && (
-                                                    <span
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            if (menu === true) {
-                                                                setToggleId(
-                                                                    null
-                                                                );
-                                                                toggleMenu(
-                                                                    false
-                                                                );
-                                                                console.log(
-                                                                    toggleId,
-                                                                    "toggle"
-                                                                );
-                                                            } else {
-                                                                setToggleId(
-                                                                    item?.requestId
-                                                                );
-                                                                console.log(
-                                                                    toggleId,
-                                                                    "toggle"
-                                                                );
-                                                                toggleMenu(
-                                                                    true
-                                                                );
-                                                            }
-                                                        }}
-                                                    >
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            strokeWidth={1.5}
-                                                            stroke="currentColor"
-                                                            className="w-6 h-6 cursor-pointer"
+                                        {type !== "B" &&
+                                            item?.status.toLowerCase() !==
+                                                "approved" && (
+                                                <span>
+                                                    {(item?.status !==
+                                                        "RUNNING" ||
+                                                        item?.status !==
+                                                            "APPROVED") && (
+                                                        <span
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                if (
+                                                                    item?.status.toLowerCase() !==
+                                                                    "approved"
+                                                                ) {
+                                                                    if (
+                                                                        menu ===
+                                                                        true
+                                                                    ) {
+                                                                        setToggleId(
+                                                                            null
+                                                                        );
+                                                                        toggleMenu(
+                                                                            false
+                                                                        );
+                                                                        console.log(
+                                                                            toggleId,
+                                                                            "toggle true"
+                                                                        );
+                                                                    } else {
+                                                                        setToggleId(
+                                                                            item?.id
+                                                                        );
+                                                                        console.log(
+                                                                            toggleId,
+                                                                            "toggle false"
+                                                                        );
+                                                                        toggleMenu(
+                                                                            true
+                                                                        );
+                                                                    }
+                                                                }
+                                                            }}
                                                         >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                                                            />
-                                                        </svg>
-                                                    </span>
-                                                )}
-                                            </span>
-                                        )}
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                fill="none"
+                                                                viewBox="0 0 24 24"
+                                                                strokeWidth={
+                                                                    1.5
+                                                                }
+                                                                stroke="currentColor"
+                                                                className="w-6 h-6 cursor-pointer"
+                                                            >
+                                                                <path
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                    d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                                                                />
+                                                            </svg>
+                                                        </span>
+                                                    )}
+                                                </span>
+                                            )}
                                     </>
                                 ) : (
                                     <h3
                                         className={`${
-                                            item.status === "RUNNING"
+                                            item?.status === "RUNNING"
                                                 ? "text-success"
-                                                : item?.status ===
-                                                  "DECLINED"
+                                                : item?.status === "DECLINED"
                                                 ? "text-error"
                                                 : "text-primary"
                                         } capitalize`}
@@ -368,9 +357,9 @@ const Table = (props: tableProps) => {
                     </div>
                     {isAdmin && (
                         <>
-                            <div className="basis-1/4 text-center">
+                            {/* <div className="basis-1/4 text-center">
                                 <h3>Full Name</h3>
-                            </div>
+                            </div> */}
                             {type !== "B" && (
                                 <div className="basis-1/4 text-right pr-[54px]">
                                     <h3>Customer ID</h3>

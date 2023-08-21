@@ -67,38 +67,34 @@ const TransactionsScreen = () => {
     }
 
     function getDetail(rid: number, cid: number) {
-        setLoading(true);
-        devInstance
-            .get("/Admin/GetCustomerProductSubDetails", {
-                params: {
-                    CustomerId: cid,
-                    RequestId: rid,
-                },
-            })
-            .then((res: any) => {
-                setTransaction(res.data);
-                console.log(res, "transaction");
-                setModal2(true);
-            })
-            .catch((err: any) => toast(`${err.response.data || err.message}`))
-            .finally(() => setLoading(false));
-        console.log(rid, "rid");
-        console.log(cid, "cid");
+        // setLoading(true);
+        // devInstance
+        //     .get("/Admin/GetCustomerProductSubDetails", {
+        //         params: {
+        //             CustomerId: cid,
+        //             RequestId: rid,
+        //         },
+        //     })
+        //     .then((res: any) => {
+        //         setTransaction(res.data);
+        //         console.log(res, "transaction");
+        //         setModal2(true);
+        //     })
+        //     .catch((err: any) => toast(`${err.response.data || err.message}`))
+        //     .finally(() => setLoading(false));
+        // console.log(rid, "rid");
+        // console.log(cid, "cid");
     }
 
     const fetchTransactions = useCallback((pageNumber: number) => {
         setLoading(true);
         devInstance
-            .get("/Admin/GetAllCustomersRequests/", {
-                params: {
-                    pageNumber: pageNumber,
-                },
-            })
+            .get("http://localhost:80/api/v1/investments")
             .then((res: any) => {
-                setTransactions(res?.data?.data?.pageItems);
-                setCurrentpage(res?.data?.data.currentPage);
-                setTotalPages(res?.data?.data?.totalNumberOfPages);
-                setPreviousPage(res?.data?.data?.previousPage);
+                setTransactions(res?.data?.data?.investments);
+                // setCurrentpage(res?.data?.data.currentPage);
+                // setTotalPages(res?.data?.data?.totalNumberOfPages);
+                // setPreviousPage(res?.data?.data?.previousPage);
                 console.log(res, "rrrrr");
             })
             .catch((err) => {
@@ -110,17 +106,17 @@ const TransactionsScreen = () => {
 
     const filteredSearch = transactions?.filter((transaction: any) => {
         return (
-            transaction?.transactionType
+            transaction?.instrumentTypeLabel
                 ?.toLowerCase()
                 .includes(searchField?.toLowerCase()) ||
-            transaction?.customerName
+            transaction?.customerId
                 ?.toLowerCase()
                 .includes(searchField?.toLowerCase()) ||
             transaction?.transactionAmount
                 .toString()
                 ?.toLowerCase()
                 .includes(searchField?.toLowerCase()) ||
-            transaction?.requestId
+            transaction?.faceValue
                 ?.toString()
                 ?.toLowerCase()
                 .includes(searchField?.toLowerCase())
@@ -150,15 +146,10 @@ const TransactionsScreen = () => {
         fetchTransactions(1);
     }, [fetchTransactions]);
 
-    function approveReq(reqId: number, prodId: string) {
+    function approveReq(id: Number) {
         setLoading(true);
         devInstance
-            .post("/Admin/ApproveInvestment", {
-                productId: prodId,
-                requestId: reqId,
-                userId: admin?.userId,
-                status: "approve",
-            })
+            .post(`http://localhost:80/api/v1/investments/${id}`)
             .then((response: any) => {
                 toast.success("Investment was successfully Approved");
                 fetchTransactions(currentPage);
@@ -170,15 +161,10 @@ const TransactionsScreen = () => {
             .finally(() => setLoading(false));
     }
 
-    function declineReq(reqId: number, prodId: string) {
+    function declineReq(id: Number) {
         setLoading(true);
         devInstance
-            .post("/Admin/ApproveInvestment", {
-                productId: prodId,
-                requestId: reqId,
-                userId: admin?.userId,
-                status: "decline",
-            })
+            .put(`http://localhost:80/api/v1/investments/${id}`)
             .then((response: any) => {
                 toast.success("Investment was successfully Declined");
                 fetchTransactions(currentPage);
