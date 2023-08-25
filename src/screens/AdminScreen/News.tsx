@@ -191,7 +191,7 @@ const News = () => {
     useEffect(() => {
         setLoading(true);
         devInstance
-            .get("http://localhost:80/api/v1/news/news-update")
+            .get("https://assetmgt-api.dlm.group/api/v1/news/news-update")
             .then((response) => {
                 console.log(response?.data);
                 setNewsUpdate(response?.data?.data?.news);
@@ -204,7 +204,7 @@ const News = () => {
     useEffect(() => {
         setLoading(true);
         devInstance
-            .get("http://localhost:80/api/v1/news/daily-news")
+            .get("https://assetmgt-api.dlm.group/api/v1/news/daily-news")
             .then((response) => {
                 setDailyNews(response?.data?.data?.news);
             })
@@ -216,7 +216,7 @@ const News = () => {
 
     function fetchDailyNews() {
         devInstance
-            .get("http://localhost:80/api/v1/news/daily-news")
+            .get("https://assetmgt-api.dlm.group/api/v1/news/daily-news")
             .then((response) => {
                 setDailyNews(response.data?.data?.news);
             })
@@ -228,7 +228,7 @@ const News = () => {
 
     function fetchNewsUpdate() {
         devInstance
-            .get("http://localhost:80/api/v1/news/news-update")
+            .get("https://assetmgt-api.dlm.group/api/v1/news/news-update")
             .then((response) => {
                 setNewsUpdate(response?.data?.data?.news);
             })
@@ -255,7 +255,7 @@ const News = () => {
         console.log("hello");
         setLoading(true);
         devInstance
-            .delete(`http://localhost:80/api/v1/news/news-update/${id}`)
+            .delete(`https://assetmgt-api.dlm.group/api/v1/news/news-update/${id}`)
             .then((response: any) => {
                 console.log(response);
                 toast.success("Daily News Deleted Sucessfully!");
@@ -272,7 +272,7 @@ const News = () => {
     function addNewsUpdate() {
         setLoading(true);
         devInstance
-            .post("http://localhost:80/api/v1/news/news-update", {
+            .post("https://assetmgt-api.dlm.group/api/v1/news/news-update", {
                 url: newsUpdateForm.url,
                 content: newsUpdateForm.content,
                 priority: newsUpdateForm.priority,
@@ -292,7 +292,7 @@ const News = () => {
     function updateNewsUpdate(id: any) {
         setLoading(true);
         devInstance
-            .put(`http://localhost:80/api/v1/news/news-update/${id}`, {
+            .put(`https://assetmgt-api.dlm.group/api/v1/news/news-update/${id}`, {
                 ...newsUpdateForm,
             })
             .then((response: any) => {
@@ -312,7 +312,7 @@ const News = () => {
         console.log("hello");
         setLoading(true);
         devInstance
-            .delete(`http://localhost:80/api/v1/news/news-update/${id}`)
+            .delete(`https://assetmgt-api.dlm.group/api/v1/news/news-update/${id}`)
             .then((response: any) => {
                 console.log(response);
 
@@ -340,7 +340,7 @@ const News = () => {
     function updateDailyNews(id: any) {
         setLoading(true);
         devInstance
-            .put(`http://localhost:80/api/v1/news/daily-news/${id}`, {
+            .put(`https://assetmgt-api.dlm.group/api/v1/news/daily-news/${id}`, {
                 dailyNews: dailyNewsForm,
             })
             .then((response: any) => {
@@ -358,7 +358,7 @@ const News = () => {
     function addDailyNews() {
         setLoading(true);
         devInstance
-            .post("http://localhost:80/api/v1/news/daily-news", {
+            .post("https://assetmgt-api.dlm.group/api/v1/news/daily-news", {
                 content: dailyNewsForm,
             })
             .then((response: any) => {

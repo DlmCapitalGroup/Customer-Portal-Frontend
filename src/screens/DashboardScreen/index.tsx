@@ -189,7 +189,7 @@ const DashboardScreen = () => {
     async function fetchNews() {
         setLoading(true);
         devInstance
-            .get("http://localhost:80/api/v1/news-update")
+            .get("https://assetmgt-api.dlm.group/api/v1/news-update")
             .then((res: any) => {
                 setNews(res?.data?.data?.news);
                 console.log(res, "news");

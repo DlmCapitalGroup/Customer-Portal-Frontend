@@ -388,7 +388,7 @@ const DashboardLayout = (props: dashboardProps) => {
     async function fetchDailyNews() {
         setLoading(true);
         devInstance
-            .get("http://localhost:80/api/v1/daily-news")
+            .get("https://assetmgt-api.dlm.group/api/v1/daily-news")
             .then((response) => {
                 setDailyNews(response?.data?.data?.news[0].content);
             })
