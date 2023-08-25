@@ -388,9 +388,9 @@ const DashboardLayout = (props: dashboardProps) => {
     async function fetchDailyNews() {
         setLoading(true);
         devInstance
-            .get("https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetDailyNews")
+            .get("http://localhost:80/api/v1/daily-news")
             .then((response) => {
-                setDailyNews(response.data[0].dailyNews);
+                setDailyNews(response?.data?.data?.news[0].content);
             })
             .catch((err) => console.log(err))
             .finally(() => {

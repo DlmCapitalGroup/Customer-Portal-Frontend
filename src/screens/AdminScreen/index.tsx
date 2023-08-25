@@ -85,7 +85,7 @@ const AdminScreen = () => {
         //     })
         //     .catch((err) => console.log(err))
         //     .finally(() => {
-        //         setLoading(false);
+        //         setLoading(false);`
         //     });
 
         devInstance("https://assetmgt-api.dlm.group/api/v1/investments")
@@ -102,6 +102,16 @@ const AdminScreen = () => {
             .finally(() => {
                 setLoading(false);
             });
+
+        devInstance
+            .get(
+                "https://zas-dev.zanibal.com/api/v1/order/terminstrumenttype/list/active"
+            )
+            .then((res) => {
+                setProducts(res?.data?.result.slice(0, 9));
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
     }, []);
 
     // const getProdId = (productId: any) => {
@@ -210,7 +220,7 @@ const AdminScreen = () => {
     const fetchTransactions = useCallback((pageNumber?: number) => {
         setLoading(true);
         devInstance
-            .get("http://localhost:3000/api/v1/investments")
+            .get("https://assetmgt-api.dlm.group/api/v1/investments")
             .then((response: any) => {
                 setInvestments(response?.data?.data?.investments);
                 console.log(response, "investmentTest 01");

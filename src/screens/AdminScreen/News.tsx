@@ -57,7 +57,7 @@ const DailyNews = ({
                         key="dailyNews"
                         className="h-[110px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg"
                         value={dailyNewsForm}
-                        name="dailyNews"
+                        name="content"
                         placeholder="News Content"
                         onChange={dailyNewsChange}
                     ></textarea>
@@ -119,16 +119,16 @@ const NewsUpdate = ({
                     />
                     <textarea
                         className="h-[110px] w-full text-base mt-2 placeholder-primary/40 px-4 bg-white-lighter focus:ring-primary active:ring-primary shadow-sm border border-primary/5 rounded-lg"
-                        value={newsUpdateForm?.description}
-                        name="description"
+                        value={newsUpdateForm?.content}
+                        name="content"
                         placeholder="News Content"
                         onChange={newsUpdateChange}
                     ></textarea>
                     <Select
-                        options={["Yes", "No"]}
-                        value={newsUpdateForm?.importantNews || null}
-                        name="importantNews"
-                        title="Is it Important?"
+                        options={["NORMAL", "HIGH"]}
+                        value={newsUpdateForm?.priority || null}
+                        name="priority"
+                        title="Priority"
                         onChange={newsUpdateChange}
                     />
                 </div>
@@ -165,9 +165,9 @@ const NewsUpdate = ({
 };
 
 type n = {
-    description: string;
+    content: string;
     url: string;
-    importantNews: null | boolean | string;
+    priority: "NORMAL" | "HIGH" | string;
 };
 
 const News = () => {
@@ -183,18 +183,19 @@ const News = () => {
 
     const [newsUpdateForm, setNewsUpdateForm] = useState<n>({
         url: "",
-        description: "",
-        importantNews: null,
+        content: "",
+        priority: "",
     });
     const [actionModal, setActionModal] = useState(false);
 
     useEffect(() => {
         setLoading(true);
         devInstance
-            .get(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetNewsUpdates"
-            )
-            .then((response) => setNewsUpdate(response.data))
+            .get("http://localhost:80/api/v1/news/news-update")
+            .then((response) => {
+                console.log(response?.data);
+                setNewsUpdate(response?.data?.data?.news);
+            })
             .catch((err) => console.log(err))
             .finally(() => {
                 setLoading(false);
@@ -203,9 +204,9 @@ const News = () => {
     useEffect(() => {
         setLoading(true);
         devInstance
-            .get("https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetDailyNews")
+            .get("http://localhost:80/api/v1/news/daily-news")
             .then((response) => {
-                setDailyNews(response.data);
+                setDailyNews(response?.data?.data?.news);
             })
             .catch((err) => console.log(err))
             .finally(() => {
@@ -215,9 +216,9 @@ const News = () => {
 
     function fetchDailyNews() {
         devInstance
-            .get("https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetDailyNews")
+            .get("http://localhost:80/api/v1/news/daily-news")
             .then((response) => {
-                setDailyNews(response.data.reverse());
+                setDailyNews(response.data?.data?.news);
             })
             .catch((err) => console.log(err))
             .finally(() => {
@@ -227,11 +228,9 @@ const News = () => {
 
     function fetchNewsUpdate() {
         devInstance
-            .get(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/admin/GetNewsUpdates"
-            )
+            .get("http://localhost:80/api/v1/news/news-update")
             .then((response) => {
-                setNewsUpdate(response.data.reverse());
+                setNewsUpdate(response?.data?.data?.news);
             })
             .catch((err) => console.log(err))
             .finally(() => {
@@ -256,9 +255,7 @@ const News = () => {
         console.log("hello");
         setLoading(true);
         devInstance
-            .delete(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/DeleteDailyNews/${id}`
-            )
+            .delete(`http://localhost:80/api/v1/news/news-update/${id}`)
             .then((response: any) => {
                 console.log(response);
                 toast.success("Daily News Deleted Sucessfully!");
@@ -274,23 +271,15 @@ const News = () => {
 
     function addNewsUpdate() {
         setLoading(true);
-        let importantNewsVal: any =
-            newsUpdateForm.importantNews === "true" ? true : false;
         devInstance
-            .post(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/AddNewsUpdates",
-                {
-                    url: newsUpdateForm.url,
-                    description: newsUpdateForm.description,
-                    importantNews: importantNewsVal,
-                }
-            )
+            .post("http://localhost:80/api/v1/news/news-update", {
+                url: newsUpdateForm.url,
+                content: newsUpdateForm.content,
+                priority: newsUpdateForm.priority,
+            })
             .then((response: any) => {
-                console.log(response);
-                if (response.status === 200) {
-                    toast.success("Daily News Added Sucessfully!");
-                    fetchNewsUpdate();
-                }
+                toast.success("Daily News Added Sucessfully!");
+                fetchNewsUpdate();
                 setNewsUpdateModal(false);
             })
             .catch((err: any) => {
@@ -302,17 +291,10 @@ const News = () => {
 
     function updateNewsUpdate(id: any) {
         setLoading(true);
-        let importantNewsVal: any =
-            newsUpdateForm.importantNews === "true" ? true : false;
         devInstance
-            .patch(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/UpdateNewsUpdates/${id}`,
-                {
-                    url: newsUpdateForm.url,
-                    description: newsUpdateForm.description,
-                    importantNews: importantNewsVal,
-                }
-            )
+            .put(`http://localhost:80/api/v1/news/news-update/${id}`, {
+                ...newsUpdateForm,
+            })
             .then((response: any) => {
                 console.log(response);
                 toast.success("News Update Updated Sucessfully!");
@@ -330,9 +312,7 @@ const News = () => {
         console.log("hello");
         setLoading(true);
         devInstance
-            .delete(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/DeleteNewsUpdates/${id}`
-            )
+            .delete(`http://localhost:80/api/v1/news/news-update/${id}`)
             .then((response: any) => {
                 console.log(response);
 
@@ -360,16 +340,13 @@ const News = () => {
     function updateDailyNews(id: any) {
         setLoading(true);
         devInstance
-            .patch(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/UpdateDailyNews/${id}`,
-                { dailyNews: dailyNewsForm }
-            )
+            .put(`http://localhost:80/api/v1/news/daily-news/${id}`, {
+                dailyNews: dailyNewsForm,
+            })
             .then((response: any) => {
                 console.log(response);
-                if (response.status === 200) {
-                    toast.success("Daily News Updated Sucessfully!");
-                    fetchDailyNews();
-                }
+                toast.success("Daily News Updated Sucessfully!");
+                fetchDailyNews();
                 setDailyNewsModal(false);
             })
             .catch((err: any) => {
@@ -381,16 +358,13 @@ const News = () => {
     function addDailyNews() {
         setLoading(true);
         devInstance
-            .post(
-                `https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/AddDailyNews`,
-                { dailyNews: dailyNewsForm }
-            )
+            .post("http://localhost:80/api/v1/news/daily-news", {
+                content: dailyNewsForm,
+            })
             .then((response: any) => {
                 console.log(response);
-                if (response.status === 200) {
-                    toast.success("Daily News Added Sucessfully!");
-                    fetchDailyNews();
-                }
+                toast.success("Daily News Added Sucessfully!");
+                fetchDailyNews();
                 setDailyNewsModal(false);
             })
             .catch((err: any) => {
@@ -415,8 +389,8 @@ const News = () => {
                                 setNewNews(true);
                                 setNewsUpdateForm({
                                     url: "",
-                                    description: "",
-                                    importantNews: null,
+                                    content: "",
+                                    priority: "",
                                 });
                                 setNewsUpdateModal(true);
                             }}
@@ -439,17 +413,17 @@ const News = () => {
                                             {item?.url}
                                         </a>
                                         <p className="text-sm mb-1">
-                                            {item?.description}
+                                            {item?.content}
                                         </p>
                                         <p className="flex items-center space-x-1 text-xs font-semibold">
                                             <div
                                                 className={`h-2 w-2 rounded-full ${
-                                                    item.importantNews
+                                                    item?.priority === "HIGH"
                                                         ? "bg-error"
                                                         : "bg-primary"
                                                 }`}
                                             ></div>
-                                            {item?.importantNews === true ? (
+                                            {item?.priority === "HIGH" ? (
                                                 <span className="text-error">
                                                     High Priority
                                                 </span>
@@ -556,7 +530,7 @@ const News = () => {
                                         className="border border-primary/30 bg-white-lighter p-3 rounded-lg shadow shadow-primary/10"
                                     >
                                         <p className="text-sm mb-1">
-                                            {item?.dailyNews}
+                                            {item?.content}
                                         </p>
                                         <div className="flex gap-x-3 items-center mt-5">
                                             <button
@@ -564,7 +538,7 @@ const News = () => {
                                                 onClick={() => {
                                                     setNewNews(false);
                                                     setDailyNewsForm(
-                                                        item?.dailyNews
+                                                        item?.content
                                                     );
                                                     setDailyNewsId(item?.id);
                                                     setDailyNewsModal(true);

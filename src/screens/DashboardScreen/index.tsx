@@ -76,12 +76,15 @@ const DashboardScreen = () => {
         console.log(dobRef?.current, "it is working");
         if (customer?.id) {
             setLoading(true);
+            console.log(customer?.id, "efcefrdcefd");
 
             devInstance
-                .get(`https://assetmgt-api.dlm.group/api/v1/investments/get-customer-investments/${customer?.customerId}`)
+                .get(
+                    `https://assetmgt-api.dlm.group/api/v1/investments/get-customer-investments/${customer?.id}`
+                )
                 .then((res: any) => {
-                    console.log(res?.data?.result);
-                    setTransactions(res?.data?.result);
+                    console.log(res?.data?.data, "investments");
+                    setTransactions(res?.data?.data?.investments);
                 })
                 .catch((error: any) => {
                     const message =
@@ -186,11 +189,9 @@ const DashboardScreen = () => {
     async function fetchNews() {
         setLoading(true);
         devInstance
-            .get(
-                "https://apps.dlm.group/ASSETMGTAPI/api/v1/Admin/GetNewsUpdates"
-            )
+            .get("http://localhost:80/api/v1/news-update")
             .then((res: any) => {
-                setNews(res?.data);
+                setNews(res?.data?.data?.news);
                 console.log(res, "news");
             })
             .catch((error: any) => {
@@ -426,25 +427,25 @@ const DashboardScreen = () => {
                                     <div className="basis-1/3 flex items-center justify-center">
                                         <div>
                                             <p>Unit Price</p>
-                                            <p className="font-semibold">$ 0</p>
+                                            <p className="font-semibold">₦ 0</p>
                                         </div>
                                     </div>
                                     <div className="basis-1/3 flex items-center justify-center">
                                         <div>
                                             <p>Interest</p>
-                                            <p className="font-semibold">$ 0</p>
+                                            <p className="font-semibold">₦ 0</p>
                                         </div>
                                     </div>
                                     <div className="basis-1/3 flex items-center justify-center">
                                         <div>
                                             <p>Total Investment</p>
-                                            <p className="font-semibold">$ 0</p>
+                                            <p className="font-semibold">₦ 0</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="basis-full md:basis-auto lg:w-[363px] h-[328px] bg-white-light shadow-sm rounded-[20px]">
+                        {/* <div className="basis-full md:basis-auto lg:w-[363px] h-[328px] bg-white-light shadow-sm rounded-[20px]">
                             <h3 className="font-semibold text-sm xl:text-base mb-[60px] mt-[18px] ml-5">
                                 Investment Analysis
                             </h3>
@@ -463,7 +464,7 @@ const DashboardScreen = () => {
                                     stroke="#82ca9d"
                                 />
                             </LineChart>
-                        </div>
+                        </div> */}
 
                         <div className="basis-full md:basis-auto lg:w-[253px] h-[328px] bg-white-light shadow-sm rounded-[20px] flex flex-col">
                             <h3 className="font-semibold text-sm xl:text-base mt-[18px] ml-5">
@@ -492,7 +493,7 @@ const DashboardScreen = () => {
                                     <div>
                                         <div className="flex items-center gap-x-3">
                                             <div className="w-3 h-3 rounded-full bg-[#094D46]"></div>
-                                            <p className="text-sm">Others</p>
+                                            <p className="text-sm">Equity</p>
                                         </div>
                                     </div>
                                 </div>
@@ -548,8 +549,7 @@ const DashboardScreen = () => {
                                                 className="flex w-full items-start gap-x-3 relative py-2 bg-[#DBE1E64D]/30 px-1 rounded-md"
                                                 key={index}
                                             >
-                                                {news?.importantNews ===
-                                                true ? (
+                                                {news?.priority === "HIGH" ? (
                                                     <img
                                                         alt=""
                                                         src={importantImg}
@@ -563,13 +563,18 @@ const DashboardScreen = () => {
                                                     />
                                                 )}
                                                 <div className="grow">
-                                                    {item?.description.slice(
+                                                    {item?.content.slice(
                                                         0,
                                                         100
                                                     ) + "..."}
-                                                    <span className="mt-2 flex justify-end text-xs">
+                                                    <a
+                                                        className="mt-2 flex justify-end text-xs"
+                                                        href={news?.url}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                    >
                                                         Read more
-                                                    </span>
+                                                    </a>
                                                 </div>
                                             </div>
                                         ))

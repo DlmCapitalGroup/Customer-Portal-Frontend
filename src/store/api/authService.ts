@@ -2,17 +2,33 @@ import axios from "axios";
 import { setAuthToken } from "../auth-slice";
 import { devInstance } from "../devInstance";
 import { store } from "..";
+import { toast } from "react-toastify";
 
 const loginCustomer = async (customerData: any) => {
-    console.log(customerData, "esfesvsefdv");
-    const res = await devInstance.get(
-        `/security/customer/username/${
-            customerData?.username || customerData?.portalUserName
-        }`
+    try {
+        console.log(customerData, "esfesvsefdv");
+    const formData = new FormData();
+    formData.append("username", customerData.username);
+    formData.append("password", customerData.password);
+    const resp = await devInstance.post(
+        "/security/login/customer",
+        formData
     );
-    return res.data;
+    console.log(resp, "response");
+    if (resp?.data?.success === true) {
+        const res = await devInstance.get(
+            `/security/customer/username/${customerData?.username}`
+        );
+        return res.data;
+    }
+    } catch(err:any) {
+        if(err.response.data.msgCode === "INVALID_CREDENTIALS") {
+            toast.error("Invalid Username or Password")
+        } else {
+            return err
+        }
+    }
 };
-
 const loginUser = async (userData: object) => {
     console.log(userData, "fcserfvsfdvsfg");
     const data = new FormData();

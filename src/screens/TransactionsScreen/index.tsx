@@ -64,11 +64,9 @@ const Transactions = () => {
             if (customer?.id) {
                 setLoading(true);
                 devInstance
-                    .get(`/order/terminstrument/customer/list`, {
-                        params: { c: customer?.id },
-                    })
+                .get(`https://assetmgt-api.dlm.group/api/v1/investments/get-customer-investments/${customer?.id}`)
                     .then((res: any) => {
-                        setTransactions(res?.data?.result);
+                        setTransactions(res?.data?.data?.investments);
                         // setCurrentpage(res?.data?.currentPage);
                         // setTotalPages(res?.data?.count);
                         // setPreviousPage(res?.data?.previousPage);
