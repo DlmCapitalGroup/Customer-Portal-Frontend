@@ -68,6 +68,17 @@ const DashboardScreen = () => {
         unitHolderSignature: "",
     });
 
+    const totalInvestments = () => {
+        let total = 0;
+        transactions.forEach((item: any) => {
+            total = total + item.faceValue;
+        });
+        console.log(total, "total");
+        return total;
+    };
+
+    totalInvestments();
+
     const navigate = useNavigate();
 
     const dobRef = useRef<any>(null);
@@ -189,7 +200,7 @@ const DashboardScreen = () => {
     async function fetchNews() {
         setLoading(true);
         devInstance
-            .get("https://assetmgt-api.dlm.group/api/v1/news-update")
+            .get("https://assetmgt-api.dlm.group/api/v1/news/news-update")
             .then((res: any) => {
                 setNews(res?.data?.data?.news);
                 console.log(res, "news");
@@ -231,9 +242,11 @@ const DashboardScreen = () => {
                                 </div>
                                 <div className="basis-1/4 text-center">
                                     <h3>
-                                        {new Date(
-                                            item?.startDate
-                                        ).toLocaleDateString()}
+                                        {item?.startDate
+                                            ? new Date(
+                                                  item?.startDate
+                                              ).toLocaleDateString()
+                                            : "PENDING"}
                                     </h3>
                                 </div>
                                 <div className="basis-1/4 text-right pr-[20px]">
@@ -386,45 +399,60 @@ const DashboardScreen = () => {
                         </div>
                     )}
 
-                    <div className="flex flex-col gap-y-10 lg:flex-row justify-between space-x-3">
-                        <div className="w-full lg:w-[456px] h-[328px] bg-white-light shadow-sm rounded-[20px]">
-                            <div className="py-3 text-center flex text-sm xl:text-base divide-x h-full">
+                    <div className="flex flex-col gap-y-10 lg:flex-row space-x-3">
+                        <div className="w-full lg:w-[456px] h-fit bg-white-light shadow-sm rounded-[20px]">
+                            <div className="py-3 text-center flex text-sm xl:text-base divide-x">
                                 <div className="basis-1/2 flex flex-col divide-y">
-                                    <div className="basis-1/3 flex items-center justify-center">
+                                    <div className="basis-1/3 flex items-center justify-center pt-1 pb-2">
                                         <div>
                                             <p>Net Asset Value (₦)</p>
                                             <p className="font-semibold">
                                                 ₦{" "}
                                                 {overviewData?.netAssetValue
-                                                    ? overviewData?.netAssetValue.toFixed(
-                                                          2
+                                                    ? formatter(
+                                                          overviewData?.netAssetValue
                                                       )
                                                     : 0}
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="basis-1/3 flex items-center justify-center">
+                                    <div className="basis-1/3 flex items-center justify-center pt-2 pb-1">
                                         <div>
                                             <p>Cash</p>
                                             <p className="font-semibold">
                                                 ₦{" "}
                                                 {customer?.cashAcctBalance
-                                                    ? customer?.cashAcctBalance.slice(
-                                                          3
+                                                    ? formatter(
+                                                          Number(
+                                                              customer?.cashAcctBalance.slice(
+                                                                  3
+                                                              )
+                                                          )
                                                       )
                                                     : 0}
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="basis-1/3 flex items-center justify-center">
+                                    {/* <div className="basis-1/3 flex items-center justify-center">
                                         <div>
                                             <p>Value of Holding</p>
                                             <p className="font-semibold">₦ 0</p>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
-                                <div className="basis-1/2 flex flex-col divide-y">
+                                <div className="basis-1/2 flex flex-col divide-y justify-center">
                                     <div className="basis-1/3 flex items-center justify-center">
+                                        <div>
+                                            <p>Total Investments</p>
+                                            <p className="font-semibold">
+                                                ₦{" "}
+                                                {formatter(
+                                                    totalInvestments()
+                                                ) || 0}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {/* <div className="basis-1/3 flex items-center justify-center">
                                         <div>
                                             <p>Unit Price</p>
                                             <p className="font-semibold">₦ 0</p>
@@ -441,7 +469,7 @@ const DashboardScreen = () => {
                                             <p>Total Investment</p>
                                             <p className="font-semibold">₦ 0</p>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -466,12 +494,12 @@ const DashboardScreen = () => {
                             </LineChart>
                         </div> */}
 
-                        <div className="basis-full md:basis-auto lg:w-[253px] h-[328px] bg-white-light shadow-sm rounded-[20px] flex flex-col">
+                        {/* <div className="basis-full md:basis-auto lg:w-[253px] h-[328px] bg-white-light shadow-sm rounded-[20px] flex flex-col">
                             <h3 className="font-semibold text-sm xl:text-base mt-[18px] ml-5">
                                 Portfolio Analysis
-                            </h3>
+                            </h3> */}
 
-                            <div>
+                        {/* <div>
                                 <div className="-mt-24">
                                     <CustomChart />
                                 </div>
@@ -497,15 +525,15 @@ const DashboardScreen = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div> */}
+                        {/* </div> */}
                     </div>
                     <div className="mt-20 lg:mt-[40px]">
                         <h2 className="text-xl font-semibold mb-5">
                             Transactions
                         </h2>
                         <div className="flex flex-col lg:flex-row justify-between min-h-[365px] gap-y-10 gap-x-3">
-                            <div className="w-full lg:w-[679px] rounded-[20px] bg-white-lighter h-full">
+                            <div className="w-full lg:w-[890px] rounded-[20px] bg-white-lighter h-full">
                                 <div className="text-sm w-full rounded-[20px] bg-white-light h-[365px]">
                                     <div className="flex bg-primary rounded-[20px] h-[45.2px] text-white items-center text-sm xl:text-base">
                                         <div className="basis-1/4 pl-[20px]">
@@ -553,7 +581,7 @@ const DashboardScreen = () => {
                                                     <img
                                                         alt=""
                                                         src={importantImg}
-                                                        className="rounded-full bg-primary/60 mt-1.5"
+                                                        className="rounded-full bg-error/60 mt-1.5"
                                                     />
                                                 ) : (
                                                     <img
@@ -568,8 +596,11 @@ const DashboardScreen = () => {
                                                         100
                                                     ) + "..."}
                                                     <a
-                                                        className="mt-2 flex justify-end text-xs"
-                                                        href={news?.url}
+                                                        className="mt-2 flex justify-end text-xs hover:cursor-pointer hover:underline"
+                                                        href={
+                                                            "https://" +
+                                                            news?.url
+                                                        }
                                                         target="_blank"
                                                         rel="noreferrer"
                                                     >

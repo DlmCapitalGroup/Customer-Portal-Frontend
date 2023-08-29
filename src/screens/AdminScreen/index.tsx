@@ -8,10 +8,11 @@ import { formatter } from "../../helper";
 import closeModal from "../../assets/images/close-modal.svg";
 import Button from "../../components/ButtonComponent";
 import { toast } from "react-toastify";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Table2 from "../../components/CustomersTable.tsx";
 import Modal2 from "../../components/Modal";
 import DetailsModal from "../../components/DetailsModal";
+import { loginUser } from "../../store/auth-slice";
 
 const AdminScreen = () => {
     const [loading, setLoading] = useState(false);
@@ -34,6 +35,7 @@ const AdminScreen = () => {
     const [menu2, setMenu2] = useState(false);
     const [investments, setInvestments] = useState<any>([]);
     const [investmentId, setInvestmentId] = useState<any>(null);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         setLoading(true);
@@ -104,15 +106,43 @@ const AdminScreen = () => {
             });
 
         devInstance
-            .get(
-                "https://zas-dev.zanibal.com/api/v1/order/terminstrumenttype/list/active"
-            )
-            .then((res) => {
-                setProducts(res?.data?.result.slice(0, 9));
+            .get("https://assetmgt-api.dlm.group/api/v1/news/news-update")
+            .then((response: any) => {
+                setNews(response?.data?.data?.news);
+                console.log(response, "investmentTest 01");
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                toast.error(`${err?.message}`);
+                setLoading(false);
+            })
             .finally(() => setLoading(false));
+
+        getProducts();
     }, []);
+
+    async function getProducts() {
+        let data: any = new FormData();
+        data.append("username", "support.api");
+        data.append("password", "Apisupport@123");
+
+        let res: any = await dispatch(loginUser(data));
+
+        let errors =
+            res.meta.rejectedWithValue === true ||
+            res.meta.requestStatus === "rejected";
+
+        if (!errors) {
+            devInstance
+                .get(
+                    "https://zas-dev.zanibal.com/api/v1/order/terminstrumenttype/list/active"
+                )
+                .then((res) => {
+                    setProducts(res?.data?.result.slice(0, 9));
+                })
+                .catch((err) => console.log(err))
+                .finally(() => setLoading(false));
+        }
+    }
 
     // const getProdId = (productId: any) => {
     //     return products.find((el: any) => productId === el.productId);
@@ -401,7 +431,7 @@ const AdminScreen = () => {
             <div className="pt-[50px] text-primary max-w-[1100px] text-base pb-64 mr-5">
                 <h3 className="text-xl font-semibold mb-[15px]">Overview</h3>
                 <div className="grid grid-cols-4 gap-5 mt-10">
-                    <div
+                    {/* <div
                         className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center cursor-pointer"
                         onClick={() => navigate("/admin/customers")}
                     >
@@ -411,7 +441,7 @@ const AdminScreen = () => {
                                 {customerLength}
                             </p>
                         </div>
-                    </div>
+                    </div> */}
                     <div
                         className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center cursor-pointer"
                         onClick={() => navigate("/admin/transactions")}
@@ -447,7 +477,7 @@ const AdminScreen = () => {
                             </p>
                         </div>
                     </div>
-                    <div
+                    {/* <div
                         className="min-h-[200px] border text-center text-white-lighter border-primary/10 bg-primary shadow-sm rounded-xl flex justify-center items-center cursor-pointer"
                         onClick={() => navigate("/admin/enquiries")}
                     >
@@ -457,7 +487,7 @@ const AdminScreen = () => {
                                 {enquiries.length}
                             </p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* <div className="mt-20">

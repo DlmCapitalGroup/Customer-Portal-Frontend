@@ -120,11 +120,11 @@ const Table = (props: tableProps) => {
                             </div>
                             <div className="basis-1/4 text-center">
                                 <h3>
-                                    {item?.startData
+                                    {item?.startDate
                                         ? new Date(
                                               item?.startDate
                                           ).toLocaleDateString()
-                                        : "Not Started"}
+                                        : "PENDING"}
                                 </h3>
                             </div>
                             {isAdmin && (
@@ -189,7 +189,7 @@ const Table = (props: tableProps) => {
                                                             >
                                                                 Approve
                                                             </div>
-                                                            {item?.status.toLowerCase() !==
+                                                            {/* {item?.status.toLowerCase() !==
                                                                 "declined" && (
                                                                 <div
                                                                     className="p-3 text-error hover:bg-primary/10 cursor-pointer"
@@ -205,7 +205,7 @@ const Table = (props: tableProps) => {
                                                                 >
                                                                     Decline
                                                                 </div>
-                                                            )}
+                                                            )} */}
                                                         </>
                                                     )}
 

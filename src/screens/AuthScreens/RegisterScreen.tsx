@@ -147,6 +147,7 @@ const Register = () => {
 
                     <div>
                         <Input
+                            isPassword
                             label="Password"
                             type="password"
                             placeholder="Password"
