@@ -149,7 +149,6 @@ const Register = () => {
                         <Input
                             isPassword
                             label="Password"
-                            type="password"
                             placeholder="Password"
                             name="portalPassword"
                             onChange={formChange}
