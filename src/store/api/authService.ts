@@ -34,8 +34,7 @@ const loginUser = async (userData: object) => {
     console.log(userData, "fcserfvsfdvsfg");
     const data = new FormData();
     data.append("username", "apiuser-asset");
-    data.append("password", "d*gj5jYM@aSseT");
-    data.append("CompanyId", "289864");
+    data.append("password", "DLMApi123@aSseT");
 
     const res: any = await devInstance.post(
         "/security/request/access-token",
