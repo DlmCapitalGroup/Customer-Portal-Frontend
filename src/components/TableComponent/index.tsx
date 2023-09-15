@@ -183,7 +183,7 @@ const Table = (props: tableProps) => {
                                                                 ) => {
                                                                     e.stopPropagation();
                                                                     approveReq(
-                                                                        item?.id
+                                                                        item
                                                                     );
                                                                 }}
                                                             >

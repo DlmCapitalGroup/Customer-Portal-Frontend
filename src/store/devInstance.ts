@@ -8,7 +8,7 @@ const API_URL = "https://zas-dev.zanibal.com/api/v1";
 const PROD_URL = "https://api-dlm.zanibal.com/api/v1";
 
 export const devInstance = axios.create({
-    baseURL: API_URL,
+    baseURL: PROD_URL,
 });
 
 devInstance.interceptors.response.use(

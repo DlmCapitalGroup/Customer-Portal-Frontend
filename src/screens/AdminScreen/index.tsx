@@ -22,7 +22,7 @@ const AdminScreen = () => {
     const [transactionsLength, setTransactionsLength] = useState(0);
     const [customerLength, setCustomerLength] = useState(0);
     const [products, setProducts] = useState([]);
-    const { admin }: any = useAppSelector((state) => state.auth);
+    const { token }: any = useAppSelector((state) => state.auth);
     const [menu, setMenu] = useState(false);
     const [news, setNews] = useState([]);
     const [transaction, setTransaction] = useState<any>({});
@@ -122,8 +122,8 @@ const AdminScreen = () => {
 
     async function getProducts() {
         let data: any = new FormData();
-        data.append("username", "support.api");
-        data.append("password", "Apisupport@123");
+        data.append("username", "apiuser-asset");
+        data.append("password", "d*gj5jYM@aSseT");
 
         let res: any = await dispatch(loginUser(data));
 
@@ -262,21 +262,90 @@ const AdminScreen = () => {
             .finally(() => setLoading(false));
     }, []);
 
-    function approveReq(id: number) {
+    async function approveReq(investment: any) {
         setLoading(true);
-        devInstance
-            .post(`https://assetmgt-api.dlm.group/api/v1/investments/${id}`, {
-                status: "approved",
-            })
-            .then((response: any) => {
-                toast.success("Investment was successfully Approved");
-                setMenu(false);
-                fetchTransactions();
-            })
-            .catch((err) => {
-                toast.error(`${err.message}`);
-            })
-            .finally(() => setLoading(false));
+        console.log(investment, "This is the investment");
+        let data: any = new FormData();
+        data.append("username", "apiuser-asset");
+        data.append("password", "d*gj5jYM@aSseT");
+
+        let res: any = await dispatch(loginUser(data));
+
+        let errors =
+            res.meta.rejectedWithValue === true ||
+            res.meta.requestStatus === "rejected";
+
+        if (!errors) {
+            devInstance(
+                "https://zas-dev.zanibal.com/api/v1/order/terminstrument/submit",
+                {
+                    method: "POST",
+                    data: {
+                        customerId: investment.customerId,
+                        instrumentTypeName: investment.instrumentTypeName,
+                        instrumentTypeLabel: investment.instrumentTypeLabel,
+                        faceValue: investment.faceValue,
+                        currency: "NGN",
+                        startDate: new Date(),
+                        tenure: "365",
+                        currentRate: "14",
+                        autoRollover: "false",
+                    },
+                }
+            )
+                .then((response: any) => {
+                    console.log(response.data);
+                    devInstance
+                        .put(
+                            `https://zas-dev.zanibal.com/api/v1/order/terminstrument/post/${response.data.msgArgs[0]}`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
+                            }
+                        )
+                        .then(async () => {
+                            const resp = await devInstance.post(
+                                "https://assetmgt-api.dlm.group/api/v1/investments/approve-investment",
+                                {
+                                    id: investment.id,
+                                }
+                            );
+                            if (resp) {
+                                toast.success(
+                                    "Investment was successfully Approved"
+                                );
+                                setMenu(false);
+                                fetchTransactions();
+                            }
+                        })
+                        .catch((err) => {
+                            toast.error(`${err.message}`);
+                        });
+                })
+                .catch((err) => {
+                    toast.error(`${err.message}`);
+                })
+                .finally(() => setLoading(false));
+        }
+
+        // devInstance
+        //     .post(`https://assetmgt-api.dlm.group/api/v1/investments/approve-investment`, {
+        //         id,
+        //         startDate: new Date(),
+        //         currentRate: "14",
+        //         tenure: "365",
+        //         autoRollover: "false",
+        //     })
+        //     .then((response: any) => {
+        //         toast.success("Investment was successfully Approved");
+        //         setMenu(false);
+        //         fetchTransactions();
+        //     })
+        //     .catch((err) => {
+        //         toast.error(`${err.message}`);
+        //     })
+        //     .finally(() => setLoading(false));
     }
 
     function declineReq(id: number) {
@@ -520,7 +589,7 @@ const AdminScreen = () => {
                         </div>
                     </div>
                 </div> */}
-                <div className="mt-64">
+                <div className="mt-20">
                     <h2 className="text-xl font-semibold mb-5">Transactions</h2>
                     <div className="h-[365px]">
                         <div className="w-full rounded-[20px] bg-white-lighter h-full">

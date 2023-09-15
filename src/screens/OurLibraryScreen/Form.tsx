@@ -7,6 +7,7 @@ import { formatter } from "../../helper";
 import { devInstance } from "../../store/devInstance";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { clearStepper } from "../../store/stepperSlice";
+import AccountModal from "../../components/AccountModal";
 
 interface _props {
     closeModal?: any;
@@ -32,6 +33,8 @@ const IndividualForm = (props: _props) => {
         // currentRate: "",
         // autoRollover: "",
     });
+
+    const [accountModal, setAccountModal] = useState(false);
 
     function clearForm() {
         setFormData({
@@ -161,7 +164,7 @@ const IndividualForm = (props: _props) => {
                 formData
             );
             if (res) {
-                toast.success("Investment has been placed on review");
+                toast.success("Investment has been taken");
                 dispatch(clearStepper());
                 clearForm();
                 closeModal();
@@ -274,7 +277,9 @@ const IndividualForm = (props: _props) => {
                         </div>
                     </div>
                 )}
-
+                {accountModal && (
+                    <AccountModal cancel={() => setAccountModal(false)} />
+                )}
                 {loading && <Loader />}
             </div>
         </StepperModal>

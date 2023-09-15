@@ -7,33 +7,35 @@ import { toast } from "react-toastify";
 const loginCustomer = async (customerData: any) => {
     try {
         console.log(customerData, "esfesvsefdv");
-    const formData = new FormData();
-    formData.append("username", customerData.username);
-    formData.append("password", customerData.password);
-    const resp = await devInstance.post(
-        "/security/login/customer",
-        formData
-    );
-    console.log(resp, "response");
-    if (resp?.data?.success === true) {
-        const res = await devInstance.get(
-            `/security/customer/username/${customerData?.username}`
+        const formData = new FormData();
+        formData.append("username", customerData.username);
+        formData.append("password", customerData.password);
+        const resp = await devInstance.post(
+            "/security/login/customer",
+            formData
         );
-        return res.data;
-    }
-    } catch(err:any) {
-        if(err.response.data.msgCode === "INVALID_CREDENTIALS") {
-            toast.error("Invalid Username or Password")
+        console.log(resp, "response");
+        if (resp?.data?.success === true) {
+            const res = await devInstance.get(
+                `/security/customer/username/${customerData?.username}`
+            );
+            return res.data;
+        }
+    } catch (err: any) {
+        if (err.response.data.msgCode === "INVALID_CREDENTIALS") {
+            toast.error("Invalid Username or Password");
         } else {
-            return err
+            toast.error("Error");
+            console.log(err, "error msessage");
         }
     }
 };
 const loginUser = async (userData: object) => {
     console.log(userData, "fcserfvsfdvsfg");
     const data = new FormData();
-    data.append("username", "support.api");
-    data.append("password", "Apisupport@123");
+    data.append("username", "apiuser-asset");
+    data.append("password", "d*gj5jYM@aSseT");
+    data.append("CompanyId", "289864");
 
     const res: any = await devInstance.post(
         "/security/request/access-token",

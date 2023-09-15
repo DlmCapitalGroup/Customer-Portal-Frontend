@@ -32,8 +32,8 @@ function Login() {
         e.preventDefault();
         setLoading(true)
         let data: any = new FormData();
-        data.append("username", "support.api");
-        data.append("password", "Apisupport@123");
+        data.append("username", "apiuser-asset");
+        data.append("password", "d*gj5jYM@aSseT");
 
         let res: any = await dispatch(loginUser(data));
 
