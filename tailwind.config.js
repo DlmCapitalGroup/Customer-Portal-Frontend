@@ -5,7 +5,10 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      primary: "#09335E",
+      primary: {
+        DEFAULT: "#09335E",
+        light: "#DBE1E6",
+      },
       secondary: "#FCAF3B",
       gray: "#EAE3E3",
       white: {
@@ -15,6 +18,24 @@ module.exports = {
       },
       error: "#F04C4C",
       success: "#6ED73E",
+      black: "#000000",
+      blue: {
+        light: "#91B4F2",
+        lighter: "#95AAC3",
+      },
+    },
+    fontSize: {
+      xs: "0.688rem",
+      sm: "0.875rem",
+      base: "1.125rem",
+      lg: "1.5rem",
+      xl: "2rem",
+      "2xl": "2.5rem",  
+      "3xl": "3.5rem",
+      "4xl": "4rem",
+    },
+    container: {
+      center: true,
     },
     extend: {},
   },
